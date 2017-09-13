@@ -21,13 +21,14 @@ class Engine {
     ErrorHandler error_handler;
     void cleanup();
 
-    Image *bg_image;
+    std::vector<Image*> images;
 
     Engine();
   private:
     void setup();
     void load();
     void loop();
+    void update();
     void render();
 		SDL_Window *window;
     SDL_Renderer *renderer;

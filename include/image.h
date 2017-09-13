@@ -8,13 +8,15 @@
 
 class Image {
   public:
-    void load();
-    void update();
-    void render();
-    void cleanup();
+    virtual void load();
+    virtual void update();
+    virtual void render();
+    virtual void cleanup();
 
     Image(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
       ErrorHandler *error_handler);
+
+    virtual ~Image();
   private:
     SDL_Renderer *renderer;
     ErrorHandler *error_handler;

@@ -36,3 +36,7 @@ Image::Image(SDL_Renderer *renderer, SDL_Surface* surf, std::string image_file,
     error_handler(error_handler),
     image_file(image_file),
     surf(surf) {}
+
+Image::~Image() {
+  cleanup();
+}

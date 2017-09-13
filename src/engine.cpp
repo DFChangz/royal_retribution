@@ -54,7 +54,7 @@ void Engine::setup() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
-  bg_image = new Image(renderer, surf, "assets/space.jpg", &error_handler);
+  images.push_back(new Image(renderer, surf, "assets/space.jpg", &error_handler));
 
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
@@ -62,18 +62,27 @@ void Engine::setup() {
 
 // Load the assets and create textures
 void Engine::load() {
-  bg_image->load();
+  for (Image* image : images) {
+    image->load();
+  }
 }
 
 // The heart
 void Engine::loop() {
   while(running) {
-
     eventHandler.check(); 
+
+    update();
 
     render();
 
     SDL_Delay(1000/60);
+  }
+}
+
+void Engine::update() {
+  for (Image* image : images) {
+    image->update();
   }
 }
 
@@ -83,16 +92,19 @@ void Engine::render() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
-  bg_image->render();
+  for (Image* image : images) {
+    image->render();
+  }
 
   SDL_RenderPresent(renderer);
 }
 
 // Cleanup all resources before quitting
 void Engine::cleanup() {
-  if (bg_image != nullptr) {
-    bg_image->cleanup();
-    delete bg_image;
+  for (Image* image : images) {
+    if (image != nullptr) {
+      delete image;
+    }
   }
 
   if (surf != nullptr) {
