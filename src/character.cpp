@@ -17,6 +17,13 @@ Character::Character(SDL_Renderer *renderer, SDL_Surface *surf, std::string file
   createListeners(eventHandler);
 }
 
+void Character::load() {
+  Sprite::load();
+
+  pos_x = WIDTH / 2 - rect.w / 2;
+  pos_y = HEIGHT / 2 - rect.h / 2;
+}
+
 void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYDOWN, [&]() { velocityX = SPEED_CHAR; }, SDLK_d);
   eventHandler->addListener(SDL_KEYDOWN, [&]() { velocityX = -SPEED_CHAR; }, SDLK_a);

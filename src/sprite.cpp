@@ -24,13 +24,9 @@ Sprite::~Sprite() {
 void Sprite::load() {
   Image::load();
 
-  int width = rect.w;
-  int height = rect.h;
   if (rect.w == 0 && rect.h == 0) {
-    get_texture_size(texture, &width, &height);
+    get_texture_size(texture, &(rect.w), &(rect.h));
   }
-
-  rect = {rect.x, rect.y, width, height};
 }
 
 void Sprite::update(double seconds) {

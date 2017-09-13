@@ -56,7 +56,7 @@ void Engine::setup() {
 
   images.push_back(new Image(renderer, surf, BG_FILENAME, &error_handler));
   images.push_back(new Character(renderer, surf, CHARACTER_FILENAME,
-    &error_handler, 5, 5, &eventHandler));
+    &error_handler, 0, 0, &eventHandler));
 
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);

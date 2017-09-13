@@ -18,14 +18,14 @@ class Sprite : public Image {
 
     virtual ~Sprite();
   protected:
+    double pos_x = 0.0;
+    double pos_y = 0.0;
     double velocityX = 0;
     double velocityY = 0;
     double speedMultiplier = 1;
-  private:
-    double pos_x;
-    double pos_y;
     ErrorHandler *error_handler;
     SDL_Rect rect;
+  private:
     void get_texture_size(SDL_Texture*, int*, int*);
 };
 
