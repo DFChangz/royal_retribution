@@ -9,7 +9,7 @@
 class Image {
   public:
     virtual void load();
-    virtual void update();
+    virtual void update(double seconds);
     virtual void render();
     virtual void cleanup();
 
@@ -17,11 +17,12 @@ class Image {
       ErrorHandler *error_handler);
 
     virtual ~Image();
-  private:
+  protected:
     SDL_Renderer *renderer;
+    SDL_Texture *texture;
     ErrorHandler *error_handler;
+  private:
     const std::string image_file;
     SDL_Surface *surf;
-    SDL_Texture *texture;
 };
 #endif

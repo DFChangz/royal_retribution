@@ -14,7 +14,7 @@ void Image::load() {
   SDL_FreeSurface(surf);
 }
 
-void Image::update() {
+void Image::update(double) {
 
 }
 

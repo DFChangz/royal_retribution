@@ -55,6 +55,8 @@ void Engine::setup() {
   }
 
   images.push_back(new Image(renderer, surf, "assets/space.jpg", &error_handler));
+  images.push_back(new Character(renderer, surf, "assets/blue.png",
+    &error_handler, 5, 5, &eventHandler));
 
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
@@ -69,20 +71,26 @@ void Engine::load() {
 
 // The heart
 void Engine::loop() {
+  unsigned int lastTime = SDL_GetTicks();
+  double totalTime = 0;
+
   while(running) {
+    unsigned int currentTime = SDL_GetTicks();
+    double seconds = (currentTime - lastTime) / 1000.0;
+    lastTime = currentTime;
+    totalTime += seconds;
+
     eventHandler.check(); 
 
-    update();
+    update(seconds);
 
     render();
-
-    SDL_Delay(1000/60);
   }
 }
 
-void Engine::update() {
+void Engine::update(double seconds) {
   for (Image* image : images) {
-    image->update();
+    image->update(seconds);
   }
 }
 
