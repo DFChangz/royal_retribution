@@ -55,6 +55,9 @@ void Engine::setup() {
   }
 
   bg_image = new Image(renderer, surf, "assets/space.jpg", &error_handler);
+
+  eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
+  eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
 }
 
 // Load the assets and create textures
@@ -64,26 +67,10 @@ void Engine::load() {
 
 // The heart
 void Engine::loop() {
-  bool running = true;
-
-  // Event handling, replace with event handler class
   while(running) {
-		SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-      switch (event.type) {
-        int sym;
-				case SDL_QUIT:
-					running = false;
-					break;
-        case SDL_KEYUP:
-          sym = event.key.keysym.sym;
-          if (sym == SDLK_ESCAPE) {
-            running = false;
-          }
-         break;
-      }   
-		}
- 
+
+    eventHandler.check(); 
+
     render();
 
     SDL_Delay(1000/60);

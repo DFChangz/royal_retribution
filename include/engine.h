@@ -6,12 +6,14 @@
 #define WINDOW_TITLE "NAME OF GAME"
 
 #include <iostream>
+#include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include "error_handler.h"
 #include "image.h"
+#include "event_handler.h"
 
 class Engine {
   public:
@@ -30,6 +32,8 @@ class Engine {
 		SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Surface *surf = nullptr;
+    EventHandler eventHandler;
+    bool running = true;
 };
 
 #endif

@@ -9,8 +9,8 @@ BIN_DIR = ./bin
 
 LDLIBS=`pkg-config --libs sdl2 SDL2_ttf SDL2_image SDL2_mixer` -lm -lstdc++
 
-$(BIN_DIR)/game: $(OBJS_DIR)/game.o $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/image.o
-	$(C++) $(LDLIBS) $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/game.o $(OBJS_DIR)/image.o -o $(BIN_DIR)/game
+$(BIN_DIR)/game: $(OBJS_DIR)/game.o $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/image.o
+	$(C++) $(LDLIBS) $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/game.o $(OBJS_DIR)/image.o $(OBJS_DIR)/event_handler.o -o $(BIN_DIR)/game
 
 $(OBJS_DIR)/game.o: $(SRC_DIR)/game.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/game.cpp -o $(OBJS_DIR)/game.o
@@ -23,6 +23,9 @@ $(OBJS_DIR)/error_handler.o: $(SRC_DIR)/error_handler.cpp
 
 $(OBJS_DIR)/image.o: $(SRC_DIR)/image.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/image.cpp -o $(OBJS_DIR)/image.o
+
+$(OBJS_DIR)/event_handler.o: $(SRC_DIR)/event_handler.cpp
+	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/event_handler.cpp -o $(OBJS_DIR)/event_handler.o
 
 game: $(BIN_DIR)/game
 
