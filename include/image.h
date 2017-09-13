@@ -15,7 +15,8 @@ class Image {
     void render();
     void cleanup();
 
-    Image(SDL_Renderer *renderer, SDL_Surface *surf, std::string, ErrorHandler *error_handler);
+    Image(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
+      ErrorHandler *error_handler);
   private:
     SDL_Renderer *renderer;
     ErrorHandler *error_handler;

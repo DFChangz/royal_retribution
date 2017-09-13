@@ -42,12 +42,14 @@ void Engine::setup() {
 	int pos_x = disp_width / 2 - WIDTH / 2;
 	int pos_y = disp_height / 2 - HEIGHT / 2;
 
-	window = SDL_CreateWindow(WINDOW_TITLE, pos_x, pos_y, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow(WINDOW_TITLE, pos_x, pos_y, WIDTH, HEIGHT, 
+    SDL_WINDOW_SHOWN);
   if (window == nullptr) {
     error_handler.quit(__func__, SDL_GetError());
   }
   
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | 
+    SDL_RENDERER_PRESENTVSYNC);
   if (renderer == nullptr) {
     error_handler.quit(__func__, SDL_GetError());
   }

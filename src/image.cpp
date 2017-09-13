@@ -30,8 +30,9 @@ void Image::cleanup() {
   }
 }
 
-Image::Image(SDL_Renderer *renderer, SDL_Surface* surf, std::string image_file, ErrorHandler *error_handler) :
-  renderer(renderer),
-  error_handler(error_handler),
-  image_file(image_file),
-  surf(surf) {}
+Image::Image(SDL_Renderer *renderer, SDL_Surface* surf, std::string image_file,
+  ErrorHandler *error_handler) :
+    renderer(renderer),
+    error_handler(error_handler),
+    image_file(image_file),
+    surf(surf) {}
