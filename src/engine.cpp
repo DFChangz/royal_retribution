@@ -54,8 +54,8 @@ void Engine::setup() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
-  images.push_back(new Image(renderer, surf, "assets/space.jpg", &error_handler));
-  images.push_back(new Character(renderer, surf, "assets/blue.png",
+  images.push_back(new Image(renderer, surf, BG_FILENAME, &error_handler));
+  images.push_back(new Character(renderer, surf, CHARACTER_FILENAME,
     &error_handler, 5, 5, &eventHandler));
 
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
