@@ -27,4 +27,7 @@ void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYUP, [&]() { velocityX = 0; }, SDLK_a);
   eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_s);
   eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_w);
+  
+  eventHandler->addListener(SDL_KEYDOWN, [&]() { speedMultiplier = 4; }, SDLK_LSHIFT);
+  eventHandler->addListener(SDL_KEYUP, [&]() { speedMultiplier = 1; }, SDLK_LSHIFT);
 }

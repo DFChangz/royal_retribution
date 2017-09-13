@@ -2,6 +2,7 @@
 #define SPRITE_H
 
 #include "image.h"
+#include "constants.h"
 
 class Sprite : public Image {
   public:
@@ -19,6 +20,7 @@ class Sprite : public Image {
   protected:
     double velocityX = 0;
     double velocityY = 0;
+    double speedMultiplier = 1;
   private:
     double pos_x;
     double pos_y;

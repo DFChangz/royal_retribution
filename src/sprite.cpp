@@ -34,8 +34,13 @@ void Sprite::load() {
 }
 
 void Sprite::update(double seconds) {
-  pos_x = velocityX * seconds + pos_x;
-  pos_y = velocityY * seconds + pos_y;
+  pos_x = speedMultiplier * velocityX * seconds + pos_x;
+  pos_y = speedMultiplier * velocityY * seconds + pos_y;
+
+  if (pos_x < 0) pos_x = 0;
+  else if (pos_x + rect.w > WIDTH) pos_x = WIDTH - rect.w;
+  else if (pos_y < 0) pos_y = 0;
+  else if (pos_y + rect.h > HEIGHT) pos_y = HEIGHT - rect.h;
 
   rect = {(int) pos_x, (int) pos_y, rect.w, rect.h};
 }
