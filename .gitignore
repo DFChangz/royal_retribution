@@ -1,1 +1,7 @@
 *.sw*
+
+obj/*
+!obj/.keep
+
+bin/*
+!bin/.keep

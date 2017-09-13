@@ -28,4 +28,4 @@ game: $(BIN_DIR)/game
 
 .PHONY: clean
 clean:
-	rm -rf $(BIND_DIR)/game $(OBJS_DIR)/game.o $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o
+	rm -rf $(BIN_DIR)/* $(OBJS_DIR)/*
