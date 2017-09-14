@@ -6,6 +6,9 @@ Build Instructions:
   
   To run the application, run `./bin/game`
 
+Controls:
+  w, a, s, d to move player.
+  SHIFT for a boost in speed (temporary for debugging purposes)
 
 Notes:
   After running with both valgrind and sanitizers, there are many leaks that
