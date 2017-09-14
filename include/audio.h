@@ -8,6 +8,8 @@
 #include "constants.h"
 #include "error_handler.h"
 
+/*Header file for the class that handles audio, Responsible for loading 
+and holding music as well as playing it*/
 class Audio {
   public:
     Audio(ErrorHandler*);

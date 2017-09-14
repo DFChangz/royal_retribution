@@ -6,6 +6,9 @@
 #include <SDL_image.h>
 #include "error_handler.h"
 
+/*Header file for the base class image which handles an image and makes it 
+into a texture to be rendered by the game engine also hold a collision detector
+and its coordinates*/
 class Image {
   public:
     virtual void load();

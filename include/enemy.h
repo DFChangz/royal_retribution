@@ -5,6 +5,7 @@
 #include "event_handler.h"
 #include "constants.h"
 
+//Header file for enemy class that holds enemy position and its rect
 class Enemy : public Sprite {
   public:
     Enemy(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,

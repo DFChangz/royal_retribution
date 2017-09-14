@@ -8,6 +8,7 @@
 #include <functional>
 #include <SDL.h>
 
+//This class handles the key up/down events that are needed in the game
 typedef std::function<void()> lambda;
 typedef std::vector<std::function<void()>> lambda_vector;
 typedef std::map<std::array<int, 2>, lambda_vector*> event_bind;

@@ -1,6 +1,8 @@
 #include "image.h"
+//Definitions for the the parent class that any image object inherit from
 
 void Image::load() {
+  //Makes a surface where the texture is created from
   surf = IMG_Load(image_file.c_str());
   if (surf == nullptr) {
     error_handler->quit(__func__, IMG_GetError());
@@ -25,6 +27,7 @@ void Image::render() {
   }
 }
 
+//Destroys the texture to free up memory
 void Image::cleanup() {
   if (texture != nullptr) {
     SDL_DestroyTexture(texture);
@@ -38,6 +41,7 @@ SDL_Rect* Image::getRect() {
 bool Image::isCollidable() {
   return false;
 }
+
 
 Image::Image(SDL_Renderer *renderer, std::string image_file,
   ErrorHandler *error_handler) :

@@ -6,6 +6,9 @@
 #include "constants.h"
 #include "audio.h"
 
+/*class for the player character that inherits from sprite will be 
+responsible for player movement events and holds certain sfx along with
+its position and rect*/
 class Character : public Sprite {
   public:
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,

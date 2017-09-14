@@ -17,6 +17,9 @@
 #include "collision_detector.h"
 #include "audio.h"
 
+/*Header file for the game engine that is in charge of setup loading, 
+and rendering textures along with any audio and text. Plus it destroys 
+objects and frees memory when done*/
 class Engine {
   public:
     void start();

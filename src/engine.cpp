@@ -36,6 +36,7 @@ void Engine::setup() {
     error_handler.quit(__func__, TTF_GetError());
   }
 
+  //window setup
 	SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
   int disp_width = DM.w;
@@ -56,16 +57,19 @@ void Engine::setup() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
+  //renders bg image and player character
   images.push_back(new Image(renderer, BG_FILENAME, &error_handler));
   images.push_back(new Character(renderer, CHARACTER_FILENAME,
     &error_handler, 0, 0, &eventHandler, &audio_handler));
 
+  //spawn 5 enemiies at random locations
   for (int i = 0; i < 5; i++) {
     images.push_back(new Enemy(renderer, ENEMY_FILENAME,
       &error_handler, rand() % WIDTH, rand() % HEIGHT, rand() % 100 + 1,
       rand() % 100 + 1));
   }
 
+  //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
 }
@@ -85,11 +89,13 @@ void Engine::loop() {
   double totalTime = 0;
 
   while(running) {
+    //converts time to seconds and keeps track of time passed and total time
     unsigned int currentTime = SDL_GetTicks();
     double seconds = (currentTime - lastTime) / 1000.0;
     lastTime = currentTime;
     totalTime += seconds;
 
+    //checks the handlers updates objects and renders them on the screen
     eventHandler.check(); 
 
     update(seconds);

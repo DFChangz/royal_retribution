@@ -5,6 +5,8 @@
 #include <vector>
 #include "image.h"
 
+/*The header file for the collision class that holds a vector of all images
+on screen and checks when they are intersecting in position.*/
 class CollisionDetector {
   public:
     CollisionDetector(std::vector<Image*>*);

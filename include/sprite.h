@@ -4,6 +4,9 @@
 #include "image.h"
 #include "constants.h"
 
+/*header file for the sprite class that inherits from image and is the parent 
+class of the 2 moveable object  classes character and enemy. Holds a velocity
+a speed multiplier and a way to detect collisions when they occur*/
 class Sprite : public Image {
   public:
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
