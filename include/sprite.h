@@ -11,10 +11,15 @@ class Sprite : public Image {
 
     Sprite(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
       ErrorHandler *error_handler, int pos_x, int pos_y);
-    using Image::update;
+
     virtual void load();
     virtual void update(double seconds);
     virtual void render();
+
+    virtual void notifyCollision(Image*, SDL_Rect*);
+
+    virtual bool isCollidable();
+    virtual SDL_Rect* getRect();
 
     virtual ~Sprite();
   protected:
@@ -27,6 +32,7 @@ class Sprite : public Image {
     SDL_Rect rect;
   private:
     void get_texture_size(SDL_Texture*, int*, int*);
+    void updateVelocities(double seconds);
 };
 
 #endif

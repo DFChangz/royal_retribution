@@ -8,5 +8,7 @@
 
 #define BG_FILENAME "assets/space.jpg"
 #define CHARACTER_FILENAME "assets/blue.png"
+#define ENEMY_FILENAME "assets/red.png"
+#define COLLISION_FILENAME "assets/collision.wav"
 
 #endif

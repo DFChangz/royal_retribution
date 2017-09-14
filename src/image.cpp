@@ -30,6 +30,14 @@ void Image::cleanup() {
   }
 }
 
+SDL_Rect* Image::getRect() {
+  return NULL;
+}
+
+bool Image::isCollidable() {
+  return false;
+}
+
 Image::Image(SDL_Renderer *renderer, SDL_Surface* surf, std::string image_file,
   ErrorHandler *error_handler) :
     renderer(renderer),

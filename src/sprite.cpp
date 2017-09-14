@@ -33,12 +33,8 @@ void Sprite::update(double seconds) {
   pos_x = speedMultiplier * velocityX * seconds + pos_x;
   pos_y = speedMultiplier * velocityY * seconds + pos_y;
 
-  if (pos_x < 0) pos_x = 0;
-  else if (pos_x + rect.w > WIDTH) pos_x = WIDTH - rect.w;
-  else if (pos_y < 0) pos_y = 0;
-  else if (pos_y + rect.h > HEIGHT) pos_y = HEIGHT - rect.h;
-
-  rect = {(int) pos_x, (int) pos_y, rect.w, rect.h};
+  rect.x = (int) pos_x;
+  rect.y = (int) pos_y;
 }
 
 void Sprite::render() {
@@ -47,8 +43,24 @@ void Sprite::render() {
   }
 }
 
+SDL_Rect* Sprite::getRect() {
+  return &rect;
+}
+
+bool Sprite::isCollidable() {
+  return true;
+}
+
 void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
   if (SDL_QueryTexture(texture, NULL, NULL, width, height) < 0) {
     error_handler->quit(__func__, SDL_GetError());
+  }
+}
+
+void Sprite::notifyCollision(Image*, SDL_Rect* intersection) {
+  if (intersection->w > intersection->h) {
+    velocityY *= -1;
+  } else {
+    velocityX *= -1;
   }
 }

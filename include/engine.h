@@ -11,16 +11,16 @@
 #include "image.h"
 #include "sprite.h"
 #include "character.h"
+#include "enemy.h"
 #include "event_handler.h"
 #include "constants.h"
+#include "collision_detector.h"
+#include "audio.h"
 
 class Engine {
   public:
     void start();
-    ErrorHandler error_handler;
     void cleanup();
-
-    std::vector<Image*> images;
 
     Engine();
   private:
@@ -34,6 +34,11 @@ class Engine {
     SDL_Surface *surf = nullptr;
     EventHandler eventHandler;
     bool running = true;
+    CollisionDetector collision_detector;
+    ErrorHandler error_handler;
+    std::vector<Image*> images;
+
+    Audio audio_handler;
 };
 
 #endif

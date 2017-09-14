@@ -56,7 +56,9 @@ void Engine::setup() {
 
   images.push_back(new Image(renderer, surf, BG_FILENAME, &error_handler));
   images.push_back(new Character(renderer, surf, CHARACTER_FILENAME,
-    &error_handler, 0, 0, &eventHandler));
+    &error_handler, 0, 0, &eventHandler, &audio_handler));
+  images.push_back(new Enemy(renderer, surf, ENEMY_FILENAME,
+    &error_handler, 0, 0, 50));
 
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
@@ -64,6 +66,8 @@ void Engine::setup() {
 
 // Load the assets and create textures
 void Engine::load() {
+  audio_handler.load();
+
   for (Image* image : images) {
     image->load();
   }
@@ -83,6 +87,8 @@ void Engine::loop() {
     eventHandler.check(); 
 
     update(seconds);
+
+    collision_detector.check();
 
     render();
   }
@@ -109,6 +115,8 @@ void Engine::render() {
 
 // Cleanup all resources before quitting
 void Engine::cleanup() {
+  audio_handler.cleanup();
+
   for (Image* image : images) {
     if (image != nullptr) {
       delete image;
@@ -133,4 +141,4 @@ void Engine::cleanup() {
 } 
 
 Engine::Engine() : 
-  error_handler(this) {};
+  collision_detector(&images), error_handler(this), audio_handler(&error_handler) {};
