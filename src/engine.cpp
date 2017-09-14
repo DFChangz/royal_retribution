@@ -1,10 +1,11 @@
 #include "engine.h"
+#include "playing_state.h"
 
 // Starts the game
 void Engine::start() {
   setup();
 
-  load();
+  currentState->load();
 
   loop();
 
@@ -56,28 +57,13 @@ void Engine::setup() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
-  images.push_back(new Image(renderer, BG_FILENAME, &error_handler));
-  images.push_back(new Character(renderer, CHARACTER_FILENAME,
-    &error_handler, 0, 0, &eventHandler, &audio_handler));
-
-  for (int i = 0; i < 5; i++) {
-    images.push_back(new Enemy(renderer, ENEMY_FILENAME,
-      &error_handler, rand() % WIDTH, rand() % HEIGHT, rand() % 100 + 1,
-      rand() % 100 + 1));
-  }
+  createStates();
+  setState("playing");
 
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
 }
 
-// Load the assets and create textures
-void Engine::load() {
-  audio_handler.load();
-
-  for (Image* image : images) {
-    image->load();
-  }
-}
 
 // The heart
 void Engine::loop() {
@@ -90,42 +76,18 @@ void Engine::loop() {
     lastTime = currentTime;
     totalTime += seconds;
 
-    eventHandler.check(); 
+    eventHandler.getEvents();
+    eventHandler.check();
 
-    update(seconds);
-
-    collision_detector.check();
-
-    render();
+    currentState->run(seconds);
   }
-}
-
-void Engine::update(double seconds) {
-  for (Image* image : images) {
-    image->update(seconds);
-  }
-}
-
-// Render each asset
-void Engine::render() {
-  if (SDL_RenderClear(renderer) < 0) {
-    error_handler.quit(__func__, SDL_GetError());
-  }
-
-  for (Image* image : images) {
-    image->render();
-  }
-
-  SDL_RenderPresent(renderer);
 }
 
 // Cleanup all resources before quitting
 void Engine::cleanup() {
-  audio_handler.cleanup();
-
-  for (Image* image : images) {
-    if (image != nullptr) {
-      delete image;
+  for (auto state : states) {
+    if (state.second != nullptr) {
+      delete state.second;
     }
   }
 
@@ -142,5 +104,17 @@ void Engine::cleanup() {
   SDL_Quit();
 } 
 
+void Engine::setState(std::string state) {
+  if (states.find(state) == states.end()) {
+    error_handler.quit(__func__, "A state with this name does not exist");
+  }
+
+  currentState = states[state];
+}
+
+void Engine::createStates() {
+  states["playing"] = new PlayingState(this, &error_handler);
+}
+
 Engine::Engine() : 
-  collision_detector(&images), error_handler(this), audio_handler(&error_handler) {};
+  error_handler(this) {};

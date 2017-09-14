@@ -1,8 +1,6 @@
 #include "collision_detector.h"
 
-CollisionDetector::CollisionDetector(std::vector<Image*>* images) : images(images) {}
-
-void CollisionDetector::check() {
+void CollisionDetector::check(std::vector<Image*>* images) {
   for (auto it = images->begin(); it != images->end(); ++it) {
     for (auto it2 = images->begin(); it2 != images->end(); ++it2) {
       if (it == it2) continue;

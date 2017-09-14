@@ -9,8 +9,8 @@ BIN_DIR = ./bin
 
 LDLIBS=`pkg-config --libs sdl2 SDL2_ttf SDL2_image SDL2_mixer` -lm -lstdc++
 
-$(BIN_DIR)/game: $(OBJS_DIR)/game.o $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/image.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(OBJS_DIR)/enemy.o $(OBJS_DIR)/collision_detector.o $(OBJS_DIR)/audio.o
-	$(C++) $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/game.o $(OBJS_DIR)/image.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(LDLIBS) $(OBJS_DIR)/enemy.o $(OBJS_DIR)/audio.o $(OBJS_DIR)/collision_detector.o -o $(BIN_DIR)/game
+$(BIN_DIR)/game: $(OBJS_DIR)/game.o $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/image.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(OBJS_DIR)/enemy.o $(OBJS_DIR)/collision_detector.o $(OBJS_DIR)/audio.o $(OBJS_DIR)/state.o $(OBJS_DIR)/playing_state.o
+	$(C++) $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/game.o $(OBJS_DIR)/image.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(LDLIBS) $(OBJS_DIR)/enemy.o $(OBJS_DIR)/audio.o $(OBJS_DIR)/collision_detector.o $(OBJS_DIR)/state.o $(OBJS_DIR)/playing_state.o -o $(BIN_DIR)/game
 
 $(OBJS_DIR)/game.o: $(SRC_DIR)/game.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/game.cpp -o $(OBJS_DIR)/game.o
@@ -41,6 +41,12 @@ $(OBJS_DIR)/collision_detector.o: $(SRC_DIR)/collision_detector.cpp
 
 $(OBJS_DIR)/audio.o: $(SRC_DIR)/audio.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/audio.cpp -o $(OBJS_DIR)/audio.o
+
+$(OBJS_DIR)/state.o: $(SRC_DIR)/state.cpp
+	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/state.cpp -o $(OBJS_DIR)/state.o
+
+$(OBJS_DIR)/playing_state.o: $(SRC_DIR)/playing_state.cpp
+	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/playing_state.cpp -o $(OBJS_DIR)/playing_state.o
 
 game: $(BIN_DIR)/game
 

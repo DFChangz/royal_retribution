@@ -15,9 +15,6 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   rect = {pos_x, pos_y, 0, 0};
 }
 
-Sprite::~Sprite() {
-  cleanup();
-}
 
 void Sprite::load() {
   Image::load();
@@ -61,4 +58,8 @@ void Sprite::notifyCollision(Image*, SDL_Rect* intersection) {
   } else {
     velocityX *= -1;
   }
+}
+
+Sprite::~Sprite() {
+
 }
