@@ -31,7 +31,6 @@ class Engine {
     void render();
 		SDL_Window *window;
     SDL_Renderer *renderer;
-    SDL_Surface *surf = nullptr;
     EventHandler eventHandler;
     bool running = true;
     CollisionDetector collision_detector;

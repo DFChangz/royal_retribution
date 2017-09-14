@@ -1,17 +1,15 @@
 #include "sprite.h"
 
-Sprite::Sprite(SDL_Renderer *renderer, SDL_Surface *surf, 
-  std::string image_filename, ErrorHandler *error_handler, int width, 
-  int height, int pos_x, int pos_y)
-  : Image(renderer, surf, image_filename, error_handler) {
+Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
+  ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y)
+  : Image(renderer, image_filename, error_handler) {
 
   rect = {pos_x, pos_y, width, height};
 }
 
-Sprite::Sprite(SDL_Renderer *renderer, SDL_Surface *surf, 
-  std::string image_filename, ErrorHandler *error_handler, int pos_x, 
-  int pos_y)
-  : Image(renderer, surf, image_filename, error_handler), pos_x(pos_x),
+Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
+  ErrorHandler *error_handler, int pos_x, int pos_y)
+  : Image(renderer, image_filename, error_handler), pos_x(pos_x),
     pos_y(pos_y) {
 
   rect = {pos_x, pos_y, 0, 0};

@@ -18,7 +18,7 @@ class Image {
     virtual bool isCollidable();
     virtual SDL_Rect* getRect();
 
-    Image(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
+    Image(SDL_Renderer *renderer, std::string,
       ErrorHandler *error_handler);
 
     virtual ~Image();

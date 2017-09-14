@@ -8,12 +8,11 @@
 
 class Character : public Sprite {
   public:
-    Character(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
-      ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
-      EventHandler*, Audio*);
+    Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
+      int width, int height, int pos_x, int pos_y, EventHandler*, Audio*);
 
-    Character(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
-      ErrorHandler *error_handler, int pos_x, int pos_y, EventHandler*, Audio*);
+    Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
+     int pos_x, int pos_y, EventHandler*, Audio*);
 
     virtual void notifyCollision(Image*, SDL_Rect* intersection);
 

@@ -8,6 +8,7 @@ void Image::load() {
 
   texture = SDL_CreateTextureFromSurface(renderer, surf);
   if (texture == nullptr) {
+    SDL_FreeSurface(surf);
     error_handler->quit(__func__, SDL_GetError());
   }
 
@@ -38,12 +39,11 @@ bool Image::isCollidable() {
   return false;
 }
 
-Image::Image(SDL_Renderer *renderer, SDL_Surface* surf, std::string image_file,
+Image::Image(SDL_Renderer *renderer, std::string image_file,
   ErrorHandler *error_handler) :
     renderer(renderer),
     error_handler(error_handler),
-    image_file(image_file),
-    surf(surf) {}
+    image_file(image_file) {}
 
 Image::~Image() {
   cleanup();

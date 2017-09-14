@@ -1,19 +1,19 @@
 #include "character.h"
 
-Character::Character(SDL_Renderer *renderer, SDL_Surface *surf, std::string filename,
+Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
   EventHandler *eventHandler, Audio *audioHandler)
-    : Sprite(renderer, surf, filename, error_handler, width, height, pos_x,
-    pos_y), audioHandler(audioHandler) {    
+    : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y),
+    audioHandler(audioHandler) {    
 
   createListeners(eventHandler);
 }
 
-Character::Character(SDL_Renderer *renderer, SDL_Surface *surf, std::string filename,
+Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int pos_x, int pos_y, EventHandler *eventHandler,
   Audio *audioHandler)
-    : Sprite(renderer, surf, filename, error_handler, pos_x,
-    pos_y), audioHandler(audioHandler) {
+    : Sprite(renderer, filename, error_handler, pos_x, pos_y),
+    audioHandler(audioHandler) {
 
   createListeners(eventHandler);
 }

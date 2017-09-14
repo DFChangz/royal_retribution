@@ -56,12 +56,12 @@ void Engine::setup() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
-  images.push_back(new Image(renderer, surf, BG_FILENAME, &error_handler));
-  images.push_back(new Character(renderer, surf, CHARACTER_FILENAME,
+  images.push_back(new Image(renderer, BG_FILENAME, &error_handler));
+  images.push_back(new Character(renderer, CHARACTER_FILENAME,
     &error_handler, 0, 0, &eventHandler, &audio_handler));
 
   for (int i = 0; i < 5; i++) {
-    images.push_back(new Enemy(renderer, surf, ENEMY_FILENAME,
+    images.push_back(new Enemy(renderer, ENEMY_FILENAME,
       &error_handler, rand() % WIDTH, rand() % HEIGHT, rand() % 100 + 1,
       rand() % 100 + 1));
   }
@@ -127,10 +127,6 @@ void Engine::cleanup() {
     if (image != nullptr) {
       delete image;
     }
-  }
-
-  if (surf != nullptr) {
-    SDL_FreeSurface(surf);
   }
 
   if (window != nullptr) {
