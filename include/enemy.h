@@ -9,10 +9,11 @@ class Enemy : public Sprite {
   public:
     Enemy(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
       ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
-      int speed);
+      double velocityX, double velocityY);
 
     Enemy(SDL_Renderer *renderer, SDL_Surface *surf, std::string,
-      ErrorHandler *error_handler, int pos_x, int pos_y, int speed);
+      ErrorHandler *error_handler, int pos_x, int pos_y, double velocityX,
+      double velocityY);
 
     virtual void update(double seconds);
 

@@ -13,6 +13,8 @@ void Engine::start() {
 
 // Runs any setup code that is needed to load the assets.
 void Engine::setup() {
+  srand (time(NULL));
+
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0){ 
     error_handler.quit(__func__, SDL_GetError());
   }
@@ -57,8 +59,12 @@ void Engine::setup() {
   images.push_back(new Image(renderer, surf, BG_FILENAME, &error_handler));
   images.push_back(new Character(renderer, surf, CHARACTER_FILENAME,
     &error_handler, 0, 0, &eventHandler, &audio_handler));
-  images.push_back(new Enemy(renderer, surf, ENEMY_FILENAME,
-    &error_handler, 0, 0, 50));
+
+  for (int i = 0; i < 5; i++) {
+    images.push_back(new Enemy(renderer, surf, ENEMY_FILENAME,
+      &error_handler, rand() % WIDTH, rand() % HEIGHT, rand() % 100 + 1,
+      rand() % 100 + 1));
+  }
 
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
