@@ -1,0 +1,16 @@
+Assignment 2
+=====================
+
+Build Instructions:
+  Run `make` to build the project.
+  
+  To run the application, run `./bin/game`
+
+
+Notes:
+  After running with both valgrind and sanitizers, there are many leaks that
+  are coming directly from SDL. All dynamically allocated elements are freed, 
+  all surfaces are freed before reassignment, all textures, audio, the renderer,
+  and window are all destroyed whenever the application quits, and all SDL
+  libraries have been quit whenever the application panics and whenever it
+  closes successfully.
