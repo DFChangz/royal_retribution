@@ -32,7 +32,7 @@ running shoes to make you move faster, or temporary damage boost. You
 can also regain health by eating food your cook left behind all
 throughout the castle.
 
-As the character you move in the cardinal directions using the arrow
+As the character you move in the cardinal directions using the w/a/s/d
 keys. The mouse click attacks, either as a sword swipe or shooting, in
 whatever direction you're facing at the time. You start each level at
 one end and need to reach the stairs at the other end in order to
@@ -44,4 +44,5 @@ same spot on the computer screen and everything seems to move around
 you.
 
 The game will run at 60 fps at a 1280x720 resolution. We aren't yet
-sure of a name but we'll work on that later.
+sure of a name but we'll work on that later. Currently considering
+"Stonewall Abbey" as a potential name.
