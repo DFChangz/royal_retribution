@@ -6,6 +6,10 @@ Build Instructions:
   
   To run the application, run `./bin/game`
 
+This Game includes 5 enemies that are positioned randomly with random
+velocities. The player most avoid the enemies or else there will be a collision
+sound if they collide.
+
 Controls:
   w, a, s, d to move player.
   SHIFT for a boost in speed (temporary for debugging purposes)
