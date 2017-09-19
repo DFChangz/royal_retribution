@@ -20,10 +20,10 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
 void Enemy::update(double seconds) {
   Sprite::update(seconds);
 
-  if (pos_x < 0 || pos_x + rect.w > WIDTH) {
+  if (pos_x <= 0 || pos_x + rect.w >= WIDTH) {
     velocityX *= -1;
   }
-  if (pos_y < 0 || pos_y + rect.h > HEIGHT) {
+  if (pos_y <= 0 || pos_y + rect.h >= HEIGHT) {
     velocityY *= -1;
   }
 }
