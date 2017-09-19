@@ -1,12 +1,9 @@
 #include "collision_detector.h"
 //Definitions of the collision detector class
 
-//Constructor takes in a vector of images in the game
-CollisionDetector::CollisionDetector(std::vector<Image*>* images) : images(images) {}
-
-void CollisionDetector::check() {
-  /*to iterators that go through the whole vector of images comparing one image
-  to all the others*/ 
+/* two iterators that go through the whole vector of images comparing one image
+to all the others */ 
+void CollisionDetector::check(std::vector<Image*>* images) {
   for (auto it = images->begin(); it != images->end(); ++it) {
     for (auto it2 = images->begin(); it2 != images->end(); ++it2) {
       if (it == it2) continue;

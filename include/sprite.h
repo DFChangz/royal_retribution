@@ -33,8 +33,8 @@ class Sprite : public Image {
     double speedMultiplier = 1;
     ErrorHandler *error_handler;
     SDL_Rect rect;
-  private:
     void get_texture_size(SDL_Texture*, int*, int*);
+  private:
     void updateVelocities(double seconds);
 };
 

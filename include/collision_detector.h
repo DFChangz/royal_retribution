@@ -9,9 +9,6 @@
 on screen and checks when they are intersecting in position.*/
 class CollisionDetector {
   public:
-    CollisionDetector(std::vector<Image*>*);
-    void check();
-  private:
-    std::vector<Image*>* images;
+    void check(std::vector<Image*>*);
 };
 #endif

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -16,31 +17,34 @@
 #include "constants.h"
 #include "collision_detector.h"
 #include "audio.h"
+#include "state.h"
 
 /*Header file for the game engine that is in charge of setup loading, 
 and rendering textures along with any audio and text. Plus it destroys 
 objects and frees memory when done*/
+class State;
 class Engine {
   public:
     void start();
     void cleanup();
 
     Engine();
+
+    ErrorHandler error_handler;
+    SDL_Renderer *renderer;
+
+    void setState(std::string);
   private:
     void setup();
-    void load();
     void loop();
     void update(double seconds);
     void render();
-		SDL_Window *window;
-    SDL_Renderer *renderer;
-    EventHandler eventHandler;
+    void createStates();
     bool running = true;
-    CollisionDetector collision_detector;
-    ErrorHandler error_handler;
-    std::vector<Image*> images;
-
-    Audio audio_handler;
+		SDL_Window *window;
+    EventHandler eventHandler;
+    std::map<std::string, State*> states;
+    State* currentState;
 };
 
 #endif

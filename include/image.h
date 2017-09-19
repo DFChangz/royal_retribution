@@ -31,8 +31,8 @@ class Image {
     SDL_Renderer *renderer;
     SDL_Texture *texture;
     ErrorHandler *error_handler;
-  private:
     const std::string image_file;
+  private:
     SDL_Surface *surf;
 };
 #endif

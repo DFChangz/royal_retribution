@@ -1,8 +1,9 @@
 #include "event_handler.h"
 
+std::vector<SDL_Event> EventHandler::events;
+
 void EventHandler::check() {
-  SDL_Event event;
-  while (SDL_PollEvent(&event)) {
+  for (SDL_Event event : EventHandler::events) {
     int sym = event.key.keysym.sym;
 
     for (auto map : listeners) {
@@ -32,7 +33,14 @@ EventHandler::~EventHandler() {
   }
 }
 
+void EventHandler::getEvents() {
+  EventHandler::events.clear();
 
+  SDL_Event event;
+  while(SDL_PollEvent(&event)) {
+    EventHandler::events.push_back(event);
+  }
+}
 
 void EventHandler::runTriggers(lambda_vector* triggers) {
   for (auto trigger : *triggers) {
