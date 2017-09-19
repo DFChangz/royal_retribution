@@ -37,15 +37,14 @@ void Engine::setup() {
   }
 
   //window setup
-	SDL_DisplayMode DM;
+  SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
   int disp_width = DM.w;
   int disp_height = DM.h;
+  int pos_x = disp_width / 2 - WIDTH / 2;
+  int pos_y = disp_height / 2 - HEIGHT / 2;
 
-	int pos_x = disp_width / 2 - WIDTH / 2;
-	int pos_y = disp_height / 2 - HEIGHT / 2;
-
-	window = SDL_CreateWindow(WINDOW_TITLE, pos_x, pos_y, WIDTH, HEIGHT, 
+  window = SDL_CreateWindow(WINDOW_TITLE, pos_x, pos_y, WIDTH, HEIGHT, 
     SDL_WINDOW_SHOWN);
   if (window == nullptr) {
     error_handler.quit(__func__, SDL_GetError());

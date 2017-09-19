@@ -1,7 +1,7 @@
 #include "character.h"
 //Definitions for the character class that inherits from Sprite
 
-//constructor that does not take in width or height for the rect
+//constructor that takes in arguments for the width and height for the rect
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
   EventHandler *eventHandler, Audio *audioHandler)
@@ -11,7 +11,7 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
   createListeners(eventHandler);
 }
 
-//constructor that takes in arguments for the width and height for the rect
+//constructor that does not take in width or height for the rect
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int pos_x, int pos_y, EventHandler *eventHandler,
   Audio *audioHandler)
