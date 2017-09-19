@@ -6,6 +6,7 @@
 #include "engine.h"
 #include "collision_detector.h"
 #include "audio.h"
+#include "text.h"
 
 class State {
   public:

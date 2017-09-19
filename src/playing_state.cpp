@@ -16,6 +16,8 @@ void PlayingState::setup() {
       errorHandler, rand() % WIDTH, rand() % HEIGHT, rand() % 100 + 1,
       rand() % 100 + 1));
   }
+
+  //images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50, 50, 32, "Testing"));
 }
 
 PlayingState::~PlayingState() {}

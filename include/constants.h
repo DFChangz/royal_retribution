@@ -10,5 +10,6 @@
 #define CHARACTER_FILENAME "assets/King_front.png"
 #define ENEMY_FILENAME "assets/Alien_front.png"
 #define COLLISION_FILENAME "assets/collision.wav"
+#define FONT_FILENAME "assets/Capture_it.ttf"
 
 #endif
