@@ -44,13 +44,14 @@ void Sprite::update(double seconds) {
   rect.y = (int) pos_y;
 }
 
-void Sprite::animate(double seconds, int start_frame, int end_frame) {
+void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
+  double spf = 1/((double) fps);
   if (currentFrame > end_frame || currentFrame < start_frame) {
     currentFrame = start_frame - 1;
-    timer = 0.3;
+    timer = spf;
   }
 
-  if (timer >= 0.3)  {
+  if (timer >= spf)  {
     currentFrame = ((currentFrame - start_frame + 1) % (end_frame - start_frame + 1)) + start_frame;
     int row = currentFrame / 5;
     int col = currentFrame % 5;

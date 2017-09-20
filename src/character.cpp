@@ -43,9 +43,11 @@ void Character::update(double seconds) {
 
 
   if (velocityX > 0) {
-    Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1);
+    Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1,
+      3*speedMultiplier);
   } else if (velocityX < 0) {
-    Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1);
+    Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1,
+      3*speedMultiplier);
   } else {
     idleAnimation(seconds, dir);
   }

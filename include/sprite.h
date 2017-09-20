@@ -41,7 +41,7 @@ class Sprite : public Image {
     SDL_Rect srcRect;
     void get_texture_size(SDL_Texture*, int*, int*);
 
-    void animate(double, int, int);
+    void animate(double, int, int, int fps = 3);
   private:
     bool animating = false;
     void updateVelocities(double seconds);
