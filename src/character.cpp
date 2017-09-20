@@ -52,11 +52,13 @@ void Character::update(double seconds) {
 }
 
 void Character::idleAnimation(double seconds, std::string dir) {
-  if (dir == "right") R_RUNNING_POS;
-  else if (dir == "left") L_RUNNING_POS;
+  int pos = -1;
+
+  if (dir == "right") pos = R_RUNNING_POS;
+  else if (dir == "left") pos = L_RUNNING_POS;
   else error_handler->quit(__func__, "direction not found");
 
-  Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + IDLE_FRAMES - 1);
+  Sprite::animate(seconds, pos, pos + IDLE_FRAMES - 1);
 }
 
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
@@ -78,10 +80,10 @@ void Character::createListeners(EventHandler *eventHandler) {
 
   //when key is released, velocity set back to 0
   eventHandler->addListener(SDL_KEYUP,
-    [&]() { ;velocityX = 0; }, SDLK_d);
+    [&]() {dir = "right"; velocityX = 0; }, SDLK_d);
 
   eventHandler->addListener(SDL_KEYUP,
-    [&]() { ; velocityX = 0; }, SDLK_a);
+    [&]() {dir = "left"; velocityX = 0; }, SDLK_a);
 
   eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_s);
   eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_w);
