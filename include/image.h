@@ -19,7 +19,7 @@ class Image {
     virtual void notifyCollision(Image*, SDL_Rect*) {};
 
     virtual bool isCollidable();
-    virtual SDL_Rect* getRect();
+    virtual SDL_Rect* getDestRect();
 
     Image(SDL_Renderer *renderer, std::string,
       ErrorHandler *error_handler);

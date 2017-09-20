@@ -34,7 +34,7 @@ void Image::cleanup() {
   }
 }
 
-SDL_Rect* Image::getRect() {
+SDL_Rect* Image::getDestRect() {
   return NULL;
 }
 
