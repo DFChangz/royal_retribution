@@ -12,7 +12,7 @@ class Sprite : public Image {
     double timer = 0;
 
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-    int width, int height, int pos_x, int pos_y, int sheetFrames = 1);
+    int width, int height, int pos_x, int pos_y);
 
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
     int pos_x, int pos_y);
@@ -33,14 +33,18 @@ class Sprite : public Image {
     double velocityX = 0;
     double velocityY = 0;
     double speedMultiplier = 1;
+    
+    int currentFrame = -1;
+
     ErrorHandler *error_handler;
     SDL_Rect rect;
     SDL_Rect srcRect;
     void get_texture_size(SDL_Texture*, int*, int*);
+
+    void animate(double, int, int);
   private:
     bool animating = false;
     void updateVelocities(double seconds);
-    int sheetFrames;
 };
 
 #endif

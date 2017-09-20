@@ -4,15 +4,11 @@
 /*Constructor that takes creates that sets makes a sprite from a inputed image
 file along with a given position to load in the sprite and size of it's rect*/
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
-  int sheetFrames_p)
+  ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y)
   : Image(renderer, image_filename, error_handler) {
 
-  animating = true;
   srcRect = {0, 0, width, height};
   rect = {pos_x, pos_y, width, height};
-
-  sheetFrames = sheetFrames_p;
 }
 //Another constructor, but instead sets the width and height of the rect to 0
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
@@ -32,9 +28,9 @@ void Sprite::load() {
   if (rect.w == 0 && rect.h == 0) {
     get_texture_size(texture, &(rect.w), &(rect.h));
 
-    if (!animating) {
+    if (srcRect.w == 0) {
       srcRect.w = rect.w;
-      srcRect.h = rect.h;
+      srcRect.h = rect.y;
     }
   }
 }
@@ -46,11 +42,21 @@ void Sprite::update(double seconds) {
 
   rect.x = (int) pos_x;
   rect.y = (int) pos_y;
+}
 
-  if (animating && timer > 0.3)  {
-    srcRect.x += srcRect.w + SPRITE_PADDING_AMOUNT;
-    if (srcRect.x >= sheetFrames*(srcRect.w + SPRITE_PADDING_AMOUNT))
-      srcRect.x = 0;
+void Sprite::animate(double seconds, int start_frame, int end_frame) {
+  if (currentFrame > end_frame || currentFrame < start_frame) {
+    currentFrame = start_frame - 1;
+    timer = 0.3;
+  }
+
+  if (timer >= 0.3)  {
+    currentFrame = ((currentFrame - start_frame + 1) % (end_frame - start_frame + 1)) + start_frame;
+    int row = currentFrame / 5;
+    int col = currentFrame % 5;
+
+    srcRect.x = col*(srcRect.w + SPRITE_PADDING_AMOUNT);
+    srcRect.y = row*(srcRect.h + SPRITE_PADDING_AMOUNT);
     
     timer = 0;
   }

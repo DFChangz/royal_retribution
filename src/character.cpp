@@ -4,8 +4,8 @@
 //constructor that takes in arguments for the width and height for the rect
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
-  EventHandler *eventHandler, Audio *audioHandler, int sheetFrames)
-    : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y, sheetFrames),
+  EventHandler *eventHandler, Audio *audioHandler)
+    : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y),
     audioHandler(audioHandler) {    
 
   createListeners(eventHandler);
@@ -40,6 +40,23 @@ void Character::update(double seconds) {
 
   rect.x = (int) pos_x;
   rect.y = (int) pos_y;
+
+
+  if (velocityX > 0) {
+    Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1);
+  } else if (velocityX < 0) {
+    Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1);
+  } else {
+    idleAnimation(seconds, dir);
+  }
+}
+
+void Character::idleAnimation(double seconds, std::string dir) {
+  if (dir == "right") R_RUNNING_POS;
+  else if (dir == "left") L_RUNNING_POS;
+  else error_handler->quit(__func__, "direction not found");
+
+  Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + IDLE_FRAMES - 1);
 }
 
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
@@ -60,8 +77,12 @@ void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYDOWN, [&]() { velocityY = -SPEED_CHAR; }, SDLK_w);
 
   //when key is released, velocity set back to 0
-  eventHandler->addListener(SDL_KEYUP, [&]() { velocityX = 0; }, SDLK_d);
-  eventHandler->addListener(SDL_KEYUP, [&]() { velocityX = 0; }, SDLK_a);
+  eventHandler->addListener(SDL_KEYUP,
+    [&]() { ;velocityX = 0; }, SDLK_d);
+
+  eventHandler->addListener(SDL_KEYUP,
+    [&]() { ; velocityX = 0; }, SDLK_a);
+
   eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_s);
   eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_w);
   

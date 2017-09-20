@@ -1,6 +1,11 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#define RUNNING_FRAMES  4
+#define IDLE_FRAMES     1
+#define R_RUNNING_POS     5
+#define L_RUNNING_POS     0
+
 #include "sprite.h"
 #include "event_handler.h"
 #include "constants.h"
@@ -12,8 +17,7 @@ its position and rect*/
 class Character : public Sprite {
   public:
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-      int width, int height, int pos_x, int pos_y, EventHandler*, Audio*,
-      int sheetFrames);
+      int width, int height, int pos_x, int pos_y, EventHandler*, Audio*);
 
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
      int pos_x, int pos_y, EventHandler*, Audio*);
@@ -24,8 +28,10 @@ class Character : public Sprite {
     virtual void update(double seconds);
   private:
     void createListeners(EventHandler*);
+    Audio *audioHandler = nullptr;
+    void idleAnimation(double seconds, std::string dir);
 
-    Audio *audioHandler;
+    std::string dir = "right";
 };
 
 #endif

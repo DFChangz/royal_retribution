@@ -43,11 +43,13 @@ bool Image::isCollidable() {
 }
 
 
-Image::Image(SDL_Renderer *renderer, std::string image_file,
-  ErrorHandler *error_handler) :
-    renderer(renderer),
-    error_handler(error_handler),
-    image_file(image_file) {}
+Image::Image(SDL_Renderer *renderer_p, std::string image_file,
+  ErrorHandler *error_handler_p) :
+    image_file(image_file) {
+    
+    renderer = renderer_p;
+    error_handler = error_handler_p;
+}
 
 Image::~Image() {
   cleanup();
