@@ -48,16 +48,22 @@ void Character::update(double seconds) {
   } else if (velocityX < 0) {
     Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1,
       3*speedMultiplier);
-  } else {
-    idleAnimation(seconds, dir);
+  } else if (velocityY > 0) {
+    dir = "down";
+    idleAnimation(seconds);
+  } else if (velocityY < 0) {
+    dir = "up";
+    idleAnimation(seconds);
   }
 }
 
-void Character::idleAnimation(double seconds, std::string dir) {
+void Character::idleAnimation(double seconds) {
   int pos = -1;
 
   if (dir == "right") pos = R_RUNNING_POS;
   else if (dir == "left") pos = L_RUNNING_POS;
+  else if (dir == "up") pos = UP_IDLE_POS;
+  else if (dir == "down") pos = DOWN_IDLE_POS;
   else error_handler->quit(__func__, "direction not found");
 
   Sprite::animate(seconds, pos, pos + IDLE_FRAMES - 1);
@@ -81,14 +87,23 @@ void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYDOWN, [&]() { velocityY = -SPEED_CHAR; }, SDLK_w);
 
   //when key is released, velocity set back to 0
-  eventHandler->addListener(SDL_KEYUP,
-    [&]() {dir = "right"; velocityX = 0; }, SDLK_d);
+  eventHandler->addListener(SDL_KEYUP, [&]() {
+      dir = "right"; velocityX = 0;
+  }, SDLK_d);
 
-  eventHandler->addListener(SDL_KEYUP,
-    [&]() {dir = "left"; velocityX = 0; }, SDLK_a);
+  eventHandler->addListener(SDL_KEYUP, [&]() {
+    dir = "left"; velocityX = 0;
+  }, SDLK_a);
 
-  eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_s);
-  eventHandler->addListener(SDL_KEYUP, [&]() { velocityY = 0; }, SDLK_w);
+  eventHandler->addListener(SDL_KEYUP, [&]() {
+    dir = "down";
+    velocityY = 0;
+  }, SDLK_s);
+
+  eventHandler->addListener(SDL_KEYUP, [&]() {
+    dir = "up";
+    velocityY = 0;
+  }, SDLK_w);
   
   // BOOST FOR DEBUGGING PURPOSES
   eventHandler->addListener(SDL_KEYDOWN, [&]() { speedMultiplier = 4; }, SDLK_LSHIFT);

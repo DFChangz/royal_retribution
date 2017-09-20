@@ -3,8 +3,10 @@
 
 #define RUNNING_FRAMES  4
 #define IDLE_FRAMES     1
-#define R_RUNNING_POS     5
-#define L_RUNNING_POS     0
+#define R_RUNNING_POS   5
+#define L_RUNNING_POS   0
+#define DOWN_IDLE_POS   10
+#define UP_IDLE_POS     11
 
 #include "sprite.h"
 #include "event_handler.h"
@@ -29,7 +31,7 @@ class Character : public Sprite {
   private:
     void createListeners(EventHandler*);
     Audio *audioHandler = nullptr;
-    void idleAnimation(double seconds, std::string dir);
+    void idleAnimation(double seconds);
 
     std::string dir = "right";
 };
