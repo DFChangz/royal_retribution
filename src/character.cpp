@@ -4,8 +4,8 @@
 //constructor that takes in arguments for the width and height for the rect
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
-  EventHandler *eventHandler, Audio *audioHandler)
-    : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y),
+  EventHandler *eventHandler, Audio *audioHandler, int sheetFrames)
+    : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y, sheetFrames),
     audioHandler(audioHandler) {    
 
   createListeners(eventHandler);

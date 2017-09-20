@@ -31,7 +31,7 @@ class Engine {
     Engine();
 
     ErrorHandler error_handler;
-    SDL_Renderer *renderer;
+    SDL_Renderer *renderer = nullptr;
 
     void setState(std::string);
   private:
@@ -41,10 +41,10 @@ class Engine {
     void render();
     void createStates();
     bool running = true;
-		SDL_Window *window;
+		SDL_Window *window = nullptr;
     EventHandler eventHandler;
     std::map<std::string, State*> states;
-    State* currentState;
+    State* currentState = nullptr;
 };
 
 #endif

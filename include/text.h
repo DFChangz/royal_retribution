@@ -22,9 +22,9 @@ class Text : public Sprite {
     int font_size;
     std::string text;
     const SDL_Color &color;
-    SDL_Surface *surface;
+    SDL_Surface *surface = nullptr;
 
-    TTF_Font *font;
+    TTF_Font *font = nullptr;
 };
 
 #endif

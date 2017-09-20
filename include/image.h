@@ -29,7 +29,7 @@ class Image {
     virtual bool isEnemy() { return false; }
   protected:
     SDL_Renderer *renderer;
-    SDL_Texture *texture;
+    SDL_Texture *texture = nullptr;
     ErrorHandler *error_handler;
     const std::string image_file;
   private:

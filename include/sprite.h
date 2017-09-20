@@ -9,8 +9,10 @@ class of the 2 moveable object  classes character and enemy. Holds a velocity
 a speed multiplier and a way to detect collisions when they occur*/
 class Sprite : public Image {
   public:
+    double timer = 0;
+
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-    int width, int height, int pos_x, int pos_y);
+    int width, int height, int pos_x, int pos_y, int sheetFrames = 1);
 
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
     int pos_x, int pos_y);
@@ -22,7 +24,7 @@ class Sprite : public Image {
     virtual void notifyCollision(Image*, SDL_Rect*);
 
     virtual bool isCollidable();
-    virtual SDL_Rect* getRect();
+    virtual SDL_Rect* getDestRect();
 
     virtual ~Sprite();
   protected:
@@ -33,9 +35,12 @@ class Sprite : public Image {
     double speedMultiplier = 1;
     ErrorHandler *error_handler;
     SDL_Rect rect;
+    SDL_Rect srcRect;
     void get_texture_size(SDL_Texture*, int*, int*);
   private:
+    bool animating = false;
     void updateVelocities(double seconds);
+    int sheetFrames;
 };
 
 #endif

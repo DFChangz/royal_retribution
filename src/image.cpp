@@ -18,7 +18,7 @@ void Image::load() {
 }
 
 void Image::update(double) {
-
+  
 }
 
 void Image::render() {

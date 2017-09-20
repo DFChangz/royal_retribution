@@ -12,7 +12,8 @@ its position and rect*/
 class Character : public Sprite {
   public:
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-      int width, int height, int pos_x, int pos_y, EventHandler*, Audio*);
+      int width, int height, int pos_x, int pos_y, EventHandler*, Audio*,
+      int sheetFrames);
 
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
      int pos_x, int pos_y, EventHandler*, Audio*);
