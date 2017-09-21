@@ -14,12 +14,12 @@ TitleState::TitleState(Engine* engine, ErrorHandler* errorHandler)
 
 void TitleState::setup() {
   // setup texture for font
-  images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
-    0, 0, 40, logo));
-  images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
-    0, 0, false));
   images.push_back(new Sprite(engine->renderer, BG_FILENAME, errorHandler,
     0, 0, false));
+  images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
+    0, 0, false));
+  images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
+    0, 0, 80, logo));
   images.push_back(new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
     0, 0, false));
 }
@@ -30,6 +30,11 @@ void TitleState::load() {
   for (unsigned int i = 0; i < images.size(); i++) {
     SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
   }
+
+  for (unsigned int i = 0; i < images.size(); i++) {
+    auto center = getCenterForImage(images[i]);
+    images[i]->setPosition(std::get<0>(center), std::get<1>(center));
+  }
 }
 
 /* updates the screen */
@@ -38,12 +43,12 @@ void TitleState::update(double seconds) {
 
   totalTime += seconds;
   // wrapping the scroll img
-  if (images[2]->getDestRect()->x <= WIDTH - images[2]->getDestRect()->w) {
-    images[2]->getDestRect()->x = 0;
+  if (images[0]->getDestRect()->x <= WIDTH - images[0]->getDestRect()->w) {
+    images[0]->getDestRect()->x = 0;
   } else {
-    int x = images[2]->getDestRect()->x;
-    int y = images[2]->getDestRect()->y;
-    images[2]->setPosition(x - scroll_speed * seconds, y);
+    int x = images[0]->getDestRect()->x;
+    int y = images[0]->getDestRect()->y;
+    images[0]->setPosition(x - scroll_speed * seconds, y);
   }
   // fade in ship and scroll
   if (totalTime > 4) {
@@ -51,13 +56,15 @@ void TitleState::update(double seconds) {
   }
   // after 7.5 sec, fade in logo
   if (totalTime > 7.5) {
-    fadeIn(0, seconds);
+    fadeIn(2, seconds);
   }
   // after 14.5 sec, flash to earth
   if (totalTime > 14.5) {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       SDL_SetTextureColorMod(images[i]->getTexture(), 255, 255, 255);
     }
+  }
+  if (totalTime > 15) {
     fadeIn(3, seconds);
   }
 }
@@ -75,5 +82,13 @@ void TitleState::fadeIn(int i, double seconds) {
     newAlpha = 0;
   }
 }
+
+/* centers image */
+std::tuple<int, int> TitleState::getCenterForImage(Image* image) {
+  int x = WIDTH / 2 - image->getDestRect()->w / 2;
+  int y = HEIGHT / 2 - image->getDestRect()->h / 2;
+  return std::tuple<int, int>(x, y);
+}
+
 
 TitleState::~TitleState() {}
