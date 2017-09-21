@@ -4,6 +4,7 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
 	setup();
+  load();
 }
 
 void PlayingState::setup() {

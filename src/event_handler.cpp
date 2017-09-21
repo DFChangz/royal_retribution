@@ -7,8 +7,9 @@ void EventHandler::check() {
     int sym = event.key.keysym.sym;
 
     for (auto map : listeners) {
-      if ((int) event.type == map.first[0] && map.first[1] == sym) {
-        runTriggers((map.second));
+      if ((int) event.type == map.first[0]
+        && (map.first[1] == 0 || map.first[1] == sym)) {
+        runTriggers((map.second), &event);
       }
     }
   }
@@ -18,11 +19,11 @@ void EventHandler::check() {
 // `event` is the event to listen for
 // `trigger` is what to run when event occurs
 // `key_sym` is the key symbol to check for (defaults to 0 for none)
-void EventHandler::addListener(int event, lambda trigger, int key_sym) {
+void EventHandler::addListener(int event, event_lambda trigger, int key_sym) {
   std::array<int, 2> actions = {{event, key_sym}};
 
   if (listeners.find(actions) == listeners.end()) {
-    listeners[actions] = new lambda_vector;
+    listeners[actions] = new event_lambda_vector;
   }
   listeners[actions]->push_back(trigger);
 }
@@ -42,8 +43,8 @@ void EventHandler::getEvents() {
   }
 }
 
-void EventHandler::runTriggers(lambda_vector* triggers) {
+void EventHandler::runTriggers(event_lambda_vector* triggers, SDL_Event* event) {
   for (auto trigger : *triggers) {
-    trigger();
+    trigger(event);
   }
 }

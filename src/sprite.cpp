@@ -4,12 +4,11 @@
 /*Constructor that takes creates that sets makes a sprite from a inputed image
 file along with a given position to load in the sprite and size of it's rect*/
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int width, int height, int pos_x_p, int pos_y_p,
+  ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
   bool collidable_p)
   : Image(renderer, image_filename, error_handler) {
 
-  pos_x = pos_x_p;
-  pos_y = pos_y_p;
+  setPosition(pos_x, pos_y);
 
   collidable = collidable_p;
 
@@ -18,16 +17,15 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
 }
 //Another constructor, but instead sets the width and height of the rect to 0
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int pos_x_p, int pos_y_p, bool collidable_p)
+  ErrorHandler *error_handler, int pos_x, int pos_y, bool collidable_p)
   : Image(renderer, image_filename, error_handler) {
 
-  pos_x = pos_x_p;
-  pos_y = pos_y_p;
+  setPosition(pos_x, pos_y);
 
   collidable = collidable_p;
 
   srcRect = {0, 0, 0, 0};
-  rect = {(int) pos_x, (int) pos_y_p, 0, 0};
+  rect = {(int) pos_x, (int) pos_y, 0, 0};
 }
 
 
@@ -42,11 +40,10 @@ void Sprite::load() {
 
 //moves the position of sprite based on current velocity and time passed
 void Sprite::update(double seconds) {
-  pos_x = speedMultiplier * velocityX * seconds + pos_x;
-  pos_y = speedMultiplier * velocityY * seconds + pos_y;
+  double new_x = speedMultiplier * velocityX * seconds + pos_x;
+  double new_y = speedMultiplier * velocityY * seconds + pos_y;
 
-  rect.x = (int) pos_x;
-  rect.y = (int) pos_y;
+  setPosition(new_x, new_y);
 }
 
 void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
@@ -108,4 +105,12 @@ void Sprite::notifyCollision(Image*, SDL_Rect* intersection) {
 
 Sprite::~Sprite() {
 
+}
+
+void Sprite::setPosition(double x, double y) {
+  pos_x = x;
+  pos_y = y;
+  
+  rect.x = (int) x;
+  rect.y = (int) y;
 }
