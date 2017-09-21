@@ -46,10 +46,12 @@ void Enemy::update(double seconds) {
       ENEMY_FPS*speedMultiplier);
   } else if (velocityY > 0) {
     dir = "up";
-    idleAnimation(seconds);
+    Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
+      ENEMY_FPS*speedMultiplier);
   } else if (velocityY < 0) {
     dir = "down";
-    idleAnimation(seconds);
+    Sprite::animate(seconds, ENEMY_DOWN_MOVING_POS, ENEMY_DOWN_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
+      ENEMY_FPS*speedMultiplier);
   }
 }
 
@@ -58,8 +60,8 @@ void Enemy::idleAnimation(double seconds) {
 
   if (dir == "right") pos = ENEMY_R_MOVING_POS;
   else if (dir == "left") pos = ENEMY_L_MOVING_POS;
-  else if (dir == "up") pos = ENEMY_UP_IDLE_POS;
-  else if (dir == "down") pos = ENEMY_DOWN_IDLE_POS;
+  else if (dir == "up") pos = ENEMY_UP_MOVING_POS;
+  else if (dir == "down") pos = ENEMY_DOWN_MOVING_POS;
   else error_handler->quit(__func__, "direction not found");
 
   Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);

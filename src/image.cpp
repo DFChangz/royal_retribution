@@ -60,7 +60,7 @@ Image::Image(SDL_Renderer *renderer_p, std::string image_file,
     renderer = renderer_p;
     error_handler = error_handler_p;
 
-    triggers = new std::vector<std::function<void()>>;
+    triggers = new std::map<int, std::function<void()>>;
 }
 
 Image::~Image() {
@@ -73,9 +73,11 @@ void Image::setPosition(double, double) {
 }
 
 void Image::onHover(EventHandler *eventHandler, std::function<void()> trigger) {
-  triggers->push_back(trigger);
+  (*triggers)[currentTrigger_i] = trigger;
 
-  eventHandler->addListener(SDL_MOUSEMOTION, [&] (SDL_Event* e) {
+  int trigger_i = currentTrigger_i;
+
+  eventHandler->addListener(SDL_MOUSEMOTION, [trigger_i, this] (SDL_Event* e) {
     int x = e->motion.x;
     int y = e->motion.y;
     SDL_Rect* rect = getDestRect();
@@ -84,26 +86,32 @@ void Image::onHover(EventHandler *eventHandler, std::function<void()> trigger) {
     if (x > rect->x && x < rect->x + rect->w && y > rect->y
       && y < rect->y + rect->h) {
       
-      triggers->back()();
+      triggers->at(trigger_i)();
     };
   });
+
+  currentTrigger_i++;
 }
 
-/*void Image::onClick(EventHandler *eventHandler, std::function<void()> trigger) {
-  triggers->push_back(trigger);
+void Image::onClick(EventHandler *eventHandler, std::function<void()> trigger) {
+  (*triggers)[currentTrigger_i] = trigger;
 
-  eventHandler->addListener(SDL_MOUSEBUTTONUP, [&] (SDL_Event* e) {
+  int trigger_i = currentTrigger_i;
+
+  eventHandler->addListener(SDL_MOUSEBUTTONUP, [trigger_i, this] (SDL_Event* e) {
     if (e->button.button == SDL_BUTTON_LEFT) {
-      int x = e->motion.x;
-      int y = e->motion.y;
+      int x = e->button.x;
+      int y = e->button.y;
       SDL_Rect* rect = getDestRect();
       if (rect == NULL) *rect = {0, 0, WIDTH, HEIGHT};
 
       if (x > rect->x && x < rect->x + rect->w && y > rect->y
         && y < rect->y + rect->h) {
         
-        triggers->back()();
-      };
+        triggers->at(trigger_i)();
+      }
     }
   });
-} */
+
+  currentTrigger_i++;
+}

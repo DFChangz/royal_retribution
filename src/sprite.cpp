@@ -55,11 +55,11 @@ void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
 
   if (timer >= spf)  {
     currentFrame = ((currentFrame - start_frame + 1) % (end_frame - start_frame + 1)) + start_frame;
-    int row = currentFrame / 5;
-    int col = currentFrame % 5;
+    int row = currentFrame / NUM_ROWS;
+    int col = currentFrame % NUM_COLS;
 
-    srcRect.x = col*(srcRect.w + SPRITE_PADDING_AMOUNT);
-    srcRect.y = row*(srcRect.h + SPRITE_PADDING_AMOUNT);
+    srcRect.x = col*(srcRect.w + SPRITE_PADDING_AMOUNT_X);
+    srcRect.y = row*(srcRect.h + SPRITE_PADDING_AMOUNT_Y);
     
     timer = 0;
   }

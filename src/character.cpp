@@ -58,10 +58,12 @@ void Character::update(double seconds) {
       CHARACTER_FPS*speedMultiplier);
   } else if (velocityY > 0) {
     dir = "down";
-    idleAnimation(seconds);
+    Sprite::animate(seconds, DOWN_RUNNING_POS, DOWN_RUNNING_POS + RUNNING_FRAMES - 1,
+      CHARACTER_FPS*speedMultiplier);
   } else if (velocityY < 0) {
     dir = "up";
-    idleAnimation(seconds);
+    Sprite::animate(seconds, UP_RUNNING_POS, UP_RUNNING_POS + RUNNING_FRAMES - 1,
+      CHARACTER_FPS*speedMultiplier);
   } else {
     idleAnimation(seconds);
   }
@@ -72,8 +74,8 @@ void Character::idleAnimation(double seconds) {
 
   if (dir == "right") pos = R_RUNNING_POS;
   else if (dir == "left") pos = L_RUNNING_POS;
-  else if (dir == "up") pos = UP_IDLE_POS;
-  else if (dir == "down") pos = DOWN_IDLE_POS;
+  else if (dir == "up") pos = UP_RUNNING_POS;
+  else if (dir == "down") pos = DOWN_RUNNING_POS;
   else error_handler->quit(__func__, "direction not found");
 
   Sprite::animate(seconds, pos, pos + IDLE_FRAMES - 1);
