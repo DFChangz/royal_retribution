@@ -11,8 +11,8 @@ MenuState::MenuState(Engine* engine, ErrorHandler* errorHandler)
 
 void MenuState::setup() {
   images.push_back(new Image(engine->renderer, CASTLE_FILENAME, errorHandler));
-  images.push_back(new Sprite(engine->renderer, SHIP_SMALL_FILENAME,
-    errorHandler, 0, 0, false));
+  images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
+    0, 0, false));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
     50, 70, WINDOW_TITLE, ROYAL_GOLD));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
@@ -25,6 +25,10 @@ void MenuState::setup() {
 
 void MenuState::load() {
   State::load();
+
+  // change ship size
+  images[1]->getDestRect()->w = 50;
+  images[1]->getDestRect()->h = 38;
 
   auto center = getCenterForImage(images[2]);
   images[2]->setPosition(std::get<0>(center), std::get<1>(center) - 200);

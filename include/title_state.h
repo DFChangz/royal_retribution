@@ -15,14 +15,16 @@ class TitleState : public State {
     virtual void update(double seconds);
 
     std::tuple<int, int> getCenterForImage(Image*);
-    void fadeIn(int i, double seconds, double mult);
+    int fadeIn(int i, int a, double seconds, double mult);
 
     int x, y;
-    int alpha = 0;
-    double newAlpha = 0;
+    int a0 = 0;
+    int a1 = 0;
+    int a2 = 0;
+    int a3 = 0;
+    double newA = 0;
+    double speed = 50;
     double totalTime = 0;
-    double fade_speed = 50;
-    double scroll_speed = -50;
     std::string logo = "Team  UBIHARD  presents";
 };
 
