@@ -39,6 +39,10 @@ SDL_Rect* Image::getDestRect() {
   return NULL;
 }
 
+SDL_Texture* Image::getTexture() {
+  return texture;
+}
+
 bool Image::isCollidable() {
   return false;
 }

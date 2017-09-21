@@ -20,6 +20,7 @@ class Image {
 
     virtual bool isCollidable();
     virtual SDL_Rect* getDestRect();
+    SDL_Texture* getTexture();
 
     Image(SDL_Renderer *renderer, std::string,
       ErrorHandler *error_handler);
@@ -27,6 +28,7 @@ class Image {
     virtual ~Image();
 
     virtual bool isEnemy() { return false; }
+
   protected:
     SDL_Renderer *renderer;
     ErrorHandler *error_handler;
