@@ -2,7 +2,7 @@
 #include "playing_state.h"
 #include "title_state.h"
 #include "menu_state.h"
-
+#include "highscore_state.h"
 // Starts the game
 void Engine::start() {
   setup();
@@ -59,10 +59,11 @@ void Engine::setup() {
 
   createStates();
   setState("title");
- 
+
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {running = false;}, SDLK_ESCAPE);
+  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {setState("menu");}, SDLK_q);
 }
 
 // The heart
@@ -125,6 +126,7 @@ void Engine::createStates() {
   states["menu"] = new MenuState(this, &error_handler);
   states["title"] = new TitleState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
+  states["Highscore"] = new HighscoreState(this, &error_handler);
 }
 
 Engine::Engine() : 

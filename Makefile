@@ -9,8 +9,8 @@ BIN_DIR = ./bin
 
 LDLIBS=`pkg-config --libs sdl2 SDL2_ttf SDL2_image SDL2_mixer` -lm -lstdc++
 
-$(BIN_DIR)/game: $(OBJS_DIR)/game.o $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/image.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(OBJS_DIR)/enemy.o $(OBJS_DIR)/collision_detector.o $(OBJS_DIR)/audio.o $(OBJS_DIR)/state.o $(OBJS_DIR)/playing_state.o $(OBJS_DIR)/text.o $(OBJS_DIR)/menu_state.o $(OBJS_DIR)/title_state.o
-	$(C++) $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/game.o $(OBJS_DIR)/image.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(LDLIBS) $(OBJS_DIR)/enemy.o $(OBJS_DIR)/audio.o $(OBJS_DIR)/collision_detector.o $(OBJS_DIR)/state.o $(OBJS_DIR)/playing_state.o $(OBJS_DIR)/text.o $(OBJS_DIR)/menu_state.o  $(OBJS_DIR)/title_state.o -o $(BIN_DIR)/game
+$(BIN_DIR)/game: $(OBJS_DIR)/game.o $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/image.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(OBJS_DIR)/enemy.o $(OBJS_DIR)/collision_detector.o $(OBJS_DIR)/audio.o $(OBJS_DIR)/state.o $(OBJS_DIR)/playing_state.o $(OBJS_DIR)/text.o $(OBJS_DIR)/menu_state.o $(OBJS_DIR)/highscore_state.o $(OBJS_DIR)/title_state.o
+	$(C++) $(OBJS_DIR)/engine.o $(OBJS_DIR)/error_handler.o $(OBJS_DIR)/game.o $(OBJS_DIR)/image.o $(OBJS_DIR)/event_handler.o $(OBJS_DIR)/sprite.o $(OBJS_DIR)/character.o $(LDLIBS) $(OBJS_DIR)/enemy.o $(OBJS_DIR)/audio.o $(OBJS_DIR)/collision_detector.o $(OBJS_DIR)/state.o $(OBJS_DIR)/playing_state.o $(OBJS_DIR)/text.o $(OBJS_DIR)/menu_state.o $(OBJS_DIR)/highscore_state.o $(OBJS_DIR)/title_state.o -o $(BIN_DIR)/game
 
 $(OBJS_DIR)/game.o: $(SRC_DIR)/game.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/game.cpp -o $(OBJS_DIR)/game.o
@@ -53,6 +53,9 @@ $(OBJS_DIR)/text.o: $(SRC_DIR)/text.cpp
 
 $(OBJS_DIR)/menu_state.o: $(SRC_DIR)/menu_state.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/menu_state.cpp -o $(OBJS_DIR)/menu_state.o
+
+$(OBJS_DIR)/highscore_state.o: $(SRC_DIR)/highscore_state.cpp
+	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/highscore_state.cpp -o $(OBJS_DIR)/highscore_state.o
 
 $(OBJS_DIR)/title_state.o: $(SRC_DIR)/title_state.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $(SRC_DIR)/title_state.cpp -o $(OBJS_DIR)/title_state.o

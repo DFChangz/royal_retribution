@@ -35,6 +35,7 @@ class Image {
     virtual void setPosition(double x, double y);
 
     void onHover(EventHandler*, std::function<void()>);
+    void onClick(EventHandler*, std::function<void()>);
 
     double pos_x = 0.0;
     double pos_y = 0.0;
@@ -52,6 +53,7 @@ class Image {
 
     // Stores the triggers in the heap until cleanup() for listeners like
     // onHover.
-    std::vector<std::function<void()>>* triggers = nullptr;
+    std::map<int, std::function<void()>>* triggers = nullptr;
+    int currentTrigger_i = 0;
 };
 #endif

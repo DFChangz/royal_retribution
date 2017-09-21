@@ -31,17 +31,10 @@ void MenuState::load() {
   images[2]->onHover(&eventHandler, [&] () {
     SDL_SetTextureColorMod(images[2]->getTexture(), 255, 69, 0);
   });
-}
 
-void MenuState::run(double seconds) {
-  State::run(seconds);
-}
-
-void MenuState::update(double seconds) {
-  State::update(seconds);
-
-  //std::cout << "Switched States" << std::endl;;
-  //engine->setState("playing");
+  images[2]->onClick(&eventHandler, [&] () {
+    engine->setState("playing");
+  });
 }
 
 MenuState::~MenuState() {}

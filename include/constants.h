@@ -6,7 +6,8 @@
 #define HEIGHT  720
 #define WIDTH   1280 
 #define SPEED_CHAR 50
-#define SPRITE_PADDING_AMOUNT 8
+#define SPRITE_PADDING_AMOUNT_X 8
+#define SPRITE_PADDING_AMOUNT_Y 8
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
@@ -17,8 +18,9 @@
 #define COLLISION_FILENAME "assets/collision.wav"
 
 /* Sprites */
-#define ENEMY_FILENAME "assets/characters/Alien_sheet.png"
-#define CHARACTER_FILENAME "assets/characters/King_sheet.png"
+#define E_C_FILENAME "assets/characters/Animations.png"
+#define NUM_ROWS  4
+#define NUM_COLS  4
 
 /* Images */
 #define BG_FILENAME "assets/space.png"

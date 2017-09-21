@@ -4,10 +4,10 @@
 #define CHARACTER_FPS   5
 #define RUNNING_FRAMES  4
 #define IDLE_FRAMES     1
-#define R_RUNNING_POS   5
-#define L_RUNNING_POS   0
-#define DOWN_IDLE_POS   10
-#define UP_IDLE_POS     11
+#define R_RUNNING_POS   12
+#define L_RUNNING_POS   8
+#define DOWN_RUNNING_POS 0
+#define UP_RUNNING_POS   4
 
 #include "sprite.h"
 #include "event_handler.h"
