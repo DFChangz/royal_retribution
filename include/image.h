@@ -32,9 +32,16 @@ class Image {
 
     virtual bool isEnemy() { return false; }
 
-    virtual void setPosition(int x, int y);
+    virtual void setPosition(double x, double y);
 
     void onHover(EventHandler*, std::function<void()>);
+
+    double pos_x = 0.0;
+    double pos_y = 0.0;
+
+    double velocityX = 0.0;
+    double velocityY = 0.0;
+
   protected:
     SDL_Renderer *renderer;
     ErrorHandler *error_handler;

@@ -67,7 +67,7 @@ Image::~Image() {
   cleanup();
 }
 
-void Image::setPosition(int, int) {
+void Image::setPosition(double, double) {
   error_handler->quit(__func__,
   "Image position is always (0, 0). Did you mean to call this on a subclass?");
 }
@@ -88,3 +88,22 @@ void Image::onHover(EventHandler *eventHandler, std::function<void()> trigger) {
     };
   });
 }
+
+/*void Image::onClick(EventHandler *eventHandler, std::function<void()> trigger) {
+  triggers->push_back(trigger);
+
+  eventHandler->addListener(SDL_MOUSEBUTTONUP, [&] (SDL_Event* e) {
+    if (e->button.button == SDL_BUTTON_LEFT) {
+      int x = e->motion.x;
+      int y = e->motion.y;
+      SDL_Rect* rect = getDestRect();
+      if (rect == NULL) *rect = {0, 0, WIDTH, HEIGHT};
+
+      if (x > rect->x && x < rect->x + rect->w && y > rect->y
+        && y < rect->y + rect->h) {
+        
+        triggers->back()();
+      };
+    }
+  });
+} */

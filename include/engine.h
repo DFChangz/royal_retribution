@@ -45,6 +45,7 @@ class Engine {
     EventHandler eventHandler;
     std::map<std::string, State*> states;
     State* currentState = nullptr;
+    Mix_Music *intro = nullptr;
 };
 
 #endif

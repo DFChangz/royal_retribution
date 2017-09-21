@@ -8,7 +8,7 @@ MenuState::MenuState(Engine* engine, ErrorHandler* errorHandler)
 }
 
 void MenuState::setup() {
-  images.push_back(new Image(engine->renderer, BG_FILENAME, errorHandler));
+  images.push_back(new Image(engine->renderer, CASTLE_FILENAME, errorHandler));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
     50, 45, WINDOW_TITLE, ROYAL_GOLD));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
@@ -24,14 +24,21 @@ void MenuState::load() {
   center = getCenterForImage(images[2]);
   images[2]->setPosition(std::get<0>(center), std::get<1>(center) - 40);
 
-  images[2]->onHover(&eventHandler, [] () {
-    //images[2]->
+  eventHandler.addListener(SDL_MOUSEMOTION, [&] (SDL_Event*) {
+    SDL_SetTextureColorMod(images[2]->getTexture(), 255, 255, 255);
   });
+
+  images[2]->onHover(&eventHandler, [&] () {
+    SDL_SetTextureColorMod(images[2]->getTexture(), 255, 69, 0);
+  });
+}
+
+void MenuState::run(double seconds) {
+  State::run(seconds);
 }
 
 void MenuState::update(double seconds) {
   State::update(seconds);
-
 
   //std::cout << "Switched States" << std::endl;;
   //engine->setState("playing");

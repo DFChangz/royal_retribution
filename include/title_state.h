@@ -9,16 +9,6 @@ class TitleState : public State {
 
     virtual ~TitleState();
 
-  /* as reminder
-  protected:
-    virtual void cleanup();
-    std::vector<Image*> images;
-    Engine* engine;
-    Audio audioHandler;
-    EventHandler eventHandler;
-    ErrorHandler* errorHandler;
-  */
-
   private:
     virtual void setup();
     virtual void load();
@@ -32,8 +22,8 @@ class TitleState : public State {
     int alpha = 0;
     double newAlpha = 0;
     double totalTime = 0;
-    double fade_speed = 20;
-    double scroll_speed = 10;
+    double fade_speed = 15;
+    double scroll_speed = -40;
 };
 
 #endif

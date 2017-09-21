@@ -59,7 +59,7 @@ void Engine::setup() {
 
   createStates();
   setState("title");
-
+ 
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {running = false;}, SDLK_ESCAPE);
@@ -69,6 +69,12 @@ void Engine::setup() {
 void Engine::loop() {
   unsigned int lastTime = SDL_GetTicks();
   double totalTime = 0;
+
+  intro = Mix_LoadMUS(INTRO_FILENAME);
+
+  if (Mix_PlayMusic(intro, -1) < 0) {
+    std::cerr << "Music was not initialized";
+  }
 
   while(running) {
     //converts time to seconds and keeps track of time passed and total time
@@ -98,6 +104,8 @@ void Engine::cleanup() {
   if (renderer != nullptr) {
     SDL_DestroyRenderer(renderer);
   }
+
+  Mix_FreeMusic(intro);
 
   IMG_Quit();
   TTF_Quit();
