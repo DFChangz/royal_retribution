@@ -93,19 +93,26 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
 void Character::createListeners(EventHandler *eventHandler) {
   /*when wasd keys are pressed down the velocities are set to move in the 
   specified direction: W = up; S = down; A = left; D = right*/
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = SPEED_CHAR; }, SDLK_d | SDLK_RIGHT);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = -SPEED_CHAR; }, SDLK_a | SDLK_LEFT);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = SPEED_CHAR; }, SDLK_s | SDLK_DOWN);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = -SPEED_CHAR; }, SDLK_w | SDLK_UP);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = SPEED_CHAR; }, SDLK_d);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = -SPEED_CHAR; }, SDLK_a);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = SPEED_CHAR; }, SDLK_s);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = -SPEED_CHAR; }, SDLK_w);
+
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = SPEED_CHAR; }, SDLK_RIGHT);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = -SPEED_CHAR; }, SDLK_LEFT);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = SPEED_CHAR; }, SDLK_DOWN);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = -SPEED_CHAR; }, SDLK_UP);
 
   //when key is released, velocity set back to 0
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_d);
-
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_a);
-
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_s);
-
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_w);
+
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_RIGHT);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_LEFT);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_DOWN);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_UP);
   
   // BOOST FOR DEBUGGING PURPOSES
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { speedMultiplier = 4; }, SDLK_LSHIFT);

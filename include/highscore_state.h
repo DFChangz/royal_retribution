@@ -10,6 +10,8 @@ class HighscoreState : public State {
       virtual ~HighscoreState();
 
       void update(double seconds);
+
+      void load();
       
       void setup();
 

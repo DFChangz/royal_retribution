@@ -15,6 +15,8 @@ class MenuState : public State {
       virtual void setup();
 
       std::tuple<int, int> getCenterForImage(Image*);
+
+      int selectedIndex = 3;
 };
 
 #endif
