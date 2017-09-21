@@ -17,7 +17,7 @@ void State::run(double seconds) {
 }
 
 void State::load() {
-	audioHandler.load();
+  audioHandler.load();
 
   for (Image* image : images) {
     image->load();
@@ -31,7 +31,7 @@ void State::update(double seconds) {
 }
 
 void State::render() {
-	if (SDL_RenderClear(engine->renderer) < 0) {
+  if (SDL_RenderClear(engine->renderer) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
 
@@ -43,9 +43,9 @@ void State::render() {
 }
 
 void State::cleanup() {
-	audioHandler.cleanup();
+  audioHandler.cleanup();
 
-	for (Image* image : images) {
+  for (Image* image : images) {
     if (image != nullptr) delete image;
 	}
 }

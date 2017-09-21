@@ -4,12 +4,12 @@
 #include "state.h"
 
 class PlayingState : public State {
-    public:
-      PlayingState(Engine* engine, ErrorHandler* errorHandler);
+  public:
+    PlayingState(Engine* engine, ErrorHandler* errorHandler);
 
-      virtual ~PlayingState();
-    private:
-      virtual void setup();
+    virtual ~PlayingState();
+  private:
+    virtual void setup();
 };
 
 #endif
