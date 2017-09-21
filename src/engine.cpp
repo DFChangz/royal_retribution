@@ -58,7 +58,7 @@ void Engine::setup() {
   }
 
   createStates();
-  setState("title");
+  setState("menu");
 
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {running = false;});

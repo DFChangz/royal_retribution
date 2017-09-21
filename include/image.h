@@ -41,6 +41,7 @@ class Image {
 
     double velocityX = 0.0;
     double velocityY = 0.0;
+
   protected:
     SDL_Renderer *renderer;
     ErrorHandler *error_handler;

@@ -11,6 +11,8 @@ class MenuState : public State {
       virtual ~MenuState();
 
       virtual void load();
+
+      virtual void run(double seconds);
     protected:
       void update(double seconds);
     private:
