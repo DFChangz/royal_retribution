@@ -19,7 +19,7 @@ void TitleState::setup() {
   images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
     0, 0, false));
   images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
-    0, 0, 80, logo));
+    0, 0, 100, logo));
   images.push_back(new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
     0, 0, false));
 }
@@ -30,9 +30,12 @@ void TitleState::load() {
   for (unsigned int i = 0; i < images.size(); i++) {
     SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
   }
-
+  // change ship size
   images[1]->getDestRect()->w = 400;
-  images[1]->getDestRect()->w = 300;
+  images[1]->getDestRect()->h = 300;
+  // change planet size
+  images[3]->getDestRect()->w = 800;
+  images[3]->getDestRect()->h = 800;
 
   for (unsigned int i = 0; i < images.size(); i++) {
     auto center = getCenterForImage(images[i]);
@@ -40,6 +43,7 @@ void TitleState::load() {
   }
 
   images[0]->velocityX = scroll_speed;
+  images[1]->velocityX = -1 * scroll_speed;
 }
 
 /* updates the screen */
@@ -55,33 +59,32 @@ void TitleState::update(double seconds) {
 
     images[0]->setPosition(x, y);
   }
-  // fade in ship and scroll
-  if (totalTime > 4) {
-    fadeIn(1, seconds);
+  // after 3.5 sec, fade in ship
+  if (totalTime > 3.5) {
+    fadeIn(1, seconds, 1.0);
   }
   // after 7.5 sec, fade in logo
   if (totalTime > 7.5) {
-    fadeIn(2, seconds);
+    fadeIn(2, seconds, 1.0);
   }
   // after 14.5 sec, flash to earth
   if (totalTime > 14.5) {
-    for (unsigned int i = 0; i < images.size(); i++) {
+    for (unsigned int i = 0; i < 3; i++) {
       SDL_SetTextureColorMod(images[i]->getTexture(), 255, 255, 255);
     }
+    fadeIn(3, seconds, 3.0);
   }
+  // after 15 sec, transfer to menu
   if (totalTime > 15) {
-    fadeIn(3, seconds);
-  }
-  if (totalTime > 16) {
     engine->setState("menu");
   }
 }
 
 /* fades in a texture */
-void TitleState::fadeIn(int i, double seconds) {
+void TitleState::fadeIn(int i, double seconds, double mult) {
   SDL_SetTextureAlphaMod(images[i]->getTexture(), alpha);
   if (alpha < 255) {
-    newAlpha += fade_speed * seconds;
+    newAlpha += fade_speed * seconds * mult;
     alpha = (int)newAlpha;
   }
   if (alpha > 255) {
