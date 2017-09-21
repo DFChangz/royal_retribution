@@ -1,6 +1,14 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#define ENEMY_FPS             5
+#define ENEMY_MOVING_FRAMES   4
+#define ENEMY_IDLE_FRAMES     1
+#define ENEMY_R_MOVING_POS    5
+#define ENEMY_L_MOVING_POS    0
+#define ENEMY_UP_IDLE_POS     12
+#define ENEMY_DOWN_IDLE_POS   11
+
 #include "sprite.h"
 #include "event_handler.h"
 #include "constants.h"
@@ -18,6 +26,9 @@ class Enemy : public Sprite {
     virtual void update(double seconds);
 
     bool isEnemy() {return true;}
+  private:
+    std::string dir="right";
+    void idleAnimation(double);
 };
 
 #endif
