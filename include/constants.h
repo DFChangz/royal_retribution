@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 /* Other */
-#define WINDOW_TITLE "The King's Final Stand"
+#define WINDOW_TITLE "Royal Retribution"
 #define HEIGHT  720
 #define WIDTH   1280 
 #define SPEED_CHAR 50

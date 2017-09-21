@@ -15,7 +15,7 @@ void MenuState::setup() {
   images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
     0, 0, false));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
-    50, 70, WINDOW_TITLE, ROYAL_GOLD));
+    50, 80, WINDOW_TITLE, ROYAL_GOLD));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
     50, 40, "New Game"));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
@@ -45,7 +45,7 @@ void MenuState::load() {
 
   // Center all the text (lines 35-47)
   auto center = getCenterForImage(images[2]);
-  images[2]->setPosition(std::get<0>(center), std::get<1>(center) - 200);
+  images[2]->setPosition(std::get<0>(center), std::get<1>(center) - 220);
 
   center = getCenterForImage(images[3]);
   images[3]->setPosition(std::get<0>(center), std::get<1>(center) - 40);
