@@ -17,11 +17,11 @@ void TitleState::setup() {
   images.push_back(new Sprite(engine->renderer, BG_FILENAME, errorHandler,
     0, 0, false));
   images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
+    -200, 200, false));
+  images.push_back(new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
     0, 0, false));
   images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
     0, 0, 100, logo));
-  images.push_back(new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
-    0, 0, false));
 }
 
 void TitleState::load() {
@@ -30,20 +30,17 @@ void TitleState::load() {
   for (unsigned int i = 0; i < images.size(); i++) {
     SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
   }
+
   // change ship size
   images[1]->getDestRect()->w = 400;
   images[1]->getDestRect()->h = 300;
-  // change planet size
-  images[3]->getDestRect()->w = 800;
-  images[3]->getDestRect()->h = 800;
 
-  for (unsigned int i = 0; i < images.size(); i++) {
+  for (unsigned int i = 2; i < images.size(); i++) {
     auto center = getCenterForImage(images[i]);
     images[i]->setPosition(std::get<0>(center), std::get<1>(center));
   }
 
   images[0]->velocityX = scroll_speed;
-  images[1]->velocityX = -1 * scroll_speed;
 }
 
 /* updates the screen */
@@ -52,30 +49,34 @@ void TitleState::update(double seconds) {
 
   totalTime += seconds;
 
-  // wrapping the scroll img
+  // wrap and fade in scroll
   if (images[0]->getDestRect()->x <= WIDTH - images[0]->getDestRect()->w) {
-    int x = 0;
-    int y = images[0]->pos_y;
+    x = 0;
+    y = images[0]->pos_y;
 
     images[0]->setPosition(x, y);
   }
+  fadeIn(0, seconds, 0.2);
   // after 3.5 sec, fade in ship
   if (totalTime > 3.5) {
-    fadeIn(1, seconds, 1.0);
+    fadeIn(1, seconds, 0.2);
+    images[1]->velocityX = -4 * scroll_speed;
   }
   // after 7.5 sec, fade in logo
   if (totalTime > 7.5) {
-    fadeIn(2, seconds, 1.0);
+    fadeIn(3, seconds, 0.2);
   }
-  // after 14.5 sec, flash to earth
-  if (totalTime > 14.5) {
-    for (unsigned int i = 0; i < 3; i++) {
-      SDL_SetTextureColorMod(images[i]->getTexture(), 255, 255, 255);
-    }
-    fadeIn(3, seconds, 3.0);
+  // after 11.5 sec, fade in earth
+  if (totalTime > 11.5) {
+    fadeIn(2, seconds, 0.2);
+    x = images[2]->pos_x - 2.5 * fade_speed * seconds;
+    y = images[2]->pos_y - 2.5 * fade_speed * seconds;
+    images[2]->setPosition(x, y);
+    images[2]->getDestRect()->w += 5.0 * fade_speed * seconds;
+    images[2]->getDestRect()->h += 5.0 * fade_speed * seconds;
   }
-  // after 15 sec, transfer to menu
-  if (totalTime > 15) {
+  // after 15.5 sec, transfer to menu
+  if (totalTime > 15.5) {
     engine->setState("menu");
   }
 }
