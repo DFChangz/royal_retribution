@@ -1,3 +1,7 @@
+/*
+ * event_handler.h
+ */
+
 #include "event_handler.h"
 
 std::vector<SDL_Event> EventHandler::events;

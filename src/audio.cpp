@@ -1,3 +1,7 @@
+/*
+ * audio.cpp
+ */
+
 #include "audio.h"
 //Definition of the class that handles audio
 

@@ -1,3 +1,7 @@
+/*
+ * state.cpp
+ */
+
 #include "state.h"
 
 State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(errorHandler), errorHandler(errorHandler) {

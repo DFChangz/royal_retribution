@@ -1,3 +1,7 @@
+/*
+ * error_handler.cpp
+ */
+
 #include "engine.h"
 #include "error_handler.h"
 //Definitions of the class that handles the errors

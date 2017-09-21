@@ -1,3 +1,7 @@
+/*
+ * image.cpp
+ */
+
 #include "image.h"
 //Definitions for the the parent class that any image object inherit from
 

@@ -1,3 +1,7 @@
+/*
+ * text.cpp
+ */
+
 #include "text.h"
 
 Text::Text(SDL_Renderer *renderer, std::string font_filename,

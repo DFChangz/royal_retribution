@@ -12,25 +12,30 @@ TitleState::TitleState(Engine* engine, ErrorHandler* errorHandler)
   load();
 }
 
+/* setup images */
 void TitleState::setup() {
-  // setup texture for font
+  // space BG
   images.push_back(new Sprite(engine->renderer, BG_FILENAME, errorHandler,
     0, 0, false));
+  // ship img
   images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
     -180, 180, false));
+  // earth img
   images.push_back(new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
     0, 0, false));
+  // logo text
   images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
     0, 0, 100, logo));
 }
 
+/* loads images */
 void TitleState::load() {
   State::load();
-
+  // make all textures transparent
   for (unsigned int i = 0; i < images.size(); i++) {
     SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
   }
-
+  // center some of the textures
   for (unsigned int i = 2; i < images.size(); i++) {
     auto center = getCenterForImage(images[i]);
     images[i]->setPosition(std::get<0>(center), std::get<1>(center));
@@ -88,7 +93,7 @@ int TitleState::fadeIn(int i, int a, double seconds, double mult) {
   return a;
 }
 
-/* centers image */
+/* center positions */
 std::tuple<int, int> TitleState::getCenterForImage(Image* image) {
   int x = WIDTH / 2 - image->getDestRect()->w / 2;
   int y = HEIGHT / 2 - image->getDestRect()->h / 2;

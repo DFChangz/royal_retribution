@@ -1,3 +1,7 @@
+/*
+ * character.cpp
+ */
+
 #include "character.h"
 //Definitions for the character class that inherits from Sprite
 

@@ -1,3 +1,7 @@
+/*
+ * playing_state.cpp
+ */
+
 #include "playing_state.h"
 
 PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)

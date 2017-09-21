@@ -1,8 +1,12 @@
+/*
+ * sprite.cpp
+ */
+
 #include "sprite.h"
 //Definitions for the the parent class that other sprite objects inherit from
 
-/*Constructor that takes creates that sets makes a sprite from a inputed image
-file along with a given position to load in the sprite and size of it's rect*/
+/*Constructor that makes a sprite from an inputed image file along with a gi-
+ven position to load in the sprite and size of its rect*/
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
   bool collidable_p)

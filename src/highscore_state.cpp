@@ -1,3 +1,7 @@
+/*
+ * highscore_state.cpp
+ */
+
 #include "highscore_state.h"
 
 HighscoreState::HighscoreState(Engine* eng, ErrorHandler* eHandler)

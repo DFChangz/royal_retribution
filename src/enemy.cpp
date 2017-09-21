@@ -1,3 +1,7 @@
+/*
+ * enemy.cpp
+ */
+
 #include "enemy.h"
 //Definitions for the enemy class that inherits from Sprite
 

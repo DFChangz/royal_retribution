@@ -1,3 +1,7 @@
+/*
+ * collision_detector.h
+ */
+
 #include "collision_detector.h"
 //Definitions of the collision detector class
 
