@@ -4,20 +4,25 @@
 /*Constructor that takes creates that sets makes a sprite from a inputed image
 file along with a given position to load in the sprite and size of it's rect*/
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y)
+  ErrorHandler *error_handler, int width, int height, int pos_x_p, int pos_y_p)
   : Image(renderer, image_filename, error_handler) {
 
+  pos_x = pos_x_p;
+  pos_y = pos_y_p;
+
   srcRect = {0, 0, width, height};
-  rect = {pos_x, pos_y, width, height};
+  rect = {0, 0, width, height};
 }
 //Another constructor, but instead sets the width and height of the rect to 0
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int pos_x, int pos_y)
-  : Image(renderer, image_filename, error_handler), pos_x(pos_x),
-    pos_y(pos_y) {
+  ErrorHandler *error_handler, int pos_x_p, int pos_y_p)
+  : Image(renderer, image_filename, error_handler) {
+
+  pos_x = pos_x_p;
+  pos_y = pos_y_p;
 
   srcRect = {0, 0, 0, 0};
-  rect = {pos_x, pos_y, 0, 0};
+  rect = {0, 0, 0, 0};
 }
 
 

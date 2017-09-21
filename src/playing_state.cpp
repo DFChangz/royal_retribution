@@ -13,7 +13,7 @@ void PlayingState::setup() {
 
   for (int i = 0; i < 5; i++) {
     images.push_back(new Enemy(engine->renderer, ENEMY_FILENAME,
-      errorHandler, rand() % WIDTH, rand() % HEIGHT, rand() % 100 + 1,
+      errorHandler, 16, 25, rand() % WIDTH - 16, rand() % HEIGHT - 25, rand() % 100 + 1,
       rand() % 100 + 1));
   }
 

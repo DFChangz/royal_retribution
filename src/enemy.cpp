@@ -7,8 +7,12 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
   double velocity_X, double velocity_Y)
     : Sprite(renderer, filename, error_handler, width, height, pos_x,
     pos_y) {
-      velocityX = velocity_X;
-      velocityY = velocity_Y;
+
+    rect.w *= 2;
+    rect.h *= 2;
+
+    velocityX = velocity_X;
+    velocityY = velocity_Y;
 }
 
 //constructor with no width and height arguments
@@ -16,8 +20,9 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int pos_x, int pos_y, double velocity_X,
   double velocity_Y)
     : Sprite(renderer, filename, error_handler, pos_x, pos_y) {
-      velocityX = velocity_X;
-      velocityY = velocity_Y;
+
+    velocityX = velocity_X;
+    velocityY = velocity_Y;
 }
 
 void Enemy::update(double seconds) {
@@ -30,4 +35,32 @@ void Enemy::update(double seconds) {
   if (pos_y <= 0 || pos_y + rect.h >= HEIGHT) {
     velocityY *= -1;
   }
+
+  if (velocityX > 0) {
+    dir = "right";
+    Sprite::animate(seconds, ENEMY_R_MOVING_POS, ENEMY_R_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
+      ENEMY_FPS*speedMultiplier);
+  } else if (velocityX < 0) {
+    dir = "left";
+    Sprite::animate(seconds, ENEMY_L_MOVING_POS, ENEMY_L_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
+      ENEMY_FPS*speedMultiplier);
+  } else if (velocityY > 0) {
+    dir = "up";
+    idleAnimation(seconds);
+  } else if (velocityY < 0) {
+    dir = "down";
+    idleAnimation(seconds);
+  }
+}
+
+void Enemy::idleAnimation(double seconds) {
+  int pos = -1;
+
+  if (dir == "right") pos = ENEMY_R_MOVING_POS;
+  else if (dir == "left") pos = ENEMY_L_MOVING_POS;
+  else if (dir == "up") pos = ENEMY_UP_IDLE_POS;
+  else if (dir == "down") pos = ENEMY_DOWN_IDLE_POS;
+  else error_handler->quit(__func__, "direction not found");
+
+  Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);
 }

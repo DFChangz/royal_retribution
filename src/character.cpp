@@ -8,6 +8,9 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
     : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y),
     audioHandler(audioHandler) {    
 
+  rect.w *= 2;
+  rect.h *= 2;
+
   createListeners(eventHandler);
 }
 
@@ -17,6 +20,9 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
   Audio *audioHandler)
     : Sprite(renderer, filename, error_handler, pos_x, pos_y),
     audioHandler(audioHandler) {
+
+  rect.w *= 2;
+  rect.h *= 2;
 
   createListeners(eventHandler);
 }
@@ -43,16 +49,20 @@ void Character::update(double seconds) {
 
 
   if (velocityX > 0) {
+    dir = "right";
     Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1,
-      3*speedMultiplier);
+      CHARACTER_FPS*speedMultiplier);
   } else if (velocityX < 0) {
+    dir = "left";
     Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1,
-      3*speedMultiplier);
+      CHARACTER_FPS*speedMultiplier);
   } else if (velocityY > 0) {
     dir = "down";
     idleAnimation(seconds);
   } else if (velocityY < 0) {
     dir = "up";
+    idleAnimation(seconds);
+  } else {
     idleAnimation(seconds);
   }
 }
@@ -87,23 +97,13 @@ void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYDOWN, [&]() { velocityY = -SPEED_CHAR; }, SDLK_w);
 
   //when key is released, velocity set back to 0
-  eventHandler->addListener(SDL_KEYUP, [&]() {
-      dir = "right"; velocityX = 0;
-  }, SDLK_d);
+  eventHandler->addListener(SDL_KEYUP, [&]() {velocityX = 0;}, SDLK_d);
 
-  eventHandler->addListener(SDL_KEYUP, [&]() {
-    dir = "left"; velocityX = 0;
-  }, SDLK_a);
+  eventHandler->addListener(SDL_KEYUP, [&]() {velocityX = 0;}, SDLK_a);
 
-  eventHandler->addListener(SDL_KEYUP, [&]() {
-    dir = "down";
-    velocityY = 0;
-  }, SDLK_s);
+  eventHandler->addListener(SDL_KEYUP, [&]() {velocityY = 0;}, SDLK_s);
 
-  eventHandler->addListener(SDL_KEYUP, [&]() {
-    dir = "up";
-    velocityY = 0;
-  }, SDLK_w);
+  eventHandler->addListener(SDL_KEYUP, [&]() {velocityY = 0;}, SDLK_w);
   
   // BOOST FOR DEBUGGING PURPOSES
   eventHandler->addListener(SDL_KEYDOWN, [&]() { speedMultiplier = 4; }, SDLK_LSHIFT);
