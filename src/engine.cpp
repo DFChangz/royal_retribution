@@ -1,7 +1,7 @@
 #include "engine.h"
 #include "playing_state.h"
 #include "menu_state.h"
-
+#include "highscore_state.h"
 // Starts the game
 void Engine::start() {
   setup();
@@ -57,7 +57,7 @@ void Engine::setup() {
   }
 
   createStates();
-  setState("menu");
+  setState("Highscore");
 
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
@@ -115,9 +115,11 @@ void Engine::setState(std::string state) {
 void Engine::createStates() {
   states["menu"] = new MenuState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
+  states["Highscore"] = new HighscoreState(this, &error_handler);
 
   states["menu"]->load();
   states["playing"]->load();
+  states["Highscore"]->load();
 }
 
 Engine::Engine() : 
