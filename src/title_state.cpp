@@ -41,7 +41,9 @@ void TitleState::update(double seconds) {
   if (images[2]->getDestRect()->x <= WIDTH - images[2]->getDestRect()->w) {
     images[2]->getDestRect()->x = 0;
   } else {
-    images[2]->getDestRect()->x -= scroll_speed * seconds;
+    int x = images[2]->getDestRect()->x;
+    int y = images[2]->getDestRect()->y;
+    images[2]->setPosition(x - scroll_speed * seconds, y);
   }
   // fade in ship and scroll
   if (totalTime > 4) {

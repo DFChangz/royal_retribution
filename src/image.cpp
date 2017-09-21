@@ -29,13 +29,18 @@ void Image::render() {
 
 //Destroys the texture to free up memory
 void Image::cleanup() {
+  if (triggers != nullptr) {
+    delete triggers;
+    triggers = nullptr;
+  }
+
   if (texture != nullptr) {
     SDL_DestroyTexture(texture);
   }
 }
 
 SDL_Rect* Image::getDestRect() {
-  error_handler->quit(__func__, "Image does not have a rect. This only works on subclasses");
+  std::cerr << "Image does not have a rect. This only works on subclasses. Returning NULL." << std::endl;
   return NULL;
 }
 
@@ -54,8 +59,32 @@ Image::Image(SDL_Renderer *renderer_p, std::string image_file,
     
     renderer = renderer_p;
     error_handler = error_handler_p;
+
+    triggers = new std::vector<std::function<void()>>;
 }
 
 Image::~Image() {
   cleanup();
+}
+
+void Image::setPosition(int, int) {
+  error_handler->quit(__func__,
+  "Image position is always (0, 0). Did you mean to call this on a subclass?");
+}
+
+void Image::onHover(EventHandler *eventHandler, std::function<void()> trigger) {
+  triggers->push_back(trigger);
+
+  eventHandler->addListener(SDL_MOUSEMOTION, [&] (SDL_Event* e) {
+    int x = e->motion.x;
+    int y = e->motion.y;
+    SDL_Rect* rect = getDestRect();
+    if (rect == NULL) *rect = {0, 0, WIDTH, HEIGHT};
+
+    if (x > rect->x && x < rect->x + rect->w && y > rect->y
+      && y < rect->y + rect->h) {
+      
+      triggers->back()();
+    };
+  });
 }

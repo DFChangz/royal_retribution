@@ -61,8 +61,8 @@ void Engine::setup() {
   setState("title");
 
   //Quits on escape.
-  eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
-  eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
+  eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {running = false;});
+  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {running = false;}, SDLK_ESCAPE);
 }
 
 // The heart

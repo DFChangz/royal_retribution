@@ -27,6 +27,8 @@ class Sprite : public Image {
     virtual SDL_Rect* getDestRect();
 
     virtual ~Sprite();
+
+    void setPosition(int x, int y);
   protected:
     bool collidable = true;
 
