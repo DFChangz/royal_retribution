@@ -25,8 +25,10 @@ void State::load() {
 }
 
 void State::update(double seconds) {
+  int counter =0 ;
   for (Image* image : images) {
     image->update(seconds);
+    counter++;
   }
 }
 

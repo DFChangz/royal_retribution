@@ -67,7 +67,7 @@ Image::~Image() {
   cleanup();
 }
 
-void Image::setPosition(int, int) {
+void Image::setPosition(double, double) {
   error_handler->quit(__func__,
   "Image position is always (0, 0). Did you mean to call this on a subclass?");
 }

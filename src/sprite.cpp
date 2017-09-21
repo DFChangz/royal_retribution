@@ -40,8 +40,8 @@ void Sprite::load() {
 
 //moves the position of sprite based on current velocity and time passed
 void Sprite::update(double seconds) {
-  int new_x = speedMultiplier * velocityX * seconds + pos_x;
-  int new_y = speedMultiplier * velocityY * seconds + pos_y;
+  double new_x = speedMultiplier * velocityX * seconds + pos_x;
+  double new_y = speedMultiplier * velocityY * seconds + pos_y;
 
   setPosition(new_x, new_y);
 }
@@ -107,7 +107,7 @@ Sprite::~Sprite() {
 
 }
 
-void Sprite::setPosition(int x, int y) {
+void Sprite::setPosition(double x, double y) {
   pos_x = x;
   pos_y = y;
   

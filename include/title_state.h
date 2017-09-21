@@ -32,7 +32,7 @@ class TitleState : public State {
     double newAlpha = 0;
     double totalTime = 0;
     double fade_speed = 10;
-    double scroll_speed = 10;
+    double scroll_speed = -40;
 };
 
 #endif

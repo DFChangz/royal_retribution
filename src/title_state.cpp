@@ -30,6 +30,8 @@ void TitleState::load() {
   for (unsigned int i = 0; i < images.size(); i++) {
     SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
   }
+
+  images[2]->velocityX = scroll_speed;
 }
 
 /* updates the screen */
@@ -37,13 +39,13 @@ void TitleState::update(double seconds) {
   State::update(seconds);
 
   totalTime += seconds;
+
   // wrapping the scroll img
   if (images[2]->getDestRect()->x <= WIDTH - images[2]->getDestRect()->w) {
-    images[2]->getDestRect()->x = 0;
-  } else {
-    int x = images[2]->getDestRect()->x;
-    int y = images[2]->getDestRect()->y;
-    images[2]->setPosition(x - scroll_speed * seconds, y);
+    int x = 0;
+    int y = images[2]->pos_y;
+
+    images[2]->setPosition(x, y);
   }
   // fade in ship and scroll
   if (totalTime > 4) {

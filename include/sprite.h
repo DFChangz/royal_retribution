@@ -28,14 +28,10 @@ class Sprite : public Image {
 
     virtual ~Sprite();
 
-    void setPosition(int x, int y);
+    void setPosition(double x, double y);
   protected:
     bool collidable = true;
 
-    double pos_x = 0.0;
-    double pos_y = 0.0;
-    double velocityX = 0;
-    double velocityY = 0;
     double speedMultiplier = 1;
     
     int currentFrame = -1;
