@@ -58,7 +58,7 @@ void Engine::setup() {
   }
 
   createStates();
-  setState("Highscore");
+  setState("title");
 
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {running = false;});
@@ -117,6 +117,7 @@ void Engine::createStates() {
   states["menu"] = new MenuState(this, &error_handler);
   states["title"] = new TitleState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
+  states["Highscore"] = new HighscoreState(this, &error_handler);
 }
 
 Engine::Engine() : 
