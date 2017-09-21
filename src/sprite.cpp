@@ -4,25 +4,30 @@
 /*Constructor that takes creates that sets makes a sprite from a inputed image
 file along with a given position to load in the sprite and size of it's rect*/
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int width, int height, int pos_x_p, int pos_y_p)
+  ErrorHandler *error_handler, int width, int height, int pos_x_p, int pos_y_p,
+  bool collidable_p)
   : Image(renderer, image_filename, error_handler) {
 
   pos_x = pos_x_p;
   pos_y = pos_y_p;
 
+  collidable = collidable_p;
+
   srcRect = {0, 0, width, height};
-  rect = {0, 0, width, height};
+  rect = {(int) pos_x, (int) pos_y, width, height};
 }
 //Another constructor, but instead sets the width and height of the rect to 0
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int pos_x_p, int pos_y_p)
+  ErrorHandler *error_handler, int pos_x_p, int pos_y_p, bool collidable_p)
   : Image(renderer, image_filename, error_handler) {
 
   pos_x = pos_x_p;
   pos_y = pos_y_p;
 
+  collidable = collidable_p;
+
   srcRect = {0, 0, 0, 0};
-  rect = {0, 0, 0, 0};
+  rect = {(int) pos_x, (int) pos_y_p, 0, 0};
 }
 
 
@@ -32,11 +37,6 @@ void Sprite::load() {
   width and height of the image texture that was loaded*/
   if (rect.w == 0 && rect.h == 0) {
     get_texture_size(texture, &(rect.w), &(rect.h));
-
-    if (srcRect.w == 0) {
-      srcRect.w = rect.w;
-      srcRect.h = rect.y;
-    }
   }
 }
 
@@ -70,7 +70,14 @@ void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
 }
 
 void Sprite::render() {
-  if (SDL_RenderCopy(renderer, texture, &srcRect, &rect) < 0) {
+  int renderResult = 0;
+  if (srcRect.w == 0 && srcRect.h == 0) {
+    renderResult = SDL_RenderCopy(renderer, texture, NULL, &rect);
+  } else {
+    renderResult = SDL_RenderCopy(renderer, texture, &srcRect, &rect);
+  }
+
+  if (renderResult < 0) {
     error_handler->quit(__func__, SDL_GetError());
   }
 }
@@ -80,7 +87,7 @@ SDL_Rect* Sprite::getDestRect() {
 }
 
 bool Sprite::isCollidable() {
-  return true;
+  return collidable;
 }
 
 void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {

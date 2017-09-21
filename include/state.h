@@ -21,16 +21,14 @@ class State {
     virtual ~State();
   protected:
     virtual void cleanup();
+    virtual void update(double seconds);
     std::vector<Image*> images;
     Engine* engine;
     Audio audioHandler;
     EventHandler eventHandler;
     ErrorHandler* errorHandler;
   private:
-
-    virtual void update(double seconds);
     virtual void render();
-
     CollisionDetector* collisionDetector;
 };
 

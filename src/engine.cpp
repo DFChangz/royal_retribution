@@ -1,11 +1,10 @@
 #include "engine.h"
 #include "playing_state.h"
+#include "menu_state.h"
 
 // Starts the game
 void Engine::start() {
   setup();
-
-  currentState->load();
 
   loop();
 
@@ -58,13 +57,12 @@ void Engine::setup() {
   }
 
   createStates();
-  setState("playing");
+  setState("menu");
 
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] () {running = false;});
   eventHandler.addListener(SDL_KEYUP, [&] () {running = false;}, SDLK_ESCAPE);
 }
-
 
 // The heart
 void Engine::loop() {
@@ -115,7 +113,11 @@ void Engine::setState(std::string state) {
 }
 
 void Engine::createStates() {
+  states["menu"] = new MenuState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
+
+  states["menu"]->load();
+  states["playing"]->load();
 }
 
 Engine::Engine() : 

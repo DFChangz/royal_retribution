@@ -11,13 +11,14 @@ class Text : public Sprite {
   public:
     virtual void load();
     virtual void cleanup();
-    virtual bool isCollidable();
 
     Text(SDL_Renderer *renderer, std::string font_filename,
-    ErrorHandler *error_handler, int pos_x, int pos_y, int font_size, std::string text,
-    const SDL_Color &color = WHITE);
+    ErrorHandler *error_handler, int pos_x, int pos_y, int font_size,
+    std::string text, const SDL_Color &color = WHITE);
 
     virtual ~Text();
+
+    virtual SDL_Rect* getDestRect();
   private:
     int font_size;
     std::string text;

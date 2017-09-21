@@ -12,10 +12,10 @@ class Sprite : public Image {
     double timer = 0;
 
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-    int width, int height, int pos_x, int pos_y);
+    int width, int height, int pos_x, int pos_y, bool collidable = true);
 
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-    int pos_x, int pos_y);
+    int pos_x, int pos_y, bool collidable = true);
 
     virtual void load();
     virtual void update(double seconds);
@@ -28,6 +28,8 @@ class Sprite : public Image {
 
     virtual ~Sprite();
   protected:
+    bool collidable = true;
+
     double pos_x = 0.0;
     double pos_y = 0.0;
     double velocityX = 0;

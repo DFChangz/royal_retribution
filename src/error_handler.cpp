@@ -4,7 +4,7 @@
 
 //Frees the memory and destroys the objects that were created, then quits
 void ErrorHandler::quit(const char *function_name, const char *error_message) {
-  printf("%s: %s", function_name, error_message);
+  printf("%s: %s\n", function_name, error_message);
   engine->cleanup();
   exit(0);
 }

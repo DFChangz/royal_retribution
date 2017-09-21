@@ -35,6 +35,7 @@ void Image::cleanup() {
 }
 
 SDL_Rect* Image::getDestRect() {
+  error_handler->quit(__func__, "Image does not have a rect. This only works on subclasses");
   return NULL;
 }
 
