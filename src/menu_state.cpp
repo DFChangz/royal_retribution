@@ -10,6 +10,7 @@ MenuState::MenuState(Engine* engine, ErrorHandler* errorHandler)
 }
 
 void MenuState::setup() {
+  // Create all the images needed for the text, spaceship pointer and background.
   images.push_back(new Image(engine->renderer, CASTLE_FILENAME, errorHandler));
   images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
     0, 0, false));
@@ -30,6 +31,7 @@ void MenuState::load() {
   images[1]->getDestRect()->w = 50;
   images[1]->getDestRect()->h = 38;
 
+  // Center all the text (lines 35-47)
   auto center = getCenterForImage(images[2]);
   images[2]->setPosition(std::get<0>(center), std::get<1>(center) - 200);
 
@@ -44,6 +46,9 @@ void MenuState::load() {
   center = getCenterForImage(images[5]);
   images[5]->setPosition(std::get<0>(center), std::get<1>(center) + 60);
 
+
+  // Add mouse movement event listeners to reset link colors to white if they
+  // are no longer selected.
   eventHandler.addListener(SDL_MOUSEMOTION, [&] (SDL_Event*) {
     if (selectedIndex != 3)
       SDL_SetTextureColorMod(images[3]->getTexture(), 255, 255, 255);
@@ -53,6 +58,8 @@ void MenuState::load() {
       SDL_SetTextureColorMod(images[5]->getTexture(), 255, 255, 255);
   });
 
+  // If the down arrow key is pressed, this listener will set the link colors
+  // correctly and then move the ship icon to the correct text entry
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
     if (selectedIndex < 5)
       selectedIndex += 1;
@@ -67,6 +74,7 @@ void MenuState::load() {
     images[1]->setPosition(x, y);
   }, SDLK_DOWN);
 
+  // Up key event listener (similar to last listener)
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
     if (selectedIndex > 3)
       selectedIndex -= 1;
@@ -81,6 +89,7 @@ void MenuState::load() {
       images[1]->setPosition(x, y);
   }, SDLK_UP);
 
+  // Enter key listeners for currently selected entry
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
     if (selectedIndex == 3)
       engine->setState("playing");
@@ -90,6 +99,7 @@ void MenuState::load() {
       engine->quit();
   }, SDLK_RETURN);
 
+  // on hover and click events for the menu entries
   images[3]->onHover(&eventHandler, [&] () {
     SDL_SetTextureColorMod(images[3]->getTexture(), 255, 69, 0);
   });
@@ -114,6 +124,7 @@ void MenuState::load() {
 
 MenuState::~MenuState() {}
 
+// Gets the x and y positions for an image to center it in the window.
 std::tuple<int, int> MenuState::getCenterForImage(Image* image) {
   int x = WIDTH / 2 - image->getDestRect()->w / 2;
   int y = HEIGHT / 2 - image->getDestRect()->h / 2;
