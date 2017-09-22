@@ -16,7 +16,7 @@ void HighscoreState::setup(){
     images[1]->getDestRect()->y + 80, 40, "Credits" ));
 }
 
-void HighscoreState::update(double seconds){
+void HighscoreState::update(double){
   images[0]->getDestRect()->y = images[0]->getDestRect()->y - images[0]->getDestRect()->h / 16;
   images[1]->getDestRect()->y = images[1]->getDestRect()->y - images[1]->getDestRect()->h / 16;
   images[2]->getDestRect()->y = images[2]->getDestRect()->y - images[2]->getDestRect()->h / 16;
