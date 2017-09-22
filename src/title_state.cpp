@@ -78,8 +78,8 @@ void TitleState::update(double seconds) {
 
 /* fades in a texture */
 int TitleState::fadeIn(int i, int a, double seconds, double mult) {
-  if (a < 255) {
-    newA = (double)a + speed * seconds * mult;
+  newA = (double)a + speed * seconds * mult;
+  if (newA < 255) {
     a = (int)newA;
     SDL_SetTextureAlphaMod(images[i]->getTexture(), a);
   } else {
