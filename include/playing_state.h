@@ -9,9 +9,10 @@ class PlayingState : public State {
 
     virtual ~PlayingState();
 
-    int timer = 0;
+    double timer = 1;
   private:
     virtual void setup();
+    void update(double);
 };
 
 #endif
