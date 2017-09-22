@@ -22,6 +22,18 @@ void MenuState::setup() {
     50, 40, "High Scores"));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
     50, 40, "Quit"));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 80,
+    500, 40, "Brightness: "));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 80,
+    540, 20, "(Use keys 1 and 2 to increase/decrease)"));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 350,
+    500, 40, "100%"));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 800,
+    500, 40, "Volume: "));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 800,
+    540, 20, "(Use keys 9 and 0 to increase/decrease)"));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 1000,
+    500, 40, "100%"));
 }
 
 void MenuState::load() {
@@ -89,15 +101,39 @@ void MenuState::load() {
       images[1]->setPosition(x, y);
   }, SDLK_UP);
 
-  // Enter key listeners for currently selected entry
+  // Enter/Space key listeners for currently selected entry
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
-    if (selectedIndex == 3)
-      engine->setState("playing");
-    else if (selectedIndex == 4)
-      engine->setState("Highscore");
-    else if (selectedIndex == 5)
-      engine->quit();
+    transition();
   }, SDLK_RETURN);
+  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
+    transition();
+  }, SDLK_SPACE);
+
+  // Key listeners for brightness and volume
+  eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
+    if (brightness > 0) {
+      brightness--;
+      updateBrightnessVolume();
+    }
+  }, SDLK_1);
+  eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
+    if (brightness < 100) {
+      brightness++;
+      updateBrightnessVolume();
+    }
+  }, SDLK_2);
+  eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
+    if (volume > 0) {
+      volume--;
+      updateBrightnessVolume();
+    }
+  }, SDLK_9);
+  eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
+    if (volume < 100) {
+      volume++;
+      updateBrightnessVolume();
+    }
+  }, SDLK_0);
 
   // on hover and click events for the menu entries
   images[3]->onHover(&eventHandler, [&] () {
@@ -124,9 +160,32 @@ void MenuState::load() {
 
 MenuState::~MenuState() {}
 
+void MenuState::transition() {
+  if (selectedIndex == 3)
+    engine->setState("playing");
+  else if (selectedIndex == 4)
+    engine->setState("Highscore");
+  else if (selectedIndex == 5)
+    engine->quit();
+}
+
 // Gets the x and y positions for an image to center it in the window.
 std::tuple<int, int> MenuState::getCenterForImage(Image* image) {
   int x = WIDTH / 2 - image->getDestRect()->w / 2;
   int y = HEIGHT / 2 - image->getDestRect()->h / 2;
   return std::tuple<int, int>(x, y);
+}
+
+void MenuState::updateBrightnessVolume() {
+  delete images[8];
+  delete images[11];
+  
+  //std::cout << "HERE" << std::endl;
+  images[8] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 350,
+    500, 40, std::to_string(brightness) + "%");
+  images[8]->load();
+
+  images[11] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 1000,
+    500, 40, std::to_string(volume) + "%");
+  images[11]->load();
 }

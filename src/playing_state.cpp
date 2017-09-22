@@ -21,12 +21,15 @@ void PlayingState::setup() {
       errorHandler, 16, 25, rand() % WIDTH - 16, rand() % HEIGHT - 25, rand() % 100 + 1,
       rand() % 100 + 1));
   }
+
+  // FPS Counter
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 2, 2, 16, "FPS: "));
 }
 
 void PlayingState::update(double seconds) {
   timer += seconds;
 
+  // Every second, remove the FPS Counter image and create a new one with the updated FPS.
   if (timer > 1) {
     delete images.back();
     images.pop_back();
@@ -35,6 +38,7 @@ void PlayingState::update(double seconds) {
 
     timer = 0;
   }
+
   State::update(seconds);
 }
 
