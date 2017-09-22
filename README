@@ -1,4 +1,4 @@
-Assignment 2
+Assignment 3
 =====================
 
 Build Instructions:
@@ -11,8 +11,10 @@ velocities. The player most avoid the enemies or else there will be a collision
 sound if they collide.
 
 Controls:
-  w, a, s, d to move player.
+  Arrow keys or w, a, s, d to move player.
   SHIFT for a boost in speed (temporary for debugging purposes)
+  Q to returh to menu at any point.
+  Esc to quit immediately at any point.
 
 Notes:
   After running with both valgrind and sanitizers, there are many leaks that
