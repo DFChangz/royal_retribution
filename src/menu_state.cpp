@@ -9,31 +9,60 @@ MenuState::MenuState(Engine* engine, ErrorHandler* errorHandler)
 
 void MenuState::setup() {
   images.push_back(new Image(engine->renderer, CASTLE_FILENAME, errorHandler));
+  images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler, 0,
+    0, false));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
-    50, 45, WINDOW_TITLE, ROYAL_GOLD));
+    50, 70, WINDOW_TITLE, ROYAL_GOLD));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
-    50, 24, "New Game"));
+    50, 40, "New Game"));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
+    50, 40, "High Scores"));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
+    50, 40, "Quit"));
 }
 
 void MenuState::load() {
   State::load();
 
-  auto center = getCenterForImage(images[1]);
-  images[1]->setPosition(std::get<0>(center), std::get<1>(center) - 90);
+  auto center = getCenterForImage(images[2]);
+  images[2]->setPosition(std::get<0>(center), std::get<1>(center) - 200);
 
-  center = getCenterForImage(images[2]);
-  images[2]->setPosition(std::get<0>(center), std::get<1>(center) - 40);
+  center = getCenterForImage(images[3]);
+  images[3]->setPosition(std::get<0>(center), std::get<1>(center) - 40);
 
-  eventHandler.addListener(SDL_MOUSEMOTION, [&] (SDL_Event*) {
-    SDL_SetTextureColorMod(images[2]->getTexture(), 255, 255, 255);
+  center = getCenterForImage(images[4]);
+  images[4]->setPosition(std::get<0>(center), std::get<1>(center) + 10);
+
+  center = getCenterForImage(images[5]);
+  images[5]->setPosition(std::get<0>(center), std::get<1>(center) + 60);
+
+  eventHandler.addListener(SDL_MOUSEMOTION, [&] (SDL_Event* e) {
+    SDL_SetTextureColorMod(images[3]->getTexture(), 255, 255, 255);
+    SDL_SetTextureColorMod(images[4]->getTexture(), 255, 255, 255);
+    SDL_SetTextureColorMod(images[5]->getTexture(), 255, 255, 255);
+    
+    images[1]->setPosition(e->motion.x - 100, e->motion.y - 75);
   });
 
-  images[2]->onHover(&eventHandler, [&] () {
-    SDL_SetTextureColorMod(images[2]->getTexture(), 255, 69, 0);
+  images[3]->onHover(&eventHandler, [&] () {
+    SDL_SetTextureColorMod(images[3]->getTexture(), 255, 69, 0);
   });
-
-  images[2]->onClick(&eventHandler, [&] () {
+  images[3]->onClick(&eventHandler, [&] () {
     engine->setState("playing");
+  });
+
+  images[4]->onHover(&eventHandler, [&] () {
+    SDL_SetTextureColorMod(images[4]->getTexture(), 255, 69, 0);
+  });
+  images[4]->onClick(&eventHandler, [&] () {
+    engine->setState("Highscore");
+  });
+
+  images[5]->onHover(&eventHandler, [&] () {
+    SDL_SetTextureColorMod(images[5]->getTexture(), 255, 69, 0);
+  });
+  images[5]->onClick(&eventHandler, [&] () {
+    engine->quit();
   });
 }
 

@@ -61,8 +61,8 @@ void Engine::setup() {
   setState("title");
 
   //Quits on escape.
-  eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {running = false;});
-  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {running = false;}, SDLK_ESCAPE);
+  eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {quit();});
+  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {quit();}, SDLK_ESCAPE);
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {setState("menu");}, SDLK_q);
 }
 
@@ -131,3 +131,7 @@ void Engine::createStates() {
 
 Engine::Engine() : 
   error_handler(this) {};
+
+void Engine::quit() {
+  running = false;
+}

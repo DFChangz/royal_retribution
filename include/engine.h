@@ -34,6 +34,8 @@ class Engine {
     SDL_Renderer *renderer = nullptr;
 
     void setState(std::string);
+
+    void quit();
   private:
     void setup();
     void loop();
