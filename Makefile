@@ -12,8 +12,8 @@ LDLIBS=`pkg-config --libs sdl2 SDL2_ttf SDL2_image SDL2_mixer` -lm -lstdc++
 objects := $(patsubst $(SRC_DIR)%, $(OBJS_DIR)%, $(patsubst %.cpp, %.o, $(wildcard $(SRC_DIR)/*.cpp)))
 
 $(BIN_DIR)/game: $(objects)
-	$(C++) $(LDLIBS) -o $@ $(objects)
-
+	$(C++) $(objects) $(LDLIBS) -o $@
+ 
 $(OBJS_DIR)/%.o: src/%.cpp
 	$(C++) $(CXXFLAGS) -I$(INCLUDE_DIR) -c -o $@ $<
 
