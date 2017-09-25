@@ -118,6 +118,9 @@ void Engine::cleanup() {
   Mix_Quit();
   SDL_Quit();
 } 
+void Engine::incrementScore(int increment){
+  this->score += increment;
+}
 
 void Engine::setState(std::string state) {
   if (states.find(state) == states.end()) {
