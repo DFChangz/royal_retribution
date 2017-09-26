@@ -19,7 +19,8 @@ class Audio {
     void play(std::string, int = -1);
   private:
     ErrorHandler* error_handler;
-    std::map<std::string, Mix_Music*> sounds;
+    std::map<std::string, Mix_Music*> music;
+    std::map<std::string, Mix_Chunk*> sound_effects;
 };
 
 #endif

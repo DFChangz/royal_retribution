@@ -37,6 +37,7 @@ void Engine::setup() {
     error_handler.quit(__func__, Mix_GetError());
   }
 
+
   if (TTF_Init() < 0) {
     error_handler.quit(__func__, TTF_GetError());
   }
