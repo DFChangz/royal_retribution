@@ -138,7 +138,8 @@ void Engine::createStates() {
   states["lose"] = new LoseState(this, &error_handler);
   states["menu"] = new MenuState(this, &error_handler);
   states["title"] = new TitleState(this, &error_handler);
-  states["playing"] = new PlayingState(this, &error_handler);
+  states["playing"] = nullptr;
+  newGame();
   states["Highscore"] = new HighscoreState(this, &error_handler);
 }
 
@@ -147,4 +148,12 @@ Engine::Engine() :
 
 void Engine::quit() {
   running = false;
+}
+
+void Engine::newGame() {
+  if (states["playing"] != nullptr) {
+    delete states["playing"];
+    states["playing"] = nullptr;
+  }
+  states["playing"] = new PlayingState(this, &error_handler);
 }

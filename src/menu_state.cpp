@@ -140,6 +140,7 @@ void MenuState::load() {
     SDL_SetTextureColorMod(images[3]->getTexture(), 255, 69, 0);
   });
   images[3]->onClick(&eventHandler, [&] () {
+    engine->newGame();
     engine->setState("playing");
   });
 
@@ -161,12 +162,16 @@ void MenuState::load() {
 MenuState::~MenuState() {}
 
 void MenuState::transition() {
-  if (selectedIndex == 3)
+  if (selectedIndex == 3) {
+    engine->newGame();
     engine->setState("playing");
-  else if (selectedIndex == 4)
+  }
+  else if (selectedIndex == 4) {
     engine->setState("Highscore");
-  else if (selectedIndex == 5)
+  }
+  else if (selectedIndex == 5) {
     engine->quit();
+  }
 }
 
 // Gets the x and y positions for an image to center it in the window.
@@ -180,7 +185,6 @@ void MenuState::updateBrightnessVolume() {
   delete images[8];
   delete images[11];
   
-  //std::cout << "HERE" << std::endl;
   images[8] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 350,
     500, 40, std::to_string(brightness) + "%");
   images[8]->load();

@@ -27,6 +27,7 @@ class Engine {
   public:
     void start();
     void cleanup();
+    void newGame();
 
     Engine();
 
@@ -39,6 +40,7 @@ class Engine {
     void quit();
     void incrementScore(int increment);
     int score = 0;
+    std::map<std::string, State*> states;
   private:
     void setup();
     void loop();
@@ -47,7 +49,6 @@ class Engine {
     void createStates();
     bool running = true;
     EventHandler eventHandler;
-    std::map<std::string, State*> states;
     State* currentState = nullptr;
     Mix_Music *intro = nullptr;
 };
