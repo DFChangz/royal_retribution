@@ -37,6 +37,8 @@ class Engine {
     void setState(std::string);
 
     void quit();
+    void incrementScore(int increment);
+    int score = 0;
   private:
     void setup();
     void loop();

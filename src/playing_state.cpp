@@ -21,7 +21,8 @@ void PlayingState::setup() {
       16, 25, rand() % WIDTH - 16, rand() % HEIGHT - 25,
       rand() % 100 + 1, rand() % 100 + 1));
   }
-
+  //Current Score
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 80, 2, 16, "SCORE = " + std::to_string(engine->score)));  
   // FPS Counter
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
@@ -40,6 +41,7 @@ void PlayingState::update(double seconds) {
 
     timer = 0;
   }
+
 
   State::update(seconds);
   if (static_cast<Character*>(images[1])->hearts == 0) {
