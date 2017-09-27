@@ -31,7 +31,8 @@ void PlayingState::setup() {
 void PlayingState::update(double seconds) {
   timer += seconds;
 
-  // Every second, remove the FPS Counter image and create a new one with the updated FPS.
+  /* Every second, remove the FPS Counter image and create a new one with the
+  updated FPS. */
   if (timer > 1) {
     delete images.back();
     images.pop_back();
@@ -42,10 +43,12 @@ void PlayingState::update(double seconds) {
     timer = 0;
   }
 
-
   State::update(seconds);
   if (static_cast<Character*>(images[1])->hearts == 0) {
     engine->setState("lose");
+  }
+  if (images[1]->pos_x == 0 && images[1]->pos_y == 0) {
+    engine->setState("win");
   }
 }
 
