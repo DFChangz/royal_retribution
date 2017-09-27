@@ -29,6 +29,9 @@ class Character : public Sprite {
 
     virtual void load();
     virtual void update(double seconds);
+
+    int hearts = 3;
+
   private:
     void createListeners(EventHandler*);
     Audio *audioHandler = nullptr;

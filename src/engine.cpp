@@ -3,10 +3,12 @@
  */
 
 #include "engine.h"
-#include "playing_state.h"
-#include "title_state.h"
 #include "menu_state.h"
+#include "lose_state.h"
+#include "title_state.h"
+#include "playing_state.h"
 #include "highscore_state.h"
+
 // Starts the game
 void Engine::start() {
   setup();
@@ -128,6 +130,7 @@ void Engine::setState(std::string state) {
 }
 
 void Engine::createStates() {
+  states["lose"] = new LoseState(this, &error_handler);
   states["menu"] = new MenuState(this, &error_handler);
   states["title"] = new TitleState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
