@@ -33,9 +33,6 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 
 void Character::load() {
   Sprite::load();
-
-  pos_x = WIDTH / 2 - rect.w / 2;
-  pos_y = HEIGHT / 2 - rect.h / 2;
 }
 
 void Character::update(double seconds) {
@@ -62,11 +59,11 @@ void Character::update(double seconds) {
       CHARACTER_FPS*speedMultiplier);
   } else if (velocityY > 0) {
     dir = "down";
-    Sprite::animate(seconds, DOWN_RUNNING_POS, DOWN_RUNNING_POS + RUNNING_FRAMES - 1,
+    Sprite::animate(seconds, D_RUNNING_POS, D_RUNNING_POS + RUNNING_FRAMES - 1,
       CHARACTER_FPS*speedMultiplier);
   } else if (velocityY < 0) {
     dir = "up";
-    Sprite::animate(seconds, UP_RUNNING_POS, UP_RUNNING_POS + RUNNING_FRAMES - 1,
+    Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS + RUNNING_FRAMES - 1,
       CHARACTER_FPS*speedMultiplier);
   } else {
     idleAnimation(seconds);
@@ -78,8 +75,8 @@ void Character::idleAnimation(double seconds) {
 
   if (dir == "right") pos = R_RUNNING_POS;
   else if (dir == "left") pos = L_RUNNING_POS;
-  else if (dir == "up") pos = UP_RUNNING_POS;
-  else if (dir == "down") pos = DOWN_RUNNING_POS;
+  else if (dir == "up") pos = U_RUNNING_POS;
+  else if (dir == "down") pos = D_RUNNING_POS;
   else error_handler->quit(__func__, "direction not found");
 
   Sprite::animate(seconds, pos, pos + IDLE_FRAMES - 1);
@@ -96,30 +93,46 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
 }
 
 void Character::createListeners(EventHandler *eventHandler) {
-  /*when wasd keys are pressed down the velocities are set to move in the 
-  specified direction: W = up; S = down; A = left; D = right*/
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = SPEED_CHAR; }, SDLK_d);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = -SPEED_CHAR; }, SDLK_a);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = SPEED_CHAR; }, SDLK_s);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = -SPEED_CHAR; }, SDLK_w);
-
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = SPEED_CHAR; }, SDLK_RIGHT);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityX = -SPEED_CHAR; }, SDLK_LEFT);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = SPEED_CHAR; }, SDLK_DOWN);
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { velocityY = -SPEED_CHAR; }, SDLK_UP);
+  // w, a, s, d conrols
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityX = SPEED_CHAR; }, SDLK_d);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityX = -SPEED_CHAR; }, SDLK_a);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityY = SPEED_CHAR; }, SDLK_s);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityY = -SPEED_CHAR; }, SDLK_w);
+  // up, down, left, right controls
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityX = SPEED_CHAR; }, SDLK_RIGHT);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityX = -SPEED_CHAR; }, SDLK_LEFT);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityY = SPEED_CHAR; }, SDLK_DOWN);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    velocityY = -SPEED_CHAR; }, SDLK_UP);
 
   //when key is released, velocity set back to 0
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_d);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_a);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_s);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_w);
-
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_RIGHT);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityX = 0;}, SDLK_LEFT);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_DOWN);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {velocityY = 0;}, SDLK_UP);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityX = 0;}, SDLK_d);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityX = 0;}, SDLK_a);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityY = 0;}, SDLK_s);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityY = 0;}, SDLK_w);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityX = 0;}, SDLK_RIGHT);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityX = 0;}, SDLK_LEFT);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityY = 0;}, SDLK_DOWN);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    velocityY = 0;}, SDLK_UP);
   
-  // BOOST FOR DEBUGGING PURPOSES
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) { speedMultiplier = 4; }, SDLK_LSHIFT);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) { speedMultiplier = 1; }, SDLK_LSHIFT);
+  // boost control
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    speedMultiplier = 4; }, SDLK_LSHIFT);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    speedMultiplier = 1; }, SDLK_LSHIFT);
 }

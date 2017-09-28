@@ -6,13 +6,13 @@
 #define IDLE_FRAMES     1
 #define R_RUNNING_POS   12
 #define L_RUNNING_POS   8
-#define DOWN_RUNNING_POS 0
-#define UP_RUNNING_POS   4
+#define D_RUNNING_POS   0
+#define U_RUNNING_POS   4
 
-#include "sprite.h"
-#include "event_handler.h"
-#include "constants.h"
 #include "audio.h"
+#include "sprite.h"
+#include "constants.h"
+#include "event_handler.h"
 
 /*class for the player character that inherits from sprite will be 
 responsible for player movement events and holds certain sfx along with
@@ -30,7 +30,7 @@ class Character : public Sprite {
     virtual void load();
     virtual void update(double seconds);
 
-    int hearts = 3;
+    int hearts = 6;
 
   private:
     void createListeners(EventHandler*);

@@ -32,7 +32,6 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   rect = {(int) pos_x, (int) pos_y, 0, 0};
 }
 
-
 void Sprite::load() {
   Image::load();
   /*When width and height were not specified, the rect is set to the the 
@@ -58,7 +57,8 @@ void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
   }
 
   if (timer >= spf)  {
-    currentFrame = ((currentFrame - start_frame + 1) % (end_frame - start_frame + 1)) + start_frame;
+    currentFrame = ((currentFrame - start_frame + 1)
+      % (end_frame - start_frame + 1)) + start_frame;
     int row = currentFrame / NUM_ROWS;
     int col = currentFrame % NUM_COLS;
 
@@ -111,6 +111,12 @@ Sprite::~Sprite() {
 
 }
 
+void Sprite::setSrcRect(int posX, int posY, int rectWidth, int rectHeight){
+  srcRect.x = posX;
+  srcRect.y = posY;
+  srcRect.w = rectWidth;
+  srcRect.h = rectHeight;
+}
 void Sprite::setPosition(double x, double y) {
   pos_x = x;
   pos_y = y;
