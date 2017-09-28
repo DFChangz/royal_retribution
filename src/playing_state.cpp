@@ -7,15 +7,16 @@
 PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
+  map = new Map(engine->renderer, &camera, errorHandler, "test_map.txt", "test_textures.txt");
+
   setup();
   load();
 }
 
 void PlayingState::setup() {
-  images.push_back(new Image(engine->renderer, BG_FILENAME, errorHandler));
   images.push_back(new Character(engine->renderer, E_C_FILENAME,
     errorHandler, 16, 25, 0, 0, &eventHandler, &audioHandler));
-  camera.setCharacter(static_cast<Character*>(images[1]));
+  camera.setCharacter(static_cast<Character*>(images[0]));
 
   for (int i = 0; i < 5; i++) {
     images.push_back(new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
@@ -44,17 +45,17 @@ void PlayingState::update(double seconds) {
     timer = 0;
   }
   if(currentScore != engine->score){
-    delete images[7];
-    images[7] = new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score));  
-    images[7]->load();
+    delete images[6];
+    images[6] = new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score));  
+    images[6]->load();
     currentScore = engine->score;
   }
 
   State::update(seconds);
-  if (static_cast<Character*>(images[1])->hearts == 0) {
+  if (static_cast<Character*>(images[0])->hearts == 0) {
     engine->setState("lose");
   }
-  if (images[1]->pos_x == 0 && images[1]->pos_y == 0) {
+  if (images[0]->pos_x == 0 && images[0]->pos_y == 0) {
     engine->setState("win");
   }
 }

@@ -8,6 +8,7 @@
 #include "audio.h"
 #include "text.h"
 #include "camera.h"
+#include "map.h"
 
 class State {
   public:
@@ -30,8 +31,10 @@ class State {
     ErrorHandler* errorHandler;
 
     Camera camera;
-  private:
     virtual void render();
+
+    Map *map = nullptr;
+  private:
     CollisionDetector* collisionDetector;
 };
 

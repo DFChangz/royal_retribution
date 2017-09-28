@@ -41,6 +41,10 @@ void State::render() {
     errorHandler->quit(__func__, SDL_GetError());
   }
 
+  if (map != nullptr) {
+    map->render();
+  }
+
   for (Image* image : images) {
     image->render(&camera);
   }
@@ -54,6 +58,10 @@ void State::cleanup() {
   for (Image* image : images) {
     if (image != nullptr) delete image;
 	}
+
+  if (map != nullptr) {
+    delete map;
+  }
 }
 
 State::~State() {
