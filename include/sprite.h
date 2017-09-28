@@ -28,6 +28,7 @@ class Sprite : public Image {
 
     virtual ~Sprite();
 
+    void setSrcRect(int posX, int posY, int rectWidth, int rectHeight);
     void setPosition(double x, double y);
   protected:
     bool collidable = true;

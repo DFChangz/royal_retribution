@@ -19,6 +19,7 @@
 
 /* Sprites */
 #define E_C_FILENAME "assets/characters/Animations.png"
+#define HEART "assets/Heart.png"
 #define NUM_ROWS  4
 #define NUM_COLS  4
 

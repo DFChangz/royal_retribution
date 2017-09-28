@@ -22,10 +22,19 @@ void PlayingState::setup() {
       rand() % 100 + 1, rand() % 100 + 1));
   }
   //Current Score
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score)));  
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 
+    WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score)));  
+  //Heart health
+  images.push_back(new Sprite(engine->renderer, HEART,
+    errorHandler, 32, 32, WIDTH - 120, 34, false));
+  images.push_back(new Sprite(engine->renderer, HEART,
+    errorHandler, 32, 32, WIDTH - 80, 34, false));
+  images.push_back(new Sprite(engine->renderer, HEART,
+    errorHandler, 32, 32, WIDTH - 40, 34, false));
   // FPS Counter
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
+    currentHearts = static_cast<Character*>(images[1])->hearts;
 }
 
 void PlayingState::update(double seconds) {
@@ -47,6 +56,25 @@ void PlayingState::update(double seconds) {
     images[7] = new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score));  
     images[7]->load();
     currentScore = engine->score;
+  }
+  if(currentHearts != static_cast<Character*>(images[1])->hearts){
+    switch(static_cast<Character*>(images[1])->hearts){  
+      case 6: static_cast<Sprite*>(images[10])->setSrcRect(0, 0, 32, 32);
+        break;
+      case 5: static_cast<Sprite*>(images[10])->setSrcRect(40, 0, 32, 32);
+        break;
+      case 4: static_cast<Sprite*>(images[10])->setSrcRect(80, 0, 32, 32);
+        static_cast<Sprite*>(images[9])->setSrcRect(0, 0, 32, 32);
+        break;
+      case 3: static_cast<Sprite*>(images[9])->setSrcRect(40, 0, 32, 32);
+        break;
+      case 2: static_cast<Sprite*>(images[9])->setSrcRect(80, 0, 32, 32);
+        static_cast<Sprite*>(images[8])->setSrcRect(0, 0, 32, 32);
+        break;
+      case 1: static_cast<Sprite*>(images[8])->setSrcRect(40, 0, 32, 32);
+        break;
+    }
+      currentHearts = static_cast<Character*>(images[1])->hearts;
   }
 
   State::update(seconds);

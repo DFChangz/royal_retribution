@@ -111,6 +111,12 @@ Sprite::~Sprite() {
 
 }
 
+void Sprite::setSrcRect(int posX, int posY, int rectWidth, int rectHeight){
+  srcRect.x = posX;
+  srcRect.y = posY;
+  srcRect.w = rectWidth;
+  srcRect.h = rectHeight;
+}
 void Sprite::setPosition(double x, double y) {
   pos_x = x;
   pos_y = y;

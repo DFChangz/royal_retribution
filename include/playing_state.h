@@ -12,6 +12,7 @@ class PlayingState : public State {
     double timer = 1;
   private:
     int currentScore;
+    int currentHearts;
     virtual void setup();
     void update(double);
 };

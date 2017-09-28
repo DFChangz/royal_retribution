@@ -30,7 +30,7 @@ class Character : public Sprite {
     virtual void load();
     virtual void update(double seconds);
 
-    int hearts = 3;
+    int hearts = 6;
 
   private:
     void createListeners(EventHandler*);
