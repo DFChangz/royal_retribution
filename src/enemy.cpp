@@ -42,20 +42,20 @@ void Enemy::update(double seconds) {
 
   if (velocityX > 0) {
     dir = "right";
-    Sprite::animate(seconds, ENEMY_R_MOVING_POS, ENEMY_R_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
-      ENEMY_FPS*speedMultiplier);
+    Sprite::animate(seconds, ENEMY_R_MOVING_POS, ENEMY_R_MOVING_POS
+      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   } else if (velocityX < 0) {
     dir = "left";
-    Sprite::animate(seconds, ENEMY_L_MOVING_POS, ENEMY_L_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
-      ENEMY_FPS*speedMultiplier);
+    Sprite::animate(seconds, ENEMY_L_MOVING_POS, ENEMY_L_MOVING_POS
+      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   } else if (velocityY > 0) {
     dir = "up";
-    Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
-      ENEMY_FPS*speedMultiplier);
+    Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS
+      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   } else if (velocityY < 0) {
     dir = "down";
-    Sprite::animate(seconds, ENEMY_DOWN_MOVING_POS, ENEMY_DOWN_MOVING_POS + ENEMY_MOVING_FRAMES - 1,
-      ENEMY_FPS*speedMultiplier);
+    Sprite::animate(seconds, ENEMY_DOWN_MOVING_POS, ENEMY_DOWN_MOVING_POS
+      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   }
 }
 

@@ -13,8 +13,9 @@ void CollisionDetector::check(std::vector<Image*>* images) {
       if (it == it2) continue;
       /* when both object are collidable see if their rects touch if so
       relay to that image that the collision happened */
-      if ((*it)->isCollidable() && (*it2)->isCollidable() && (*it)->getDestRect() != nullptr &&
-          (*it2)->getDestRect() != nullptr) {
+      if ((*it)->isCollidable() && (*it2)->isCollidable()
+          && (*it)->getDestRect() != nullptr
+          && (*it2)->getDestRect() != nullptr) {
 
         SDL_Rect intersection;
         if (SDL_IntersectRect((*it)->getDestRect(), (*it2)->getDestRect(),

@@ -48,7 +48,6 @@ void Character::update(double seconds) {
   rect.x = (int) pos_x;
   rect.y = (int) pos_y;
 
-
   if (velocityX > 0) {
     dir = "right";
     Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1,
