@@ -22,7 +22,7 @@ void PlayingState::setup() {
       rand() % 100 + 1, rand() % 100 + 1));
   }
   //Current Score
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 80, 2, 16, "SCORE = " + std::to_string(engine->score)));  
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score)));  
   // FPS Counter
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
@@ -44,6 +44,12 @@ void PlayingState::update(double seconds) {
     images.back()->load();
 
     timer = 0;
+  }
+  if(currentScore != engine->score){
+    delete images[7];
+    images[7] = new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score));  
+    images[7]->load();
+    currentScore = engine->score;
   }
 
   State::update(seconds);
