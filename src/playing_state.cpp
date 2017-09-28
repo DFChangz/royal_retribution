@@ -31,6 +31,17 @@ void PlayingState::setup() {
     0, 0, false));
 }
 
+void PlayingState::load() {
+  State::load();
+
+  // change stairs size
+  images[9]->getDestRect()->w = 50;
+  images[9]->getDestRect()->h = 50;
+  // set pos of stairs img
+  images[9]->setPosition(WIDTH - 50, HEIGHT - 50);
+}
+
+
 void PlayingState::update(double seconds) {
   timer += seconds;
 
@@ -52,16 +63,13 @@ void PlayingState::update(double seconds) {
     currentScore = engine->score;
   }
 
+  // changes state to lose/win
   State::update(seconds);
   if (static_cast<Character*>(images[1])->hearts == 0) {
     engine->setState("lose");
-    static_cast<Character*>(images[1])->hearts = 3;
-    images[1]->pos_x = 30;
-    images[1]->pos_y = 30;
-    images[1]->velocityX = 0;
-    images[1]->velocityY = 0;
   }
-  if (images[1]->pos_x == 0 && images[1]->pos_y == 0) {
+  if (images[1]->pos_x > WIDTH - images[9]->getDestRect()->w
+      && images[1]->pos_y > HEIGHT - images[9]->getDestRect()->h) {
     engine->setState("win");
   }
 }

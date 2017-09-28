@@ -3,7 +3,7 @@
 MenuState::MenuState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
-	setup();
+  setup();
   load();
 
   selectedIndex = 3;

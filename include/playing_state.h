@@ -8,6 +8,7 @@ class PlayingState : public State {
     PlayingState(Engine* engine, ErrorHandler* errorHandler);
 
     virtual ~PlayingState();
+    virtual void load();
 
     double timer = 1;
   private:
