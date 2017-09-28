@@ -4,7 +4,7 @@
 
 #include "state.h"
 
-State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(errorHandler), errorHandler(errorHandler) {
+State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
   engine = engine_ref;
 
   errorHandler = &engine->error_handler;
@@ -29,7 +29,7 @@ void State::load() {
 }
 
 void State::update(double seconds) {
-  int counter =0 ;
+  int counter = 0;
   for (Image* image : images) {
     image->update(seconds);
     counter++;
@@ -42,7 +42,7 @@ void State::render() {
   }
 
   for (Image* image : images) {
-    image->render();
+    image->render(&camera);
   }
 
   SDL_RenderPresent(engine->renderer);

@@ -32,7 +32,6 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   rect = {(int) pos_x, (int) pos_y, 0, 0};
 }
 
-
 void Sprite::load() {
   Image::load();
   /*When width and height were not specified, the rect is set to the the 
@@ -70,12 +69,12 @@ void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
   timer += seconds;
 }
 
-void Sprite::render() {
+void Sprite::render(Camera* camera) {
   int renderResult = 0;
   if (srcRect.w == 0 && srcRect.h == 0) {
-    renderResult = SDL_RenderCopy(renderer, texture, NULL, &rect);
+    renderResult = camera->render(renderer, texture, NULL, &rect);
   } else {
-    renderResult = SDL_RenderCopy(renderer, texture, &srcRect, &rect);
+    renderResult = camera->render(renderer, texture, &srcRect, &rect);
   }
 
   if (renderResult < 0) {

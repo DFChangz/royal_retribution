@@ -25,7 +25,7 @@ void Image::update(double) {
   
 }
 
-void Image::render() {
+void Image::render(Camera*) {
   if (SDL_RenderCopy(renderer, texture, NULL, NULL) < 0) {
     error_handler->quit(__func__, SDL_GetError());
   }

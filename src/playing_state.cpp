@@ -15,6 +15,7 @@ void PlayingState::setup() {
   images.push_back(new Image(engine->renderer, BG_FILENAME, errorHandler));
   images.push_back(new Character(engine->renderer, E_C_FILENAME,
     errorHandler, 16, 25, 0, 0, &eventHandler, &audioHandler));
+  camera.setCharacter(static_cast<Character*>(images[1]));
 
   for (int i = 0; i < 5; i++) {
     images.push_back(new Enemy(engine->renderer, E_C_FILENAME, errorHandler,

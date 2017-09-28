@@ -41,6 +41,12 @@ SDL_Rect* Text::getDestRect() {
   return &rect;
 }
 
+void Text::render(Camera*) {
+  if (SDL_RenderCopy(renderer, texture, NULL, &rect)) {
+    error_handler->quit(__func__, SDL_GetError());
+  }
+}
+
 void Text::cleanup() {
   Image::cleanup();
 
