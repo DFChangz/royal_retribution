@@ -38,8 +38,8 @@ void WinState::update(double seconds) {
   // wrap and fade in scroll
   a0 = fadeIn(0, a0, seconds, 2.5);
   // after 15.5 sec, transfer to menu
-  if (totalTime > 5) {
-    engine->setState("Highscore");
+  if (totalTime > 3) {
+    engine->setState("menu");
   }
 }
 

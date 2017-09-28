@@ -26,6 +26,9 @@ void PlayingState::setup() {
   // FPS Counter
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
+  // Stairs
+  images.push_back(new Sprite(engine->renderer, STAIRS_FILENAME, errorHandler,
+    0, 0, false));
 }
 
 void PlayingState::update(double seconds) {
@@ -46,6 +49,11 @@ void PlayingState::update(double seconds) {
   State::update(seconds);
   if (static_cast<Character*>(images[1])->hearts == 0) {
     engine->setState("lose");
+    static_cast<Character*>(images[1])->hearts = 3;
+    images[1]->pos_x = 30;
+    images[1]->pos_y = 30;
+    images[1]->velocityX = 0;
+    images[1]->velocityY = 0;
   }
   if (images[1]->pos_x == 0 && images[1]->pos_y == 0) {
     engine->setState("win");

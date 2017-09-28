@@ -26,6 +26,7 @@
 #define BG_FILENAME "assets/space.png"
 #define SHIP_FILENAME "assets/ship.png"
 #define FLASH_FILENAME "assets/flash.png"
+#define STAIRS_FILENAME "assets/stairs.png"
 #define CASTLE_FILENAME "assets/castle.png"
 #define PLANET_FILENAME "assets/planet.png"
 
