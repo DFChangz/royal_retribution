@@ -25,6 +25,8 @@ class Enemy : public Sprite {
 
     virtual void update(double seconds);
 
+    virtual void notifyCollision(Image*, SDL_Rect*);
+
     bool isEnemy() {return true;}
   private:
     std::string dir="right";

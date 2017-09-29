@@ -59,6 +59,16 @@ void Enemy::update(double seconds) {
   }
 }
 
+void Enemy::notifyCollision(Image* img, SDL_Rect* intersection) {
+  Sprite::notifyCollision(img, intersection);
+
+  if (intersection->w > intersection->h) {
+    velocityY *= -1;
+  } else {
+    velocityX *= -1;
+  }
+}
+
 void Enemy::idleAnimation(double seconds) {
   int pos = -1;
 

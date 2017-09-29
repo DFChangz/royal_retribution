@@ -101,9 +101,25 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 velocity changes direction if more width, x direction changes*/
 void Sprite::notifyCollision(Image*, SDL_Rect* intersection) {
   if (intersection->w > intersection->h) {
-    velocityY *= -1;
+    if (velocityY != 0) {
+      pos_y -= velocityY / abs(velocityY) * (intersection->h + 1);
+    } else {
+      if (pos_y < intersection->y) {
+        pos_y -= intersection->h;
+      } else {
+        pos_y += intersection->h;
+      }
+    }
   } else {
-    velocityX *= -1;
+    if (velocityX != 0) {
+      pos_x -= velocityX / abs(velocityX) * (intersection->w + 1);
+    } else {
+      if (pos_x < intersection->x) {
+        pos_x -= intersection->w;
+      } else {
+        pos_x += intersection->w;
+      }
+    }
   }
 }
 

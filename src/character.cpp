@@ -82,13 +82,23 @@ void Character::idleAnimation(double seconds) {
 }
 
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
-  Sprite::notifyCollision(image, intersection);
-
   //When collision detector detects a collision play the sound effect
+  int jumpDistance = 0;
   if (image->isEnemy()) {
     audioHandler->play("collision", 1);
+
+    jumpDistance = 35;
+
     hearts--;
   }
+
+  if (intersection->w > intersection->h && velocityY != 0) {
+    pos_y -= velocityY / abs(velocityY) * (jumpDistance);
+  } else if (velocityX != 0) {
+    pos_x -= velocityX / abs(velocityX) * (jumpDistance);
+  }
+
+  Sprite::notifyCollision(image, intersection);
 }
 
 void Character::createListeners(EventHandler *eventHandler) {
