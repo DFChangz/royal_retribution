@@ -18,7 +18,7 @@ class Sprite : public Image {
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
     int pos_x, int pos_y, bool collidable = true);
 
-    virtual void load();
+    virtual void load(SDL_Texture* texture = nullptr);
     virtual void update(double seconds);
     virtual void render(Camera*);
 

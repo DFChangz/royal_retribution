@@ -18,12 +18,11 @@ void Camera::updatePosition() {
 }
 
 int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcRect, SDL_Rect* destRect) {
-  updatePosition();
-
   SDL_Rect cameraRect = {(int) pos_x, (int) pos_y, WIDTH, HEIGHT};
   if (SDL_HasIntersection(destRect, &cameraRect)) {
     destRect->x -= pos_x;
     destRect->y -= pos_y;
+
     return SDL_RenderCopy(renderer, texture, srcRect, destRect);
   } else {
     return 0;

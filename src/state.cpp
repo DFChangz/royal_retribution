@@ -15,7 +15,7 @@ void State::run(double seconds) {
 
   update(seconds);
 
-  collisionDetector->check(&images);
+  collisionDetector->check(&images, map);
 
   render();
 }
@@ -34,6 +34,11 @@ void State::update(double seconds) {
     image->update(seconds);
     counter++;
   }
+
+  if (map != nullptr) {
+    map->update(seconds);
+  }
+  camera.updatePosition();
 }
 
 void State::render() {
@@ -42,7 +47,7 @@ void State::render() {
   }
 
   if (map != nullptr) {
-    map->render();
+    map->render(&camera);
   }
 
   for (Image* image : images) {

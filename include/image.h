@@ -15,7 +15,7 @@ and its coordinates*/
 class Camera;
 class Image {
   public:
-    virtual void load();
+    virtual void load(SDL_Texture* texture = nullptr);
     virtual void update(double seconds);
     virtual void render(Camera* camera = nullptr);
     virtual void cleanup();

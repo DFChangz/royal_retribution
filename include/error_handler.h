@@ -7,7 +7,7 @@ class ErrorHandler {
   public:
     void quit(const char *, const char*);
     ErrorHandler(Engine *engine_ref);
+    Engine *engine = nullptr;
   private:
-    Engine *engine;
 };
 #endif

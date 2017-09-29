@@ -1,12 +1,9 @@
 #include "map.h"
-#include "camera.h"
 
-Map::Map(SDL_Renderer* renderer_p, Camera* camera_p, ErrorHandler* errorHandler_p,
+Map::Map(SDL_Renderer* renderer_p, ErrorHandler* errorHandler_p,
         std::string map_filename, std::string textures_filename) {
 
   errorHandler = errorHandler_p;
-
-  camera = camera_p;
 
   renderer = renderer_p;
 
@@ -29,13 +26,16 @@ void Map::loadTextures(std::string filename) {
     std::istringstream iss(line);
     char sym = -1;
     std::string filename2;
+    int options = 0;
 
     if (!(iss >> sym) || sym == -1 || !(iss >> filename2))
       errorHandler->quit(__func__, "Invalid file contents");
 
+    iss >> options;
+
     textureIDs[sym] = id;
 
-    createTexture(id, filename2);
+    createTexture(id, filename2, options);
 
     id++;
   }
@@ -64,13 +64,16 @@ void Map::loadLayout(std::string filename) {
         errorHandler->quit(__func__, "Invalid file contents");
       else if (textureIDs.find(sym) == textureIDs.end())
         errorHandler->quit(__func__, "Texture not found for symbol");
-      
-      tile t;
-      t.pos_x = col * TILE_DIM;
-      t.pos_y = row * TILE_DIM;
-      t.texture = textureIDs[sym];
 
-      tiles.push_back(t);
+      struct texture* texture = &(textures[textureIDs[sym]]);
+
+      bool collidable = ((texture->options & 1) == 1);
+
+      tiles.push_back(new Sprite(renderer, "", errorHandler, col * TILE_DIM,
+        row * TILE_DIM, collidable));
+
+      tiles.back()->load(texture->texture);
+
       col++;
     }
 
@@ -81,7 +84,7 @@ void Map::loadLayout(std::string filename) {
   file.close();
 }
 
-void Map::createTexture(int id, std::string filename) {
+void Map::createTexture(int id, std::string filename, int options) {
   if ((int) textures.size() != id)
     errorHandler->quit(__func__, "Invalid Texture ID. Vector wrong size");
 
@@ -95,21 +98,36 @@ void Map::createTexture(int id, std::string filename) {
   }
   SDL_FreeSurface(surf);
 
-  textures.push_back(texture);
+  struct texture t;
+  t.texture = texture;
+  t.options = options;
+
+  textures.push_back(t);
 }
 
-void Map::render() {
+void Map::update(double seconds) {
   for (auto tile : tiles) {
-    SDL_Rect rect = {tile.pos_x, tile.pos_y, tile.width, tile.height};
-    camera->render(renderer, textures[tile.texture], NULL, &rect);
+    tile->update(seconds);
+  }
+}
+
+void Map::render(Camera* camera) {
+  for (auto tile : tiles) {
+    tile->render(camera);
   }
 }
 
 void Map::cleanup() {
+  for (auto tile : tiles) {
+    if (tile != nullptr) {
+      delete tile;
+    }
+  }
+
   for (auto texture : textures) {
-    if (texture != nullptr) {
-      SDL_DestroyTexture(texture);
-      texture = nullptr;
+    if (texture.texture != nullptr) {
+      SDL_DestroyTexture(texture.texture);
+      texture.texture = nullptr;
     }
   }
 }

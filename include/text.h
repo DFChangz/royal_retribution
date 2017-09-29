@@ -9,7 +9,7 @@
 
 class Text : public Sprite {
   public:
-    virtual void load();
+    virtual void load(SDL_Texture *texture = nullptr);
     virtual void cleanup();
     virtual void render(Camera*);
 

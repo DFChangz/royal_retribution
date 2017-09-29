@@ -19,6 +19,7 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   srcRect = {0, 0, width, height};
   rect = {(int) pos_x, (int) pos_y, width, height};
 }
+
 //Another constructor, but instead sets the width and height of the rect to 0
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   ErrorHandler *error_handler, int pos_x, int pos_y, bool collidable_p)
@@ -32,8 +33,8 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   rect = {(int) pos_x, (int) pos_y, 0, 0};
 }
 
-void Sprite::load() {
-  Image::load();
+void Sprite::load(SDL_Texture *texture_p) {
+  Image::load(texture_p);
   /*When width and height were not specified, the rect is set to the the 
   width and height of the image texture that was loaded*/
   if (rect.w == 0 && rect.h == 0) {
@@ -70,6 +71,10 @@ void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
 }
 
 void Sprite::render(Camera* camera) {
+  if (camera == nullptr) {
+    error_handler->quit(__func__, "must specify a non-null camera to render for a sprite!"); 
+  }
+
   int renderResult = 0;
   if (srcRect.w == 0 && srcRect.h == 0) {
     renderResult = camera->render(renderer, texture, NULL, &rect);

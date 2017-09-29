@@ -5,46 +5,40 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "image.h"
+#include "sprite.h"
 #include "error_handler.h"
 
 #define TILE_DIM  15
 
-struct tile {
-  int pos_x;
-  int pos_y;
-
-  int texture = -1;
-
-  int width = TILE_DIM;
-  int height = TILE_DIM;
+struct texture {
+  SDL_Texture* texture;
+  int options = 0;
 };
 
 class Map {
   public:
-    Map(SDL_Renderer* renderer, Camera *camera, ErrorHandler*, std::string, std::string);
+    Map(SDL_Renderer* renderer, ErrorHandler*, std::string, std::string);
     ~Map();
 
-    std::vector<struct tile> tiles;
+    std::vector<Image*> tiles;
 
     std::map<char, int> textureIDs;
 
-    std::vector<SDL_Texture*> textures;
+    std::vector<texture> textures;
 
     void loadTextures(std::string);
     void loadLayout(std::string);
 
     void cleanup();
 
-    void render();
+    void update(double seconds);
+    void render(Camera* camera);
   private:
-    void createTexture(int, std::string);
+    void createTexture(int, std::string, int);
 
     ErrorHandler* errorHandler;
 
     SDL_Renderer* renderer = nullptr;
-
-    Camera* camera;
 };
 
 #endif

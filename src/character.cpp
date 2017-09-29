@@ -31,26 +31,11 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
   createListeners(eventHandler);
 }
 
-void Character::load() {
-  Sprite::load();
-
-  pos_x = WIDTH / 2 - rect.w / 2;
-  pos_y = HEIGHT / 2 - rect.h / 2;
-}
-
 void Character::update(double seconds) {
   Sprite::update(seconds);
 
-  //if the character would leave the window, stop movement in that direction.
-  if (pos_x < 0) pos_x = 0;
-  else if (pos_x + rect.w > WIDTH) pos_x = WIDTH - rect.w;
-
-  if (pos_y < 0) pos_y = 0;
-  else if (pos_y + rect.h > HEIGHT) pos_y = HEIGHT - rect.h;
-
   rect.x = (int) pos_x;
   rect.y = (int) pos_y;
-
 
   if (velocityX > 0) {
     dir = "right";

@@ -1,2 +1,3 @@
 B blue.png
 R red.png
+G green.png 1

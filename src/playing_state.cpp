@@ -7,7 +7,7 @@
 PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
-  map = new Map(engine->renderer, &camera, errorHandler, "test_map.txt", "test_textures.txt");
+  map = new Map(engine->renderer, errorHandler, "test_map.txt", "test_textures.txt");
 
   setup();
   load();
@@ -15,7 +15,7 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
 
 void PlayingState::setup() {
   images.push_back(new Character(engine->renderer, E_C_FILENAME,
-    errorHandler, 16, 25, 0, 0, &eventHandler, &audioHandler));
+    errorHandler, 16, 25, 668, 352, &eventHandler, &audioHandler));
   camera.setCharacter(static_cast<Character*>(images[0]));
 
   for (int i = 0; i < 5; i++) {
