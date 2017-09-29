@@ -9,6 +9,7 @@
 #include "title_state.h"
 #include "playing_state.h"
 #include "highscore_state.h"
+#include "credit_state.h"
 
 // Starts the game
 void Engine::start() {
@@ -141,6 +142,7 @@ void Engine::createStates() {
   states["playing"] = nullptr;
   newGame();
   states["Highscore"] = new HighscoreState(this, &error_handler);
+  states["credits"] = new CreditState(this, &error_handler);
 }
 
 Engine::Engine() : 
