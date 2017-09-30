@@ -1,4 +1,4 @@
-Assignment 3
+Assignment 4
 =====================
 
 Build Instructions:
@@ -6,12 +6,14 @@ Build Instructions:
   
   To run the application, run `./bin/game`
 
-This Game includes 5 enemies that are positioned randomly with random
-velocities. The player most avoid the enemies or else there will be a collision
-sound if they collide.
+This Game includes 5 enemies. The player most avoid the enemies or else there will be a collision
+sound if they collide. The player can attack with SPACE to attack with his sword.
+
+In order excite the player and attract his attention, we decided that it would be best to award him/her with a whopping 1000 points for every enemy(s)he killed.
 
 Controls:
   Arrow keys or w, a, s, d to move player.
+  SPACE to attack
   SHIFT for a boost in speed (temporary for debugging purposes)
   Q to returh to menu at any point.
   Esc to quit immediately at any point.
