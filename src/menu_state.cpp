@@ -164,8 +164,13 @@ void MenuState::load() {
   images[5]->onHover(&eventHandler, [&] () {
     SDL_SetTextureColorMod(images[5]->getTexture(), 255, 69, 0);
   });
+  images[5]->onClick(&eventHandler, [&] () {
+    engine->newHighscore();
+    engine->setState("credits");
+  });
+
   images[6]->onHover(&eventHandler, [&] () {
-    SDL_SetTextureColorMod(images[5]->getTexture(), 255, 69, 0);
+    SDL_SetTextureColorMod(images[6]->getTexture(), 255, 69, 0);
   });
   images[6]->onClick(&eventHandler, [&] () {
     engine->quit();

@@ -7,9 +7,9 @@
 #include "lose_state.h"
 #include "menu_state.h"
 #include "title_state.h"
+#include "credit_state.h"
 #include "playing_state.h"
 #include "highscore_state.h"
-#include "credit_state.h"
 
 // Starts the game
 void Engine::start() {

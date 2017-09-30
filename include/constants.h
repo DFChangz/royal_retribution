@@ -15,15 +15,15 @@
 #define FONT_FILENAME "assets/Capture_it.ttf"
 
 /* Audio */
+#define KILL_FILENAME "assets/sword.wav"
 #define INTRO_FILENAME "assets/intro.xm"
 #define COLLISION_FILENAME "assets/collision.wav"
-#define KILL_FILENAME      "assets/sword.wav"
 
 /* Sprites */
-#define E_C_FILENAME "assets/characters/Animations.png"
-#define HEART "assets/Heart.png"
 #define NUM_ROWS  4
 #define NUM_COLS  4
+#define HEART "assets/Heart.png"
+#define E_C_FILENAME "assets/characters/Animations.png"
 
 /* Images */
 #define BG_FILENAME "assets/space.png"

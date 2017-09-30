@@ -24,10 +24,10 @@ void PlayingState::setup() {
   for (int i = 0; i < 10; i++) {
     if (i%2)
       images.push_back(new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
-        16, 25, (i+1) * WIDTH/11, (i+1) * HEIGHT/11, 300, 0));
+        16, 25, (i+1) * WIDTH/11, (i+1) * HEIGHT/11, 250, 0));
     else
       images.push_back(new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
-        16, 25, (i+1) * WIDTH/11, (i+1) * HEIGHT/11, 0, 200));
+        16, 25, (i+1) * WIDTH/11, (i+1) * HEIGHT/11, 0, 150));
   }
   // Score 13
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 

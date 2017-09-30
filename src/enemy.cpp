@@ -56,12 +56,12 @@ void Enemy::update(double seconds) {
     Sprite::animate(seconds, ENEMY_L_MOVING_POS, ENEMY_L_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   } else if (velocityY > 0) {
-    dir = "up";
-    Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS
-      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
-  } else if (velocityY < 0) {
     dir = "down";
     Sprite::animate(seconds, ENEMY_DOWN_MOVING_POS, ENEMY_DOWN_MOVING_POS
+      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+  } else if (velocityY < 0) {
+    dir = "up";
+    Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   }
 }
