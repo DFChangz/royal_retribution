@@ -103,6 +103,10 @@ void PlayingState::update(double seconds) {
     engine->setState("lose");
   }
   if (images[2]->pos_x > WIDTH - 75 && images[2]->pos_y > HEIGHT - 75) {
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file << std::to_string(currentScore);
+    file.close();
     engine->setState("win");
   }
 }

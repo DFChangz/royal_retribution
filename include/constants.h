@@ -8,6 +8,7 @@
 #define SPEED_CHAR 50
 #define SPRITE_PADDING_AMOUNT_X 28
 #define SPRITE_PADDING_AMOUNT_Y 20
+#define SCORE_FILENAME  "assets/scores.txt"
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"

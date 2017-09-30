@@ -2,6 +2,7 @@
 #define STATE_H
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include "engine.h"
 #include "collision_detector.h"

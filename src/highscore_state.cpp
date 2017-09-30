@@ -6,33 +6,42 @@
 
 HighscoreState::HighscoreState(Engine* eng, ErrorHandler* eHandler)
   :  State(eng, eHandler) {
-     setup();
 
+    setup();
     load();
 }
-void HighscoreState::setup(){
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 
-    WIDTH / 2, HEIGHT, 40, "HighScore" ));
-  
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, WIDTH / 2, 
-    images[0]->getDestRect()->y + 60, 40, std::to_string(scores) ));
 
+void HighscoreState::setup() {
+
+  // title
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
+  WIDTH / 2, HEIGHT, 40, "HighScore"));
+  // read file
+  file.open(SCORE_FILENAME);
+  if (file.is_open()) {
+    while (std::getline(file, line)) {
+      scores.push_back(stoi(line));
+    }
+    file.close();
+  }
+  // order scores
+  std::sort(scores.begin(), scores.end(), std::greater<int>());
+  // create texts
+  for (int i = 0; i < TOTAL; i++) {
+    images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 2, images[i]->getDestRect()->y+60, 30, std::to_string(scores[i])));
+  }
 }
 
 void HighscoreState::load() {
   State::load();
 
-  int x = WIDTH / 2 - images[0]->getDestRect()->w / 2;
-  int y = images[0]->getDestRect()->y;
-  images[0]->setPosition(x, y);
-
-  x = WIDTH / 2 - images[1]->getDestRect()->w / 2;
-  y = images[1]->getDestRect()->y;
-  images[1]->setPosition(x, y);
-
-
-  for(Image* words: images) {
-    words->velocityY = -80;
+  // center the text
+  for (Image* words: images) {
+    int x = WIDTH / 2 - words->getDestRect()->w / 2;
+    int y = words->getDestRect()->y;
+    words->setPosition(x, y);
+    words->velocityY = -200;
   }
 }
 
@@ -44,7 +53,12 @@ void HighscoreState::update(double seconds){
       words->velocityY = 0;
     }
   }
-
+  // green
+  SDL_SetTextureColorMod(images[0]->getTexture(), 0, 180, 60);
+  // blue
+  for (int i = 1; i < TOTAL + 1; i++) {
+    SDL_SetTextureColorMod(images[i]->getTexture(), 0, 80, 190);
+  }
 } 
 
 HighscoreState::~HighscoreState(){}
