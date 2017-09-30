@@ -39,11 +39,10 @@ void HighscoreState::load() {
 void HighscoreState::update(double seconds){
   State::update(seconds);
 
-  if(images[1]->getDestRect()->y <= 0 - images[1]->getDestRect()->h) {
+  if(images[0]->getDestRect()->y <= 0) {
     for(Image* words: images){
       words->velocityY = 0;
     }
-    engine->setState("credits");
   }
 
 } 

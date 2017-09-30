@@ -21,6 +21,8 @@ void MenuState::setup() {
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
     50, 40, "High Scores"));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
+    50, 40, "Credits"));
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
     50, 40, "Quit"));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 80,
     500, 40, "Brightness: "));
@@ -58,6 +60,9 @@ void MenuState::load() {
   center = getCenterForImage(images[5]);
   images[5]->setPosition(std::get<0>(center), std::get<1>(center) + 60);
 
+  center = getCenterForImage(images[6]);
+  images[6]->setPosition(std::get<0>(center), std::get<1>(center) + 110);
+
 
   // Add mouse movement event listeners to reset link colors to white if they
   // are no longer selected.
@@ -68,17 +73,20 @@ void MenuState::load() {
       SDL_SetTextureColorMod(images[4]->getTexture(), 255, 255, 255);
     if (selectedIndex != 5)
       SDL_SetTextureColorMod(images[5]->getTexture(), 255, 255, 255);
+    if (selectedIndex != 6)
+      SDL_SetTextureColorMod(images[6]->getTexture(), 255, 255, 255);
   });
 
   // If the down arrow key is pressed, this listener will set the link colors
   // correctly and then move the ship icon to the correct text entry
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
-    if (selectedIndex < 5)
+    if (selectedIndex < 6)
       selectedIndex += 1;
 
     SDL_SetTextureColorMod(images[3]->getTexture(), 255, 255, 255);
     SDL_SetTextureColorMod(images[4]->getTexture(), 255, 255, 255);
     SDL_SetTextureColorMod(images[5]->getTexture(), 255, 255, 255);
+    SDL_SetTextureColorMod(images[6]->getTexture(), 255, 255, 255);
     SDL_SetTextureColorMod(images[selectedIndex]->getTexture(), 255, 69, 0);
 
     int x = images[selectedIndex]->getDestRect()->x - 55;
@@ -94,6 +102,7 @@ void MenuState::load() {
       SDL_SetTextureColorMod(images[3]->getTexture(), 255, 255, 255);
       SDL_SetTextureColorMod(images[4]->getTexture(), 255, 255, 255);
       SDL_SetTextureColorMod(images[5]->getTexture(), 255, 255, 255);
+      SDL_SetTextureColorMod(images[6]->getTexture(), 255, 255, 255);
       SDL_SetTextureColorMod(images[selectedIndex]->getTexture(), 255, 69, 0);
 
       int x = images[selectedIndex]->getDestRect()->x - 55;
@@ -154,7 +163,10 @@ void MenuState::load() {
   images[5]->onHover(&eventHandler, [&] () {
     SDL_SetTextureColorMod(images[5]->getTexture(), 255, 69, 0);
   });
-  images[5]->onClick(&eventHandler, [&] () {
+  images[6]->onHover(&eventHandler, [&] () {
+    SDL_SetTextureColorMod(images[5]->getTexture(), 255, 69, 0);
+  });
+  images[6]->onClick(&eventHandler, [&] () {
     engine->quit();
   });
 }
@@ -170,6 +182,9 @@ void MenuState::transition() {
     engine->setState("Highscore");
   }
   else if (selectedIndex == 5) {
+    engine->setState("credits");
+  }
+  else if (selectedIndex == 6) {
     engine->quit();
   }
 }
@@ -182,14 +197,14 @@ std::tuple<int, int> MenuState::getCenterForImage(Image* image) {
 }
 
 void MenuState::updateBrightnessVolume() {
-  delete images[8];
-  delete images[11];
+  delete images[9];
+  delete images[12];
   
-  images[8] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 350,
+  images[9] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 350,
     500, 40, std::to_string(brightness) + "%");
-  images[8]->load();
+  images[9]->load();
 
-  images[11] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 1000,
+  images[12] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 1000,
     500, 40, std::to_string(volume) + "%");
-  images[11]->load();
+  images[12]->load();
 }
