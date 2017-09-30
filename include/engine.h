@@ -28,6 +28,7 @@ class Engine {
     void start();
     void cleanup();
     void newGame();
+    void newHighscore();
 
     Engine();
 

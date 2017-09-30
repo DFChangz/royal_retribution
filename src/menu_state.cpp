@@ -157,6 +157,7 @@ void MenuState::load() {
     SDL_SetTextureColorMod(images[4]->getTexture(), 255, 69, 0);
   });
   images[4]->onClick(&eventHandler, [&] () {
+    engine->newHighscore();
     engine->setState("Highscore");
   });
 
@@ -179,6 +180,7 @@ void MenuState::transition() {
     engine->setState("playing");
   }
   else if (selectedIndex == 4) {
+    engine->newHighscore();
     engine->setState("Highscore");
   }
   else if (selectedIndex == 5) {
