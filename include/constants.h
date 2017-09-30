@@ -17,6 +17,7 @@
 /* Audio */
 #define INTRO_FILENAME "assets/intro.xm"
 #define COLLISION_FILENAME "assets/collision.wav"
+#define KILL_FILENAME      "assets/sword.wav"
 
 /* Sprites */
 #define E_C_FILENAME "assets/characters/Animations.png"

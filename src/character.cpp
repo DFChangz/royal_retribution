@@ -124,7 +124,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
 
     hearts--;
   } else if (attacking) {
-    //audioHandler->play("sword", 1);
+    audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
     state->engine->score += 1000;
   }

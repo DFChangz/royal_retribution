@@ -27,6 +27,12 @@ void Audio::load() {
     error_handler->quit(__func__, Mix_GetError());
   }
   sound_effects["collision"] = sound;
+
+  sound = Mix_LoadWAV(KILL_FILENAME);
+  if (sound == nullptr) {
+    error_handler->quit(__func__, Mix_GetError());
+  }
+  sound_effects["kill"] = sound;
 }
 
 void Audio::cleanup() {

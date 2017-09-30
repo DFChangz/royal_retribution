@@ -82,6 +82,8 @@ void Engine::loop() {
 
   intro = Mix_LoadMUS(INTRO_FILENAME);
 
+  Mix_VolumeMusic(15);
+
   if (Mix_PlayMusic(intro, -1) < 0) {
     std::cerr << "Music was not initialized";
   }
