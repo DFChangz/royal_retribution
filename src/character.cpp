@@ -38,6 +38,13 @@ void Character::load() {
 void Character::update(double seconds) {
   Sprite::update(seconds);
 
+  // If attacking, don't move. Hack to get around changing the velocity
+  //irreversibly
+  if (attacking) {
+    pos_x -= velocityX * seconds * speedMultiplier;
+    pos_y -= velocityX * seconds * speedMultiplier;
+  }
+
   //if the character would leave the window, stop movement in that direction.
   if (pos_x < 0) pos_x = 0;
   else if (pos_x + rect.w > WIDTH) pos_x = WIDTH - rect.w;
@@ -48,24 +55,45 @@ void Character::update(double seconds) {
   rect.x = (int) pos_x;
   rect.y = (int) pos_y;
 
-  if (velocityX > 0) {
-    dir = "right";
-    Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1,
-      CHARACTER_FPS*speedMultiplier);
-  } else if (velocityX < 0) {
-    dir = "left";
-    Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1,
-      CHARACTER_FPS*speedMultiplier);
-  } else if (velocityY > 0) {
-    dir = "down";
-    Sprite::animate(seconds, D_RUNNING_POS, D_RUNNING_POS + RUNNING_FRAMES - 1,
-      CHARACTER_FPS*speedMultiplier);
-  } else if (velocityY < 0) {
-    dir = "up";
-    Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS + RUNNING_FRAMES - 1,
-      CHARACTER_FPS*speedMultiplier);
-  } else {
-    idleAnimation(seconds);
+  if (!attacking) {
+    if (velocityX > 0) {
+      dir = "right";
+
+      Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1,
+        CHARACTER_FPS*speedMultiplier);
+    } else if (velocityX < 0) {
+      dir = "left";
+
+      Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1,
+        CHARACTER_FPS*speedMultiplier);
+    } else if (velocityY > 0) {
+      dir = "down";
+
+      Sprite::animate(seconds, D_RUNNING_POS, D_RUNNING_POS + RUNNING_FRAMES - 1,
+        CHARACTER_FPS*speedMultiplier);
+    } else if (velocityY < 0) {
+      dir = "up";
+
+      Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS + RUNNING_FRAMES - 1,
+        CHARACTER_FPS*speedMultiplier);
+    } else {
+      idleAnimation(seconds);
+    }
+  }
+
+  if (attacking) {
+    if (dir == "up")
+      Sprite::animate(seconds, U_ATTACK_POS, U_ATTACK_POS + ATTACK_FRAMES - 1,
+        36, 36, CHARACTER_FPS*speedMultiplier);
+    else if (dir == "down")
+      Sprite::animate(seconds, D_ATTACK_POS, D_ATTACK_POS + ATTACK_FRAMES - 1,
+        36, 36, CHARACTER_FPS*speedMultiplier);
+    else if (dir == "right")
+      Sprite::animate(seconds, R_ATTACK_POS, R_ATTACK_POS + ATTACK_FRAMES - 1,
+        36, 36, CHARACTER_FPS*speedMultiplier);
+    else if (dir == "left")
+      Sprite::animate(seconds, L_ATTACK_POS, L_ATTACK_POS + ATTACK_FRAMES - 1,
+        36, 36, CHARACTER_FPS*speedMultiplier);
   }
 }
 
@@ -120,6 +148,8 @@ void Character::createListeners(EventHandler *eventHandler) {
     velocityY = SPEED_CHAR; }, SDLK_DOWN);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
     velocityY = -SPEED_CHAR; }, SDLK_UP);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    attacking = true; }, SDLK_SPACE);
 
   //when key is released, velocity set back to 0
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
@@ -138,6 +168,8 @@ void Character::createListeners(EventHandler *eventHandler) {
     velocityY = 0;}, SDLK_DOWN);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     velocityY = 0;}, SDLK_UP);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    attacking = false; }, SDLK_SPACE);
   
   // boost control
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {

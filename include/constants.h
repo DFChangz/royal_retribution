@@ -6,8 +6,8 @@
 #define HEIGHT  720
 #define WIDTH   1280 
 #define SPEED_CHAR 50
-#define SPRITE_PADDING_AMOUNT_X 8
-#define SPRITE_PADDING_AMOUNT_Y 8
+#define SPRITE_PADDING_AMOUNT_X 28
+#define SPRITE_PADDING_AMOUNT_Y 20
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"

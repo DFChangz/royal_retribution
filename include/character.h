@@ -3,11 +3,16 @@
 
 #define CHARACTER_FPS   5
 #define RUNNING_FRAMES  4
+#define ATTACK_FRAMES   3
 #define IDLE_FRAMES     1
 #define R_RUNNING_POS   12
 #define L_RUNNING_POS   8
 #define D_RUNNING_POS   0
 #define U_RUNNING_POS   4
+#define D_ATTACK_POS    33
+#define U_ATTACK_POS    36
+#define L_ATTACK_POS    39
+#define R_ATTACK_POS    42
 
 #include "audio.h"
 #include "sprite.h"
@@ -38,6 +43,8 @@ class Character : public Sprite {
     void idleAnimation(double seconds);
 
     std::string dir = "right";
+
+    bool attacking = false;
 };
 
 #endif
