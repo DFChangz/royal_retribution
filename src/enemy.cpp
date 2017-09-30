@@ -32,6 +32,13 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
 void Enemy::update(double seconds) {
   Sprite::update(seconds);
 
+  if (this->dead){
+    velocityY = 0;
+    velocityX = 0;
+    collidable = false;
+    SDL_SetTextureAlphaMod(this->getTexture(), 0);
+    return;
+  }
   //if an enemy hits a boundary it goes in the opposite direction
   if (pos_x < 0 || pos_x + rect.w > WIDTH) {
     velocityX *= -1;

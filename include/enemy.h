@@ -28,7 +28,10 @@ class Enemy : public Sprite {
     virtual void notifyCollision(Image*, SDL_Rect*);
 
     bool isEnemy() {return true;}
+
+    void kill() {dead = true;} 
   private:
+    bool dead = false;
     std::string dir="right";
     void idleAnimation(double);
 };
