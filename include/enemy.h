@@ -30,6 +30,8 @@ class Enemy : public Sprite {
     bool isEnemy() {return true;}
 
     void kill() {dead = true;} 
+
+    bool isDead() { return dead; }
   private:
     bool dead = false;
     std::string dir="right";

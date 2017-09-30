@@ -47,7 +47,7 @@ void Character::update(double seconds) {
   //irreversibly
   if (attacking) {
     pos_x -= velocityX * seconds * speedMultiplier;
-    pos_y -= velocityX * seconds * speedMultiplier;
+    pos_y -= velocityY * seconds * speedMultiplier;
   }
 
   //if the character would leave the window, stop movement in that direction.
@@ -125,7 +125,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     hearts--;
   } else if (attacking) {
     //audioHandler->play("sword", 1);
-    //static_cast<Enemy*>(image)->kill();
+    static_cast<Enemy*>(image)->kill();
     state->engine->score += 1000;
   }
 

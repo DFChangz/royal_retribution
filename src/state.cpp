@@ -42,7 +42,8 @@ void State::render() {
   }
 
   for (Image* image : images) {
-    image->render();
+    if (!image->isEnemy() || !static_cast<Enemy*>(image)->isDead())
+      image->render();
   }
 
   SDL_RenderPresent(engine->renderer);
