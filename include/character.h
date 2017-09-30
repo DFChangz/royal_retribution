@@ -12,7 +12,7 @@
 #define D_ATTACK_POS    33
 #define U_ATTACK_POS    36
 #define L_ATTACK_POS    39
-#define R_ATTACK_POS    42
+#define R_ATTACK_POS    41
 
 #include "audio.h"
 #include "sprite.h"
@@ -22,13 +22,15 @@
 /*class for the player character that inherits from sprite will be 
 responsible for player movement events and holds certain sfx along with
 its position and rect*/
+class State;
 class Character : public Sprite {
   public:
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-      int width, int height, int pos_x, int pos_y, EventHandler*, Audio*);
+      int width, int height, int pos_x, int pos_y, EventHandler*, Audio*,
+      State*);
 
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-     int pos_x, int pos_y, EventHandler*, Audio*);
+     int pos_x, int pos_y, EventHandler*, Audio*, State*);
 
     virtual void notifyCollision(Image*, SDL_Rect* intersection);
 
@@ -36,7 +38,6 @@ class Character : public Sprite {
     virtual void update(double seconds);
 
     int hearts = 6;
-
   private:
     void createListeners(EventHandler*);
     Audio *audioHandler = nullptr;
@@ -45,6 +46,8 @@ class Character : public Sprite {
     std::string dir = "right";
 
     bool attacking = false;
+
+    State* state = nullptr;
 };
 
 #endif

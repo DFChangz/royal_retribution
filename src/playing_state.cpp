@@ -19,7 +19,7 @@ void PlayingState::setup() {
     WIDTH - 83, HEIGHT - 82, false));
   // Player 2
   images.push_back(new Character(engine->renderer, E_C_FILENAME,
-    errorHandler, 16, 25, WIDTH/2, 0, &eventHandler, &audioHandler));
+    errorHandler, 16, 25, WIDTH/2, 0, &eventHandler, &audioHandler, this));
   // Enemies 3 - 12
   for (int i = 0; i < 10; i++) {
     if (i%2)

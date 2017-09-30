@@ -3,17 +3,20 @@
  */
 
 #include "character.h"
+#include "state.h"
 //Definitions for the character class that inherits from Sprite
 
 //constructor that takes in arguments for the width and height for the rect
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
-  EventHandler *eventHandler, Audio *audioHandler)
+  EventHandler *eventHandler, Audio *audioHandler, State *state_p)
     : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y),
     audioHandler(audioHandler) {    
 
   rect.w *= 2;
   rect.h *= 2;
+
+  state = state_p;
 
   createListeners(eventHandler);
 }
@@ -21,12 +24,14 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 //constructor that does not take in width or height for the rect
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int pos_x, int pos_y, EventHandler *eventHandler,
-  Audio *audioHandler)
+  Audio *audioHandler, State *state_p)
     : Sprite(renderer, filename, error_handler, pos_x, pos_y),
     audioHandler(audioHandler) {
 
   rect.w *= 2;
   rect.h *= 2;
+
+  state = state_p;
 
   createListeners(eventHandler);
 }
@@ -112,12 +117,16 @@ void Character::idleAnimation(double seconds) {
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   //When collision detector detects a collision play the sound effect
   int jumpDistance = 0;
-  if (image->isEnemy()) {
+  if (image->isEnemy() && !attacking) {
     audioHandler->play("collision", 1);
 
     jumpDistance = 35;
 
     hearts--;
+  } else if (attacking) {
+    //audioHandler->play("sword", 1);
+    //static_cast<Enemy*>(image)->kill();
+    state->engine->score += 1000;
   }
 
   if (intersection->w > intersection->h && velocityY != 0) {

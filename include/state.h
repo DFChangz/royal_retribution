@@ -19,11 +19,12 @@ class State {
     virtual void run(double seconds);
 
     virtual ~State();
+
+    Engine* engine;
   protected:
     virtual void cleanup();
     virtual void update(double seconds);
     std::vector<Image*> images;
-    Engine* engine;
     Audio audioHandler;
     EventHandler eventHandler;
     ErrorHandler* errorHandler;
