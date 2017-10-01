@@ -42,6 +42,7 @@ class Engine {
     void incrementScore(int increment);
     int score = 0;
     std::map<std::string, State*> states;
+    static int volume;
   private:
     void setup();
     void loop();

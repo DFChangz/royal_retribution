@@ -12,6 +12,7 @@
 #include "highscore_state.h"
 
 // Starts the game
+int Engine::volume = 100;
 void Engine::start() {
   setup();
 

@@ -1,4 +1,5 @@
 #include "menu_state.h"
+#include "audio.h"
 
 MenuState::MenuState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
@@ -134,13 +135,17 @@ void MenuState::load() {
   eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
     if (volume > 0) {
       volume--;
+      engine->volume--;
       updateBrightnessVolume();
+      audioHandler.setVolume(volume);
     }
   }, SDLK_9);
   eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
     if (volume < 100) {
       volume++;
+      engine->volume++;
       updateBrightnessVolume();
+      audioHandler.setVolume(volume);
     }
   }, SDLK_0);
 

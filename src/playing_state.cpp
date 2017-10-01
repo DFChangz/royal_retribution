@@ -109,6 +109,7 @@ void PlayingState::update(double seconds) {
     file.close();
     engine->setState("win");
   }
+  audioHandler.setVolume(engine->volume);
 }
 
 PlayingState::~PlayingState() {}

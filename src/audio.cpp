@@ -58,3 +58,7 @@ void Audio::play(std::string sound, int loops) {
     error_handler->quit(__func__, "Sound not found.");
   }
 }
+void Audio::setVolume(int vol){
+      Mix_VolumeMusic(vol);
+      Mix_VolumeChunk(sound_effects["collision"], vol);
+}
