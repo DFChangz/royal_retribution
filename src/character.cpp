@@ -99,15 +99,11 @@ void Character::update(double seconds) {
 
 void Character::render(Camera* camera) {
   if (invincibilitySeconds < INVINCIBLE_TIME)
-    SDL_SetTextureAlphaMod(texture, 50);
+    SDL_SetTextureAlphaMod(texture, 100);
   else
     SDL_SetTextureAlphaMod(texture, 255);
 
   Sprite::render(camera);
-}
-
-bool Character::isCollidable() {
-  return !invincible;
 }
 
 void Character::idleAnimation(double seconds) {
@@ -124,12 +120,8 @@ void Character::idleAnimation(double seconds) {
 
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   //When collision detector detects a collision play the sound effect
-  int jumpDistance = 0;
-
   if (image->isEnemy() && !attacking && !invincible) {
     audioHandler->play("collision", 1);
-
-    jumpDistance = 35;
 
     hearts--;
 

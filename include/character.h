@@ -40,8 +40,6 @@ class Character : public Sprite {
 
     virtual void render(Camera*);
 
-    virtual bool isCollidable();
-
     int hearts = 6;
   private:
     void createListeners(EventHandler*);
