@@ -8,6 +8,8 @@
 #include "collision_detector.h"
 #include "audio.h"
 #include "text.h"
+#include "camera.h"
+#include "map.h"
 
 class State {
   public:
@@ -29,8 +31,12 @@ class State {
     Audio audioHandler;
     EventHandler eventHandler;
     ErrorHandler* errorHandler;
-  private:
+
+    Camera camera;
     virtual void render();
+
+    Map *map = nullptr;
+  private:
     CollisionDetector* collisionDetector;
 };
 

@@ -14,23 +14,27 @@ Text::Text(SDL_Renderer *renderer, std::string font_filename,
   text = text_p;
 }
 
-void Text::load() {
-  font = TTF_OpenFont(image_file.c_str(), font_size);
-  if (font == nullptr) {
-    error_handler->quit(__func__, TTF_GetError());
-  }
+void Text::load(SDL_Texture *texture_p) {
+  if (texture_p != nullptr) {
+    texture = texture_p;
+  } else {
+    font = TTF_OpenFont(image_file.c_str(), font_size);
+    if (font == nullptr) {
+      error_handler->quit(__func__, TTF_GetError());
+    }
 
-  surface = TTF_RenderUTF8_Blended(font, text.c_str(), color);
-  if (surface == nullptr) {
-    error_handler->quit(__func__, TTF_GetError());
-  }
+    surface = TTF_RenderUTF8_Blended(font, text.c_str(), color);
+    if (surface == nullptr) {
+      error_handler->quit(__func__, TTF_GetError());
+    }
 
-  texture = SDL_CreateTextureFromSurface(renderer, surface);
-  if (texture == nullptr) {
-    error_handler->quit(__func__, SDL_GetError());
-  }
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (texture == nullptr) {
+      error_handler->quit(__func__, SDL_GetError());
+    }
 
-  SDL_FreeSurface(surface);
+    SDL_FreeSurface(surface);
+  }
 
   if (rect.w == 0 && rect.h == 0) {
     get_texture_size(texture, &(rect.w), &(rect.h));
@@ -39,6 +43,12 @@ void Text::load() {
 
 SDL_Rect* Text::getDestRect() {
   return &rect;
+}
+
+void Text::render(Camera*) {
+  if (SDL_RenderCopy(renderer, texture, NULL, &rect)) {
+    error_handler->quit(__func__, SDL_GetError());
+  }
 }
 
 void Text::cleanup() {

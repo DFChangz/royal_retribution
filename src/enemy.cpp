@@ -10,7 +10,7 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
   double velocity_X, double velocity_Y)
     : Sprite(renderer, filename, error_handler, width, height, pos_x,
-    pos_y) {
+    pos_y, true) {
 
     rect.w *= 2;
     rect.h *= 2;
@@ -23,7 +23,7 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
 Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int pos_x, int pos_y, double velocity_X,
   double velocity_Y)
-    : Sprite(renderer, filename, error_handler, pos_x, pos_y) {
+    : Sprite(renderer, filename, error_handler, pos_x, pos_y, true) {
 
     velocityX = velocity_X;
     velocityY = velocity_Y;
@@ -38,13 +38,6 @@ void Enemy::update(double seconds) {
     collidable = false;
     SDL_SetTextureAlphaMod(this->getTexture(), 0);
     return;
-  }
-  //if an enemy hits a boundary it goes in the opposite direction
-  if (pos_x < 0 || pos_x + rect.w > WIDTH) {
-    velocityX *= -1;
-  }
-  if (pos_y < 0 || pos_y + rect.h > HEIGHT) {
-    velocityY *= -1;
   }
 
   if (velocityX > 0) {

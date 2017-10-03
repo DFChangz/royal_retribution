@@ -4,14 +4,14 @@
 
 #include "state.h"
 
-State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(errorHandler), errorHandler(errorHandler) {
+State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
   engine = engine_ref;
 
   errorHandler = &engine->error_handler;
 }
 
 void State::run(double seconds) {
-  collisionDetector->check(&images);
+  collisionDetector->check(&images, map);
 
   eventHandler.check();
 
@@ -29,11 +29,16 @@ void State::load() {
 }
 
 void State::update(double seconds) {
-  int counter =0 ;
+  int counter = 0;
   for (Image* image : images) {
     image->update(seconds);
     counter++;
   }
+
+  if (map != nullptr) {
+    map->update(seconds);
+  }
+  camera.updatePosition();
 }
 
 void State::render() {
@@ -41,9 +46,13 @@ void State::render() {
     errorHandler->quit(__func__, SDL_GetError());
   }
 
+  if (map != nullptr) {
+    map->render(&camera);
+  }
+
   for (Image* image : images) {
     if (!image->isEnemy() || !static_cast<Enemy*>(image)->isDead())
-      image->render();
+      image->render(&camera);
   }
 
   SDL_RenderPresent(engine->renderer);
@@ -55,6 +64,10 @@ void State::cleanup() {
   for (Image* image : images) {
     if (image != nullptr) delete image;
 	}
+
+  if (map != nullptr) {
+    delete map;
+  }
 }
 
 State::~State() {

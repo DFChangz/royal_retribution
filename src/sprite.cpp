@@ -9,8 +9,10 @@
 ven position to load in the sprite and size of its rect*/
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
-  bool collidable_p)
+  bool collidable_p, bool fixed_p)
   : Image(renderer, image_filename, error_handler) {
+
+  fixed = fixed_p;
 
   setPosition(pos_x, pos_y);
 
@@ -19,10 +21,14 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   srcRect = {0, 0, width, height};
   rect = {(int) pos_x, (int) pos_y, width, height};
 }
+
 //Another constructor, but instead sets the width and height of the rect to 0
 Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
-  ErrorHandler *error_handler, int pos_x, int pos_y, bool collidable_p)
+  ErrorHandler *error_handler, int pos_x, int pos_y, bool collidable_p,
+    bool fixed_p)
   : Image(renderer, image_filename, error_handler) {
+
+  fixed = fixed_p;
 
   setPosition(pos_x, pos_y);
 
@@ -32,8 +38,8 @@ Sprite::Sprite(SDL_Renderer *renderer, std::string image_filename,
   rect = {(int) pos_x, (int) pos_y, 0, 0};
 }
 
-void Sprite::load() {
-  Image::load();
+void Sprite::load(SDL_Texture *texture_p) {
+  Image::load(texture_p);
   /*When width and height were not specified, the rect is set to the the 
   width and height of the image texture that was loaded*/
   if (rect.w == 0 && rect.h == 0) {
@@ -98,12 +104,16 @@ void Sprite::animate(double seconds, int start_frame, int end_frame,
   timer += seconds;
 }
 
-void Sprite::render() {
+void Sprite::render(Camera* camera) {
+  if (camera == nullptr) {
+    error_handler->quit(__func__, "must specify a non-null camera to render for a sprite!"); 
+  }
+
   int renderResult = 0;
   if (srcRect.w == 0 && srcRect.h == 0) {
-    renderResult = SDL_RenderCopy(renderer, texture, NULL, &rect);
+    renderResult = camera->render(renderer, texture, NULL, &rect, fixed);
   } else {
-    renderResult = SDL_RenderCopy(renderer, texture, &srcRect, &rect);
+    renderResult = camera->render(renderer, texture, &srcRect, &rect, fixed);
   }
 
   if (renderResult < 0) {

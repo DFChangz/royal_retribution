@@ -12,11 +12,12 @@
 /*Header file for the base class image which handles an image and makes it 
 into a texture to be rendered by the game engine also hold a collision detector
 and its coordinates*/
+class Camera;
 class Image {
   public:
-    virtual void load();
+    virtual void load(SDL_Texture* texture = nullptr);
     virtual void update(double seconds);
-    virtual void render();
+    virtual void render(Camera* camera = nullptr);
     virtual void cleanup();
 
     virtual void notifyCollision(Image*, SDL_Rect*) {};

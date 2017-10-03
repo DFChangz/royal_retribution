@@ -10,7 +10,8 @@
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int width, int height, int pos_x, int pos_y,
   EventHandler *eventHandler, Audio *audioHandler, State *state_p)
-    : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y),
+    : Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y,
+      true),
     audioHandler(audioHandler) {    
 
   rect.w *= 2;
@@ -25,7 +26,8 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 Character::Character(SDL_Renderer *renderer, std::string filename,
   ErrorHandler *error_handler, int pos_x, int pos_y, EventHandler *eventHandler,
   Audio *audioHandler, State *state_p)
-    : Sprite(renderer, filename, error_handler, pos_x, pos_y),
+    : Sprite(renderer, filename, error_handler, pos_x, pos_y,
+      true),
     audioHandler(audioHandler) {
 
   rect.w *= 2;
@@ -34,10 +36,6 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
   state = state_p;
 
   createListeners(eventHandler);
-}
-
-void Character::load() {
-  Sprite::load();
 }
 
 void Character::update(double seconds) {
@@ -51,12 +49,6 @@ void Character::update(double seconds) {
   }
 
   //if the character would leave the window, stop movement in that direction.
-  if (pos_x < 0) pos_x = 0;
-  else if (pos_x + rect.w > WIDTH) pos_x = WIDTH - rect.w;
-
-  if (pos_y < 0) pos_y = 0;
-  else if (pos_y + rect.h > HEIGHT) pos_y = HEIGHT - rect.h;
-
   rect.x = (int) pos_x;
   rect.y = (int) pos_y;
 

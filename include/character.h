@@ -9,9 +9,9 @@
 #define L_RUNNING_POS   8
 #define D_RUNNING_POS   0
 #define U_RUNNING_POS   4
-#define D_ATTACK_POS    33
-#define U_ATTACK_POS    36
-#define L_ATTACK_POS    39
+#define D_ATTACK_POS    32
+#define U_ATTACK_POS    35
+#define L_ATTACK_POS    38
 #define R_ATTACK_POS    41
 
 #include "audio.h"
@@ -34,7 +34,6 @@ class Character : public Sprite {
 
     virtual void notifyCollision(Image*, SDL_Rect* intersection);
 
-    virtual void load();
     virtual void update(double seconds);
 
     int hearts = 6;

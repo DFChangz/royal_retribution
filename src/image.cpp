@@ -5,27 +5,31 @@
 #include "image.h"
 //Definitions for the the parent class that any image object inherit from
 
-void Image::load() {
-  //Makes a surface where the texture is created from
-  surf = IMG_Load(image_file.c_str());
-  if (surf == nullptr) {
-    error_handler->quit(__func__, IMG_GetError());
-  }
+void Image::load(SDL_Texture* texture_p) {
+  if (texture_p != nullptr) {
+    texture = texture_p;
+  } else {
+    //Makes a surface where the texture is created from
+    surf = IMG_Load(image_file.c_str());
+    if (surf == nullptr) {
+      error_handler->quit(__func__, IMG_GetError());
+    }
 
-  texture = SDL_CreateTextureFromSurface(renderer, surf);
-  if (texture == nullptr) {
+    texture = SDL_CreateTextureFromSurface(renderer, surf);
+    if (texture == nullptr) {
+      SDL_FreeSurface(surf);
+      error_handler->quit(__func__, SDL_GetError());
+    }
+
     SDL_FreeSurface(surf);
-    error_handler->quit(__func__, SDL_GetError());
   }
-
-  SDL_FreeSurface(surf);
 }
 
 void Image::update(double) {
   
 }
 
-void Image::render() {
+void Image::render(Camera*) {
   if (SDL_RenderCopy(renderer, texture, NULL, NULL) < 0) {
     error_handler->quit(__func__, SDL_GetError());
   }

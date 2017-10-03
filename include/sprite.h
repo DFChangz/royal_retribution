@@ -3,6 +3,7 @@
 
 #include "image.h"
 #include "constants.h"
+#include "camera.h"
 
 /*header file for the sprite class that inherits from image and is the parent 
 class of the 2 moveable object  classes character and enemy. Holds a velocity
@@ -12,14 +13,14 @@ class Sprite : public Image {
     double timer = 0;
 
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-    int width, int height, int pos_x, int pos_y, bool collidable = true);
+    int width, int height, int pos_x, int pos_y, bool collidable, bool fixed = false);
 
     Sprite(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-    int pos_x, int pos_y, bool collidable = true);
+    int pos_x, int pos_y, bool collidable, bool fixed = false);
 
-    virtual void load();
+    virtual void load(SDL_Texture* texture = nullptr);
     virtual void update(double seconds);
-    virtual void render();
+    virtual void render(Camera*);
 
     virtual void notifyCollision(Image*, SDL_Rect*);
 
@@ -47,6 +48,7 @@ class Sprite : public Image {
   private:
     SDL_Rect usualSrcRect = {0, 0, 0, 0};
     bool animating = false;
+    bool fixed = false;
     void updateVelocities(double seconds);
 };
 
