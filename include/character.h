@@ -13,11 +13,13 @@
 #define U_ATTACK_POS    35
 #define L_ATTACK_POS    38
 #define R_ATTACK_POS    41
+#define INVINCIBLE_TIME 3.0
 
 #include "audio.h"
 #include "sprite.h"
 #include "constants.h"
 #include "event_handler.h"
+#include "camera.h"
 
 /*class for the player character that inherits from sprite will be 
 responsible for player movement events and holds certain sfx along with
@@ -36,6 +38,10 @@ class Character : public Sprite {
 
     virtual void update(double seconds);
 
+    virtual void render(Camera*);
+
+    virtual bool isCollidable();
+
     int hearts = 6;
   private:
     void createListeners(EventHandler*);
@@ -47,6 +53,9 @@ class Character : public Sprite {
     bool attacking = false;
 
     State* state = nullptr;
+
+    double invincibilitySeconds = INVINCIBLE_TIME;
+    bool invincible = false;
 };
 
 #endif

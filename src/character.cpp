@@ -39,6 +39,9 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 }
 
 void Character::update(double seconds) {
+  invincibilitySeconds += seconds;
+  invincible = (invincibilitySeconds < INVINCIBLE_TIME) ? true : false;
+
   Sprite::update(seconds);
 
   // If attacking, don't move. Hack to get around changing the velocity
@@ -94,6 +97,19 @@ void Character::update(double seconds) {
   }
 }
 
+void Character::render(Camera* camera) {
+  if (invincibilitySeconds < INVINCIBLE_TIME)
+    SDL_SetTextureAlphaMod(texture, 50);
+  else
+    SDL_SetTextureAlphaMod(texture, 255);
+
+  Sprite::render(camera);
+}
+
+bool Character::isCollidable() {
+  return !invincible;
+}
+
 void Character::idleAnimation(double seconds) {
   int pos = -1;
 
@@ -109,22 +125,19 @@ void Character::idleAnimation(double seconds) {
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   //When collision detector detects a collision play the sound effect
   int jumpDistance = 0;
-  if (image->isEnemy() && !attacking) {
+
+  if (image->isEnemy() && !attacking && !invincible) {
     audioHandler->play("collision", 1);
 
     jumpDistance = 35;
 
     hearts--;
+
+    invincibilitySeconds = 0;
   } else if (attacking) {
     audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
     state->engine->score += 1000;
-  }
-
-  if (intersection->w > intersection->h && velocityY != 0) {
-    pos_y -= velocityY / abs(velocityY) * (jumpDistance);
-  } else if (velocityX != 0) {
-    pos_x -= velocityX / abs(velocityX) * (jumpDistance);
   }
 
   Sprite::notifyCollision(image, intersection);

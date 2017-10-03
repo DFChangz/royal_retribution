@@ -133,19 +133,17 @@ void MenuState::load() {
     }
   }, SDLK_2);
   eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
-    if (volume > 0) {
-      volume--;
+    if (engine->volume > 0) {
       engine->volume--;
       updateBrightnessVolume();
-      audioHandler.setVolume(volume);
+      audioHandler.setVolume(engine->volume);
     }
   }, SDLK_9);
   eventHandler.addListener(SDL_KEYDOWN, [&] (SDL_Event*) {
-    if (volume < 100) {
-      volume++;
+    if (engine->volume < 100) {
       engine->volume++;
       updateBrightnessVolume();
-      audioHandler.setVolume(volume);
+      audioHandler.setVolume(engine->volume);
     }
   }, SDLK_0);
 
@@ -217,6 +215,6 @@ void MenuState::updateBrightnessVolume() {
   images[9]->load();
 
   images[12] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 1000,
-    500, 40, std::to_string(volume) + "%");
+    500, 40, std::to_string(engine->volume) + "%");
   images[12]->load();
 }

@@ -3,6 +3,7 @@
  */
 
 #include "enemy.h"
+#include "character.h"
 //Definitions for the enemy class that inherits from Sprite
 
 //constructor that takes in width and height for the rect

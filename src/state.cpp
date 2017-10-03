@@ -11,11 +11,11 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(erro
 }
 
 void State::run(double seconds) {
-  collisionDetector->check(&images, map);
-
   eventHandler.check();
 
   update(seconds);
+
+  collisionDetector->check(&images, map);
 
   render();
 }

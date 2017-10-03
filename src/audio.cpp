@@ -33,6 +33,8 @@ void Audio::load() {
     error_handler->quit(__func__, Mix_GetError());
   }
   sound_effects["kill"] = sound;
+
+  setVolume(100);
 }
 
 void Audio::cleanup() {
@@ -59,6 +61,6 @@ void Audio::play(std::string sound, int loops) {
   }
 }
 void Audio::setVolume(int vol){
-      Mix_VolumeMusic(vol);
+      Mix_VolumeMusic(vol * (double) MAX_MUSIC_VOLUME * 0.01);
       Mix_VolumeChunk(sound_effects["collision"], vol);
 }

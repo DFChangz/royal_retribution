@@ -3,6 +3,7 @@
  */
 
 #include "collision_detector.h"
+#include "character.h"
 //Definitions of the collision detector class
 
 /* two iterators that go through the whole vector of images comparing one image
@@ -31,6 +32,7 @@ void CollisionDetector::checkCollision(Image* img1, Image* img2) {
     SDL_Rect intersection;
     if (SDL_IntersectRect(img1->getDestRect(), img2->getDestRect(),
       &intersection) == SDL_TRUE) {
+
         img1->notifyCollision(img2, &intersection);
     }
   }

@@ -18,6 +18,7 @@
 #define KILL_FILENAME "assets/sword.wav"
 #define INTRO_FILENAME "assets/intro.xm"
 #define COLLISION_FILENAME "assets/collision.wav"
+#define MAX_MUSIC_VOLUME  60
 
 /* Sprites */
 #define NUM_ROWS  4

@@ -3,6 +3,7 @@
  */
 
 #include "sprite.h"
+#include "character.h"
 //Definitions for the the parent class that other sprite objects inherit from
 
 /*Constructor that makes a sprite from an inputed image file along with a gi-
@@ -137,28 +138,21 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 
 /*if the intersection of 2 collidable sprites have more height overlap, y 
 velocity changes direction if more width, x direction changes*/
-void Sprite::notifyCollision(Image*, SDL_Rect* intersection) {
+void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
   if (intersection->w > intersection->h) {
     if (velocityY != 0) {
-      pos_y -= velocityY / abs(velocityY) * (intersection->h + 1);
-    } else {
-      if (pos_y < intersection->y) {
-        pos_y -= intersection->h;
-      } else {
-        pos_y += intersection->h;
-      }
+      double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));
+
+      pos_y -= velocityY / abs(velocityY) * (intersection->h * velRatio);
     }
   } else {
     if (velocityX != 0) {
-      pos_x -= velocityX / abs(velocityX) * (intersection->w + 1);
-    } else {
-      if (pos_x < intersection->x) {
-        pos_x -= intersection->w;
-      } else {
-        pos_x += intersection->w;
-      }
+      double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
+      pos_x -= velocityX / abs(velocityX) * (intersection->w * velRatio);
     }
   }
+
+  setPosition(pos_x, pos_y);
 }
 
 Sprite::~Sprite() {
