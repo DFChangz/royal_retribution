@@ -73,7 +73,10 @@ void Engine::setup() {
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {quit();});
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {quit();}, SDLK_ESCAPE);
-  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {setState("menu");}, SDLK_q);
+  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
+    setState("menu");
+    Mix_HaltMusic();
+    }, SDLK_q);
 }
 
 // The heart
@@ -81,11 +84,11 @@ void Engine::loop() {
   unsigned int lastTime = SDL_GetTicks();
   double totalTime = 0;
 
-  intro = Mix_LoadMUS(INTRO_FILENAME);
+/*  intro = Mix_LoadMUS(INTRO_FILENAME);
 
   if (Mix_PlayMusic(intro, -1) < 0) {
     std::cerr << "Music was not initialized";
-  }
+  }*/
 
   while(running) {
     //converts time to seconds and keeps track of time passed and total time
@@ -131,7 +134,6 @@ void Engine::setState(std::string state) {
   if (states.find(state) == states.end()) {
     error_handler.quit(__func__, "A state with this name does not exist");
   }
-
   currentState = states[state];
 }
 

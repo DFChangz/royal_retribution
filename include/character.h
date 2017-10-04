@@ -40,8 +40,6 @@ class Character : public Sprite {
 
     virtual void render(Camera*);
 
-    virtual bool isCollidable();
-
     int hearts = 6;
   private:
     void createListeners(EventHandler*);
@@ -56,6 +54,10 @@ class Character : public Sprite {
 
     double invincibilitySeconds = INVINCIBLE_TIME;
     bool invincible = false;
+
+    double attackingTimer = 0;
+
+    bool lastAttack = false;
 };
 
 #endif

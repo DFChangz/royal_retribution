@@ -18,6 +18,7 @@ class Audio {
     void cleanup();
     void play(std::string, int = -1);
     void setVolume(int vol);
+    bool isPlaying();
     Mix_Chunk* getChunk(std::string sfx){ return sound_effects[sfx];}
   private:
     ErrorHandler* error_handler;

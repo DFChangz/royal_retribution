@@ -31,6 +31,9 @@ class Sprite : public Image {
 
     void setSrcRect(int posX, int posY, int rectWidth, int rectHeight);
     void setPosition(double x, double y);
+
+    void animate(double, int, int, int, int, int fps = 3);
+    void animate(double, int, int, int fps = 3);
   protected:
     bool collidable = true;
 
@@ -42,9 +45,6 @@ class Sprite : public Image {
     SDL_Rect rect;
     SDL_Rect srcRect;
     void get_texture_size(SDL_Texture*, int*, int*);
-
-    void animate(double, int, int, int, int, int fps = 3);
-    void animate(double, int, int, int fps = 3);
   private:
     SDL_Rect usualSrcRect = {0, 0, 0, 0};
     bool animating = false;

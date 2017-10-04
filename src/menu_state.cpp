@@ -152,6 +152,7 @@ void MenuState::load() {
     SDL_SetTextureColorMod(images[3]->getTexture(), 255, 69, 0);
   });
   images[3]->onClick(&eventHandler, [&] () {
+    Mix_PauseMusic(); 
     engine->newGame();
     engine->setState("playing");
   });
@@ -180,10 +181,16 @@ void MenuState::load() {
   });
 }
 
+void MenuState::update(double seconds){
+  State::update(seconds);  
+  if(!audioHandler.isPlaying()){audioHandler.play("intro");}
+}
+
 MenuState::~MenuState() {}
 
 void MenuState::transition() {
   if (selectedIndex == 3) {
+    Mix_PauseMusic(); 
     engine->newGame();
     engine->setState("playing");
   }

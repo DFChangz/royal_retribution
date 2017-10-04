@@ -40,6 +40,13 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 
 void Character::update(double seconds) {
   invincibilitySeconds += seconds;
+  attackingTimer += seconds;
+
+  if (lastAttack && attackingTimer > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
+    attacking = false;
+    lastAttack = false;
+  }
+
   invincible = (invincibilitySeconds < INVINCIBLE_TIME) ? true : false;
 
   Sprite::update(seconds);
@@ -99,15 +106,11 @@ void Character::update(double seconds) {
 
 void Character::render(Camera* camera) {
   if (invincibilitySeconds < INVINCIBLE_TIME)
-    SDL_SetTextureAlphaMod(texture, 50);
+    SDL_SetTextureAlphaMod(texture, 100);
   else
     SDL_SetTextureAlphaMod(texture, 255);
 
   Sprite::render(camera);
-}
-
-bool Character::isCollidable() {
-  return !invincible;
 }
 
 void Character::idleAnimation(double seconds) {
@@ -123,18 +126,29 @@ void Character::idleAnimation(double seconds) {
 }
 
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
+  std::string collisionDir = "";
+
+  // either up/down
+  if (intersection->w > intersection->h) {
+    if (intersection->y <= image->pos_y)
+      collisionDir = "down";
+    else
+      collisionDir = "up";
+  } else {
+    if (intersection->x <= image->pos_x)
+      collisionDir = "right";
+    else
+      collisionDir = "left";
+  }
+
   //When collision detector detects a collision play the sound effect
-  int jumpDistance = 0;
-
-  if (image->isEnemy() && !attacking && !invincible) {
+  if (image->isEnemy() && (!attacking || collisionDir != dir) && !invincible) {
     audioHandler->play("collision", 1);
-
-    jumpDistance = 35;
 
     hearts--;
 
     invincibilitySeconds = 0;
-  } else if (attacking) {
+  } else if (attacking && collisionDir == dir) {
     audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
     state->engine->score += 1000;
@@ -183,7 +197,7 @@ void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     velocityY = 0;}, SDLK_UP);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    attacking = false; }, SDLK_SPACE);
+    lastAttack = true; attackingTimer = 0;}, SDLK_SPACE);
   
   // boost control
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {

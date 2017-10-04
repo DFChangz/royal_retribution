@@ -25,17 +25,19 @@ void Map::loadTextures(std::string filename) {
   while (std::getline(file, line)) {
     std::istringstream iss(line);
     char sym = -1;
-    std::string filename2;
+    int start_frame = -1;
+    int frame_length = -1;
     int options = 0;
 
-    if (!(iss >> sym) || sym == -1 || !(iss >> filename2))
+    if (!(iss >> sym) || sym == -1 || !(iss >> start_frame) || start_frame == -1
+        || !(iss >> frame_length) || frame_length == -1)
       errorHandler->quit(__func__, "Invalid file contents");
 
     iss >> options;
 
     textureIDs[sym] = id;
 
-    createTexture(id, filename2, options);
+    createTexture(id, TILE_FILENAME, start_frame, frame_length, options);
 
     id++;
   }
@@ -69,10 +71,14 @@ void Map::loadLayout(std::string filename) {
 
       bool collidable = ((texture->options & 1) == 1);
 
-      tiles.push_back(new Sprite(renderer, "", errorHandler, col * TILE_DIM,
-        row * TILE_DIM, collidable));
+      tile t;
+      t.start_frame = texture->start_frame;
+      t.frame_length = texture->frame_length;
+      t.image = new Sprite(renderer, "", errorHandler, TILE_DIM, TILE_DIM,
+        col * TILE_DIM, row * TILE_DIM, collidable);
+      tiles.push_back(t);
 
-      tiles.back()->load(texture->texture);
+      tiles.back().image->load(texture->texture);
 
       col++;
     }
@@ -88,7 +94,9 @@ void Map::loadLayout(std::string filename) {
   file.close();
 }
 
-void Map::createTexture(int id, std::string filename, int options) {
+void Map::createTexture(int id, std::string filename, int start_frame,
+    int frame_length, int options) {
+
   if ((int) textures.size() != id)
     errorHandler->quit(__func__, "Invalid Texture ID. Vector wrong size");
 
@@ -104,6 +112,8 @@ void Map::createTexture(int id, std::string filename, int options) {
 
   struct texture t;
   t.texture = texture;
+  t.start_frame = start_frame;
+  t.frame_length = frame_length;
   t.options = options;
 
   textures.push_back(t);
@@ -111,20 +121,21 @@ void Map::createTexture(int id, std::string filename, int options) {
 
 void Map::update(double seconds) {
   for (auto tile : tiles) {
-    tile->update(seconds);
+    tile.image->update(seconds);
+    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
   }
 }
 
 void Map::render(Camera* camera) {
   for (auto tile : tiles) {
-    tile->render(camera);
+    tile.image->render(camera);
   }
 }
 
 void Map::cleanup() {
   for (auto tile : tiles) {
-    if (tile != nullptr) {
-      delete tile;
+    if (tile.image != nullptr) {
+      delete tile.image;;
     }
   }
 

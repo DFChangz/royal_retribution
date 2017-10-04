@@ -14,6 +14,8 @@ class MenuState : public State {
     private:
       virtual void setup();
 
+      void update(double);
+
       unsigned int brightness = 100;
 
       std::tuple<int, int> getCenterForImage(Image*);
