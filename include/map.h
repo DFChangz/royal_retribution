@@ -8,11 +8,21 @@
 #include "sprite.h"
 #include "error_handler.h"
 
-#define TILE_DIM  15
+#define TILE_DIM      15
+#define TILE_FILENAME "tiles.png"
 
 struct texture {
   SDL_Texture* texture;
+  int start_frame = 0;
+  int frame_length = 0;
   int options = 0;
+};
+
+struct tile {
+  int start_frame = 0;
+  int frame_length = 0;
+
+  Sprite* image = nullptr;
 };
 
 class Map {
@@ -20,7 +30,7 @@ class Map {
     Map(SDL_Renderer* renderer, ErrorHandler*, std::string, std::string);
     ~Map();
 
-    std::vector<Image*> tiles;
+    std::vector<tile> tiles;
 
     std::map<char, int> textureIDs;
 
@@ -37,7 +47,7 @@ class Map {
     int width = 0;
     int height = 0;
   private:
-    void createTexture(int, std::string, int);
+    void createTexture(int, std::string, int, int, int);
 
     ErrorHandler* errorHandler;
 

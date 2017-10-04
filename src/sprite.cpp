@@ -62,6 +62,8 @@ void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
 void Sprite::animate(double seconds, int start_frame, int end_frame,
   int frame_width, int frame_height, int fps) {
 
+  if (start_frame > end_frame) end_frame = start_frame;
+
   int padding_x = SPRITE_PADDING_AMOUNT_X;
   int padding_y = SPRITE_PADDING_AMOUNT_Y;
 
