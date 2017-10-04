@@ -19,8 +19,8 @@ void PlayingState::setup() {
   images.push_back(new Sprite(engine->renderer, STAIRS_FILENAME, errorHandler,
     map->width - 133, map->height - 132, false));
   // Player 1
-  images.push_back(new Character(engine->renderer, E_C_FILENAME,
-    errorHandler, 16, 25, map->width/2, 80, &eventHandler, &audioHandler, this));
+  images.push_back(new Character(engine->renderer, E_C_FILENAME, errorHandler,
+    16, 25, map->width/2, 80, &eventHandler, &audioHandler, this));
   camera.setCharacter(static_cast<Character*>(images[1]));
   // Enemies 2 - 11
   for (int i = 0; i < 10; i++) {
@@ -105,7 +105,6 @@ void PlayingState::update(double seconds) {
   // enemy follows king if conditions met
   checkFollow();
   enemyFollow();
-  std::cout << images[2]->velocityX << std::endl;
   // changes state to Lose
   if (static_cast<Character*>(images[1])->hearts == 0) {
     engine->setState("lose");
@@ -149,14 +148,16 @@ void PlayingState::enemyFollow() {
       }/* else {
         images[i]->velocityX = 0;
       } */
-      if (images[i]->pos_y < images[1]->pos_y - images[i]->getDestRect()->h) {
+      if (images[i]->pos_y + images[i]->getDestRect()->h / 2
+           < images[1]->pos_y + images[1]->getDestRect()->h / 2) {
         images[i]->velocityY = 100;
       } else
-      if (images[i]->pos_y > images[1]->pos_y + images[1]->getDestRect()->h) {
+      if (images[i]->pos_y + images[i]->getDestRect()->h / 2 
+          > images[1]->pos_y + images[1]->getDestRect()->h / 2) {
         images[i]->velocityY = -100;
-      } /* else {
+      } /*  else {
         images[i]->velocityY = 0;
-      }  */
+      } */
     }
   }
 }

@@ -76,17 +76,17 @@ void Engine::setup() {
     setState("menu");
     Mix_HaltMusic();
     }, SDLK_q);
-  // automatically win w/ '1'
+  // automatically win w/ '3'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);
     file << std::to_string(score) << std::endl;
     file.close();
      setState("win");
-   }, SDLK_1);
-  // automatically lose w/ '2'
+   }, SDLK_3);
+  // automatically lose w/ '4'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   setState("lose"); }, SDLK_2);
+   setState("lose"); }, SDLK_4);
 }
 
 // The heart
