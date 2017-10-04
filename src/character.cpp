@@ -126,14 +126,29 @@ void Character::idleAnimation(double seconds) {
 }
 
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
+  std::string collisionDir = "";
+
+  // either up/down
+  if (intersection->w > intersection->h) {
+    if (intersection->y <= image->pos_y)
+      collisionDir = "down";
+    else
+      collisionDir = "up";
+  } else {
+    if (intersection->x <= image->pos_x)
+      collisionDir = "right";
+    else
+      collisionDir = "left";
+  }
+
   //When collision detector detects a collision play the sound effect
-  if (image->isEnemy() && !attacking && !invincible) {
+  if (image->isEnemy() && (!attacking || collisionDir != dir) && !invincible) {
     audioHandler->play("collision", 1);
 
     hearts--;
 
     invincibilitySeconds = 0;
-  } else if (attacking) {
+  } else if (attacking && collisionDir == dir) {
     audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
     state->engine->score += 1000;
