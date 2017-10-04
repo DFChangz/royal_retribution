@@ -47,7 +47,7 @@ void TitleState::update(double seconds) {
   State::update(seconds);
 
   totalTime += seconds;
-
+  if(!audioHandler.isPlaying()){audioHandler.play("intro");}
   // wrap and fade in scroll
   if (images[0]->getDestRect()->x <= WIDTH - images[0]->getDestRect()->w) {
     x = 0;

@@ -21,6 +21,12 @@ void Audio::load() {
   }
   music["intro"] = intro;
 
+  Mix_Music* theme = Mix_LoadMUS(THEME1_FILENAME);
+  if (theme == nullptr) {
+    error_handler->quit(__func__, Mix_GetError());
+  }
+  music["theme"] = theme;
+
 
   Mix_Chunk* sound = Mix_LoadWAV(COLLISION_FILENAME);
   if (sound == nullptr) {
@@ -63,4 +69,13 @@ void Audio::play(std::string sound, int loops) {
 void Audio::setVolume(int vol){
       Mix_VolumeMusic(vol * (double) MAX_MUSIC_VOLUME * 0.01);
       Mix_VolumeChunk(sound_effects["collision"], vol);
+}
+
+bool Audio::isPlaying(){
+  if(Mix_PlayingMusic() == 0){
+    return false;
+  }
+  else {
+    return true;
+  }
 }

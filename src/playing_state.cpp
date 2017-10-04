@@ -60,6 +60,7 @@ void PlayingState::update(double seconds) {
 
   timer += seconds;
 
+  if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
   // update FPS Display
   if (timer > 1) {
     delete images.back();
