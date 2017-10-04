@@ -40,6 +40,7 @@ void LoseState::update(double seconds) {
   // after 15.5 sec, transfer to menu
   if (totalTime > 3) {
     totalTime = 0;
+    Mix_HaltMusic();
     engine->setState("menu");
   }
 }

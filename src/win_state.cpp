@@ -44,6 +44,7 @@ void WinState::update(double seconds) {
   a0 = fadeIn(0, a0, seconds, 2.5);
   // after 15.5 sec, transfer to menu
   if (totalTime > 3) {
+  Mix_HaltMusic();
     engine->setState("menu");
   }
 }
