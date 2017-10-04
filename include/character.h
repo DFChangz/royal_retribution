@@ -54,6 +54,10 @@ class Character : public Sprite {
 
     double invincibilitySeconds = INVINCIBLE_TIME;
     bool invincible = false;
+
+    double attackingTimer = 0;
+
+    bool lastAttack = false;
 };
 
 #endif
