@@ -10,8 +10,8 @@
 #define ENEMY_DOWN_MOVING_POS 16
 
 #include "sprite.h"
-#include "event_handler.h"
 #include "constants.h"
+#include "event_handler.h"
 
 //Header file for enemy class that holds enemy position and its rect
 class Enemy : public Sprite {
@@ -27,14 +27,18 @@ class Enemy : public Sprite {
 
     virtual void notifyCollision(Image*, SDL_Rect*);
 
-    bool isEnemy() {return true;}
+    bool isEnemy() { return true; }
 
-    void kill() {dead = true;} 
+    void kill() { dead = true; } 
 
     bool isDead() { return dead; }
+
+    bool following = false;
+
   private:
     bool dead = false;
     std::string dir="right";
+
     void idleAnimation(double);
 };
 

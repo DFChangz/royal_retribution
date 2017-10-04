@@ -33,7 +33,7 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
 void Enemy::update(double seconds) {
   Sprite::update(seconds);
 
-  if (this->dead){
+  if (this->dead) {
     velocityY = 0;
     velocityX = 0;
     collidable = false;

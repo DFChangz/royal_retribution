@@ -15,6 +15,9 @@ class PlayingState : public State {
     int currentScore;
     void update(double);
     virtual void setup();
+
+    void checkFollow();
+    void enemyFollow();
 };
 
 #endif
