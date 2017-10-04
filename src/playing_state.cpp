@@ -17,7 +17,7 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
 void PlayingState::setup() {
   // Stairs 0
   images.push_back(new Sprite(engine->renderer, STAIRS_FILENAME, errorHandler,
-    map->width - 83, map->height - 82, false));
+    map->width - 133, map->height - 132, false));
   // Player 1
   images.push_back(new Character(engine->renderer, E_C_FILENAME,
     errorHandler, 16, 25, map->width/2, 80, &eventHandler, &audioHandler, this));
@@ -106,15 +106,17 @@ void PlayingState::update(double seconds) {
   checkFollow();
   enemyFollow();
   std::cout << images[2]->velocityX << std::endl;
-  // changes state to Lose/Win
+  // changes state to Lose
   if (static_cast<Character*>(images[1])->hearts == 0) {
     engine->setState("lose");
   }
-  if (images[1]->pos_x > map->width - 75 && images[1]->pos_y > map->height - 75)
+  // changes state to Win
+  if (images[1]->pos_x > map->width - 130
+      && images[1]->pos_y > map->height - 130)
   {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(currentScore) << std::endl;
+    file << std::to_string(engine->score) << std::endl;
     file.close();
     engine->setState("win");
   }
@@ -144,17 +146,17 @@ void PlayingState::enemyFollow() {
       } else
       if (images[i]->pos_x > images[1]->pos_x + images[1]->getDestRect()->w) {
         images[i]->velocityX = -100;
-      } else {
+      }/* else {
         images[i]->velocityX = 0;
-      }
+      } */
       if (images[i]->pos_y < images[1]->pos_y - images[i]->getDestRect()->h) {
         images[i]->velocityY = 100;
       } else
       if (images[i]->pos_y > images[1]->pos_y + images[1]->getDestRect()->h) {
         images[i]->velocityY = -100;
-      } else {
+      } /* else {
         images[i]->velocityY = 0;
-      } 
+      }  */
     }
   }
 }

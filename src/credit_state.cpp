@@ -39,7 +39,7 @@ void CreditState::load() {
   }
 
   for(Image* words: images) {
-    words->velocityY = -80;
+    words->velocityY = -200;
   }
 }
 

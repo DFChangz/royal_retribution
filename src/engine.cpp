@@ -42,7 +42,6 @@ void Engine::setup() {
     error_handler.quit(__func__, Mix_GetError());
   }
 
-
   if (TTF_Init() < 0) {
     error_handler.quit(__func__, TTF_GetError());
   }
@@ -77,6 +76,17 @@ void Engine::setup() {
     setState("menu");
     Mix_HaltMusic();
     }, SDLK_q);
+  // automatically win w/ '1'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file << std::to_string(score) << std::endl;
+    file.close();
+     setState("win");
+   }, SDLK_1);
+  // automatically lose w/ '2'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   setState("lose"); }, SDLK_2);
 }
 
 // The heart
@@ -125,7 +135,8 @@ void Engine::cleanup() {
   TTF_Quit();
   Mix_Quit();
   SDL_Quit();
-} 
+}
+ 
 void Engine::incrementScore(int increment){
   this->score += increment;
 }
@@ -161,7 +172,17 @@ void Engine::newGame() {
     delete states["playing"];
     states["playing"] = nullptr;
   }
+  if (states["win"] != nullptr) {
+    delete states["win"];
+    states["win"] = nullptr;
+  }
+  if (states["lose"] != nullptr) {
+    delete states["lose"];
+    states["lose"] = nullptr;
+  }
   score = 0;
+  states["win"] = new WinState(this, &error_handler);
+  states["lose"] = new LoseState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
 }
 

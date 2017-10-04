@@ -27,6 +27,11 @@ void WinState::load() {
   // center the text
   auto center = getCenterForImage(images[0]);
   images[0]->setPosition(std::get<0>(center), std::get<1>(center));
+  /* input score into highscore
+  std::ofstream file;
+  file.open(SCORE_FILENAME, std::ios_base::app);
+  file << std::to_string(engine->score) << std::endl;
+  file.close(); */
 }
 
 /* updates the screen */

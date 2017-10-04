@@ -2,8 +2,8 @@
  * character.cpp
  */
 
-#include "character.h"
 #include "state.h"
+#include "character.h"
 //Definitions for the character class that inherits from Sprite
 
 //constructor that takes in arguments for the width and height for the rect
