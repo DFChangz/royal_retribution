@@ -1,15 +1,17 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <iostream>
-#include <fstream>
 #include <vector>
-#include "engine.h"
-#include "collision_detector.h"
-#include "audio.h"
-#include "text.h"
-#include "camera.h"
+#include <fstream>
+#include <iostream>
+
 #include "map.h"
+#include "text.h"
+#include "audio.h"
+#include "engine.h"
+#include "camera.h"
+#include "event_handler.h"
+#include "collision_detector.h"
 
 class State {
   public:

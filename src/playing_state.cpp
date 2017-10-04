@@ -20,7 +20,7 @@ void PlayingState::setup() {
     map->width - 83, map->height - 82, false));
   // Player 1
   images.push_back(new Character(engine->renderer, E_C_FILENAME,
-    errorHandler, 16, 25, 80, 80, &eventHandler, &audioHandler, this));
+    errorHandler, 16, 25, map->width/2, 80, &eventHandler, &audioHandler, this));
   camera.setCharacter(static_cast<Character*>(images[1]));
   // Enemies 2 - 11
   for (int i = 0; i < 10; i++) {
@@ -61,7 +61,6 @@ void PlayingState::update(double seconds) {
 
   timer += seconds;
 
-  if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
   // update FPS Display
   if (timer > 1) {
     delete images.back();
@@ -111,7 +110,8 @@ void PlayingState::update(double seconds) {
   if (static_cast<Character*>(images[1])->hearts == 0) {
     engine->setState("lose");
   }
-  if (images[1]->pos_x > map->width - 75 && images[1]->pos_y > map->height - 75) {
+  if (images[1]->pos_x > map->width - 75 && images[1]->pos_y > map->height - 75)
+  {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);
     file << std::to_string(currentScore) << std::endl;
@@ -150,7 +150,7 @@ void PlayingState::enemyFollow() {
       if (images[i]->pos_y < images[1]->pos_y - images[i]->getDestRect()->h) {
         images[i]->velocityY = 100;
       } else
-      if (images[i]->pos_y > images[1]->pos_x + images[1]->getDestRect()->h) {
+      if (images[i]->pos_y > images[1]->pos_y + images[1]->getDestRect()->h) {
         images[i]->velocityY = -100;
       } else {
         images[i]->velocityY = 0;
