@@ -84,22 +84,32 @@ void PlayingState::update(double seconds) {
   switch(static_cast<Character*>(images[1])->hearts) {
     case 6:
       static_cast<Sprite*>(images[15])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[14])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[13])->setSrcRect(0, 0, 32, 32);
       break;
     case 5:
       static_cast<Sprite*>(images[15])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[14])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[13])->setSrcRect(0, 0, 32, 32);
       break;
     case 4:
       static_cast<Sprite*>(images[15])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[14])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[13])->setSrcRect(0, 0, 32, 32);
       break;
     case 3:
+      static_cast<Sprite*>(images[15])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[14])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[13])->setSrcRect(0, 0, 32, 32);
       break;
     case 2:
+      static_cast<Sprite*>(images[15])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[14])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[13])->setSrcRect(0, 0, 32, 32);
       break;
     case 1:
+      static_cast<Sprite*>(images[15])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[14])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[13])->setSrcRect(40, 0, 32, 32);
       break;
   }
@@ -120,7 +130,7 @@ void PlayingState::update(double seconds) {
     file.close();
     engine->setState("win");
   }
-  audioHandler.setVolume(engine->volume);
+//  audioHandler.setVolume(engine->volume);
 }
 
 void PlayingState::checkFollow() {

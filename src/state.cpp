@@ -39,6 +39,7 @@ void State::update(double seconds) {
     map->update(seconds);
   }
   camera.updatePosition();
+  audioHandler.setVolume(engine->volume);
 }
 
 void State::render() {

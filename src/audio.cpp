@@ -68,7 +68,10 @@ void Audio::play(std::string sound, int loops) {
 }
 void Audio::setVolume(int vol){
       Mix_VolumeMusic(vol * (double) MAX_MUSIC_VOLUME * 0.01);
-      Mix_VolumeChunk(sound_effects["collision"], vol);
+//      Mix_VolumeChunk(sound_effects["collision"], vol);
+      for (auto chunk : sound_effects) {
+        Mix_VolumeChunk(chunk.second, vol);
+      }
 }
 
 bool Audio::isPlaying(){
