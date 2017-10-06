@@ -8,7 +8,7 @@
 #include "sprite.h"
 #include "error_handler.h"
 
-#define TILE_DIM      15
+#define TILE_DIM      32
 #define TILE_FILENAME "tiles.png"
 
 struct texture {
@@ -31,6 +31,8 @@ class Map {
     ~Map();
 
     std::vector<tile> tiles;
+    std::vector<tile> collidable_tiles;
+
 
     std::map<char, int> textureIDs;
 

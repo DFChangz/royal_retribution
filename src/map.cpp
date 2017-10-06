@@ -76,9 +76,14 @@ void Map::loadLayout(std::string filename) {
       t.frame_length = texture->frame_length;
       t.image = new Sprite(renderer, "", errorHandler, TILE_DIM, TILE_DIM,
         col * TILE_DIM, row * TILE_DIM, collidable);
-      tiles.push_back(t);
 
-      tiles.back().image->load(texture->texture);
+      if (collidable) {
+        tiles.insert(tiles.begin(), t);
+        tiles[0].image->load(texture->texture);
+      } else {
+        tiles.push_back(t);
+        tiles.back().image->load(texture->texture);
+      }
 
       col++;
     }
@@ -135,7 +140,7 @@ void Map::render(Camera* camera) {
 void Map::cleanup() {
   for (auto tile : tiles) {
     if (tile.image != nullptr) {
-      delete tile.image;;
+      delete tile.image;
     }
   }
 

@@ -16,7 +16,12 @@ void CollisionDetector::check(std::vector<Image*>* images, Map* map) {
     }
 
     if (map != nullptr) {   
-      for (auto it2 = map->tiles.begin(); it2 != map->tiles.end(); ++it2) {
+      for (auto it2 = map->tiles.begin();
+          it2 != map->tiles.end(); ++it2) {
+
+        if (!it2->image->isCollidable())
+          break;
+
         checkCollision(*it, it2->image);
       }
     }
