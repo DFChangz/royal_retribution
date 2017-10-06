@@ -35,6 +35,10 @@ class Enemy : public Sprite {
 
     bool following = false;
 
+    bool xIntersection = false;
+
+    bool yIntersection = false;
+
   private:
     bool dead = false;
     std::string dir="right";
