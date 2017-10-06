@@ -8,7 +8,7 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler,
-    "test_map.txt", "test_textures.txt");
+    "level_1.txt", "test_textures.txt");
 
   setup();
   load();
