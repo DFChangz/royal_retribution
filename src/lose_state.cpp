@@ -41,7 +41,7 @@ void LoseState::update(double seconds) {
   if (totalTime > 3) {
     totalTime = 0;
     Mix_HaltMusic();
-    engine->setState("menu");
+    engine->setState("Highscore");
   }
 }
 

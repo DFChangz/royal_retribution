@@ -45,7 +45,7 @@ void WinState::update(double seconds) {
   // after 15.5 sec, transfer to menu
   if (totalTime > 3) {
   Mix_HaltMusic();
-    engine->setState("menu");
+    engine->setState("Highscore");
   }
 }
 
