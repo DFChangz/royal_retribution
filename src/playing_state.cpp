@@ -135,7 +135,7 @@ void PlayingState::update(double seconds) {
 void PlayingState::checkFollow() {
   int borderX = images[1]->pos_x + images[1]->getDestRect()->w + 100;
   int borderY = images[1]->pos_y + images[1]->getDestRect()->h + 100;
-  for (int i = 2; i < num_enemies + 2; i++) {
+  for (int i = 2; i < num_enemies + 1; i++) {
     if (images[i]->pos_x <= borderX && images[i]->pos_y <= borderY
         && images[i]->pos_x
         >= images[1]->pos_x - 100 - images[i]->getDestRect()->w
@@ -148,7 +148,7 @@ void PlayingState::checkFollow() {
 }
       
 void PlayingState::enemyFollow() {
-  for (int i = 2; i < num_enemies + 2; i++) {
+  for (int i = 2; i < num_enemies + 1; i++) {
     if (static_cast<Enemy*>(images[i])->following) {
       if (images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w) {
         images[i]->velocityX = 100;
