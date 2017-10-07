@@ -55,8 +55,6 @@ void PlayingState::load() {
 }
 
 void PlayingState::update(double seconds) {
-  State::update(seconds);
-
   timer += seconds;
 
   if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
@@ -114,6 +112,9 @@ void PlayingState::update(double seconds) {
   // enemy follows king if conditions met
   checkFollow();
   enemyFollow();
+  
+  State::update(seconds);
+
   // changes state to Lose
   if (static_cast<Character*>(images[1])->hearts <= 0) {
     engine->setState("lose");
