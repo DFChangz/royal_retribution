@@ -4,6 +4,7 @@
 #include "state.h"
 
 #define NUM_ENEMIES     10
+#define ENEMY_FILENAME  "level_1_enemies.txt"
 
 class PlayingState : public State {
   public:
@@ -20,6 +21,8 @@ class PlayingState : public State {
 
     void checkFollow();
     void enemyFollow();
+
+    int num_enemies = 0;
 };
 
 #endif

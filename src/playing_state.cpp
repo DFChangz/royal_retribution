@@ -22,14 +22,13 @@ void PlayingState::setup() {
     16, 25, map->width/2, 80, &eventHandler, &audioHandler, this));
   camera.setCharacter(static_cast<Character*>(images[1]));
   // Enemies 2 - 11
-  std::ifstream file;
-  file.open(LEVEL_0_E, std::ios_base::app);
-  for (int i = 0; i < NUM_ENEMIES; i++) {
-    int x = -1;
-    int y = -1;
-    file >> y; file >> x;
+  std::ifstream file("maps/" + std::string(ENEMY_FILENAME));
+  int x = -1;
+  int y = -1;
+  while ((file >> y) && y != -1 && (file >> x) && x != -1) {
     images.push_back(new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
-      16, 25, x * TILE_DIM, y * TILE_DIM, 0, 150));
+      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150));
+    num_enemies++;
   }
   file.close();
   // Score 12
@@ -73,44 +72,43 @@ void PlayingState::update(double seconds) {
   }
   // update Score
   if(currentScore != engine->score){
-    delete images[NUM_ENEMIES + 2];
-    images[NUM_ENEMIES + 12] = new Text(engine->renderer,
-      FONT_FILENAME, errorHandler, WIDTH - 100, 2, 16,
-      "SCORE = " + std::to_string(engine->score));  
-    images[NUM_ENEMIES + 12]->load();
+    delete images[num_enemies + 2];
+    images[num_enemies + 12] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+      WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score));  
+    images[num_enemies + 12]->load();
     currentScore = engine->score;
   }
   // updates Health
   switch(static_cast<Character*>(images[1])->hearts) {
     case 6:
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
       break;
     case 5:
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
       break;
     case 4:
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 4])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
       break;
     case 3:
-      static_cast<Sprite*>(images[NUM_ENEMIES + 4])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
       break;
     case 2:
-      static_cast<Sprite*>(images[NUM_ENEMIES + 4])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 3])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
       break;
     case 1:
-      static_cast<Sprite*>(images[NUM_ENEMIES + 3])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[NUM_ENEMIES + 5])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(40, 0, 32, 32);
       break;
   }
   // enemy follows king if conditions met
@@ -137,7 +135,7 @@ void PlayingState::update(double seconds) {
 void PlayingState::checkFollow() {
   int borderX = images[1]->pos_x + images[1]->getDestRect()->w + 100;
   int borderY = images[1]->pos_y + images[1]->getDestRect()->h + 100;
-  for (int i = 2; i < 12; i++) {
+  for (int i = 2; i < num_enemies; i++) {
     if (images[i]->pos_x <= borderX && images[i]->pos_y <= borderY
         && images[i]->pos_x
         >= images[1]->pos_x - 100 - images[i]->getDestRect()->w
@@ -150,7 +148,7 @@ void PlayingState::checkFollow() {
 }
       
 void PlayingState::enemyFollow() {
-  for (int i = 2; i < 12; i++) {
+  for (int i = 2; i < num_enemies; i++) {
     if (static_cast<Enemy*>(images[i])->following) {
       if (images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w) {
         images[i]->velocityX = 100;
