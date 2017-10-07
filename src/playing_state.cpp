@@ -82,33 +82,33 @@ void PlayingState::update(double seconds) {
   switch(static_cast<Character*>(images[1])->hearts) {
     case 6:
       static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
       break;
     case 5:
       static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
       break;
     case 4:
       static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
       break;
     case 3:
       static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
       break;
     case 2:
+      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
       break;
     case 1:
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(40, 0, 32, 32);
       break;
   }
   // enemy follows king if conditions met
@@ -135,7 +135,7 @@ void PlayingState::update(double seconds) {
 void PlayingState::checkFollow() {
   int borderX = images[1]->pos_x + images[1]->getDestRect()->w + 100;
   int borderY = images[1]->pos_y + images[1]->getDestRect()->h + 100;
-  for (int i = 2; i < num_enemies; i++) {
+  for (int i = 2; i < num_enemies + 2; i++) {
     if (images[i]->pos_x <= borderX && images[i]->pos_y <= borderY
         && images[i]->pos_x
         >= images[1]->pos_x - 100 - images[i]->getDestRect()->w
@@ -143,12 +143,13 @@ void PlayingState::checkFollow() {
         >= images[1]->pos_y - 100 - images[i]->getDestRect()->h    )
     {
       static_cast<Enemy*>(images[i])->following = true;
+      std::cout <<"YO\n";
     }
   }
 }
       
 void PlayingState::enemyFollow() {
-  for (int i = 2; i < num_enemies; i++) {
+  for (int i = 2; i < num_enemies + 2; i++) {
     if (static_cast<Enemy*>(images[i])->following) {
       if (images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w) {
         images[i]->velocityX = 100;
@@ -181,7 +182,7 @@ void PlayingState::enemyFollow() {
         images[i]->velocityY = 0;
         images[i]->velocityX = 0;
       }
-      //ene,y resumes motion after character moves
+      //enemy resumes motion after character moves
       if(static_cast<Enemy*>(images[i])->xIntersection && images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w){
         static_cast<Enemy*>(images[i])->xIntersection = false; 
       }
