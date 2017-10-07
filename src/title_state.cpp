@@ -27,7 +27,7 @@ void TitleState::setup() {
   images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
     0, 0, 100, logo));
   // skip text 4
-  images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
+  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 50, skip));
 }
 
