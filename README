@@ -34,6 +34,12 @@ In Playing State:
   EXTRA:
   ~ Enemies start following you when you get close to them
   ~ There a few seconds of invincibility -> keeps you alive longer
+  WINNING:
+  ~ Reach the Stairs
+  1) From spawn point, move down
+  2) You will see open corridors to your right
+  3) At the fourth corridor, start walking right
+  4) As you walk, you will see a path going down -> stairs
 
 In Menu Scree:
   New Game: Starts Level 0
@@ -49,3 +55,4 @@ Notes:
   erer, and window are all destroyed whenever the application quits, and all
   SDL libraries have been quit when the application panics and when it clos-
   es successfully.
+
