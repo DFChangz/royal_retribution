@@ -42,7 +42,8 @@ void Character::update(double seconds) {
   invincibilitySeconds += seconds;
   attackingTimer += seconds;
 
-  if (lastAttack && attackingTimer > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
+  if (lastAttack && attackingTimer
+      > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
     attacking = false;
     lastAttack = false;
   }
@@ -66,22 +67,22 @@ void Character::update(double seconds) {
     if (velocityX > 0) {
       dir = "right";
 
-      Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS + RUNNING_FRAMES - 1,
+      Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else if (velocityX < 0) {
       dir = "left";
 
-      Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS + RUNNING_FRAMES - 1,
+      Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else if (velocityY > 0) {
       dir = "down";
 
-      Sprite::animate(seconds, D_RUNNING_POS, D_RUNNING_POS + RUNNING_FRAMES - 1,
+      Sprite::animate(seconds, D_RUNNING_POS, D_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else if (velocityY < 0) {
       dir = "up";
 
-      Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS + RUNNING_FRAMES - 1,
+      Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else {
       idleAnimation(seconds);

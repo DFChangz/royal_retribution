@@ -14,32 +14,38 @@ TitleState::TitleState(Engine* engine, ErrorHandler* errorHandler)
 
 /* setup images */
 void TitleState::setup() {
-  // space BG
+  // space BG 0
   images.push_back(new Sprite(engine->renderer, BG_FILENAME, errorHandler,
     0, 0, false));
-  // ship img
+  // ship img 1
   images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
     -180, 180, false));
-  // earth img
+  // earth img 2
   images.push_back(new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
     0, 0, false));
-  // logo text
+  // logo text 3
   images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
     0, 0, 100, logo));
+  // skip text 4
+  images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
+    0, 0, 50, skip));
 }
 
 /* loads images */
 void TitleState::load() {
   State::load();
   // make all textures transparent
-  for (unsigned int i = 0; i < images.size(); i++) {
+  for (unsigned int i = 1; i < images.size(); i++) {
     SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
   }
   // center some of the textures
-  for (unsigned int i = 2; i < images.size(); i++) {
+  for (unsigned int i = 2; i < images.size() - 1; i++) {
     auto center = getCenterForImage(images[i]);
     images[i]->setPosition(std::get<0>(center), std::get<1>(center));
   }
+  // position skip text
+  auto center = getCenterForImage(images[4]);
+  images[4]->setPosition(std::get<0>(center), std::get<1>(center) + 300);
 }
 
 /* updates the screen */
@@ -48,15 +54,15 @@ void TitleState::update(double seconds) {
 
   totalTime += seconds;
   if(!audioHandler.isPlaying()){audioHandler.play("intro");}
-  // wrap and fade in scroll
+  // wrap space and fade in skip
   if (images[0]->getDestRect()->x <= WIDTH - images[0]->getDestRect()->w) {
     x = 0;
     y = images[0]->pos_y;
 
     images[0]->setPosition(x, y);
   }
-  a0 = fadeIn(0, a0, seconds, 3);
-  images[0]->velocityX = -0.5 * speed;
+  a0 = fadeIn(4, a0, seconds, 2.5);
+  images[0]->velocityX = -1 * speed;
   // after 3.5 sec, fade in ship
   if (totalTime > 3.5 && totalTime < 7.5) {
     a1 = fadeIn(1, a1, seconds, 2.5);
@@ -76,7 +82,7 @@ void TitleState::update(double seconds) {
     images[2]->getDestRect()->h += 5.0 * speed * seconds;
   }
   // after 15.5 sec, transfer to menu
-  if (totalTime > 15.3) {
+  if (totalTime > 15.5) {
     engine->setState("menu");
   }
 }

@@ -25,7 +25,8 @@ class TitleState : public State {
     double newA = 0;
     double speed = 50;
     double totalTime = 0;
-    std::string logo = "Team  UBIHARD  presents";
+    std::string skip = "press q to skip this intro";
+    std::string logo = "Team  U B I H A R D  presents";
 };
 
 #endif

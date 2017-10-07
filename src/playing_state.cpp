@@ -21,8 +21,8 @@ void PlayingState::setup() {
   images.push_back(new Character(engine->renderer, E_C_FILENAME, errorHandler,
     16, 25, 80, 80, &eventHandler, &audioHandler, this));
   camera.setCharacter(static_cast<Character*>(images[1]));
-  // Enemies 2 - 11
-  std::ifstream file("maps/" + std::string(ENEMY_FILENAME));
+  // Enemies
+  std::ifstream file(LEVEL_0_E);
   int x = -1;
   int y = -1;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
@@ -31,17 +31,17 @@ void PlayingState::setup() {
     num_enemies++;
   }
   file.close();
-  // Score 12
+  // Score
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 
     WIDTH - 120, 2, 16, "SCORE = " + std::to_string(engine->score)));  
-  // Heart types 13, 14, 15
+  // Heart types
   images.push_back(new Sprite(engine->renderer, HEART,
     errorHandler, 32, 32, WIDTH - 120, 34, false, true));
   images.push_back(new Sprite(engine->renderer, HEART,
     errorHandler, 32, 32, WIDTH - 80, 34, false, true));
   images.push_back(new Sprite(engine->renderer, HEART,
     errorHandler, 32, 32, WIDTH - 40, 34, false, true));
-  // FPS Counter 16
+  // FPS Counter
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
 }
@@ -156,10 +156,12 @@ void PlayingState::enemyFollow() {
       if (images[i]->pos_x > images[1]->pos_x + images[1]->getDestRect()->w) {
         images[i]->velocityX = -100;
       } 
-      if(images[i]->pos_x < images[1]->pos_x && images[i]->pos_x >= images[1]->pos_x - images[i]->getDestRect()->w) {
+      if(images[i]->pos_x < images[1]->pos_x && images[i]->pos_x
+         >= images[1]->pos_x - images[i]->getDestRect()->w) {
         static_cast<Enemy*>(images[i])->xIntersection = true;
-      } 
-      else if(images[i]->pos_x > images[1]->pos_x && images[i]->pos_x <= images[1]->pos_x + images[i]->getDestRect()->w) {
+      } else
+      if(images[i]->pos_x > images[1]->pos_x && images[i]->pos_x
+         <= images[1]->pos_x + images[i]->getDestRect()->w) {
         static_cast<Enemy*>(images[i])->xIntersection = true;
       } 
       if (images[i]->pos_y + images[i]->getDestRect()->h / 2
@@ -170,28 +172,35 @@ void PlayingState::enemyFollow() {
           > images[1]->pos_y + images[1]->getDestRect()->h / 2) {
         images[i]->velocityY = -100;
       } 
-      if(images[i]->pos_y < images[1]->pos_y && images[i]->pos_y >= images[1]->pos_y - images[i]->getDestRect()->h) {
+      if(images[i]->pos_y < images[1]->pos_y && images[i]->pos_y
+         >= images[1]->pos_y - images[i]->getDestRect()->h) {
+        static_cast<Enemy*>(images[i])->yIntersection = true;
+      } else
+      if(images[i]->pos_y > images[1]->pos_y && images[i]->pos_y
+         <= images[1]->pos_y + images[i]->getDestRect()->h) {
         static_cast<Enemy*>(images[i])->yIntersection = true;
       } 
-      else if(images[i]->pos_y > images[1]->pos_y && images[i]->pos_y <= images[1]->pos_y + images[i]->getDestRect()->h) {
-        static_cast<Enemy*>(images[i])->yIntersection = true;
-      } 
-      //if enemies have their rects touching the rect of the character, the enemy will stop
-      if(static_cast<Enemy*>(images[i])->yIntersection && static_cast<Enemy*>(images[i])->xIntersection){
+      // stop enemy if touching character
+      if(static_cast<Enemy*>(images[i])->yIntersection
+         && static_cast<Enemy*>(images[i])->xIntersection) {
         images[i]->velocityY = 0;
         images[i]->velocityX = 0;
       }
-      //enemy resumes motion after character moves
-      if(static_cast<Enemy*>(images[i])->xIntersection && images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w){
+      // enemy resumes motion after character moves
+      if(static_cast<Enemy*>(images[i])->xIntersection
+         && images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w){
         static_cast<Enemy*>(images[i])->xIntersection = false; 
       }
-      if(static_cast<Enemy*>(images[i])->xIntersection && images[i]->pos_x > images[1]->pos_x + images[i]->getDestRect()->w){
+      if(static_cast<Enemy*>(images[i])->xIntersection
+         && images[i]->pos_x > images[1]->pos_x + images[i]->getDestRect()->w){
         static_cast<Enemy*>(images[i])->xIntersection = false; 
       }
-      if(static_cast<Enemy*>(images[i])->yIntersection && images[i]->pos_y < images[1]->pos_y - images[i]->getDestRect()->h){
+      if(static_cast<Enemy*>(images[i])->yIntersection
+         && images[i]->pos_y < images[1]->pos_y - images[i]->getDestRect()->h){
         static_cast<Enemy*>(images[i])->yIntersection = false; 
       }
-      if(static_cast<Enemy*>(images[i])->yIntersection && images[i]->pos_y > images[1]->pos_y + images[i]->getDestRect()->h){
+      if(static_cast<Enemy*>(images[i])->yIntersection
+         && images[i]->pos_y > images[1]->pos_y + images[i]->getDestRect()->h){
         static_cast<Enemy*>(images[i])->yIntersection = false; 
       }
     }
