@@ -115,7 +115,7 @@ void PlayingState::update(double seconds) {
   checkFollow();
   enemyFollow();
   // changes state to Lose
-  if (static_cast<Character*>(images[1])->hearts == 0) {
+  if (static_cast<Character*>(images[1])->hearts <= 0) {
     engine->setState("lose");
   }
   // changes state to Win
