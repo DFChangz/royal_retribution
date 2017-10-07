@@ -145,12 +145,12 @@ void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
     if (velocityY != 0) {
       double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));
 
-      pos_y -= velocityY / abs(velocityY) * (intersection->h * velRatio);
+      pos_y -= velocityY / abs(velocityY) * ((intersection->h) * velRatio);
     }
   } else {
     if (velocityX != 0) {
       double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
-      pos_x -= velocityX / abs(velocityX) * (intersection->w * velRatio);
+      pos_x -= velocityX / abs(velocityX) * ((intersection->w)* velRatio);
     }
   }
 
