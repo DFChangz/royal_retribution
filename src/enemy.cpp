@@ -63,16 +63,14 @@ void Enemy::update(double seconds) {
 void Enemy::notifyCollision(Image* img, SDL_Rect* intersection) {
   Sprite::notifyCollision(img, intersection);
 
-  if (velocityX == 0 && velocityY == 0)
-    std::cout << "HERE" << std::endl;
-  if(dynamic_cast<Enemy*>(img) != nullptr || dynamic_cast<Character*>(img) != nullptr){
+  if(img->isEnemy() || dynamic_cast<Character*>(img) != nullptr){
     return;
   }
-  /*if (intersection->w > intersection->h) {
+  if (intersection->w > intersection->h) {
     velocityY *= -1;
   } else {
     velocityX *= -1;
-  }*/
+  }
 }
 
 void Enemy::idleAnimation(double seconds) {
