@@ -1,6 +1,8 @@
 ######################################
+#                                    #
 #       T E A M  U B I H A R D       #
 #    Idean, Tae Jin, Billy, Derek    #
+#                                    #
 ######################################
 ================
 # Assignment 5 #
@@ -26,6 +28,12 @@ In Title Screen:
 In Playing State:
   To Automatically Win: [3]
   To Automatically Lose: [4]
+  LIVES:
+  ~ Start with 3 hearts
+  ~ Lose 1/2 heart every time an enemy touches you
+  EXTRA:
+  ~ Enemies start following you when you get close to them
+  ~ There a few seconds of invincibility -> keeps you alive longer
 
 In Menu Scree:
   New Game: Starts Level 0
