@@ -20,7 +20,6 @@ void Camera::updatePosition() {
 int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcRect, SDL_Rect* destRect, bool fixed) {
   SDL_Rect cameraRect = {(int) pos_x, (int) pos_y, WIDTH, HEIGHT};
   if (SDL_HasIntersection(destRect, &cameraRect) || fixed) {
-
     if (!fixed) {
       destRect->x -= pos_x;
       destRect->y -= pos_y;

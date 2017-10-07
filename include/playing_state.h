@@ -3,6 +3,8 @@
 
 #include "state.h"
 
+#define NUM_ENEMIES     10
+
 class PlayingState : public State {
   public:
     PlayingState(Engine* engine, ErrorHandler* errorHandler);

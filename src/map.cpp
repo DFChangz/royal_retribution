@@ -13,7 +13,7 @@ Map::Map(SDL_Renderer* renderer_p, ErrorHandler* errorHandler_p,
 }
 
 void Map::loadTextures(std::string filename) {
-  std::ifstream file("maps/" + filename);
+  std::ifstream file(filename);
   
   if (!file.is_open()) {
     std::string error = filename + " could not be opened";
@@ -37,7 +37,7 @@ void Map::loadTextures(std::string filename) {
 
     textureIDs[sym] = id;
 
-    createTexture(id, TILE_FILENAME, start_frame, frame_length, options);
+    createTexture(id, TILES_IMG, start_frame, frame_length, options);
 
     id++;
   }
@@ -46,7 +46,7 @@ void Map::loadTextures(std::string filename) {
 }
 
 void Map::loadLayout(std::string filename) {
-  std::ifstream file("maps/" + filename);
+  std::ifstream file(filename);
 
   if (!file.is_open()) {
     std::string error = filename + " could not be opened";
@@ -76,9 +76,14 @@ void Map::loadLayout(std::string filename) {
       t.frame_length = texture->frame_length;
       t.image = new Sprite(renderer, "", errorHandler, TILE_DIM, TILE_DIM,
         col * TILE_DIM, row * TILE_DIM, collidable);
-      tiles.push_back(t);
 
-      tiles.back().image->load(texture->texture);
+      if (collidable) {
+        tiles.insert(tiles.begin(), t);
+        tiles[0].image->load(texture->texture);
+      } else {
+        tiles.push_back(t);
+        tiles.back().image->load(texture->texture);
+      }
 
       col++;
     }
@@ -100,7 +105,7 @@ void Map::createTexture(int id, std::string filename, int start_frame,
   if ((int) textures.size() != id)
     errorHandler->quit(__func__, "Invalid Texture ID. Vector wrong size");
 
-  SDL_Surface* surf = IMG_Load(("assets/" + filename).c_str());
+  SDL_Surface* surf = IMG_Load((filename).c_str());
   if (surf == nullptr) errorHandler->quit(__func__, IMG_GetError());
 
   SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surf);
@@ -135,7 +140,7 @@ void Map::render(Camera* camera) {
 void Map::cleanup() {
   for (auto tile : tiles) {
     if (tile.image != nullptr) {
-      delete tile.image;;
+      delete tile.image;
     }
   }
 

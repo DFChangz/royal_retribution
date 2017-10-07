@@ -10,6 +10,13 @@
 #define SPRITE_PADDING_AMOUNT_Y 20
 #define SCORE_FILENAME  "assets/scores.txt"
 
+/* Maps */
+#define TILES_IMG "assets/tiles.png"
+#define MAP_TEXTURES "maps/test_textures.txt"
+// level 0
+#define LEVEL_0 "maps/level_0.txt"
+#define LEVEL_0_E "maps/level_0_enemies.txt"
+
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
 #define FONT_FILENAME "assets/Capture_it.ttf"
