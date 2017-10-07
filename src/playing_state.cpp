@@ -135,7 +135,7 @@ void PlayingState::update(double seconds) {
 void PlayingState::checkFollow() {
   int borderX = images[1]->pos_x + images[1]->getDestRect()->w + 100;
   int borderY = images[1]->pos_y + images[1]->getDestRect()->h + 100;
-  for (int i = 2; i < num_enemies + 1; i++) {
+  for (int i = 2; i < num_enemies + 2; i++) {
     if (images[i]->pos_x <= borderX && images[i]->pos_y <= borderY
         && images[i]->pos_x
         >= images[1]->pos_x - 100 - images[i]->getDestRect()->w
@@ -148,22 +148,18 @@ void PlayingState::checkFollow() {
 }
       
 void PlayingState::enemyFollow() {
-  for (int i = 2; i < num_enemies + 1; i++) {
+  for (int i = 2; i < num_enemies + 2; i++) {
     if (static_cast<Enemy*>(images[i])->following) {
-      if (images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w) {
+      // edit x velocity
+      if (images[i]->pos_x < images[1]->pos_x-images[i]->getDestRect()->w+1) {
         images[i]->velocityX = 100;
       } else
-      if (images[i]->pos_x > images[1]->pos_x + images[1]->getDestRect()->w) {
+      if (images[i]->pos_x > images[1]->pos_x+images[1]->getDestRect()->w-1) {
         images[i]->velocityX = -100;
-      } 
-      if(images[i]->pos_x < images[1]->pos_x && images[i]->pos_x
-         >= images[1]->pos_x - images[i]->getDestRect()->w) {
-        static_cast<Enemy*>(images[i])->xIntersection = true;
-      } else
-      if(images[i]->pos_x > images[1]->pos_x && images[i]->pos_x
-         <= images[1]->pos_x + images[i]->getDestRect()->w) {
-        static_cast<Enemy*>(images[i])->xIntersection = true;
-      } 
+      } else {
+        images[i]->velocityX = 0;
+      }
+      // edit y velocity
       if (images[i]->pos_y + images[i]->getDestRect()->h / 2
            < images[1]->pos_y + images[1]->getDestRect()->h / 2) {
         images[i]->velocityY = 100;
@@ -171,38 +167,9 @@ void PlayingState::enemyFollow() {
       if (images[i]->pos_y + images[i]->getDestRect()->h / 2 
           > images[1]->pos_y + images[1]->getDestRect()->h / 2) {
         images[i]->velocityY = -100;
-      } 
-      if(images[i]->pos_y < images[1]->pos_y && images[i]->pos_y
-         >= images[1]->pos_y - images[i]->getDestRect()->h) {
-        static_cast<Enemy*>(images[i])->yIntersection = true;
-      } else
-      if(images[i]->pos_y > images[1]->pos_y && images[i]->pos_y
-         <= images[1]->pos_y + images[i]->getDestRect()->h) {
-        static_cast<Enemy*>(images[i])->yIntersection = true;
-      } 
-      // stop enemy if touching character
-      if(static_cast<Enemy*>(images[i])->yIntersection
-         && static_cast<Enemy*>(images[i])->xIntersection) {
+      } else {
         images[i]->velocityY = 0;
-        images[i]->velocityX = 0;
-      }
-      // enemy resumes motion after character moves
-      if(static_cast<Enemy*>(images[i])->xIntersection
-         && images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w){
-        static_cast<Enemy*>(images[i])->xIntersection = false; 
-      }
-      if(static_cast<Enemy*>(images[i])->xIntersection
-         && images[i]->pos_x > images[1]->pos_x + images[i]->getDestRect()->w){
-        static_cast<Enemy*>(images[i])->xIntersection = false; 
-      }
-      if(static_cast<Enemy*>(images[i])->yIntersection
-         && images[i]->pos_y < images[1]->pos_y - images[i]->getDestRect()->h){
-        static_cast<Enemy*>(images[i])->yIntersection = false; 
-      }
-      if(static_cast<Enemy*>(images[i])->yIntersection
-         && images[i]->pos_y > images[1]->pos_y + images[i]->getDestRect()->h){
-        static_cast<Enemy*>(images[i])->yIntersection = false; 
-      }
+      } 
     }
   }
 }

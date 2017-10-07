@@ -24,20 +24,16 @@ class Enemy : public Sprite {
       int pos_x, int pos_y, double velocityX, double velocityY);
 
     virtual void update(double seconds);
-
     virtual void notifyCollision(Image*, SDL_Rect*);
 
-    bool isEnemy() { return true; }
 
     void kill() { dead = true; } 
-
+    bool isEnemy() { return true; }
     bool isDead() { return dead; }
 
     bool following = false;
-
-    bool xIntersection = false;
-
-    bool yIntersection = false;
+    //bool xIntersection = false;
+    //bool yIntersection = false;
 
   private:
     bool dead = false;

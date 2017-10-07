@@ -28,7 +28,7 @@ void TitleState::setup() {
     0, 0, 100, logo));
   // skip text 4
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 50, skip));
+    0, 0, 40, skip));
 }
 
 /* loads images */
