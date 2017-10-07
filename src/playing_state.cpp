@@ -73,9 +73,9 @@ void PlayingState::update(double seconds) {
   // update Score
   if(currentScore != engine->score){
     delete images[num_enemies + 2];
-    images[num_enemies + 12] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    images[num_enemies + 2] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
       WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score));  
-    images[num_enemies + 12]->load();
+    images[num_enemies + 2]->load();
     currentScore = engine->score;
   }
   // updates Health
@@ -143,7 +143,6 @@ void PlayingState::checkFollow() {
         >= images[1]->pos_y - 100 - images[i]->getDestRect()->h    )
     {
       static_cast<Enemy*>(images[i])->following = true;
-      std::cout <<"YO\n";
     }
   }
 }
