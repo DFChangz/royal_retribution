@@ -19,7 +19,7 @@ void PlayingState::setup() {
     map->width/2 - 45, map->height - 150, false));
   // Player 1
   images.push_back(new Character(engine->renderer, E_C_FILENAME, errorHandler,
-    16, 25, map->width/2, 80, &eventHandler, &audioHandler, this));
+    16, 25, 80, 80, &eventHandler, &audioHandler, this));
   camera.setCharacter(static_cast<Character*>(images[1]));
   // Enemies 2 - 11
   std::ifstream file("maps/" + std::string(ENEMY_FILENAME));
