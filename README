@@ -1,27 +1,43 @@
-Assignment 4
-=====================
+######################################
+#       T E A M  U B I H A R D       #
+#    Idean, Tae Jin, Billy, Derek    #
+######################################
+================
+# Assignment 5 #
+================
 
 Build Instructions:
-  Run `make` to build the project.
-  
-  To run the application, run `./bin/game`
+  To build the project, run "make"
+  To run the application, run "./bin/game"
 
-This Game includes 5 enemies. The player most avoid the enemies or else there will be a collision
-sound if they collide. The player can attack with SPACE to attack with his sword.
+Character Controls:
+  To Move:          [w]          [^]
+                 [a][s][d] OR [<][v][>]
+  To Run:         [SHIFT]
+  To Attack:      [SPACE]
 
-In order excite the player and attract his attention, we decided that it would be best to award him/her with a whopping 1000 points for every enemy(s)he killed.
+Other Important Buttons:
+  To Quit the Program: [ESCAPE]
+  To Return to Meny Screen from any state: [q]
 
-Controls:
-  Arrow keys or w, a, s, d to move player.
-  SPACE to attack
-  SHIFT for a boost in speed (temporary for debugging purposes)
-  Q to returh to menu at any point.
-  Esc to quit immediately at any point.
+In Title Screen:
+  To Skip Intro: [q]
+
+In Playing State:
+  To Automatically Win: [3]
+  To Automatically Lose: [4]
+
+In Menu Scree:
+  New Game: Starts Level 0
+  HighScores: Shows the highscores
+  Credits: Shows who worked on the game
+  Quit: Same as pressing [ESCAPE], quits program
+  Options can be Chosen with Mouse / arrow keys & [ENTER]/[SPACE]
 
 Notes:
   After running with both valgrind and sanitizers, there are many leaks that
-  are coming directly from SDL. All dynamically allocated elements are freed, 
-  all surfaces are freed before reassignment, all textures, audio, the renderer,
-  and window are all destroyed whenever the application quits, and all SDL
-  libraries have been quit whenever the application panics and whenever it
-  closes successfully.
+  are coming directly from SDL. All dynamically allocated elements are freed
+  all surfaces are freed before reassignment, all textures, audio, the rend-
+  erer, and window are all destroyed whenever the application quits, and all
+  SDL libraries have been quit when the application panics and when it clos-
+  es successfully.
