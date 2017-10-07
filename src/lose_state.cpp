@@ -36,12 +36,12 @@ void LoseState::update(double seconds) {
   totalTime += seconds;
 
   // wrap and fade in scroll
-  a0 = fadeIn(0, a0, seconds, 2.5);
+  a0 = fadeIn(0, a0, seconds, 3);
   // after 15.5 sec, transfer to menu
   if (totalTime > 3) {
     totalTime = 0;
     Mix_HaltMusic();
-    engine->setState("Highscore");
+    engine->setState("menu");
   }
 }
 

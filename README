@@ -40,6 +40,7 @@ In Playing State:
   2) You will see open corridors to your right
   3) At the fourth corridor, start walking right
   4) As you walk, you will see a path going down -> stairs
+  ~ Highscore is ONLY updated when you win. When you lose, nth happens.
 
 In Menu Scree:
   New Game: Starts Level 0

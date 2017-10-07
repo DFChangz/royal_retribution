@@ -82,7 +82,7 @@ void Engine::setup() {
     file.open(SCORE_FILENAME, std::ios_base::app);
     file << std::to_string(score) << std::endl;
     file.close();
-     setState("win");
+    setState("win");
    }, SDLK_3);
   // automatically lose w/ '4'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
