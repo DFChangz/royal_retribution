@@ -33,7 +33,7 @@ void PlayingState::setup() {
   file.close();
   // Score
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 
-    WIDTH - 120, 2, 16, "SCORE = " + std::to_string(engine->score)));  
+    WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score)));  
   // Heart types
   images.push_back(new Sprite(engine->renderer, HEART,
     errorHandler, 32, 32, WIDTH - 120, 34, false, true));
@@ -71,8 +71,9 @@ void PlayingState::update(double seconds) {
   // update Score
   if(currentScore != engine->score){
     delete images[num_enemies + 2];
-    images[num_enemies + 2] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-      WIDTH - 100, 2, 16, "SCORE = " + std::to_string(engine->score));  
+    images[num_enemies + 2] = new Text(engine->renderer, FONT_FILENAME,
+      errorHandler, WIDTH - 114, 2, 16, "SCORE = " +
+      std::to_string(engine->score));  
     images[num_enemies + 2]->load();
     currentScore = engine->score;
   }
