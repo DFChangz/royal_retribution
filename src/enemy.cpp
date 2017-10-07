@@ -62,7 +62,10 @@ void Enemy::update(double seconds) {
 
 void Enemy::notifyCollision(Image* img, SDL_Rect* intersection) {
   Sprite::notifyCollision(img, intersection);
-
+  if(dynamic_cast<Enemy*>(img) != nullptr){
+    
+    return;
+  }
   if (intersection->w > intersection->h) {
     velocityY *= -1;
   } else {

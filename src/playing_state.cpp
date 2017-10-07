@@ -157,11 +157,9 @@ void PlayingState::enemyFollow() {
         images[i]->velocityX = -100;
       } 
       if(images[i]->pos_x < images[1]->pos_x && images[i]->pos_x >= images[1]->pos_x - images[i]->getDestRect()->w) {
-        //images[i]->velocityX *= 0;
         static_cast<Enemy*>(images[i])->xIntersection = true;
       } 
       else if(images[i]->pos_x > images[1]->pos_x && images[i]->pos_x <= images[1]->pos_x + images[i]->getDestRect()->w) {
-        //images[i]->velocityX *= 0;
         static_cast<Enemy*>(images[i])->xIntersection = true;
       } 
       if (images[i]->pos_y + images[i]->getDestRect()->h / 2
@@ -173,17 +171,17 @@ void PlayingState::enemyFollow() {
         images[i]->velocityY = -100;
       } 
       if(images[i]->pos_y < images[1]->pos_y && images[i]->pos_y >= images[1]->pos_y - images[i]->getDestRect()->h) {
-        //images[i]->velocityY *= 0;
         static_cast<Enemy*>(images[i])->yIntersection = true;
       } 
       else if(images[i]->pos_y > images[1]->pos_y && images[i]->pos_y <= images[1]->pos_y + images[i]->getDestRect()->h) {
-       // images[i]->velocityY *= 0;
         static_cast<Enemy*>(images[i])->yIntersection = true;
       } 
+      //if enemies have their rects touching the rect of the character, the enemy will stop
       if(static_cast<Enemy*>(images[i])->yIntersection && static_cast<Enemy*>(images[i])->xIntersection){
         images[i]->velocityY = 0;
         images[i]->velocityX = 0;
       }
+      //ene,y resumes motion after character moves
       if(static_cast<Enemy*>(images[i])->xIntersection && images[i]->pos_x < images[1]->pos_x - images[i]->getDestRect()->w){
         static_cast<Enemy*>(images[i])->xIntersection = false; 
       }
