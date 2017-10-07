@@ -32,8 +32,6 @@ class Enemy : public Sprite {
     bool isDead() { return dead; }
 
     bool following = false;
-    bool xIntersection = false;
-    bool yIntersection = false;
 
   private:
     bool dead = false;
