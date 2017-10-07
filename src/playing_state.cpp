@@ -7,7 +7,7 @@
 PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
-  map = new Map(engine->renderer, errorHandler, LEVEL_0, MAP_TEXTURES);
+  map = new Map(engine->renderer, errorHandler, LEVEL_0, TILES_TXT);
 
   setup();
   load();
@@ -16,7 +16,7 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
 void PlayingState::setup() {
   // Stairs 0
   images.push_back(new Sprite(engine->renderer, STAIRS_FILENAME, errorHandler,
-    map->width - 133, map->height - 132, false));
+    map->width/2 - 45, map->height - 150, false));
   // Player 1
   images.push_back(new Character(engine->renderer, E_C_FILENAME, errorHandler,
     16, 25, map->width/2, 80, &eventHandler, &audioHandler, this));
@@ -29,8 +29,7 @@ void PlayingState::setup() {
     int y = -1;
     file >> y; file >> x;
     images.push_back(new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
-      16, 25, x * (map->width - TILE_DIM * 6)/11 + TILE_DIM * 3,
-      y * (map->height - TILE_DIM * 6)/11 + TILE_DIM * 3, 0, 150));
+      16, 25, x * TILE_DIM, y * TILE_DIM, 0, 150));
   }
   file.close();
   // Score 12
@@ -122,8 +121,9 @@ void PlayingState::update(double seconds) {
     engine->setState("lose");
   }
   // changes state to Win
-  if (images[1]->pos_x > map->width - 130
-      && images[1]->pos_y > map->height - 130)
+  if (images[1]->pos_x > map->width/2 - 45
+      && images[1]->pos_x < map->width/2 + 45
+      && images[1]->pos_y > map->height - 150)
   {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);

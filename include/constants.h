@@ -12,7 +12,7 @@
 
 /* Maps */
 #define TILES_IMG "assets/tiles.png"
-#define MAP_TEXTURES "maps/test_textures.txt"
+#define TILES_TXT "maps/test_textures.txt"
 // level 0
 #define LEVEL_0 "maps/level_0.txt"
 #define LEVEL_0_E "maps/level_0_enemies.txt"
