@@ -149,7 +149,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     hearts--;
 
     invincibilitySeconds = 0;
-  } else if (attacking && collisionDir == dir) {
+  } else if (attacking && collisionDir == dir && image->isEnemy()) {
     audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
     state->engine->score += 1000;
