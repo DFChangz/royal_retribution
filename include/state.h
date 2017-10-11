@@ -38,8 +38,11 @@ class State {
     virtual void render();
 
     Map *map = nullptr;
+
+    void pauseUpdate(double);
   private:
     CollisionDetector* collisionDetector;
+    bool paused = false;
 };
 
 #endif

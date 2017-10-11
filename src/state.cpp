@@ -11,11 +11,15 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(erro
 }
 
 void State::run(double seconds) {
-  eventHandler.check();
+  if (!paused) {
+    eventHandler.check();
 
-  update(seconds);
+    update(seconds);
 
-  collisionDetector->check(&images, map);
+    collisionDetector->check(&images, map);
+  } else {
+    pauseUpdate(seconds);
+  }
 
   render();
 }
@@ -41,6 +45,8 @@ void State::update(double seconds) {
   camera.updatePosition();
   audioHandler.setVolume(engine->volume);
 }
+
+void State::pauseUpdate(double) {}
 
 void State::render() {
   if (SDL_RenderClear(engine->renderer) < 0) {
