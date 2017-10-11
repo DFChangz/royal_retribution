@@ -31,27 +31,35 @@ void PlayingState::setup() {
     num_enemies++;
   }
   file.close();
-  // Score
+  // Score 2
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score)));  
-  // Heart types
+  // Heart types 3-5
   images.push_back(new Sprite(engine->renderer, HEART,
     errorHandler, 32, 32, WIDTH - 120, 34, false, true));
   images.push_back(new Sprite(engine->renderer, HEART,
     errorHandler, 32, 32, WIDTH - 80, 34, false, true));
   images.push_back(new Sprite(engine->renderer, HEART,
     errorHandler, 32, 32, WIDTH - 40, 34, false, true));
-  // FPS Counter
+  // Stamina 6-7
+  images.push_back(new Sprite(engine->renderer, STA_BOX,
+    errorHandler, 0, 34, false, true));
+  images.push_back(new Sprite(engine->renderer, STA_BAR,
+    errorHandler, 2, 38, false, true));
+  // FPS Counter 8
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
 }
 
 void PlayingState::load() {
   State::load();
-
-  // set size of stairs
-  images[0]->getDestRect()->w = 90;
+  // set size of stairs & stam
   images[0]->getDestRect()->h = 90;
+  images[0]->getDestRect()->w = 90;
+  images[6 + num_enemies]->getDestRect()->h = 32;
+  images[6 + num_enemies]->getDestRect()->w = 100;
+  images[7 + num_enemies]->getDestRect()->h = 24;
+  images[7 + num_enemies]->getDestRect()->w = 92;
 }
 
 void PlayingState::update(double seconds) {
@@ -110,6 +118,9 @@ void PlayingState::update(double seconds) {
       static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(40, 0, 32, 32);
       break;
   }
+  // update stamina
+  updateSta();
+  
   // enemy follows king if conditions met
   checkFollow();
   enemyFollow();
@@ -138,11 +149,12 @@ void PlayingState::checkFollow() {
   int borderX = images[1]->pos_x + images[1]->getDestRect()->w + 100;
   int borderY = images[1]->pos_y + images[1]->getDestRect()->h + 100;
   for (int i = 2; i < num_enemies + 2; i++) {
-    if (images[i]->pos_x <= borderX && images[i]->pos_y <= borderY
+    if (!static_cast<Character*>(images[1])->running
         && images[i]->pos_x
         >= images[1]->pos_x - 100 - images[i]->getDestRect()->w
         && images[i]->pos_y
-        >= images[1]->pos_y - 100 - images[i]->getDestRect()->h    )
+        >= images[1]->pos_y - 100 - images[i]->getDestRect()->h
+        && images[i]->pos_x <= borderX && images[i]->pos_y <= borderY)
     {
       static_cast<Enemy*>(images[i])->following = true;
     }
@@ -174,6 +186,13 @@ void PlayingState::enemyFollow() {
       } 
     }
   }
+}
+
+// inc/dec sta
+void PlayingState::updateSta() {
+  int w = int(static_cast<Character*>(images[1])->sta * 96);  
+  images[num_enemies+7]->getDestRect()->w = w;
+  std::cout << static_cast<Character*>(images[1])->sta << " " <<  w << "\n";
 }
 
 PlayingState::~PlayingState() {}

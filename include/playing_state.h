@@ -19,6 +19,7 @@ class PlayingState : public State {
     void update(double);
     virtual void setup();
 
+    void updateSta();
     void checkFollow();
     void enemyFollow();
 

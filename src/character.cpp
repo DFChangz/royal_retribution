@@ -41,6 +41,15 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 void Character::update(double seconds) {
   invincibilitySeconds += seconds;
   attackingTimer += seconds;
+  staSec += seconds;
+
+  // update stamina
+  updateSta();
+
+  // make it so stam always increases
+  if (!running && sta < 1) {
+    sta += 0.01;
+  }
 
   if (lastAttack && attackingTimer
       > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
@@ -158,6 +167,27 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   Sprite::notifyCollision(image, intersection);
 }
 
+void Character::updateSta() {
+  std::cout << "staSec: " << staSec << "\n";
+  // if running
+  if (running) {
+    if (velocityX != 0 || velocityY != 0) {
+      if (sta > 0) {
+        sta -= 0.05;
+      } else {
+        speedMultiplier = 1;
+        running = false;
+        staSec = 0; std::cout << "set to 0\n";
+      }
+    }
+  // if not running
+  } else {
+    if (sta < 1 && sta > 0) {
+      sta += 0.005;
+    }
+  }
+}
+
 void Character::createListeners(EventHandler *eventHandler) {
   // w, a, s, d conrols
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
@@ -182,27 +212,27 @@ void Character::createListeners(EventHandler *eventHandler) {
 
   //when key is released, velocity set back to 0
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityX = 0;}, SDLK_d);
+    if (velocityX > 0) velocityX = 0;}, SDLK_d);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityX = 0;}, SDLK_a);
+    if (velocityX < 0) velocityX = 0;}, SDLK_a);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityY = 0;}, SDLK_s);
+    if (velocityY > 0) velocityY = 0;}, SDLK_s);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityY = 0;}, SDLK_w);
+    if (velocityY < 0) velocityY = 0;}, SDLK_w);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityX = 0;}, SDLK_RIGHT);
+    if (velocityX > 0) velocityX = 0;}, SDLK_RIGHT);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityX = 0;}, SDLK_LEFT);
+    if (velocityX < 0) velocityX = 0;}, SDLK_LEFT);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityY = 0;}, SDLK_DOWN);
+    if (velocityY > 0) velocityY = 0;}, SDLK_DOWN);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    velocityY = 0;}, SDLK_UP);
+    if (velocityY < 0) velocityY = 0;}, SDLK_UP);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     lastAttack = true; attackingTimer = 0;}, SDLK_SPACE);
   
   // boost control
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    speedMultiplier = 4; }, SDLK_LSHIFT);
+    speedMultiplier = 4; running = true; }, SDLK_LSHIFT);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    speedMultiplier = 1; }, SDLK_LSHIFT);
+    speedMultiplier = 1; running = false; }, SDLK_LSHIFT);
 }

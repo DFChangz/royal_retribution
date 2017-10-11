@@ -42,4 +42,8 @@
 #define CASTLE_FILENAME "assets/castle.png"
 #define PLANET_FILENAME "assets/planet.png"
 
+/* Energy */
+#define STA_BAR "assets/stamina_bar.png"
+#define STA_BOX "assets/stamina_outline.png"
+
 #endif

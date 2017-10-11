@@ -2,18 +2,19 @@
 #define CHARACTER_H
 
 #define CHARACTER_FPS   5
-#define RUNNING_FRAMES  4
-#define ATTACK_FRAMES   3
-#define IDLE_FRAMES     1
-#define R_RUNNING_POS   12
-#define L_RUNNING_POS   8
-#define D_RUNNING_POS   0
-#define U_RUNNING_POS   4
-#define D_ATTACK_POS    32
-#define U_ATTACK_POS    35
-#define L_ATTACK_POS    38
-#define R_ATTACK_POS    41
-#define INVINCIBLE_TIME 3.0
+#define RUNNING_FRAMES    4
+#define ATTACK_FRAMES     3
+#define IDLE_FRAMES       1
+#define R_RUNNING_POS     12
+#define L_RUNNING_POS     8
+#define D_RUNNING_POS     0
+#define U_RUNNING_POS     4
+#define D_ATTACK_POS      32
+#define U_ATTACK_POS      35
+#define L_ATTACK_POS      38
+#define R_ATTACK_POS      41
+#define INVINCIBLE_TIME   3.0
+#define STA_WAITING_TIME  3.0
 
 #include "audio.h"
 #include "sprite.h"
@@ -41,23 +42,25 @@ class Character : public Sprite {
     virtual void render(Camera*);
 
     int hearts = 6;
+    double sta = 1;
+    bool running = false;
+
   private:
+    void updateSta();
+    void idleAnimation(double seconds);
     void createListeners(EventHandler*);
     Audio *audioHandler = nullptr;
-    void idleAnimation(double seconds);
 
     std::string dir = "right";
 
-    bool attacking = false;
-
     State* state = nullptr;
 
-    double invincibilitySeconds = INVINCIBLE_TIME;
-    bool invincible = false;
-
-    double attackingTimer = 0;
-
+    bool attacking = false;
     bool lastAttack = false;
+    bool invincible = false;
+    double attackingTimer = 0;
+    double staSec = STA_WAITING_TIME;
+    double invincibilitySeconds = INVINCIBLE_TIME;
 };
 
 #endif
