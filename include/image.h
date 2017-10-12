@@ -23,6 +23,7 @@ class Image {
     virtual void notifyCollision(Image*, SDL_Rect*) {};
 
     virtual bool isCollidable();
+    virtual void setCollidable(bool);
     virtual SDL_Rect* getDestRect();
     SDL_Texture* getTexture();
 

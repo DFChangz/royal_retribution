@@ -37,7 +37,7 @@ void Map::loadTextures(std::string filename) {
 
     textureIDs[sym] = id;
 
-    createTexture(id, TILES_IMG, start_frame, frame_length, options);
+    createTexture(id, TILES_IMG, start_frame, frame_length, options, -1);
 
     id++;
   }
@@ -75,7 +75,7 @@ void Map::loadLayout(std::string filename) {
       t.start_frame = texture->start_frame;
       t.frame_length = texture->frame_length;
       t.image = new Sprite(renderer, "", errorHandler, TILE_DIM, TILE_DIM,
-        col * TILE_DIM, row * TILE_DIM, collidable);
+        col * TILE_DIM, row * TILE_DIM, collidable, false);
 
       if (collidable) {
         tiles.insert(tiles.begin(), t);
@@ -98,9 +98,119 @@ void Map::loadLayout(std::string filename) {
 
   file.close();
 }
+void Map::loadSecondLayout(std::string filename) {
+  std::ifstream file(filename);
 
+  if (!file.is_open()) {
+    std::string error = filename + " could not be opened";
+    errorHandler->quit(__func__, error.c_str());
+  }
+
+  std::string line;
+  int row = 0;
+  while (std::getline(file, line)) {
+    int col = 0;
+
+    std::istringstream iss(line);
+    char sym = -1;
+
+    while(iss >> sym) {
+      if (sym == -1)
+        errorHandler->quit(__func__, "Invalid file contents");
+      else if (textureExtraIDs.find(sym) == textureExtraIDs.end())
+        errorHandler->quit(__func__, "Texture not found for symbol");
+      else if (sym == '-'){
+        col++;
+        continue;
+      }
+
+      struct texture* texture = &(textures[textureExtraIDs[sym]]);
+
+      bool collidable = ((texture->options & 1) == 1);
+      bool trap = ((texture->options & 2) == 2);
+      bool door = ((texture->options & 4) == 4);
+      bool torch = ((texture->options & 8) == 8);
+
+      if (torch) {
+        lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
+                col * TILE_DIM - 1.5*TILE_DIM, row * TILE_DIM - TILE_DIM,
+                false));
+      }
+
+
+      tile t;
+      t.start_frame = texture->start_frame;
+      t.frame_length = texture->frame_length;
+      t.image = new Sprite(renderer, "", errorHandler, TILE_DIM, TILE_DIM,
+        col * TILE_DIM, row * TILE_DIM, collidable, false);
+      t.image->pairing = texture->pairing;
+      t.image->setTrap(trap);
+      t.image->setDoor(door);
+      for(unsigned i = 0; i < additions.size(); i++){
+        if(t.image->pairing != -1 && additions[i].image->pairing == t.image->pairing){
+          t.image->setPair(additions[i].image);
+          additions[i].image->setPair(t.image);
+        }
+      }
+
+      if (collidable) {
+        additions.insert(additions.begin(), t);
+        additions[0].image->load(texture->texture);
+      } else {
+        additions.push_back(t);
+        additions.back().image->load(texture->texture);
+      }
+
+      col++;
+    }
+
+    int rowWidth = col * TILE_DIM;
+    if (rowWidth > width) width = rowWidth;
+
+    col = 0;
+    row++;
+  }
+  height = row * TILE_DIM;
+
+  file.close();
+}
+
+void Map::loadSecondTextures(std::string filename) {
+  std::ifstream file(filename);
+  
+  if (!file.is_open()) {
+    std::string error = filename + " could not be opened";
+    errorHandler->quit(__func__, error.c_str());
+  }
+
+  std::string line;
+  int id = textures.size();
+  while (std::getline(file, line)) {
+    std::istringstream iss(line);
+    char sym = -1;
+    int start_frame = -1;
+    int frame_length = -1;
+    int options = 0;
+    char pairing = -1;
+
+    if (!(iss >> sym) || sym == -1 || !(iss >> start_frame) || start_frame == -1
+        || !(iss >> frame_length) || frame_length == -1)
+      errorHandler->quit(__func__, "Invalid file contents");
+
+    iss >> options;
+    if(!(iss >> pairing) || pairing == -1){
+      pairing = -1;
+    }
+
+    textureExtraIDs[sym] = id;
+
+    createTexture(id, TILES_IMG, start_frame, frame_length, options, pairing);
+
+    id++;
+  }
+}
 void Map::createTexture(int id, std::string filename, int start_frame,
-    int frame_length, int options) {
+    int frame_length, int options, char pairing) {
 
   if ((int) textures.size() != id)
     errorHandler->quit(__func__, "Invalid Texture ID. Vector wrong size");
@@ -120,12 +230,18 @@ void Map::createTexture(int id, std::string filename, int start_frame,
   t.start_frame = start_frame;
   t.frame_length = frame_length;
   t.options = options;
+  t.pairing = pairing;
 
   textures.push_back(t);
 }
 
 void Map::update(double seconds) {
   for (auto tile : tiles) {
+    tile.image->update(seconds);
+    tile.image->animate(seconds, tile.start_frame,
+      tile.frame_length + tile.start_frame - 1);
+  }
+  for (auto tile : additions) {
     tile.image->update(seconds);
     tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
   }
@@ -135,15 +251,38 @@ void Map::render(Camera* camera) {
   for (auto tile : tiles) {
     tile.image->render(camera);
   }
+  for (auto tile : additions) {
+    tile.image->render(camera);
+  }
+}
+
+void Map::pushLights(std::vector<Image*>& images) {
+  for (auto light : lights) {
+    images.push_back(light);
+  }
+  lights.clear();
 }
 
 void Map::cleanup() {
-  for (auto tile : tiles) {
-    if (tile.image != nullptr) {
-      delete tile.image;
+  for (auto light : lights) {
+    if (light != nullptr) {
+      delete light;
+      light = nullptr;
     }
   }
 
+  for (auto tile : tiles) {
+    if (tile.image != nullptr) {
+      delete tile.image;
+      tile.image = nullptr;
+    }
+  }
+  for (auto tile : additions) {
+    if (tile.image != nullptr) {
+      delete tile.image;
+      tile.image = nullptr;
+    }
+  }
   for (auto texture : textures) {
     if (texture.texture != nullptr) {
       SDL_DestroyTexture(texture.texture);

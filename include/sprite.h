@@ -25,6 +25,7 @@ class Sprite : public Image {
     virtual void notifyCollision(Image*, SDL_Rect*);
 
     virtual bool isCollidable();
+    virtual void setCollidable(bool);
     virtual SDL_Rect* getDestRect();
 
     virtual ~Sprite();
@@ -34,6 +35,13 @@ class Sprite : public Image {
 
     void animate(double, int, int, int, int, int fps = 3);
     void animate(double, int, int, int fps = 3);
+    bool isTrap(){ return trap;}
+    void setTrap(bool trap_p){ trap = trap_p;}
+    bool isDoor(){ return door;}
+    void setDoor(bool door_p){ door = door_p;}
+    char pairing = -1;
+    void setPair(Sprite *pair_p){ pair = pair_p;}
+    Sprite* pair = nullptr;
   protected:
     bool collidable = true;
 
@@ -50,6 +58,8 @@ class Sprite : public Image {
     bool animating = false;
     bool fixed = false;
     void updateVelocities(double seconds);
+    bool trap = false;
+    bool door = false;
 };
 
 #endif
