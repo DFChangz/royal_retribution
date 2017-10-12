@@ -43,5 +43,7 @@
 #define STAIRS_FILENAME "assets/stairs.png"
 #define CASTLE_FILENAME "assets/castle.png"
 #define PLANET_FILENAME "assets/planet.png"
+#define BLACK_PIXEL     "assets/black.png"
+#define LIGHTS_FILENAME "assets/lights.png"
 
 #endif

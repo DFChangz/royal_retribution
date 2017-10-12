@@ -60,8 +60,7 @@ bool Image::isCollidable() {
   return false;
 }
 
-void Image::setCollidable(bool collide){
-
+void Image::setCollidable(bool) {
 }
 
 

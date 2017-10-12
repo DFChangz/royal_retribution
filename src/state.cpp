@@ -69,11 +69,15 @@ void State::cleanup() {
   audioHandler.cleanup();
 
   for (Image* image : images) {
-    if (image != nullptr) delete image;
+    if (image != nullptr) {
+      delete image;
+      image = nullptr;
+    }
 	}
 
   if (map != nullptr) {
     delete map;
+    map = nullptr;
   }
 }
 

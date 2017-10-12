@@ -10,6 +10,8 @@
 to all the others */ 
 void CollisionDetector::check(std::vector<Image*>* images, Map* map) {
   for (auto it = images->begin(); it != images->end(); ++it) {
+    if (!(*it)->isCollidable()) continue;
+
     for (auto it2 = images->begin(); it2 != images->end(); ++it2) {
       if (it == it2) continue;
       checkCollision(*it, *it2);

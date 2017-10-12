@@ -70,16 +70,12 @@ void Map::loadLayout(std::string filename) {
       struct texture* texture = &(textures[textureIDs[sym]]);
 
       bool collidable = ((texture->options & 1) == 1);
-      bool trap = ((texture->options & 2) == 2);
-      bool door = ((texture->options & 4) == 4);
 
       tile t;
       t.start_frame = texture->start_frame;
       t.frame_length = texture->frame_length;
       t.image = new Sprite(renderer, "", errorHandler, TILE_DIM, TILE_DIM,
         col * TILE_DIM, row * TILE_DIM, collidable, false);
-      t.image->setTrap(trap);
-      t.image->setDoor(door);
 
       if (collidable) {
         tiles.insert(tiles.begin(), t);
@@ -133,6 +129,14 @@ void Map::loadSecondLayout(std::string filename) {
       bool collidable = ((texture->options & 1) == 1);
       bool trap = ((texture->options & 2) == 2);
       bool door = ((texture->options & 4) == 4);
+      bool torch = ((texture->options & 8) == 8);
+
+      if (torch) {
+        lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
+                col * TILE_DIM - 1.5*TILE_DIM, row * TILE_DIM - TILE_DIM,
+                false));
+      }
+
 
       tile t;
       t.start_frame = texture->start_frame;
@@ -234,7 +238,8 @@ void Map::createTexture(int id, std::string filename, int start_frame,
 void Map::update(double seconds) {
   for (auto tile : tiles) {
     tile.image->update(seconds);
-    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
+    tile.image->animate(seconds, tile.start_frame,
+      tile.frame_length + tile.start_frame - 1);
   }
   for (auto tile : additions) {
     tile.image->update(seconds);
@@ -251,15 +256,31 @@ void Map::render(Camera* camera) {
   }
 }
 
+void Map::pushLights(std::vector<Image*>& images) {
+  for (auto light : lights) {
+    images.push_back(light);
+  }
+  lights.clear();
+}
+
 void Map::cleanup() {
+  for (auto light : lights) {
+    if (light != nullptr) {
+      delete light;
+      light = nullptr;
+    }
+  }
+
   for (auto tile : tiles) {
     if (tile.image != nullptr) {
       delete tile.image;
+      tile.image = nullptr;
     }
   }
   for (auto tile : additions) {
     if (tile.image != nullptr) {
       delete tile.image;
+      tile.image = nullptr;
     }
   }
   for (auto texture : textures) {

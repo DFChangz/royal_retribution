@@ -44,6 +44,7 @@ class Map {
     void loadSecondTextures(std::string);
     void loadSecondLayout(std::string);
     void loadLayout(std::string);
+    void pushLights(std::vector<Image*>&);
 
     void cleanup();
 
@@ -52,6 +53,8 @@ class Map {
 
     int width = 0;
     int height = 0;
+
+    std::vector<Image*> lights;
   private:
     void createTexture(int, std::string, int, int, int, char);
 

@@ -10,6 +10,7 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   map = new Map(engine->renderer, errorHandler, LEVEL_0, TILES_TXT);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_0_ADD);
+
   setup();
   load();
 }
@@ -32,6 +33,12 @@ void PlayingState::setup() {
     num_enemies++;
   }
   file.close();
+  map->pushLights(images);
+  num_lights = images.size() - num_enemies - 2;
+
+  images.push_back(new Sprite(engine->renderer, BLACK_PIXEL, errorHandler, 0,
+    0, false));
+
   // Score
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score)));  
@@ -53,6 +60,28 @@ void PlayingState::load() {
   // set size of stairs
   images[0]->getDestRect()->w = 90;
   images[0]->getDestRect()->h = 90;
+
+  for (int i = num_enemies + 2; i < num_enemies + num_lights + 2;
+        i++) {
+
+    images[i]->getDestRect()->w = TILE_DIM * 5;
+    images[i]->getDestRect()->h = TILE_DIM * 5;
+
+    SDL_SetTextureBlendMode(images[i]->getTexture(), SDL_BLENDMODE_ADD);
+    if (SDL_SetTextureAlphaMod(images[i]->getTexture(), 80) < 0)
+      errorHandler->quit(__func__, SDL_GetError());
+  }
+
+  images[num_enemies + num_lights + 2]->getDestRect()->w = map->width;
+  images[num_enemies + num_lights + 2]->getDestRect()->h = map->height;
+
+  SDL_SetTextureBlendMode(images[num_enemies + num_lights + 2]->getTexture(),
+    SDL_BLENDMODE_BLEND);
+  if (SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 2]->getTexture(),
+    200) < 0) {
+
+    errorHandler->quit(__func__, SDL_GetError());
+  }
 }
 
 void PlayingState::update(double seconds) {
@@ -71,44 +100,44 @@ void PlayingState::update(double seconds) {
   }
   // update Score
   if(currentScore != engine->score){
-    delete images[num_enemies + 2];
-    images[num_enemies + 2] = new Text(engine->renderer, FONT_FILENAME,
+    delete images[num_enemies + num_lights + 3];
+    images[num_enemies + num_lights + 3] = new Text(engine->renderer, FONT_FILENAME,
       errorHandler, WIDTH - 114, 2, 16, "SCORE = " +
       std::to_string(engine->score));  
-    images[num_enemies + 2]->load();
+    images[num_enemies + num_lights + 3]->load();
     currentScore = engine->score;
   }
   // updates Health
   switch(static_cast<Character*>(images[1])->hearts) {
     case 6:
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
       break;
     case 5:
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
       break;
     case 4:
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
       break;
     case 3:
-      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
       break;
     case 2:
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
       break;
     case 1:
-      static_cast<Sprite*>(images[num_enemies + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 4])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + 3])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(40, 0, 32, 32);
       break;
   }
   // enemy follows king if conditions met
