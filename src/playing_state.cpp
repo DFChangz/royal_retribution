@@ -8,7 +8,8 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_0, TILES_TXT);
-
+  map->loadSecondTextures(TILES_ADD);
+  map->loadSecondLayout(LEVEL_0_ADD);
   setup();
   load();
 }

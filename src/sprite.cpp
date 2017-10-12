@@ -46,6 +46,11 @@ void Sprite::load(SDL_Texture *texture_p) {
   if (rect.w == 0 && rect.h == 0) {
     get_texture_size(texture, &(rect.w), &(rect.h));
   }
+  
+  if(door){
+    collidable = false;
+    SDL_SetTextureAlphaMod(this->getTexture(), 0);   
+  }
 }
 
 //moves the position of sprite based on current velocity and time passed
@@ -132,6 +137,10 @@ bool Sprite::isCollidable() {
   return collidable;
 }
 
+void Sprite::setCollidable(bool collide){
+  collidable = collide;
+}
+
 void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
   if (SDL_QueryTexture(texture, NULL, NULL, width, height) < 0) {
     error_handler->quit(__func__, SDL_GetError());
@@ -141,6 +150,11 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 /*if the intersection of 2 collidable sprites have more height overlap, y 
 velocity changes direction if more width, x direction changes*/
 void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
+
+  if (pair != nullptr){
+    pair->collidable = true;
+    SDL_SetTextureAlphaMod(pair->getTexture(), 255);   
+  }
   if (intersection->w > intersection->h) {
     if (velocityY != 0) {
       double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));

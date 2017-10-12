@@ -60,6 +60,10 @@ bool Image::isCollidable() {
   return false;
 }
 
+void Image::setCollidable(bool collide){
+
+}
+
 
 Image::Image(SDL_Renderer *renderer_p, std::string image_file,
   ErrorHandler *error_handler_p) :

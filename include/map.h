@@ -15,6 +15,7 @@ struct texture {
   int start_frame = 0;
   int frame_length = 0;
   int options = 0;
+  int pairing = -1;
 };
 
 struct tile {
@@ -30,14 +31,18 @@ class Map {
     ~Map();
 
     std::vector<tile> tiles;
+    std::vector<tile> additions;
     std::vector<tile> collidable_tiles;
 
-
     std::map<char, int> textureIDs;
+
+    std::map<char, int> textureExtraIDs;
 
     std::vector<texture> textures;
 
     void loadTextures(std::string);
+    void loadSecondTextures(std::string);
+    void loadSecondLayout(std::string);
     void loadLayout(std::string);
 
     void cleanup();
@@ -48,7 +53,7 @@ class Map {
     int width = 0;
     int height = 0;
   private:
-    void createTexture(int, std::string, int, int, int);
+    void createTexture(int, std::string, int, int, int, char);
 
     ErrorHandler* errorHandler;
 

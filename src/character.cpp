@@ -129,6 +129,17 @@ void Character::idleAnimation(double seconds) {
 void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   std::string collisionDir = "";
 
+  /*after stepping on a trap tile the associated door appears and is collidable
+  The trap is no longer collidable, and the character is paired with the door
+  */
+  if(static_cast<Sprite*>(image)->isTrap()){
+    static_cast<Sprite*>(image)->pair->setCollidable(true);
+    
+    SDL_SetTextureAlphaMod(static_cast<Sprite*>(image)->pair->getTexture(), 255);
+    static_cast<Sprite*>(image)->setCollidable(false);
+    this->setPair(static_cast<Sprite*>(image)->pair);
+    return;
+  }
   // either up/down
   if (intersection->w > intersection->h) {
     if (intersection->y <= image->pos_y)
@@ -149,10 +160,19 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     hearts--;
 
     invincibilitySeconds = 0;
+    /*if attacking an enemy that collides in the same direction the enemy dies
+    you get 1000 points and if you are paired with a door, it opens
+    */
   } else if (attacking && collisionDir == dir && image->isEnemy()) {
     audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
+    if(this->pair != nullptr){
+      this->pair->setCollidable(false);
+      SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
+      this->pair = nullptr;
+    }
     state->engine->score += 1000;
+    
   }
 
   Sprite::notifyCollision(image, intersection);

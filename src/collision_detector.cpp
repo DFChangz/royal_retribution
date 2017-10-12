@@ -24,6 +24,11 @@ void CollisionDetector::check(std::vector<Image*>* images, Map* map) {
 
         checkCollision(*it, it2->image);
       }
+      for (auto it2 = map->additions.begin();
+          it2 != map->additions.end(); ++it2) {
+
+        checkCollision(*it, it2->image);
+      }
     }
   }
 }

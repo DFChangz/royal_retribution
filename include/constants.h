@@ -11,11 +11,13 @@
 #define SPRITE_PADDING_AMOUNT_Y 20
 
 /* Maps */
-#define TILES_IMG "assets/tiles.png"
-#define TILES_TXT "maps/test_textures.txt"
+#define TILES_IMG "assets/blocks_2.png"
+#define TILES_TXT "maps/level_1_legend.txt"
+#define TILES_ADD "maps/level_1_additions_legend.txt"
 // level 0
-#define LEVEL_0 "maps/level_0.txt"
-#define LEVEL_0_E "maps/level_0_enemies.txt"
+#define LEVEL_0 "maps/level_1_New.txt"
+#define LEVEL_0_E "maps/level_1_enemies.txt"
+#define LEVEL_0_ADD "maps/level_1_additions.txt"
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
