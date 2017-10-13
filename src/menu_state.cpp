@@ -154,7 +154,7 @@ void MenuState::load() {
   images[3]->onClick(&eventHandler, [&] () {
     Mix_PauseMusic(); 
     engine->newGame();
-    engine->setState("playing");
+    engine->setState("intro");
   });
 
   images[4]->onHover(&eventHandler, [&] () {

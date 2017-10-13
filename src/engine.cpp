@@ -7,6 +7,7 @@
 #include "lose_state.h"
 #include "menu_state.h"
 #include "title_state.h"
+#include "intro_state.h"
 #include "credit_state.h"
 #include "playing_state.h"
 #include "highscore_state.h"
@@ -76,29 +77,12 @@ void Engine::setup() {
     setState("menu");
     Mix_HaltMusic();
     }, SDLK_q);
-  // automatically win w/ '3'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(score) << std::endl;
-    file.close();
-    setState("win");
-   }, SDLK_3);
-  // automatically lose w/ '4'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   setState("lose"); }, SDLK_4);
 }
 
 // The heart
 void Engine::loop() {
   unsigned int lastTime = SDL_GetTicks();
   double totalTime = 0;
-
-/*  intro = Mix_LoadMUS(INTRO_FILENAME);
-
-  if (Mix_PlayMusic(intro, -1) < 0) {
-    std::cerr << "Music was not initialized";
-  }*/
 
   while(running) {
     //converts time to seconds and keeps track of time passed and total time
@@ -153,6 +137,7 @@ void Engine::createStates() {
   states["lose"] = new LoseState(this, &error_handler);
   states["menu"] = new MenuState(this, &error_handler);
   states["title"] = new TitleState(this, &error_handler);
+  states["intro"] = new IntroState(this, &error_handler);
   states["playing"] = nullptr;
   newGame();
   states["Highscore"] = nullptr;
@@ -179,6 +164,10 @@ void Engine::newGame() {
   if (states["lose"] != nullptr) {
     delete states["lose"];
     states["lose"] = nullptr;
+  }
+  if (states["intro"] != nullptr) {
+    delete states["intro"];
+    states["intro"] = nullptr;
   }
   score = 0;
   states["win"] = new WinState(this, &error_handler);

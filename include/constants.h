@@ -4,7 +4,7 @@
 /* Other */
 #define HEIGHT  720
 #define WIDTH   1280 
-#define SPEED_CHAR 100
+#define SPEED_CHAR 150
 #define WINDOW_TITLE "Royal Retribution"
 #define SCORE_FILENAME  "assets/scores.txt"
 #define SPRITE_PADDING_AMOUNT_X 28
@@ -21,6 +21,7 @@
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
+#define FONT_ROBOTO "assets/Roboto.ttf"
 #define FONT_FILENAME "assets/Capture_it.ttf"
 
 /* Audio */

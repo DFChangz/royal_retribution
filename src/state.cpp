@@ -55,6 +55,7 @@ void State::render() {
 
   if (map != nullptr) {
     map->render(&camera);
+    std::cout << "make camera\n";
   }
 
   for (Image* image : images) {

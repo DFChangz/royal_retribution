@@ -44,14 +44,13 @@ class Character : public Sprite {
     int hearts = 6;
     double sta = 1;
     bool running = false;
+    std::string dir = "down";
 
   private:
     void updateSta();
     void idleAnimation(double seconds);
     void createListeners(EventHandler*);
     Audio *audioHandler = nullptr;
-
-    std::string dir = "right";
 
     State* state = nullptr;
 

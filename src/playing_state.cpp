@@ -175,7 +175,18 @@ void PlayingState::update(double seconds) {
     file.close();
     engine->setState("win");
   }
-//  audioHandler.setVolume(engine->volume);
+  // automatically win w/ '3'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file << std::to_string(engine->score) << std::endl;
+    file.close();
+    engine->setState("win");
+   }, SDLK_3);
+  // automatically lose w/ '4'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   engine->setState("lose"); }, SDLK_4);
+
 }
 
 void PlayingState::checkFollow() {
@@ -225,7 +236,6 @@ void PlayingState::enemyFollow() {
 void PlayingState::updateSta() {
   int w = int(static_cast<Character*>(images[1])->sta * 96);  
   images[num_enemies + num_lights + 8]->getDestRect()->w = w;
-  std::cout << static_cast<Character*>(images[1])->sta << " " <<  w << "\n";
 }
 
 PlayingState::~PlayingState() {}

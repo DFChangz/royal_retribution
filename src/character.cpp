@@ -43,6 +43,9 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
+  std::cout << "posx: " << pos_x << "\n";
+  std::cout << "posy: " << pos_y << "\n";
+
   // update stamina
   updateSta();
 
@@ -188,7 +191,6 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
 }
 
 void Character::updateSta() {
-  std::cout << "staSec: " << staSec << "\n";
   // if running
   if (running) {
     if (velocityX != 0 || velocityY != 0) {
@@ -197,7 +199,6 @@ void Character::updateSta() {
       } else {
         speedMultiplier = 1;
         running = false;
-        staSec = 0; std::cout << "set to 0\n";
       }
     }
   // if not running
