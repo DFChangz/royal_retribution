@@ -33,9 +33,9 @@ class Enemy : public Sprite {
 
     bool following = false;
 
+    std::string dir="right";
   private:
     bool dead = false;
-    std::string dir="right";
 
     void idleAnimation(double);
 };

@@ -192,7 +192,7 @@ void MenuState::transition() {
   if (selectedIndex == 3) {
     Mix_PauseMusic(); 
     engine->newGame();
-    engine->setState("playing");
+    engine->setState("intro");
   }
   else if (selectedIndex == 4) {
     engine->newHighscore();

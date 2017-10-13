@@ -8,29 +8,34 @@ class IntroState : public State {
     IntroState(Engine* engine, ErrorHandler* errorHandler);
 
     virtual ~IntroState();
+    virtual void load();
 
+    double timer = 1;
   private:
     virtual void setup();
-    virtual void load();
     virtual void update(double seconds);
 
+    std::tuple<int, int> getCenterForImage(Image*);
     int fadeIn(int i, int a, double seconds, double mult);
 
+    int a0 = 0;
     int a1 = 0;
-    int counter = 2;
+    int counter = 3;
     double newA = 0;
     double speed = 50;
     double totalTime = 0;
     double specificTime = 0;
 
-    std::string s1 = "MY MAJESTY! I bear bad news! (next [SPACE])";
-    std::string k1 = "Please tell, my trusted aide. (next [SPACE])";
-    std::string s2 = "ALIENS! Our castle has fallen! (next [SPACE])";
-    std::string k2 = "I see... How many of my men remain? (next [SPACE])";
-    std::string s3 = "None, my Majesty... (T~T) (next [SPACE])";
-    std::string k3 = "Worry Not! Stand Tall! (next [SPACE])";
-    std::string k4 = "Royal retribution shall be dealt! (next [SPACE])";
-    std::string s4 = "Our lives are in your hands, my king... (next [SPACE])";
+    bool raise = false;
+    std::string skip = "Press [1] to SKIP";
+    std::string s1 = "MY KING! I bear bad news! (next [n])";
+    std::string k1 = "Please tell, my trusted aide. (next [n])";
+    std::string s2 = "ALIENS! They have invaded! (next [n])";
+    std::string k2 = "I see... How many of my men remain? (next [n])";
+    std::string s3 = "None, my Majesty... (next [n])";
+    std::string k3 = "Worry Not! Stand Tall! (next [n])";
+    std::string k4 = "Royal retribution shall be dealt! (next [n])";
+    std::string s4 = "Our lives are in your hands, my king... (next [n])";
 };
 
 #endif

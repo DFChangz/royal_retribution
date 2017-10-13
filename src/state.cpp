@@ -38,7 +38,6 @@ void State::update(double seconds) {
     image->update(seconds);
     counter++;
   }
-
   if (map != nullptr) {
     map->update(seconds);
   }
@@ -52,10 +51,8 @@ void State::render() {
   if (SDL_RenderClear(engine->renderer) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
-
   if (map != nullptr) {
     map->render(&camera);
-    std::cout << "make camera\n";
   }
 
   for (Image* image : images) {

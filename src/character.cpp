@@ -43,9 +43,8 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-  std::cout << "posx: " << pos_x << "\n";
-  std::cout << "posy: " << pos_y << "\n";
-
+  //std::cout << "posX: " << pos_x << "\n";
+  //std::cout << "posY: " << pos_y << "\n";
   // update stamina
   updateSta();
 

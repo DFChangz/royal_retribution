@@ -96,6 +96,7 @@ void PlayingState::load() {
 }
 
 void PlayingState::update(double seconds) {
+  std::cout << "did update\n";
   timer += seconds;
 
   if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
