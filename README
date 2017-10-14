@@ -81,12 +81,18 @@ In Playing State:
   4) As you walk, you will see a path going down -> stairs
   ~ Highscore is ONLY updated when you win. When you lose, nth happens.
 
-In Menu Scree:
+In Menu Screen:
   New Game: Starts Level 0
   HighScores: Shows the highscores
   Credits: Shows who worked on the game
   Quit: Same as pressing [ESCAPE], quits program
   Options can be Chosen with Mouse / arrow keys & [ENTER]/[SPACE]
+
+
+Work Breakdown for this assignment:
+- Derek created all assets and map layout.
+- Idean added the lighting effects for the torches and is working on a grid
+  system for collision detection by (hopefully) next week.
 
 Notes:
   After running with both valgrind and sanitizers, there are many leaks that
