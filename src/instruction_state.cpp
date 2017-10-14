@@ -24,7 +24,7 @@ void InstructionState::setup() {
   camera.setCharacter(static_cast<Character*>(images[0]));
   // move instruct
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 30, skip, RED)); 
+    0, 0, 30, skip, ROYAL_GOLD)); 
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 30, i1, ROYAL_GOLD));
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,

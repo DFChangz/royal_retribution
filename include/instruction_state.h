@@ -18,7 +18,6 @@ class InstructionState : public State {
     std::tuple<int, int> getCenterForImage(Image*);
     int fadeIn(int i, int a, double seconds, double mult);
 
-    int a1 = 0;
     int a2 = 0;
     int a3 = 0;
     int a4 = 0;
