@@ -21,8 +21,12 @@ Intro Scene (Tae Jin)
 Instruction Scene (Tae Jin)
 ~ explains the basic controls (move, attack, run)
 
+Assets (Derek Chang)
+- created all assets and map layout.
+
 Lighting (Idean)
 ~ the torches are a light source that allows the character to see
+~ Working on a grid for collision detection for (hopefully) next week
 
 Traps (Billy)
 1) when a character steps into a room, traps activate
@@ -88,11 +92,6 @@ In Menu Screen:
   Quit: Same as pressing [ESCAPE], quits program
   Options can be Chosen with Mouse / arrow keys & [ENTER]/[SPACE]
 
-
-Work Breakdown for this assignment:
-- Derek created all assets and map layout.
-- Idean added the lighting effects for the torches and is working on a grid
-  system for collision detection by (hopefully) next week.
 
 Notes:
   After running with both valgrind and sanitizers, there are many leaks that
