@@ -18,13 +18,10 @@ class IntroState : public State {
     std::tuple<int, int> getCenterForImage(Image*);
     int fadeIn(int i, int a, double seconds, double mult);
 
-    int a0 = 0;
-    int a1 = 0;
-    int counter = 3;
+    int a = 0;
+    int counter = 4;
     double newA = 0;
     double speed = 50;
-    double totalTime = 0;
-    double specificTime = 0;
 
     bool raise = false;
     std::string skip = "Press [1] to SKIP";

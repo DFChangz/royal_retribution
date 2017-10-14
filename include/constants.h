@@ -36,6 +36,7 @@
 #define NUM_COLS  4
 #define HEART "assets/Heart.png"
 #define E_C_FILENAME "assets/characters/Animations.png"
+#define SQUIRE_FILENAME "assets/characters/Squire_sheet.png"
 
 /* Images */
 #define BG_FILENAME "assets/space.png"
@@ -46,6 +47,7 @@
 #define PLANET_FILENAME "assets/planet.png"
 #define BLACK_PIXEL     "assets/black.png"
 #define LIGHTS_FILENAME "assets/lights.png"
+#define THRONE_FILENAME "assets/throne.png"
 
 /* Energy */
 #define STA_BAR "assets/stamina_bar.png"

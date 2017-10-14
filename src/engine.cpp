@@ -11,6 +11,7 @@
 #include "credit_state.h"
 #include "playing_state.h"
 #include "highscore_state.h"
+#include "instruction_state.h"
 
 // Starts the game
 int Engine::volume = 100;
@@ -139,6 +140,7 @@ void Engine::createStates() {
   states["title"] = new TitleState(this, &error_handler);
   states["intro"] = nullptr;
   states["playing"] = nullptr;
+  states["instruction"] = nullptr;
   newGame();
   states["Highscore"] = nullptr;
   newHighscore();
@@ -169,11 +171,16 @@ void Engine::newGame() {
     delete states["intro"];
     states["intro"] = nullptr;
   }
+  if (states["instruction"] != nullptr) {
+    delete states["instruction"];
+    states["instruction"] = nullptr;
+  }
   score = 0;
   states["win"] = new WinState(this, &error_handler);
   states["lose"] = new LoseState(this, &error_handler);
   states["intro"] = new IntroState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
+  states["instruction"] = new InstructionState(this, &error_handler);
 }
 
 void Engine::newHighscore() {

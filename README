@@ -5,25 +5,64 @@
 #                                    #
 ######################################
 ================
-# Assignment 5 #
+# Assignment 6 #
 ================
 
+NEW THINGS
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Intro Scene (Tae Jin)
+~ occurs right after you press "New Game"
+~ explains the situation (who, what, where, why)
+~ Important Buttons
+  * press [n]: go to next in the coversation
+  * press [1]: skip the enture intro -> playing state
+
+Instruction Scene (Tae Jin)
+~ explains the basic controls (move, attack, run)
+
+Lighting (Idean)
+~ the torches are a light source that allows the character to see
+
+Traps (Billy, *Tae Jin)
+1) when a character steps into a room, traps activate
+2) the doors close behind him and he cannot escape unless...
+3) he kills all of the enemies in the room before they kill him
+* During Gameplay, the screen will go "TRAPPED, KILL THEM ALL TO ESCAPE"
+
+New Sprint Characteristics (Tae Jin)
+~ now sprint needs stamina
+  * stamina: top left green bar
+~ when sprinting, enemies do not notice you
+  * however, if the enemies have already found you, they will follow you even
+    when you start sprinting
+
+Little Debugging
+~ there is no lag in character's movements (Tae Jin)
+
+Created all the images and map text files (Derek)
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Build Instructions:
   To build the project, run "make"
   To run the application, run "./bin/game"
 
 Character Controls:
-  To Move:          [w]          [^]
-                 [a][s][d] OR [<][v][>]
+  To Move:          [w] 
+                 [a][s][d] OR arrow keys
   To Run:         [SHIFT]
   To Attack:      [SPACE]
 
 Other Important Buttons:
   To Quit the Program: [ESCAPE]
-  To Return to Meny Screen from any state: [q]
+  To Return to Menu Screen from any state: [q]
 
 In Title Screen:
-  To Skip Intro: [q]
+  To Skip Scene: [q]
+
+In Intro Screen:
+  To Skip Scene: [1]
+  To Go to Next Speech: [n]
 
 In Playing State:
   To Automatically Win: [3]

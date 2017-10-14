@@ -13,6 +13,7 @@
 #include "sprite.h"
 #include "character.h"
 #include "enemy.h"
+#include "squire.h"
 #include "event_handler.h"
 #include "constants.h"
 #include "collision_detector.h"

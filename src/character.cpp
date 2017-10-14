@@ -45,6 +45,7 @@ void Character::update(double seconds) {
 
   //std::cout << "posX: " << pos_x << "\n";
   //std::cout << "posY: " << pos_y << "\n";
+
   // update stamina
   updateSta();
 
