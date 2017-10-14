@@ -20,7 +20,7 @@ IntroState::IntroState(Engine* engine, ErrorHandler* errorHandler)
 void IntroState::setup() {
   // throne 0
   images.push_back(new Sprite(engine->renderer, THRONE_FILENAME, errorHandler,
-    64, 64, 2530, 1310, false));
+    2530, 1370, false));
   // king 1 
   images.push_back(new Character(engine->renderer, E_C_FILENAME, errorHandler,
     16, 25, 2546, 1320, &eventHandler, &audioHandler, this));
@@ -47,8 +47,6 @@ void IntroState::setup() {
     0, 0, 25, k4));
   images.push_back(new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 40, s4, ROYAL_GOLD));
-  // throne
-  
 }
 
 /* loads images */
@@ -61,13 +59,10 @@ void IntroState::load() {
     SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
   }
   // position all the text
-  for (unsigned int i = 0; i < images.size(); i++) {
-    if (i == 1 || i == 2) continue;
+  for (unsigned int i = 3; i < images.size(); i++) {
     auto center = getCenterForImage(images[i]);
     images[i]->setPosition(std::get<0>(center), std::get<1>(center));
     if (i == 3) {
-      images[i]->pos_y = 0;
-    } else if (i == 0) {
       images[i]->pos_y = 0;
     } else if (i == 11) {
       images[i]->pos_y -= 114;
