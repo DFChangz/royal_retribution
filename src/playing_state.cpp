@@ -89,7 +89,7 @@ void PlayingState::load() {
   SDL_SetTextureBlendMode(images[num_enemies + num_lights + 2]->getTexture(),
     SDL_BLENDMODE_BLEND);
   if (SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 2]->getTexture(),
-    200) < 0) {
+    150) < 0) {
 
     errorHandler->quit(__func__, SDL_GetError());
   }
