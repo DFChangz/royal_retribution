@@ -56,7 +56,37 @@ void PlayingState::setup() {
     errorHandler, 0, 34, false, true));
   images.push_back(new Sprite(engine->renderer, STA_BAR,
     errorHandler, 2, 38, false, true));
-  // FPS Counter 9
+  //key and coin 
+/*  double coinPosX = 0.0;
+  double coinPosY = 0.0;
+  double keyPosX = 0.0;
+  double keyPosY = 0.0;
+  Sprite *C1 = nullptr;
+  Sprite *C2 = nullptr;
+  for(auto tile : map->additions){
+    if(tile.image->isChest()){
+      if(keyPosX == 0.0 && keyPosY == 0.0){
+        keyPosX = tile.image->pos_x;
+        keyPosY = tile.image->pos_y;
+        Sprite *C1 = tile.image;
+      } else {
+        coinPosX = tile.image->pos_x;
+        coinPosY = tile.image->pos_y;
+        Sprite *C2 = tile.image;
+
+      }
+    }
+  }
+  images.push_back(new Sprite(engine->renderer, KEY,
+    errorHandler, 32, 32, keyPosX, keyPosY, false, false));
+  static_cast<Sprite*>(images[num_enemies + num_lights + 9])->setPair(C1);
+  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(),0);
+  
+  images.push_back(new Sprite(engine->renderer, COIN,
+    errorHandler, 32, 32, coinPosX, coinPosY, false, false));
+  static_cast<Sprite*>(images[num_enemies + num_lights + 10])->setPair(C2);
+  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(),0);*/
+  // FPS Counter 
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
 }
@@ -157,6 +187,13 @@ void PlayingState::update(double seconds) {
   // enemy follows king if conditions met
   checkFollow();
   enemyFollow();
+
+/*  if(static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair){
+    SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(), 255);
+  }
+  if(static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair){
+    SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 255);
+  }*/
   
   State::update(seconds);
 

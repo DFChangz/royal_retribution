@@ -101,11 +101,16 @@ void Sprite::animate(double seconds, int start_frame, int end_frame,
   if (timer >= spf)  {
     currentFrame = ((currentFrame - start_frame + 1)
       % (end_frame - start_frame + 1)) + start_frame;
+  
     int row = currentFrame / NUM_ROWS;
     int col = currentFrame % NUM_COLS;
 
     srcRect.x = col*(srcRect.w + padding_x);
     srcRect.y = row*(srcRect.h + padding_y);
+    if(chest && currentFrame == 63){
+      pair = this;
+      return;
+    }
     
     timer = 0;
   }

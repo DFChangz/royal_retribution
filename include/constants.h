@@ -48,6 +48,8 @@
 #define BLACK_PIXEL     "assets/black.png"
 #define LIGHTS_FILENAME "assets/lights.png"
 #define THRONE_FILENAME "assets/throne.png"
+#define COIN "assets/coin.png"
+#define KEY "assets/key.png"
 
 /* Energy */
 #define STA_BAR "assets/stamina_bar.png"

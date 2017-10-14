@@ -43,8 +43,6 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-  //std::cout << "posX: " << pos_x << "\n";
-  //std::cout << "posY: " << pos_y << "\n";
 
   // update stamina
   updateSta();
@@ -164,6 +162,10 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     else
       collisionDir = "left";
   }
+ 
+  if(static_cast<Sprite*>(image)->isChest() && interacting == true){
+      static_cast<Sprite*>(image)->pair = this;
+  }
 
   //When collision detector detects a collision play the sound effect
   if (image->isEnemy() && (!attacking || collisionDir != dir) && !invincible) {
@@ -256,4 +258,9 @@ void Character::createListeners(EventHandler *eventHandler) {
     speedMultiplier = 4; running = true; }, SDLK_LSHIFT);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     speedMultiplier = 1; running = false; }, SDLK_LSHIFT);
+  //object interaction 
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    interacting = true;}, SDLK_e);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    interacting = false;}, SDLK_e);
 }

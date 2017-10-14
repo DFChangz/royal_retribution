@@ -130,6 +130,7 @@ void Map::loadSecondLayout(std::string filename) {
       bool trap = ((texture->options & 2) == 2);
       bool door = ((texture->options & 4) == 4);
       bool torch = ((texture->options & 8) == 8);
+      bool chest = ((texture->options & 16) == 16);
 
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
@@ -146,6 +147,7 @@ void Map::loadSecondLayout(std::string filename) {
       t.image->pairing = texture->pairing;
       t.image->setTrap(trap);
       t.image->setDoor(door);
+      t.image->setChest(chest);
       for(unsigned i = 0; i < additions.size(); i++){
         if(t.image->pairing != -1 && additions[i].image->pairing == t.image->pairing){
           t.image->setPair(additions[i].image);
@@ -243,6 +245,17 @@ void Map::update(double seconds) {
   }
   for (auto tile : additions) {
     tile.image->update(seconds);
+    if(tile.image->isChest()){
+      if(tile.image->pair == nullptr){
+        tile.image->animate(seconds, tile.start_frame, tile.start_frame);
+        continue;
+      }
+      if(tile.image->pair == tile.image->pair){
+        tile.image->animate(seconds, tile.frame_length + tile.start_frame - 1, 
+          tile.frame_length + tile.start_frame - 1);
+        continue;
+      }
+    }
     tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
   }
 }

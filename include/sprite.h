@@ -39,6 +39,8 @@ class Sprite : public Image {
     void setTrap(bool trap_p){ trap = trap_p;}
     bool isDoor(){ return door;}
     void setDoor(bool door_p){ door = door_p;}
+    bool isChest(){ return chest;}
+    void setChest(bool chest_p){ chest = chest_p;}
     char pairing = -1;
     void setPair(Sprite *pair_p){ pair = pair_p;}
     Sprite* pair = nullptr;
@@ -60,6 +62,7 @@ class Sprite : public Image {
     void updateVelocities(double seconds);
     bool trap = false;
     bool door = false;
+    bool chest = false;
 };
 
 #endif
