@@ -48,7 +48,6 @@ void Image::cleanup() {
 }
 
 SDL_Rect* Image::getDestRect() {
-  std::cerr << "Image does not have a rect. This only works on subclasses. Returning NULL." << std::endl;
   return NULL;
 }
 
@@ -67,6 +66,8 @@ void Image::setCollidable(bool) {
 Image::Image(SDL_Renderer *renderer_p, std::string image_file,
   ErrorHandler *error_handler_p) :
     image_file(image_file) {
+
+    buckets = std::vector<unsigned int>();
     
     renderer = renderer_p;
     error_handler = error_handler_p;

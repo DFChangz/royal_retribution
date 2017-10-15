@@ -40,8 +40,9 @@ class State {
     Map *map = nullptr;
 
     void pauseUpdate(double);
+
+    CollisionDetector collisionDetector;
   private:
-    CollisionDetector* collisionDetector;
     bool paused = false;
 };
 

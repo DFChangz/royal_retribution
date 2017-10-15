@@ -69,7 +69,8 @@ void Engine::setup() {
   }
 
   createStates();
-  setState("title");
+  //setState("title");
+  setState("playing");
 
   //Quits on escape.
   eventHandler.addListener(SDL_QUIT, [&] (SDL_Event*) {quit();});

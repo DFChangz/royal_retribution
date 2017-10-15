@@ -1,7 +1,10 @@
 #include "map.h"
 
 Map::Map(SDL_Renderer* renderer_p, ErrorHandler* errorHandler_p,
-        std::string map_filename, std::string textures_filename) {
+        std::string map_filename, std::string textures_filename,
+        CollisionDetector* collision_detector_p) {
+
+  collisionDetector = collision_detector_p;
 
   errorHandler = errorHandler_p;
 
@@ -97,7 +100,10 @@ void Map::loadLayout(std::string filename) {
   height = row * TILE_DIM;
 
   file.close();
+
+  addCollidablesToBuckets(&tiles);
 }
+
 void Map::loadSecondLayout(std::string filename) {
   std::ifstream file(filename);
 
@@ -175,6 +181,7 @@ void Map::loadSecondLayout(std::string filename) {
   height = row * TILE_DIM;
 
   file.close();
+  addCollidablesToBuckets(&tiles);
 }
 
 void Map::loadSecondTextures(std::string filename) {
@@ -303,6 +310,15 @@ void Map::cleanup() {
     }
   }
 }
+
+void Map::addCollidablesToBuckets(std::vector<tile>* tiles) {
+  for (auto tile = tiles->begin(); tile != tiles->end(); tile++) {
+    if (!tile->image->isCollidable()) break;
+
+    collisionDetector->updateBuckets(tile->image, this);
+  }
+}
+
 
 Map::~Map() {
   cleanup();
