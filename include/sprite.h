@@ -35,6 +35,7 @@ class Sprite : public Image {
 
     void animate(double, int, int, int, int, int fps = 3);
     void animate(double, int, int, int fps = 3);
+    void setFixed(bool fixed_p){ fixed = fixed_p;}
     bool isTrap(){ return trap;}
     void setTrap(bool trap_p){ trap = trap_p;}
     bool isDoor(){ return door;}

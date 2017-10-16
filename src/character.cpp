@@ -122,6 +122,11 @@ void Character::render(Camera* camera) {
     SDL_SetTextureAlphaMod(texture, 255);
 
   Sprite::render(camera);
+ 
+  for(Sprite* item : inventory){
+    if(item != nullptr)
+      item->render(camera);
+  }
 }
 
 void Character::idleAnimation(double seconds) {
@@ -263,4 +268,20 @@ void Character::createListeners(EventHandler *eventHandler) {
     interacting = true;}, SDLK_e);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     interacting = false;}, SDLK_e);
+}
+
+
+
+void Character::cleanup(){
+  for(Sprite* item : inventory){
+    if(item != nullptr){
+      delete item;
+      item = nullptr; 
+    }
+  }
+}
+
+Character::~Character(){
+//  cleanup();
+
 }

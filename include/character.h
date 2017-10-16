@@ -41,10 +41,13 @@ class Character : public Sprite {
 
     virtual void render(Camera*);
 
+    virtual void cleanup();
     int hearts = 6;
     double sta = 1;
     bool running = false;
     std::string dir = "down";
+    std::vector<Sprite*> inventory;
+    ~Character();
 
   private:
     void updateSta();

@@ -56,8 +56,8 @@ void PlayingState::setup() {
     errorHandler, 0, 34, false, true));
   images.push_back(new Sprite(engine->renderer, STA_BAR,
     errorHandler, 2, 38, false, true));
-  //key and coin 
-/*  double coinPosX = 0.0;
+  //key and coin 9 and 10
+  double coinPosX = 0.0;
   double coinPosY = 0.0;
   double keyPosX = 0.0;
   double keyPosY = 0.0;
@@ -68,11 +68,11 @@ void PlayingState::setup() {
       if(keyPosX == 0.0 && keyPosY == 0.0){
         keyPosX = tile.image->pos_x;
         keyPosY = tile.image->pos_y;
-        Sprite *C1 = tile.image;
+        C1 = tile.image;
       } else {
         coinPosX = tile.image->pos_x;
         coinPosY = tile.image->pos_y;
-        Sprite *C2 = tile.image;
+        C2 = tile.image;
 
       }
     }
@@ -80,12 +80,10 @@ void PlayingState::setup() {
   images.push_back(new Sprite(engine->renderer, KEY,
     errorHandler, 32, 32, keyPosX, keyPosY, false, false));
   static_cast<Sprite*>(images[num_enemies + num_lights + 9])->setPair(C1);
-  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(),0);
   
   images.push_back(new Sprite(engine->renderer, COIN,
     errorHandler, 32, 32, coinPosX, coinPosY, false, false));
   static_cast<Sprite*>(images[num_enemies + num_lights + 10])->setPair(C2);
-  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(),0);*/
   // FPS Counter 
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: "));
@@ -188,12 +186,25 @@ void PlayingState::update(double seconds) {
   checkFollow();
   enemyFollow();
 
-/*  if(static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair){
+  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 0);
+  
+  for(unsigned i = 0; i < static_cast<Character*>(images[1])->inventory.size(); i++){
+    static_cast<Character*>(images[1])->inventory[i]->setFixed(true);
+    static_cast<Character*>(images[1])->inventory[i]->setPosition(i * 40, 66);
+    SDL_SetTextureAlphaMod(static_cast<Character*>(images[1])->inventory[i]->getTexture(), 255);
+    
+  }
+  if(static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair){
     SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(), 255);
+    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Sprite*>(images[num_enemies + num_lights + 9]));
+    static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair = static_cast<Character*>(images[1]);
   }
   if(static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair){
     SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 255);
-  }*/
+    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Sprite*>(images[num_enemies + num_lights + 10]));
+    static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair = static_cast<Character*>(images[1]);
+  }
   
   State::update(seconds);
 
