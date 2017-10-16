@@ -204,6 +204,7 @@ void PlayingState::update(double seconds) {
     SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 255);
     static_cast<Character*>(images[1])->inventory.push_back(static_cast<Sprite*>(images[num_enemies + num_lights + 10]));
     static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair = static_cast<Character*>(images[1]);
+    engine->score += 1000;
   }
   
   State::update(seconds);
