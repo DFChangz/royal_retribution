@@ -4,7 +4,9 @@
 
 #include "state.h"
 
-State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
+State::State(Engine* engine_ref, ErrorHandler* errorHandler) :
+  audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
+
   engine = engine_ref;
 
   errorHandler = &engine->error_handler;
@@ -16,7 +18,7 @@ void State::run(double seconds) {
 
     update(seconds);
 
-    collisionDetector->check(&images, map);
+    collisionDetector.check(&camera, map);
   } else {
     pauseUpdate(seconds);
   }
@@ -29,13 +31,28 @@ void State::load() {
 
   for (Image* image : images) {
     image->load();
+    collisionDetector.updateBuckets(image, map);
   }
 }
 
 void State::update(double seconds) {
   int counter = 0;
+
   for (Image* image : images) {
+    SDL_Rect cameraRect = camera.getRect();
+
+    if (image->getDestRect()) {
+      SDL_Rect imageRect = {(int) image->pos_x, (int) image->pos_y,
+      image->getDestRect()->w, image->getDestRect()->h};
+
+      if (!SDL_HasIntersection(&imageRect, &cameraRect))
+        continue;
+    }
+
     image->update(seconds);
+
+    collisionDetector.updateBuckets(image, map);
+
     counter++;
   }
   if (map != nullptr) {

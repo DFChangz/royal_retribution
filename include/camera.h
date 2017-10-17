@@ -16,6 +16,8 @@ class Camera {
     int render(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*,
       bool fixed = false);
     Character* character;
+
+    SDL_Rect getRect();
   private:
     double pos_x = 0.0;
     double pos_y = 0.0;
