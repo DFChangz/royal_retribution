@@ -160,11 +160,24 @@ void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
     pair->collidable = true;
     SDL_SetTextureAlphaMod(pair->getTexture(), 255);   
   }
-  if (intersection->w > intersection->h) {
+  if (abs(velocityY) > abs(velocityX)) {
     if (velocityY != 0) {
       double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));
 
       pos_y -= velocityY / abs(velocityY) * ((intersection->h) * velRatio);
+    }
+  } else if (abs(velocityY) == abs(velocityX)) {
+    if (intersection->w > intersection->h) {
+      if (velocityY != 0) {
+        double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));
+
+        pos_y -= velocityY / abs(velocityY) * ((intersection->h) * velRatio);
+      }
+    } else {
+      if (velocityX != 0) {
+        double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
+        pos_x -= velocityX / abs(velocityX) * ((intersection->w)* velRatio);
+      }
     }
   } else {
     if (velocityX != 0) {
