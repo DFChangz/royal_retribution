@@ -26,6 +26,10 @@ class State {
     virtual ~State();
 
     Engine* engine;
+
+    CollisionDetector collisionDetector;
+
+    Map *map = nullptr;
   protected:
     virtual void cleanup();
     virtual void update(double seconds);
@@ -37,11 +41,9 @@ class State {
     Camera camera;
     virtual void render();
 
-    Map *map = nullptr;
 
     void pauseUpdate(double);
 
-    CollisionDetector collisionDetector;
   private:
     bool paused = false;
 };

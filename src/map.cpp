@@ -181,7 +181,7 @@ void Map::loadSecondLayout(std::string filename) {
   height = row * TILE_DIM;
 
   file.close();
-  addCollidablesToBuckets(&tiles);
+  addCollidablesToBuckets(&additions);
 }
 
 void Map::loadSecondTextures(std::string filename) {
