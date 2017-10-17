@@ -78,11 +78,11 @@ void PlayingState::setup() {
       }
     }
   }
-  images.push_back(new Sprite(engine->renderer, KEY,
+  images.push_back(new Pickup(engine->renderer, KEY,
     errorHandler, 32, 32, keyPosX, keyPosY, false, false));
   static_cast<Sprite*>(images[num_enemies + num_lights + 9])->setPair(C1);
   
-  images.push_back(new Sprite(engine->renderer, COIN,
+  images.push_back(new Pickup(engine->renderer, COIN,
     errorHandler, 32, 32, coinPosX, coinPosY, false, false));
   static_cast<Sprite*>(images[num_enemies + num_lights + 10])->setPair(C2);
   // FPS Counter 
@@ -189,23 +189,39 @@ void PlayingState::update(double seconds) {
 
   SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 0);
-  
-  for(unsigned i = 0; i < static_cast<Character*>(images[1])->inventory.size(); i++){
-    static_cast<Character*>(images[1])->inventory[i]->setFixed(true);
-    static_cast<Character*>(images[1])->inventory[i]->setPosition(i * 40, 66);
-    SDL_SetTextureAlphaMod(static_cast<Character*>(images[1])->inventory[i]->getTexture(), 255);
+
+  int x = 0;  
+//  for(unsigned i = 0; i < static_cast<Character*>(images[1])->inventory.size(); i++){
+  for(Pickup *pUp : static_cast<Character*>(images[1])->inventory){  
+    pUp->setFixed(true);
+    pUp->setPosition(x * 40, 66);
+    SDL_SetTextureAlphaMod(pUp->getTexture(), 255);
+    if(!pUp->isActivated()){
+      x++;
+    }
+//    static_cast<Character*>(images[1])->inventory[i]->setFixed(true);
+//    static_cast<Character*>(images[1])->inventory[i]->setPosition(i * 40, 66);
+//    SDL_SetTextureAlphaMod(static_cast<Character*>(images[1])->inventory[i]->getTexture(), 255);
     
   }
-  if(static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair){
+  if(static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair
+    && !static_cast<Pickup*>(images[num_enemies + num_lights + 9])->isPickedUp()){
+
     SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(), 255);
-    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Sprite*>(images[num_enemies + num_lights + 9]));
+    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Pickup*>(images[num_enemies + num_lights + 9]));
     static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair = static_cast<Character*>(images[1]);
+    static_cast<Pickup*>(images[num_enemies + num_lights + 9])->pickUp();
+
   }
-  if(static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair){
+  if(static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair
+    && !static_cast<Pickup*>(images[num_enemies + num_lights + 10])->isPickedUp()){
+
     SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 255);
-    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Sprite*>(images[num_enemies + num_lights + 10]));
+    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Pickup*>(images[num_enemies + num_lights + 10]));
     static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair = static_cast<Character*>(images[1]);
     engine->score += 1000;
+    static_cast<Pickup*>(images[num_enemies + num_lights + 10])->pickUp();
+
   }
   
   State::update(seconds);

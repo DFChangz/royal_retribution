@@ -34,6 +34,8 @@ class Image {
 
     virtual bool isEnemy() { return false; }
 
+    virtual bool isPickup() { return false; }
+
     virtual void setPosition(double x, double y);
 
     void onHover(EventHandler*, std::function<void()>);
