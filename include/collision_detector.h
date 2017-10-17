@@ -16,11 +16,11 @@ class CollisionDetector {
   public:
     CollisionDetector();
 
-    void check(std::vector<Image*>*, Map* map = nullptr);
+    void check(Camera*, Map* map = nullptr);
 
     void updateBuckets(Image* image, Map* map = nullptr);
   private:
-    void checkInBuckets();
+    void checkInBuckets(Camera*, Map* map = nullptr);
     void checkCollision(Image*, Image*);
     std::vector<collision_bucket> buckets;
     void initializeBuckets();

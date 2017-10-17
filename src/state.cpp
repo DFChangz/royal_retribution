@@ -18,7 +18,7 @@ void State::run(double seconds) {
 
     update(seconds);
 
-    collisionDetector.check(&images, map);
+    collisionDetector.check(&camera, map);
   } else {
     pauseUpdate(seconds);
   }

@@ -14,8 +14,8 @@ CollisionDetector::CollisionDetector() {
 
 /* two iterators that go through the whole vector of images comparing one image
 to all the others */ 
-void CollisionDetector::check(std::vector<Image*>* images, Map* map) {
-  checkInBuckets();
+void CollisionDetector::check(Camera* camera, Map* map) {
+  checkInBuckets(camera, map);
 
   /*for (auto it = images->begin(); it != images->end(); ++it) {
     if (!(*it)->isCollidable()) continue;
@@ -41,10 +41,22 @@ void CollisionDetector::check(std::vector<Image*>* images, Map* map) {
   }*/
 }
 
-void CollisionDetector::checkInBuckets() {
+void CollisionDetector::checkInBuckets(Camera* camera, Map* map) {
   for (auto bucket_it = buckets.begin(); bucket_it != buckets.end();
     bucket_it++) {
-    if (bucket_it->size() !=0)
+
+    if (map != nullptr) {
+      int bucket_index = bucket_it - buckets.begin();
+      const int GRID_WIDTH = map->width / BUCKET_COLS;
+      const int GRID_HEIGHT = map->width / BUCKET_ROWS;
+      SDL_Rect bucket_rect = {bucket_index % BUCKET_COLS * GRID_WIDTH,
+        bucket_index / BUCKET_COLS * GRID_HEIGHT, GRID_WIDTH, GRID_HEIGHT};
+
+      SDL_Rect camera_rect = camera->getRect();
+
+      if (!SDL_HasIntersection(&bucket_rect, &camera_rect)) continue;
+    }
+
     for (auto img1_it = bucket_it->begin(); img1_it != bucket_it->end();
       img1_it++) {
       for (auto img2_it = bucket_it->begin(); img2_it != bucket_it->end();
