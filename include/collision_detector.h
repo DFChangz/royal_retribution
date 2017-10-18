@@ -10,9 +10,10 @@
 on screen and checks when they are intersecting in position.*/
 class CollisionDetector {
   public:
-    void check(std::vector<Image*>*, Map* map = nullptr);
+    void check(std::map<std::string,Image*>*, Map* map = nullptr);
 
   private:
     void checkCollision(Image*, Image*);
+    std::map<std::string,Image*>::iterator it;
 };
 #endif

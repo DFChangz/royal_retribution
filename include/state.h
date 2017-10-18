@@ -1,6 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <map>
 #include <vector>
 #include <fstream>
 #include <iostream>
@@ -26,20 +27,30 @@ class State {
     virtual ~State();
 
     Engine* engine;
+
   protected:
+    virtual void render();
     virtual void cleanup();
     virtual void update(double seconds);
-    std::vector<Image*> images;
+
+    double newA = 0;
+    double speed = 50;
+    int fadeIn(std::string s, int a, double seconds, double mult);
+
+    //std::vector<Image*> images;
+    std::map<std::string,Image*> images;
+    std::map<std::string,Image*>::iterator it;
+
     Audio audioHandler;
     EventHandler eventHandler;
     ErrorHandler* errorHandler;
 
     Camera camera;
-    virtual void render();
 
     Map *map = nullptr;
 
     void pauseUpdate(double);
+
   private:
     CollisionDetector* collisionDetector;
     bool paused = false;

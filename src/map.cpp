@@ -269,11 +269,15 @@ void Map::render(Camera* camera) {
   }
 }
 
-void Map::pushLights(std::vector<Image*>& images) {
+int Map::pushLights(std::map<std::string, Image*>& imgMap) {
+  int counter = 0;
   for (auto light : lights) {
-    images.push_back(light);
+    std::string lightStr = "light_" + counter;
+    imgMap[lightStr] = light;
+    counter++;
   }
   lights.clear();
+  return counter;
 }
 
 void Map::cleanup() {

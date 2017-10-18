@@ -15,37 +15,37 @@ TitleState::TitleState(Engine* engine, ErrorHandler* errorHandler)
 /* setup images */
 void TitleState::setup() {
   // space BG 0
-  images.push_back(new Sprite(engine->renderer, BG_FILENAME, errorHandler,
-    0, 0, false));
+  images["BG"] = new Sprite(engine->renderer, BG_FILENAME, errorHandler,
+    0, 0, false);
   // ship img 1
-  images.push_back(new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
-    -180, 180, false));
+  images["ship"] = new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
+    -180, 180, false);
   // earth img 2
-  images.push_back(new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
-    0, 0, false));
+  images["earth"] = new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
+    0, 0, false);
   // logo text 3
-  images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
-    0, 0, 100, logo));
+  images["logo"] = new Text(engine->renderer, FONT_ARCADE, errorHandler,
+    0, 0, 100, logo);
   // skip text 4
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 40, skip));
+  images["skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 40, skip);
 }
 
 /* loads images */
 void TitleState::load() {
   State::load();
   // make all textures transparent
-  for (unsigned int i = 1; i < images.size(); i++) {
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
+  for (it = images.find("ship"); it != images.end(); it++) {
+    SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
   }
   // center some of the textures
-  for (unsigned int i = 2; i < images.size() - 1; i++) {
-    auto center = getCenterForImage(images[i]);
-    images[i]->setPosition(std::get<0>(center), std::get<1>(center));
+  for (it = images.find("earth"); it != images.find("logo"); it++) {
+    auto center = getCenterForImage(it->second);
+    it->second->setPosition(std::get<0>(center), std::get<1>(center));
   }
   // position skip text
-  auto center = getCenterForImage(images[4]);
-  images[4]->setPosition(std::get<0>(center), std::get<1>(center) + 300);
+  auto center = getCenterForImage(images["ship"]);
+  images["ship"]->setPosition(std::get<0>(center), std::get<1>(center) + 300);
 }
 
 /* updates the screen */
@@ -55,48 +55,36 @@ void TitleState::update(double seconds) {
   totalTime += seconds;
   if(!audioHandler.isPlaying()){audioHandler.play("intro");}
   // wrap space and fade in skip
-  if (images[0]->getDestRect()->x <= WIDTH - images[0]->getDestRect()->w) {
+  if (images["BG"]->getDestRect()->x <= WIDTH - images["BG"]->getDestRect()->w)
+  {
     x = 0;
-    y = images[0]->pos_y;
-
-    images[0]->setPosition(x, y);
+    y = images["BG"]->pos_y;
+    images["BG"]->setPosition(x, y);
   }
-  a0 = fadeIn(4, a0, seconds, 2.5);
-  images[0]->velocityX = -1 * speed;
+  a0 = fadeIn("ship", a0, seconds, 2.5);
+  images["BG"]->velocityX = -4 * speed;
   // after 3.5 sec, fade in ship
   if (totalTime > 3.5 && totalTime < 7.5) {
-    a1 = fadeIn(1, a1, seconds, 2.5);
-    images[1]->velocityX = 4 * speed;
+    a1 = fadeIn("ship", a1, seconds, 2.5);
+    images["ship"]->velocityX = 4 * speed;
   }
   // after 7.5 sec, fade in logo
   if (totalTime > 7.5 && totalTime < 11.5) {
-    a3 = fadeIn(3, a3, seconds, 2.5);
+    a3 = fadeIn("logo", a3, seconds, 2.5);
   }
   // after 11.5 sec, fade in earth
   if (totalTime > 11.5) {
-    a2 = fadeIn(2, a2, seconds, 2.5);
-    x = images[2]->pos_x - 2.5 * speed * seconds;
-    y = images[2]->pos_y - 2.5 * speed * seconds;
-    images[2]->setPosition(x, y);
-    images[2]->getDestRect()->w += 5.0 * speed * seconds;
-    images[2]->getDestRect()->h += 5.0 * speed * seconds;
+    a2 = fadeIn("earth", a2, seconds, 2.5);
+    x = images["earth"]->pos_x - 2.5 * speed * seconds;
+    y = images["earth"]->pos_y - 2.5 * speed * seconds;
+    images["earth"]->setPosition(x, y);
+    images["earth"]->getDestRect()->w += 5.0 * speed * seconds;
+    images["earth"]->getDestRect()->h += 5.0 * speed * seconds;
   }
   // after 15.5 sec, transfer to menu
   if (totalTime > 15.5) {
     engine->setState("menu");
   }
-}
-
-/* fades in a texture */
-int TitleState::fadeIn(int i, int a, double seconds, double mult) {
-  newA = (double)a + speed * seconds * mult;
-  if (newA < 255) {
-    a = (int)newA;
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), a);
-  } else {
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), 255);
-  }
-  return a;
 }
 
 /* center positions */

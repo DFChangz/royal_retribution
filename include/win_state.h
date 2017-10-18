@@ -15,7 +15,6 @@ class WinState : public State {
     virtual void update(double seconds);
 
     std::tuple<int, int> getCenterForImage(Image*);
-    int fadeIn(int i, int a, double seconds, double mult);
 
     int x, y;
     int a0 = 0;

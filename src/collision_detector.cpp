@@ -8,13 +8,15 @@
 
 /* two iterators that go through the whole vector of images comparing one image
 to all the others */ 
-void CollisionDetector::check(std::vector<Image*>* images, Map* map) {
-  for (auto it = images->begin(); it != images->end(); ++it) {
-    if (!(*it)->isCollidable()) continue;
+void CollisionDetector::check(std::map<std::string,Image*>* images, Map* map) {
+  std::cout << "starts coll det\n";
+  for (it = images->begin(); it != images->end(); ++it) {
+    std::cout << "starts loop\n";
+    if (!it->second->isCollidable()) continue;
 
     for (auto it2 = images->begin(); it2 != images->end(); ++it2) {
       if (it == it2) continue;
-      checkCollision(*it, *it2);
+      checkCollision(it->second, it2->second);
     }
 
     if (map != nullptr) {   
@@ -24,12 +26,12 @@ void CollisionDetector::check(std::vector<Image*>* images, Map* map) {
         if (!it2->image->isCollidable())
           break;
 
-        checkCollision(*it, it2->image);
+        checkCollision(it->second, it2->image);
       }
       for (auto it2 = map->additions.begin();
           it2 != map->additions.end(); ++it2) {
 
-        checkCollision(*it, it2->image);
+        checkCollision(it->second, it2->image);
       }
     }
   }

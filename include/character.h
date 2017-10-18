@@ -36,21 +36,28 @@ class Character : public Sprite {
      int pos_x, int pos_y, EventHandler*, Audio*, State*);
 
     virtual void notifyCollision(Image*, SDL_Rect* intersection);
-
     virtual void update(double seconds);
-
     virtual void render(Camera*);
-
     virtual void cleanup();
+
+    int maxH = 6;
     int hearts = 6;
+
     double sta = 1;
+    double exp = 1;
+
+    bool frozen = false;
     bool running = false;
+    bool leveledUp = false;
+
     std::string dir = "down";
     std::vector<Sprite*> inventory;
+
     ~Character();
 
   private:
     void updateSta();
+    void updateExp();
     void idleAnimation(double seconds);
     void createListeners(EventHandler*);
     Audio *audioHandler = nullptr;
@@ -60,8 +67,10 @@ class Character : public Sprite {
     bool attacking = false;
     bool lastAttack = false;
     bool invincible = false;
-    double attackingTimer = 0;
     bool interacting = false;
+
+    double expInc = 0.2;
+    double attackingTimer = 0;
     double staSec = STA_WAITING_TIME;
     double invincibilitySeconds = INVINCIBLE_TIME;
 };

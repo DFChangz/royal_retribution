@@ -11,31 +11,36 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(erro
 }
 
 void State::run(double seconds) {
+  std::cout << "start run\n";
   if (!paused) {
     eventHandler.check();
+    std::cout << "does state check\n";
 
     update(seconds);
+    std::cout << "does state update\n";
 
     collisionDetector->check(&images, map);
+    std::cout << "does collisionDetector\n";
   } else {
     pauseUpdate(seconds);
   }
-
+  std::cout << "b4 render\n";
   render();
+  std::cout << "after render\n";
 }
 
 void State::load() {
   audioHandler.load();
 
-  for (Image* image : images) {
-    image->load();
+  for (it = images.begin(); it != images.end(); it++) {
+    it->second->load();
   }
 }
 
 void State::update(double seconds) {
   int counter = 0;
-  for (Image* image : images) {
-    image->update(seconds);
+  for (it = images.begin(); it != images.end(); it++) {
+    it->second->update(seconds);
     counter++;
   }
   if (map != nullptr) {
@@ -55,21 +60,33 @@ void State::render() {
     map->render(&camera);
   }
 
-  for (Image* image : images) {
-    if (!image->isEnemy() || !static_cast<Enemy*>(image)->isDead())
-      image->render(&camera);
+  for (it = images.begin(); it != images.end(); it++) {
+    if (!it->second->isEnemy() || !static_cast<Enemy*>(it->second)->isDead())
+      it->second->render(&camera);
   }
 
   SDL_RenderPresent(engine->renderer);
 }
 
+/* fades in a texture */
+int State::fadeIn(std::string s, int a, double seconds, double mult) {
+  newA = (double)a + speed * seconds * mult;
+  if (newA < 255) {
+    a = (int)newA;
+    SDL_SetTextureAlphaMod(images[s]->getTexture(), a);
+  } else {
+    SDL_SetTextureAlphaMod(images[s]->getTexture(), 255);
+  }
+  return a;
+}
+
 void State::cleanup() {
   audioHandler.cleanup();
 
-  for (Image* image : images) {
-    if (image != nullptr) {
-      delete image;
-      image = nullptr;
+  for (it = images.begin(); it != images.end(); it++) {
+    if (it->second != nullptr) {
+      delete it->second;
+      it->second = nullptr;
     }
 	}
 

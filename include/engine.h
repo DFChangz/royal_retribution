@@ -1,24 +1,26 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <iostream>
-#include <vector>
-#include <map>
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
-#include <SDL_ttf.h>
-#include "error_handler.h"
+
+#include <map>
+#include <vector>
+#include <iostream>
+
 #include "image.h"
-#include "sprite.h"
-#include "character.h"
-#include "enemy.h"
-#include "squire.h"
-#include "event_handler.h"
-#include "constants.h"
-#include "collision_detector.h"
 #include "audio.h"
 #include "state.h"
+#include "enemy.h"
+#include "sprite.h"
+#include "squire.h"
+#include "constants.h"
+#include "character.h"
+#include "event_handler.h"
+#include "error_handler.h"
+#include "collision_detector.h"
 
 /*Header file for the game engine that is in charge of setup loading, 
 and rendering textures along with any audio and text. Plus it destroys 

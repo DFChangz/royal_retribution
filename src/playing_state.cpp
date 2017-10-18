@@ -16,47 +16,45 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
 }
 
 void PlayingState::setup() {
-  // Stairs 0
-  images.push_back(new Sprite(engine->renderer, STAIRS_FILENAME, errorHandler,
-    map->width/2 - 45, map->height - 150, false));
-  // Player 1
-  images.push_back(new Character(engine->renderer, E_C_FILENAME, errorHandler,
-    16, 25, 80, 80, &eventHandler, &audioHandler, this));
-  camera.setCharacter(static_cast<Character*>(images[1]));
+  // Stairs 
+  images["stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
+    errorHandler, map->width/2 - 45, map->height - 150, false);
+  // Player 
+  images["king"] = new Character(engine->renderer, E_C_FILENAME, errorHandler,
+    16, 25, 80, 80, &eventHandler, &audioHandler, this);
+  camera.setCharacter(static_cast<Character*>(images["king"]));
   // Enemies
   std::ifstream file(LEVEL_0_E);
   int x = -1;
   int y = -1;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
-    images.push_back(new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
-      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150));
+    std::string enemyStr = "enemy_" + num_enemies;
+    images[enemyStr] = new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
+      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
     num_enemies++;
   }
   file.close();
-
   // Lights
-  map->pushLights(images);
-  num_lights = images.size() - num_enemies - 2;
-  // Black 2
-  images.push_back(new Sprite(engine->renderer, BLACK_PIXEL, errorHandler, 0,
-    0, false));
-
-  // Score 3
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler, 
-    WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score)));  
-  // Heart types 4-6
-  images.push_back(new Sprite(engine->renderer, HEART,
-    errorHandler, 32, 32, WIDTH - 120, 34, false, true));
-  images.push_back(new Sprite(engine->renderer, HEART,
-    errorHandler, 32, 32, WIDTH - 80, 34, false, true));
-  images.push_back(new Sprite(engine->renderer, HEART,
-    errorHandler, 32, 32, WIDTH - 40, 34, false, true));
-  // Stamina 7-8
-  images.push_back(new Sprite(engine->renderer, STA_BOX,
-    errorHandler, 0, 34, false, true));
-  images.push_back(new Sprite(engine->renderer, STA_BAR,
-    errorHandler, 2, 38, false, true));
-  //key and coin 9 and 10
+  num_lights = map->pushLights(images);
+  // Black
+  images["black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler, 0,
+    0, false);
+  // Score
+  images["score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 
+    WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));  
+  // Heart types
+  images["heart_1"] = new Sprite(engine->renderer, HEART,
+    errorHandler, 32, 32, WIDTH - 120, 34, false, true);
+  images["heart_2"] = new Sprite(engine->renderer, HEART,
+    errorHandler, 32, 32, WIDTH - 80, 34, false, true);
+  images["heart_3"] = new Sprite(engine->renderer, HEART,
+    errorHandler, 32, 32, WIDTH - 40, 34, false, true);
+  // Stamina
+  images["sta_box"] = new Sprite(engine->renderer, STA_BOX,
+    errorHandler, 0, 34, false, true);
+  images["sta_bar"] = new Sprite(engine->renderer, STA_BAR,
+    errorHandler, 2, 38, false, true);
+  // set key and coin pos
   double coinPosX = 0.0;
   double coinPosY = 0.0;
   double keyPosX = 0.0;
@@ -73,52 +71,49 @@ void PlayingState::setup() {
         coinPosX = tile.image->pos_x;
         coinPosY = tile.image->pos_y;
         C2 = tile.image;
-
       }
     }
   }
-  images.push_back(new Sprite(engine->renderer, KEY,
-    errorHandler, 32, 32, keyPosX, keyPosY, false, false));
-  static_cast<Sprite*>(images[num_enemies + num_lights + 9])->setPair(C1);
-  
-  images.push_back(new Sprite(engine->renderer, COIN,
-    errorHandler, 32, 32, coinPosX, coinPosY, false, false));
-  static_cast<Sprite*>(images[num_enemies + num_lights + 10])->setPair(C2);
-  // FPS Counter 
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    2, 2, 16, "FPS: "));
+  // add key
+  images["key"] = new Sprite(engine->renderer, KEY, errorHandler, 32, 32,
+    keyPosX, keyPosY, false, false);
+  static_cast<Sprite*>(images["key"])->setPair(C1);
+  // add coin
+  images["coin"] = new Sprite(engine->renderer, COIN, errorHandler, 32, 32,
+    coinPosX, coinPosY, false, false);
+  static_cast<Sprite*>(images["coin"])->setPair(C2);
+  // FPS Counter
+  images["fps"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    2, 2, 16, "FPS: ");
 }
 
 void PlayingState::load() {
   State::load();
 
   // set size of stairs & stam
-  images[0]->getDestRect()->h = 90;
-  images[0]->getDestRect()->w = 90;
-  images[7 + num_enemies + num_lights]->getDestRect()->h = 32;
-  images[7 + num_enemies + num_lights]->getDestRect()->w = 100;
-  images[8 + num_enemies + num_lights]->getDestRect()->h = 24;
-  images[8 + num_enemies + num_lights]->getDestRect()->w = 92;
+  images["stair"]->getDestRect()->h = 90;
+  images["stair"]->getDestRect()->w = 90;
+  images["stam_box"]->getDestRect()->h = 32;
+  images["stam_box"]->getDestRect()->w = 100;
+  images["stam_bar"]->getDestRect()->h = 24;
+  images["stam_bar"]->getDestRect()->w = 92;
 
-  for (int i = num_enemies + 2; i < num_enemies + num_lights + 2;
-        i++) {
+  for (int i = 0; i < num_lights; i++) {
+    std::string lightStr = "light_" + i;
 
-    images[i]->getDestRect()->w = TILE_DIM * 5;
-    images[i]->getDestRect()->h = TILE_DIM * 5;
+    images[lightStr]->getDestRect()->w = TILE_DIM * 5;
+    images[lightStr]->getDestRect()->h = TILE_DIM * 5;
 
-    SDL_SetTextureBlendMode(images[i]->getTexture(), SDL_BLENDMODE_ADD);
-    if (SDL_SetTextureAlphaMod(images[i]->getTexture(), 80) < 0)
+    SDL_SetTextureBlendMode(images[lightStr]->getTexture(), SDL_BLENDMODE_ADD);
+    if (SDL_SetTextureAlphaMod(images[lightStr]->getTexture(), 80) < 0)
       errorHandler->quit(__func__, SDL_GetError());
   }
 
-  images[num_enemies + num_lights + 2]->getDestRect()->w = map->width;
-  images[num_enemies + num_lights + 2]->getDestRect()->h = map->height;
+  images["black"]->getDestRect()->w = map->width;
+  images["black"]->getDestRect()->h = map->height;
 
-  SDL_SetTextureBlendMode(images[num_enemies + num_lights + 2]->getTexture(),
-    SDL_BLENDMODE_BLEND);
-  if (SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 2]->getTexture(),
-    150) < 0) {
-
+  SDL_SetTextureBlendMode(images["black"]->getTexture(), SDL_BLENDMODE_BLEND);
+  if (SDL_SetTextureAlphaMod(images["black"]->getTexture(), 150) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
 }
@@ -129,54 +124,52 @@ void PlayingState::update(double seconds) {
   if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
   // update FPS Display
   if (timer > 1) {
-    delete images.back();
-    images.pop_back();
-    images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-      2, 2, 16, "FPS: " + std::to_string((int)(1/seconds))));
-    images.back()->load();
+    delete images["fps"];
+    images["fps"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+      2, 2, 16, "FPS: " + std::to_string((int)(1/seconds)));
+    images["fps"]->load();
 
     timer = 0;
   }
   // update Score
   if(currentScore != engine->score){
-    delete images[num_enemies + num_lights + 3];
-    images[num_enemies + num_lights + 3] = new Text(engine->renderer, FONT_FILENAME,
-      errorHandler, WIDTH - 114, 2, 16, "SCORE = " +
-      std::to_string(engine->score));  
-    images[num_enemies + num_lights + 3]->load();
+    delete images["score"];
+    images["score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+      WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));  
+    images["score"]->load();
     currentScore = engine->score;
   }
   // updates Health
-  switch(static_cast<Character*>(images[1])->hearts) {
+  switch(static_cast<Character*>(images["king"])->hearts) {
     case 6:
-      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_1"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_3"])->setSrcRect(0, 0, 32, 32);
       break;
     case 5:
-      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_1"])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_3"])->setSrcRect(0, 0, 32, 32);
       break;
     case 4:
-      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_3"])->setSrcRect(0, 0, 32, 32);
       break;
     case 3:
-      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_2"])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_3"])->setSrcRect(0, 0, 32, 32);
       break;
     case 2:
-      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_3"])->setSrcRect(0, 0, 32, 32);
       break;
     case 1:
-      static_cast<Sprite*>(images[num_enemies + num_lights + 6])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 5])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[num_enemies + num_lights + 4])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images["heart_3"])->setSrcRect(40, 0, 32, 32);
       break;
   }
   // update stamina
@@ -186,37 +179,45 @@ void PlayingState::update(double seconds) {
   checkFollow();
   enemyFollow();
 
-  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images["key"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images["coin"]->getTexture(), 0);
   
-  for(unsigned i = 0; i < static_cast<Character*>(images[1])->inventory.size(); i++){
-    static_cast<Character*>(images[1])->inventory[i]->setFixed(true);
-    static_cast<Character*>(images[1])->inventory[i]->setPosition(i * 40, 66);
-    SDL_SetTextureAlphaMod(static_cast<Character*>(images[1])->inventory[i]->getTexture(), 255);
-    
+  for (unsigned i = 0; i < static_cast<Character*>(images["king"])
+    ->inventory.size(); i++) {
+    static_cast<Character*>(images["king"])->inventory[i]->setFixed(true);
+    static_cast<Character*>(images["king"])->inventory[i]
+    ->setPosition(i * 40, 66);
+    SDL_SetTextureAlphaMod(static_cast<Character*>(images["king"])
+    ->inventory[i]->getTexture(), 255);
   }
-  if(static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair){
-    SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 9]->getTexture(), 255);
-    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Sprite*>(images[num_enemies + num_lights + 9]));
-    static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair = static_cast<Character*>(images[1]);
+  if (static_cast<Sprite*>(images["key"])->pair->pair
+     == static_cast<Sprite*>(images["key"])->pair){
+    SDL_SetTextureAlphaMod(images["key"]->getTexture(), 255);
+    static_cast<Character*>(images["king"])
+    ->inventory.push_back(static_cast<Sprite*>(images["key"]));
+    static_cast<Sprite*>(images["key"])->pair
+    = static_cast<Character*>(images["king"]);
   }
-  if(static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair){
-    SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 255);
-    static_cast<Character*>(images[1])->inventory.push_back(static_cast<Sprite*>(images[num_enemies + num_lights + 10]));
-    static_cast<Sprite*>(images[num_enemies + num_lights + 10])->pair = static_cast<Character*>(images[1]);
+  if (static_cast<Sprite*>(images["coin"])->pair->pair
+    == static_cast<Sprite*>(images["coin"])->pair){
+    SDL_SetTextureAlphaMod(images["coin"]->getTexture(), 255);
+    static_cast<Character*>(images["king"])
+    ->inventory.push_back(static_cast<Sprite*>(images["coing"]));
+    static_cast<Sprite*>(images["coin"])->pair
+    = static_cast<Character*>(images["king"]);
     engine->score += 1000;
   }
   
   State::update(seconds);
 
   // changes state to Lose
-  if (static_cast<Character*>(images[1])->hearts <= 0) {
+  if (static_cast<Character*>(images["king"])->hearts <= 0) {
     engine->setState("lose");
   }
   // changes state to Win
-  if (images[1]->pos_x > map->width/2 - 45
-      && images[1]->pos_x < map->width/2 + 45
-      && images[1]->pos_y > map->height - 150)
+  if (images["king"]->pos_x > map->width/2 - 45
+      && images["king"]->pos_x < map->width/2 + 45
+      && images["king"]->pos_y > map->height - 150)
   {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);
@@ -235,47 +236,54 @@ void PlayingState::update(double seconds) {
   // automatically lose w/ '4'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("lose"); }, SDLK_4);
-
 }
 
 void PlayingState::checkFollow() {
-  int borderX = images[1]->pos_x + images[1]->getDestRect()->w + 100;
-  int borderY = images[1]->pos_y + images[1]->getDestRect()->h + 100;
-  for (int i = 2; i < num_enemies + 2; i++) {
-    if (!static_cast<Character*>(images[1])->running
-        && images[i]->pos_x
-        >= images[1]->pos_x - 100 - images[i]->getDestRect()->w
-        && images[i]->pos_y
-        >= images[1]->pos_y - 100 - images[i]->getDestRect()->h
-        && images[i]->pos_x <= borderX && images[i]->pos_y <= borderY)
+  int borderX = images["king"]->pos_x + images["king"]->getDestRect()->w + 100;
+  int borderY = images["king"]->pos_y + images["king"]->getDestRect()->h + 100;
+  for (int i = 0; i < num_enemies; i++) {
+    std::string s = "enemy_" + i;
+    if (!static_cast<Character*>(images[s])->running
+        && images[s]->pos_x
+        >= images["king"]->pos_x - 100 - images[s]->getDestRect()->w
+        && images[s]->pos_y
+        >= images["king"]->pos_y - 100 - images[s]->getDestRect()->h
+        && images[s]->pos_x <= borderX && images[s]->pos_y <= borderY)
     {
-      static_cast<Enemy*>(images[i])->following = true;
+      static_cast<Enemy*>(images[s])->following = true;
     }
   }
 }
       
 void PlayingState::enemyFollow() {
-  for (int i = 2; i < num_enemies + 2; i++) {
-    if (static_cast<Enemy*>(images[i])->following) {
+  for (int i = 0; i < num_enemies; i++) {
+    std::string enemyStr = "enemy_" + i;
+    if (static_cast<Enemy*>(images[enemyStr])->following) {
       // edit x velocity
-      if (images[i]->pos_x < images[1]->pos_x-images[i]->getDestRect()->w+1) {
-        images[i]->velocityX = 100;
+      if (images[enemyStr]->pos_x
+          < images["king"]->pos_x-images[enemyStr]->getDestRect()->w+1)
+      {
+        images[enemyStr]->velocityX = 100;
       } else
-      if (images[i]->pos_x > images[1]->pos_x+images[1]->getDestRect()->w-1) {
-        images[i]->velocityX = -100;
+      if (images[enemyStr]->pos_x
+          > images["king"]->pos_x+images["king"]->getDestRect()->w-1)
+      {
+        images[enemyStr]->velocityX = -100;
       } else {
-        images[i]->velocityX = 0;
+        images[enemyStr]->velocityX = 0;
       }
       // edit y velocity
-      if (images[i]->pos_y + images[i]->getDestRect()->h / 2
-           < images[1]->pos_y + images[1]->getDestRect()->h / 2) {
-        images[i]->velocityY = 100;
+      if (images[enemyStr]->pos_y + images[enemyStr]->getDestRect()->h / 2
+          < images["king"]->pos_y + images["king"]->getDestRect()->h / 2)
+      {
+        images[enemyStr]->velocityY = 100;
       } else
-      if (images[i]->pos_y + images[i]->getDestRect()->h / 2 
-          > images[1]->pos_y + images[1]->getDestRect()->h / 2) {
-        images[i]->velocityY = -100;
+      if (images[enemyStr]->pos_y + images[enemyStr]->getDestRect()->h / 2 
+          > images["king"]->pos_y + images["king"]->getDestRect()->h / 2)
+      {
+        images[enemyStr]->velocityY = -100;
       } else {
-        images[i]->velocityY = 0;
+        images[enemyStr]->velocityY = 0;
       } 
     }
   }
@@ -283,8 +291,8 @@ void PlayingState::enemyFollow() {
 
 // inc/dec sta
 void PlayingState::updateSta() {
-  int w = int(static_cast<Character*>(images[1])->sta * 96);  
-  images[num_enemies + num_lights + 8]->getDestRect()->w = w;
+  int w = int(static_cast<Character*>(images["king"])->sta * 96);  
+  images["sta_bar"]->getDestRect()->w = w;
 }
 
 PlayingState::~PlayingState() {}

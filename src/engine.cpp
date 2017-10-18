@@ -16,11 +16,13 @@
 // Starts the game
 int Engine::volume = 100;
 void Engine::start() {
+  std::cout << "starts engine\n";
   setup();
-
+  std::cout << "did setup\n"; 
   loop();
-
+  std::cout << "did loop\n"; 
   cleanup();
+  std::cout << "did clean up\n"; 
 }
 
 // Runs any setup code that is needed to load the assets.
@@ -30,24 +32,19 @@ void Engine::setup() {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0){ 
     error_handler.quit(__func__, SDL_GetError());
   }
-
   // DOES NOT FUNCTION CORRECTLY IN MAC OS X.
   if ((Mix_Init(MIX_INIT_MOD) & MIX_INIT_MOD) == 0) {
     //error_handler.quit(__func__, Mix_GetError());
   }
-
   if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) == 0) {
     error_handler.quit(__func__, IMG_GetError());
   }
-
   if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
     error_handler.quit(__func__, Mix_GetError());
   }
-
   if (TTF_Init() < 0) {
     error_handler.quit(__func__, TTF_GetError());
   }
-
   //window setup
   SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
@@ -68,7 +65,9 @@ void Engine::setup() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
+  std::cout << "did this\n";
   createStates();
+  std::cout << "creates states\n";
   setState("title");
 
   //Quits on escape.
@@ -91,11 +90,15 @@ void Engine::loop() {
     double seconds = (currentTime - lastTime) / 1000.0;
     lastTime = currentTime;
     totalTime += seconds;
-
+    std::cout << "running\n";
     eventHandler.getEvents();
+    std::cout << "getEvents\n";
     eventHandler.check();
+    std::cout << "check\n";
 
     currentState->run(seconds);
+    std::cout << "run state\n";
+    
   }
 }
 
@@ -135,16 +138,23 @@ void Engine::setState(std::string state) {
 
 void Engine::createStates() {
   states["win"] = new WinState(this, &error_handler);
+  std::cout << "win\n";
   states["lose"] = new LoseState(this, &error_handler);
+  std::cout << "lose\n";
   states["menu"] = new MenuState(this, &error_handler);
+  std::cout << "menu\n";
   states["title"] = new TitleState(this, &error_handler);
+  std::cout << "title\n";
   states["intro"] = nullptr;
   states["playing"] = nullptr;
   states["instruction"] = nullptr;
   newGame();
+  std::cout << "newGame\n";
   states["Highscore"] = nullptr;
   newHighscore();
+  std::cout << "newHighscore\n";
   states["credits"] = new CreditState(this, &error_handler);
+  std::cout << "credits\n";
 }
 
 Engine::Engine() : 
@@ -177,10 +187,15 @@ void Engine::newGame() {
   }
   score = 0;
   states["win"] = new WinState(this, &error_handler);
+  std::cout << "win\n";
   states["lose"] = new LoseState(this, &error_handler);
+  std::cout << "lose\n";
   states["intro"] = new IntroState(this, &error_handler);
+  std::cout << "intro\n";
   states["playing"] = new PlayingState(this, &error_handler);
+  std::cout << "playing\n";
   states["instruction"] = new InstructionState(this, &error_handler);
+  std::cout << "instruction\n";
 }
 
 void Engine::newHighscore() {
@@ -189,4 +204,5 @@ void Engine::newHighscore() {
     states["Highscore"] = nullptr;
   }
   states["Highscore"] = new HighscoreState(this, &error_handler);
+  std::cout << "highscore\n";
 }

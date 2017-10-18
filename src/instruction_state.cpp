@@ -19,55 +19,55 @@ InstructionState::InstructionState(Engine* engine, ErrorHandler* errorHandler)
 /* setup images */
 void InstructionState::setup() {
   // king 0
-  images.push_back(new Character(engine->renderer, E_C_FILENAME, errorHandler,
-    16, 25, 855, 540, &eventHandler, &audioHandler, this));
-  camera.setCharacter(static_cast<Character*>(images[0]));
-  // move instruct
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 30, skip, ROYAL_GOLD)); 
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 30, i1, ROYAL_GOLD));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 25, w));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 25, a));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 25, s));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 25, d));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 30, i2, ROYAL_GOLD));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 25, sh));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 25, sp));
-  images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 40, end, ROYAL_GOLD));
+  images["king"] = new Character(engine->renderer, E_C_FILENAME, errorHandler,
+    16, 25, 855, 540, &eventHandler, &audioHandler, this);
+  camera.setCharacter(static_cast<Character*>(images["king"]));
+  // instructions
+  images["skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 30, skip, ROYAL_GOLD); 
+  images["i1"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 30, i1, ROYAL_GOLD);
+  images["up"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, w);
+  images["left"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, a);
+  images["down"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, s);
+  images["right"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, d);
+  images["i2"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 30, i2, ROYAL_GOLD);
+  images["shift"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, sh);
+  images["space"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, sp);
+  images["end"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 40, end, ROYAL_GOLD);
 }
 
 /* loads images */
 void InstructionState::load() {
   State::load();
-  // make all textures (!king&!squire) transparent
-  for (unsigned int i = 2; i < images.size(); i++) {
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
+  // make all textures txt (!skip) transparent
+  for (it = images.find("i1"); it != images.end(); it++) {
+    SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
   }
   // position all the text
-  for (unsigned int i = 1; i < images.size(); i++) {
-    auto center = getCenterForImage(images[i]);
-    images[i]->setPosition(std::get<0>(center), std::get<1>(center));
-    if (i == 1) {
-      images[i]->pos_y = HEIGHT - 100;
-    } else if (i == 3 || i == 8) {
-      images[i]->pos_y -= 50;
-    } else if (i == 4) {
-      images[i]->pos_x -= 110;
-    } else if (i == 5 || i == 9) {
-      images[i]->pos_y += 50;
-    } else if (i == 6) {
-      images[i]->pos_x += 114;
+  for (it = images.find("skip"); it != images.end(); it++) {
+    auto center = getCenterForImage(it->second);
+    it->second->setPosition(std::get<0>(center), std::get<1>(center));
+    if (it->first == "skip") {
+      it->second->pos_y = HEIGHT - 100;
+    } else if (it->first == "up" || it->first == "shift") {
+      it->second->pos_y -= 50;
+    } else if (it->first == "left") {
+      it->second->pos_x -= 110;
+    } else if (it->first == "down" || it->first == "space") {
+      it->second->pos_y += 50;
+    } else if (it->first == "right") {
+      it->second->pos_x += 114;
     } else {
-      images[i]->pos_y = 100;
+      it->second->pos_y = 100;
     }
   }
 }
@@ -81,77 +81,75 @@ void InstructionState::update(double seconds) {
     engine->setState("playing");}, SDLK_1);
 
   // fade in move text
-  a2 = fadeIn(2, a2, seconds, 4);
-  a3 = fadeIn(3, a3, seconds, 4);
-  a4 = fadeIn(4, a4, seconds, 4);
-  a5 = fadeIn(5, a5, seconds, 4);
-  a6 = fadeIn(6, a6, seconds, 4);
+  a0 = fadeIn("i1", a0, seconds, 4);
+  a1 = fadeIn("up", a1, seconds, 4);
+  a2 = fadeIn("left", a2, seconds, 4);
+  a3 = fadeIn("down", a3, seconds, 4);
+  a4 = fadeIn("right", a4, seconds, 4);
 
   // determine of player pressed move buttons
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    up = true; SDL_SetTextureColorMod(images[3]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["up"]->getTexture(), 0, 255, 0);
+    up = true;
   }, SDLK_w);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    up = true; SDL_SetTextureColorMod(images[3]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["up"]->getTexture(), 0, 255, 0);
+    up = true;
   }, SDLK_UP);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    left = true; SDL_SetTextureColorMod(images[4]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["left"]->getTexture(), 0, 255, 0);
+    left = true;
   }, SDLK_a);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    left = true; SDL_SetTextureColorMod(images[4]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["left"]->getTexture(), 0, 255, 0);
+    left = true;
   }, SDLK_LEFT);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    down = true; SDL_SetTextureColorMod(images[5]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["down"]->getTexture(), 0, 255, 0);
+    down = true;
   }, SDLK_s);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    down = true; SDL_SetTextureColorMod(images[5]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["down"]->getTexture(), 0, 255, 0);
+    down = true;
   }, SDLK_DOWN);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    right = true; SDL_SetTextureColorMod(images[6]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["right"]->getTexture(), 0, 255, 0);
+    right = true;
   }, SDLK_d);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    right = true; SDL_SetTextureColorMod(images[6]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["right"]->getTexture(), 0, 255, 0);
+    right = true;
   }, SDLK_RIGHT);
 
   // if all move buttons pressed
   if (up && down && left && right) {
-    for (int i = 2; i < 7; i++) {
-      SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
+    for (it = images.find("i1"); it != images.find("i2"); it++) {
+      SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
     }
-    a7 = fadeIn(7, a7, seconds, 4);
-    a8 = fadeIn(8, a8, seconds, 4);
-    a9 = fadeIn(9, a9, seconds, 4);
+    a5 = fadeIn("i2", a5, seconds, 4);
+    a6 = fadeIn("shift", a6, seconds, 4);
+    a7 = fadeIn("space", a7, seconds, 4);
   }
 
   // determine if all action buttons were pressed
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    run = true; SDL_SetTextureColorMod(images[8]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["shift"]->getTexture(), 0, 255, 0);
+    run = true;
   }, SDLK_LSHIFT);
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    attack = true; SDL_SetTextureColorMod(images[9]->getTexture(), 0, 255, 0);
+    SDL_SetTextureColorMod(images["space"]->getTexture(), 0, 255, 0);
+    attack = true;
   }, SDLK_SPACE);
 
   // if so, end
   if (run && attack) {
-    for (int i = 7; i < 10; i++) {
-      SDL_SetTextureAlphaMod(images[i]->getTexture(), 0);
+    for (it = images.find("i2"); it != images.find("end"); it++) {
+      SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
     }
-    a10 = fadeIn(10, a10, seconds, 3);
+    a8 = fadeIn("end", a8, seconds, 4);
     eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
       engine->setState("playing");}, SDLK_n);
   }
-}
-
-/* fades in a texture */
-int InstructionState::fadeIn(int i, int a, double seconds, double mult) {
-  newA = (double)a + speed * seconds * mult;
-  if (newA < 255) {
-    a = (int)newA;
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), a);
-  } else {
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), 255);
-  }
-  return a;
 }
 
 /* center positions */

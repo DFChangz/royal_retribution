@@ -25,6 +25,8 @@ class MenuState : public State {
       void updateBrightnessVolume();
 
       void transition();
+ 
+      std::string translate(int i);
 };
 
 #endif

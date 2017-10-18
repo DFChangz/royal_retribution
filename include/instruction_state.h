@@ -16,8 +16,9 @@ class InstructionState : public State {
     virtual void update(double seconds);
 
     std::tuple<int, int> getCenterForImage(Image*);
-    int fadeIn(int i, int a, double seconds, double mult);
 
+    int a0 = 0;
+    int a1 = 0;
     int a2 = 0;
     int a3 = 0;
     int a4 = 0;
@@ -25,8 +26,6 @@ class InstructionState : public State {
     int a6 = 0;
     int a7 = 0;
     int a8 = 0;
-    int a9 = 0;
-    int a10 = 0;
     double newA = 0;
     double speed = 50;
 

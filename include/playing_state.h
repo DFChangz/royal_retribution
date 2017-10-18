@@ -23,9 +23,8 @@ class PlayingState : public State {
     void checkFollow();
     void enemyFollow();
 
-    int num_enemies = 0;
-
     int num_lights = 0;
+    int num_enemies = 0;
 };
 
 #endif

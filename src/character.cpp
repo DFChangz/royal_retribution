@@ -18,7 +18,6 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
   rect.h *= 2;
 
   state = state_p;
-
   createListeners(eventHandler);
 }
 
@@ -34,7 +33,7 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
   rect.h *= 2;
 
   state = state_p;
-
+  
   createListeners(eventHandler);
 }
 
@@ -43,9 +42,9 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-
-  // update stamina
+  // update sta and exp 
   updateSta();
+  updateExp();
 
   // make it so stam always increases
   if (!running && sta < 1) {
@@ -190,6 +189,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
       SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
       this->pair = nullptr;
     }
+    exp += expInc; 
     state->engine->score += 1000;
     
   }
@@ -216,27 +216,36 @@ void Character::updateSta() {
   }
 }
 
+void Character::updateExp() {
+  if (exp > 1) {
+    exp -= 1;
+    maxH += 2;
+    expInc -= 0.05;
+    leveledUp = true;
+  }
+}
+
 void Character::createListeners(EventHandler *eventHandler) {
   // w, a, s, d conrols
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityX = SPEED_CHAR; }, SDLK_d);
+    if (!frozen) velocityX = SPEED_CHAR; }, SDLK_d);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityX = -SPEED_CHAR; }, SDLK_a);
+    if (!frozen) velocityX = -SPEED_CHAR; }, SDLK_a);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityY = SPEED_CHAR; }, SDLK_s);
+    if (!frozen) velocityY = SPEED_CHAR; }, SDLK_s);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityY = -SPEED_CHAR; }, SDLK_w);
+    if (!frozen) velocityY = -SPEED_CHAR; }, SDLK_w);
   // up, down, left, right controls
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityX = SPEED_CHAR; }, SDLK_RIGHT);
+    if (!frozen) velocityX = SPEED_CHAR; }, SDLK_RIGHT);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityX = -SPEED_CHAR; }, SDLK_LEFT);
+    if (!frozen) velocityX = -SPEED_CHAR; }, SDLK_LEFT);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityY = SPEED_CHAR; }, SDLK_DOWN);
+    if (!frozen) velocityY = SPEED_CHAR; }, SDLK_DOWN);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    velocityY = -SPEED_CHAR; }, SDLK_UP);
+    if (!frozen) velocityY = -SPEED_CHAR; }, SDLK_UP);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    attacking = true; }, SDLK_SPACE);
+    if (!frozen) attacking = true; }, SDLK_SPACE);
 
   //when key is released, velocity set back to 0
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
@@ -260,12 +269,12 @@ void Character::createListeners(EventHandler *eventHandler) {
   
   // boost control
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    speedMultiplier = 4; running = true; }, SDLK_LSHIFT);
+    if (!frozen) speedMultiplier = 4; running = true; }, SDLK_LSHIFT);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     speedMultiplier = 1; running = false; }, SDLK_LSHIFT);
   //object interaction 
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    interacting = true;}, SDLK_e);
+    if (!frozen) interacting = true;}, SDLK_e);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     interacting = false;}, SDLK_e);
 }

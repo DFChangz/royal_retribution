@@ -14,7 +14,6 @@ class CreditState : public State {
       void load();
       
       void setup();
-
 };
 
 #endif

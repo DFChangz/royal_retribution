@@ -15,18 +15,18 @@ WinState::WinState(Engine* engine, ErrorHandler* errorHandler)
 /* setup images */
 void WinState::setup() {
   // game over text
-  images.push_back(new Text(engine->renderer, FONT_ARCADE, errorHandler,
-    0, 0, 200, logo, ROYAL_GOLD));
+  images["win"] = new Text(engine->renderer, FONT_ARCADE, errorHandler,
+    0, 0, 200, logo, ROYAL_GOLD);
 }
 
 /* loads images */
 void WinState::load() {
   State::load();
   // make the text transparent
-  SDL_SetTextureAlphaMod(images[0]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images["win"]->getTexture(), 0);
   // center the text
-  auto center = getCenterForImage(images[0]);
-  images[0]->setPosition(std::get<0>(center), std::get<1>(center));
+  auto center = getCenterForImage(images["win"]);
+  images["win"]->setPosition(std::get<0>(center), std::get<1>(center));
   /* input score into highscore
   std::ofstream file;
   file.open(SCORE_FILENAME, std::ios_base::app);
@@ -41,25 +41,13 @@ void WinState::update(double seconds) {
   totalTime += seconds;
 
   // wrap and fade in scroll
-  a0 = fadeIn(0, a0, seconds, 3);
+  a0 = fadeIn("win", a0, seconds, 3);
   // after 15.5 sec, transfer to menu
   if (totalTime > 3) {
     Mix_HaltMusic();
     engine->newHighscore();
     engine->setState("Highscore");
   }
-}
-
-/* fades in a texture */
-int WinState::fadeIn(int i, int a, double seconds, double mult) {
-  newA = (double)a + speed * seconds * mult;
-  if (newA < 255) {
-    a = (int)newA;
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), a);
-  } else {
-    SDL_SetTextureAlphaMod(images[i]->getTexture(), 255);
-  }
-  return a;
 }
 
 /* center positions */
