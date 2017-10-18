@@ -88,14 +88,14 @@ void Engine::loop() {
   while(running) {
     //converts time to seconds and keeps track of time passed and total time
     unsigned int currentTime = SDL_GetTicks();
-    double seconds = (currentTime - lastTime) / 1000.0;
+    seconds += (currentTime - lastTime) / 1000.0;
     lastTime = currentTime;
     totalTime += seconds;
 
     eventHandler.getEvents();
     eventHandler.check();
 
-    currentState->run(seconds);
+    currentState->run(&seconds);
   }
 }
 

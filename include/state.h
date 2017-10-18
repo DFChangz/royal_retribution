@@ -21,7 +21,7 @@ class State {
 
     virtual void setup() = 0;
 
-    virtual void run(double seconds);
+    virtual void run(double* seconds);
 
     virtual ~State();
 

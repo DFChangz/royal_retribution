@@ -12,18 +12,23 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) :
   errorHandler = &engine->error_handler;
 }
 
-void State::run(double seconds) {
-  if (!paused) {
+void State::run(double* seconds) {
+  if (!paused)
     eventHandler.check();
 
-    update(seconds);
+  if (*seconds > 1.0/60.0) {
+    if (!paused) {
+      update(*seconds);
 
-    collisionDetector.check(&camera, map);
-  } else {
-    pauseUpdate(seconds);
+      collisionDetector.check(&camera, map);
+    } else {
+      pauseUpdate(*seconds);
+    }
+
+    render();
+
+    *seconds = 0;
   }
-
-  render();
 }
 
 void State::load() {
