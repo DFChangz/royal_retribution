@@ -173,6 +173,13 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
       static_cast<Sprite*>(image)->pair = this;
   }
 
+  if(static_cast<Sprite*>(image)->isDoor() && interacting == true){
+    for( unsigned i = 0; i < inventory.size(); i++){
+      if(!inventory[i]->isActivated()){
+        inventory[i]->activate();
+      }
+    } 
+  }
   //When collision detector detects a collision play the sound effect
   if (image->isEnemy() && (!attacking || collisionDir != dir) && !invincible) {
     audioHandler->play("collision", 1);
