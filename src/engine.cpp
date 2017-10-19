@@ -82,6 +82,7 @@ void Engine::loop() {
   while(running) {
     //converts time to seconds and keeps track of time passed and total time
     unsigned int currentTime = SDL_GetTicks();
+    seconds = 0;
     seconds += (currentTime - lastTime) / 1000.0;
     lastTime = currentTime;
     totalTime += seconds;
