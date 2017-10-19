@@ -48,7 +48,7 @@ void CollisionDetector::checkInBuckets(Camera* camera, Map* map) {
     if (map != nullptr) {
       int bucket_index = bucket_it - buckets.begin();
       const int GRID_WIDTH = map->width / BUCKET_COLS;
-      const int GRID_HEIGHT = map->width / BUCKET_ROWS;
+      const int GRID_HEIGHT = map->height / BUCKET_ROWS;
       SDL_Rect bucket_rect = {bucket_index % BUCKET_COLS * GRID_WIDTH,
         bucket_index / BUCKET_COLS * GRID_HEIGHT, GRID_WIDTH, GRID_HEIGHT};
 
