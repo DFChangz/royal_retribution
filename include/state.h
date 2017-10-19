@@ -22,11 +22,15 @@ class State {
 
     virtual void setup() = 0;
 
-    virtual void run(double seconds);
+    virtual void run(double* seconds);
 
     virtual ~State();
 
     Engine* engine;
+
+    CollisionDetector collisionDetector;
+
+    Map *map = nullptr;
 
   protected:
     virtual void render();
@@ -47,12 +51,10 @@ class State {
 
     Camera camera;
 
-    Map *map = nullptr;
 
     void pauseUpdate(double);
 
   private:
-    CollisionDetector* collisionDetector;
     bool paused = false;
 };
 

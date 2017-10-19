@@ -122,8 +122,8 @@ void Character::render(Camera* camera) {
 
   Sprite::render(camera);
  
-  for(Sprite* item : inventory){
-    if(item != nullptr)
+  for(Pickup* item : inventory){
+    if(item != nullptr && !item->isActivated())
       item->render(camera);
   }
 }
@@ -148,6 +148,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   */
   if(static_cast<Sprite*>(image)->isTrap()){
     static_cast<Sprite*>(image)->pair->setCollidable(true);
+    state->collisionDetector.updateBuckets(static_cast<Sprite*>(image)->pair, state->map);
     
     SDL_SetTextureAlphaMod(static_cast<Sprite*>(image)->pair->getTexture(), 255);
     static_cast<Sprite*>(image)->setCollidable(false);
@@ -282,12 +283,12 @@ void Character::createListeners(EventHandler *eventHandler) {
 
 
 void Character::cleanup(){
-  for(Sprite* item : inventory){
+  /*for(Sprite* item : inventory){
     if(item != nullptr){
       delete item;
       item = nullptr; 
     }
-  }
+  }*/
 }
 
 Character::~Character(){

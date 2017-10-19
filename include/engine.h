@@ -53,6 +53,7 @@ class Engine {
     void render();
     void createStates();
     bool running = true;
+    double seconds = 0;
     EventHandler eventHandler;
     State* currentState = nullptr;
     Mix_Music *intro = nullptr;

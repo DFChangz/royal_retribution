@@ -7,7 +7,8 @@
 PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
-  map = new Map(engine->renderer, errorHandler, LEVEL_0, TILES_TXT);
+  map = new Map(engine->renderer, errorHandler, LEVEL_0, TILES_TXT,
+    &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_0_ADD);
 
@@ -75,14 +76,14 @@ void PlayingState::setup() {
     }
   }
   // add key
-  images["key"] = new Sprite(engine->renderer, KEY, errorHandler, 32, 32,
-    keyPosX, keyPosY, false, false);
+  images["key"] = new Pickup(engine->renderer, KEY,
+    errorHandler, 32, 32, keyPosX, keyPosY, false, false);
   static_cast<Sprite*>(images["key"])->setPair(C1);
   // add coin
-  images["coin"] = new Sprite(engine->renderer, COIN, errorHandler, 32, 32,
-    coinPosX, coinPosY, false, false);
+  images["coin"](new Pickup(engine->renderer, COIN,
+    errorHandler, 32, 32, coinPosX, coinPosY, false, false);
   static_cast<Sprite*>(images["coin"])->setPair(C2);
-  // FPS Counter
+  // FPS Counter 
   images["fps"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     2, 2, 16, "FPS: ");
 }
@@ -181,31 +182,45 @@ void PlayingState::update(double seconds) {
 
   SDL_SetTextureAlphaMod(images["key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images["coin"]->getTexture(), 0);
-  
-  for (unsigned i = 0; i < static_cast<Character*>(images["king"])
-    ->inventory.size(); i++) {
-    static_cast<Character*>(images["king"])->inventory[i]->setFixed(true);
-    static_cast<Character*>(images["king"])->inventory[i]
-    ->setPosition(i * 40, 66);
-    SDL_SetTextureAlphaMod(static_cast<Character*>(images["king"])
-    ->inventory[i]->getTexture(), 255);
+
+  int x = 0;  
+//  for(unsigned i = 0; i < static_cast<Character*>(images[1])->inventory.size(); i++){
+  for(Pickup *pUp : static_cast<Character*>(images["king"])->inventory){  
+    pUp->setFixed(true);
+    pUp->setPosition(x * 40, 66);
+    SDL_SetTextureAlphaMod(pUp->getTexture(), 255);
+    if(!pUp->isActivated()){
+      x++;
+    }
+//    static_cast<Character*>(images[1])->inventory[i]->setFixed(true);
+//    static_cast<Character*>(images[1])->inventory[i]->setPosition(i * 40, 66);
+//    SDL_SetTextureAlphaMod(static_cast<Character*>(images[1])->inventory[i]->getTexture(), 255);
+    
   }
-  if (static_cast<Sprite*>(images["key"])->pair->pair
-     == static_cast<Sprite*>(images["key"])->pair){
+  if(static_cast<Sprite*>(images["key"])->pair->pair
+    == static_cast<Sprite*>(images["key"])->pair
+    && !static_cast<Pickup*>(images["key"])->isPickedUp())
+  {
+
     SDL_SetTextureAlphaMod(images["key"]->getTexture(), 255);
     static_cast<Character*>(images["king"])
-    ->inventory.push_back(static_cast<Sprite*>(images["key"]));
+      ->inventory.push_back(static_cast<Pickup*>(images["key"]));
     static_cast<Sprite*>(images["key"])->pair
-    = static_cast<Character*>(images["king"]);
+      = static_cast<Character*>(images["king"]);
+    static_cast<Pickup*>(images["key"])->pickUp();
+
   }
-  if (static_cast<Sprite*>(images["coin"])->pair->pair
-    == static_cast<Sprite*>(images["coin"])->pair){
+  if(static_cast<Sprite*>(images["coin"])->pair->pair
+    == static_cast<Sprite*>(images["coin"])->pair
+    && !static_cast<Pickup*>(images["coin"])->isPickedUp())
+  {
     SDL_SetTextureAlphaMod(images["coin"]->getTexture(), 255);
     static_cast<Character*>(images["king"])
-    ->inventory.push_back(static_cast<Sprite*>(images["coing"]));
+      ->inventory.push_back(static_cast<Pickup*>(images["coin"]));
     static_cast<Sprite*>(images["coin"])->pair
-    = static_cast<Character*>(images["king"]);
+      = static_cast<Character*>(images["king"]);
     engine->score += 1000;
+    static_cast<Pickup*>(images["coin"])->pickUp();
   }
   
   State::update(seconds);

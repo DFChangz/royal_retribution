@@ -87,7 +87,7 @@ void Engine::loop() {
   while(running) {
     //converts time to seconds and keeps track of time passed and total time
     unsigned int currentTime = SDL_GetTicks();
-    double seconds = (currentTime - lastTime) / 1000.0;
+    seconds += (currentTime - lastTime) / 1000.0;
     lastTime = currentTime;
     totalTime += seconds;
     std::cout << "running\n";
@@ -96,9 +96,7 @@ void Engine::loop() {
     eventHandler.check();
     std::cout << "check\n";
 
-    currentState->run(seconds);
-    std::cout << "run state\n";
-    
+    currentState->run(&seconds);
   }
 }
 

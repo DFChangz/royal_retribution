@@ -21,6 +21,7 @@
 #include "constants.h"
 #include "event_handler.h"
 #include "camera.h"
+#include "pickup.h"
 
 /*class for the player character that inherits from sprite will be 
 responsible for player movement events and holds certain sfx along with
@@ -51,8 +52,7 @@ class Character : public Sprite {
     bool leveledUp = false;
 
     std::string dir = "down";
-    std::vector<Sprite*> inventory;
-
+    std::vector<Pickup*> inventory;
     ~Character();
 
   private:

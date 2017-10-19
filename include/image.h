@@ -34,6 +34,8 @@ class Image {
 
     virtual bool isEnemy() { return false; }
 
+    virtual bool isPickup() { return false; }
+
     virtual void setPosition(double x, double y);
 
     void onHover(EventHandler*, std::function<void()>);
@@ -45,6 +47,7 @@ class Image {
     double velocityX = 0.0;
     double velocityY = 0.0;
 
+    std::vector<unsigned int> buckets;
   protected:
     SDL_Renderer *renderer;
     ErrorHandler *error_handler;

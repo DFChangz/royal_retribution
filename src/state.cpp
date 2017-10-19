@@ -4,29 +4,31 @@
 
 #include "state.h"
 
-State::State(Engine* engine_ref, ErrorHandler* errorHandler) : audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
+State::State(Engine* engine_ref, ErrorHandler* errorHandler) :
+  audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
+
   engine = engine_ref;
 
   errorHandler = &engine->error_handler;
 }
 
-void State::run(double seconds) {
-  std::cout << "start run\n";
-  if (!paused) {
+void State::run(double* seconds) {
+  if (!paused)
     eventHandler.check();
-    std::cout << "does state check\n";
 
-    update(seconds);
-    std::cout << "does state update\n";
+  if (*seconds > 1.0/60.0) {
+    if (!paused) {
+      update(*seconds);
 
-    collisionDetector->check(&images, map);
-    std::cout << "does collisionDetector\n";
-  } else {
-    pauseUpdate(seconds);
+      collisionDetector.check(&camera, map);
+    } else {
+      pauseUpdate(*seconds);
+    }
+
+    render();
+
+    *seconds = 0;
   }
-  std::cout << "b4 render\n";
-  render();
-  std::cout << "after render\n";
 }
 
 void State::load() {
@@ -34,13 +36,28 @@ void State::load() {
 
   for (it = images.begin(); it != images.end(); it++) {
     it->second->load();
+    collisionDetector.updateBuckets(it->second, map);
   }
 }
 
 void State::update(double seconds) {
   int counter = 0;
+
   for (it = images.begin(); it != images.end(); it++) {
+    SDL_Rect cameraRect = camera.getRect();
+
+    if (it->second->getDestRect()) {
+      SDL_Rect imageRect = {(int) it->second->pos_x, (int) it->second->pos_y,
+      it->second->getDestRect()->w, it->second->getDestRect()->h};
+
+      if (!SDL_HasIntersection(&imageRect, &cameraRect))
+        continue;
+    }
+
     it->second->update(seconds);
+
+    collisionDetector.updateBuckets(it->second, map);
+
     counter++;
   }
   if (map != nullptr) {

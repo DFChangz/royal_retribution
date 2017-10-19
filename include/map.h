@@ -7,6 +7,7 @@
 #include <string>
 #include "sprite.h"
 #include "error_handler.h"
+#include "collision_detector.h"
 
 #define TILE_DIM      32
 
@@ -25,9 +26,11 @@ struct tile {
   Sprite* image = nullptr;
 };
 
+class CollisionDetector;
 class Map {
   public:
-    Map(SDL_Renderer* renderer, ErrorHandler*, std::string, std::string);
+    Map(SDL_Renderer* renderer, ErrorHandler*, std::string, std::string,
+      CollisionDetector*);
     ~Map();
 
     std::vector<tile> tiles;
@@ -62,6 +65,10 @@ class Map {
     ErrorHandler* errorHandler;
 
     SDL_Renderer* renderer = nullptr;
+
+    CollisionDetector* collisionDetector;
+
+    void addCollidablesToBuckets(std::vector<tile>*);
 };
 
 #endif
