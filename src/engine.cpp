@@ -16,13 +16,9 @@
 // Starts the game
 int Engine::volume = 100;
 void Engine::start() {
-  std::cout << "starts engine\n";
   setup();
-  std::cout << "did setup\n"; 
   loop();
-  std::cout << "did loop\n"; 
   cleanup();
-  std::cout << "did clean up\n"; 
 }
 
 // Runs any setup code that is needed to load the assets.
@@ -65,9 +61,8 @@ void Engine::setup() {
     error_handler.quit(__func__, SDL_GetError());
   }
 
-  std::cout << "did this\n";
+
   createStates();
-  std::cout << "creates states\n";
   setState("title");
 
   //Quits on escape.
@@ -90,11 +85,8 @@ void Engine::loop() {
     seconds += (currentTime - lastTime) / 1000.0;
     lastTime = currentTime;
     totalTime += seconds;
-    std::cout << "running\n";
     eventHandler.getEvents();
-    std::cout << "getEvents\n";
     eventHandler.check();
-    std::cout << "check\n";
 
     currentState->run(&seconds);
   }
@@ -136,23 +128,16 @@ void Engine::setState(std::string state) {
 
 void Engine::createStates() {
   states["win"] = new WinState(this, &error_handler);
-  std::cout << "win\n";
   states["lose"] = new LoseState(this, &error_handler);
-  std::cout << "lose\n";
   states["menu"] = new MenuState(this, &error_handler);
-  std::cout << "menu\n";
   states["title"] = new TitleState(this, &error_handler);
-  std::cout << "title\n";
+  states["credits"] = new CreditState(this, &error_handler);
   states["intro"] = nullptr;
   states["playing"] = nullptr;
   states["instruction"] = nullptr;
   newGame();
-  std::cout << "newGame\n";
   states["Highscore"] = nullptr;
   newHighscore();
-  std::cout << "newHighscore\n";
-  states["credits"] = new CreditState(this, &error_handler);
-  std::cout << "credits\n";
 }
 
 Engine::Engine() : 
@@ -185,15 +170,10 @@ void Engine::newGame() {
   }
   score = 0;
   states["win"] = new WinState(this, &error_handler);
-  std::cout << "win\n";
   states["lose"] = new LoseState(this, &error_handler);
-  std::cout << "lose\n";
   states["intro"] = new IntroState(this, &error_handler);
-  std::cout << "intro\n";
   states["playing"] = new PlayingState(this, &error_handler);
-  std::cout << "playing\n";
   states["instruction"] = new InstructionState(this, &error_handler);
-  std::cout << "instruction\n";
 }
 
 void Engine::newHighscore() {
@@ -202,5 +182,4 @@ void Engine::newHighscore() {
     states["Highscore"] = nullptr;
   }
   states["Highscore"] = new HighscoreState(this, &error_handler);
-  std::cout << "highscore\n";
 }

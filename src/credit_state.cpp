@@ -8,9 +8,7 @@ CreditState::CreditState(Engine* eng, ErrorHandler* eHandler)
   :  State(eng, eHandler) {
 
     setup();
-    std::cout << "finish setup\n";
     load();
-    std::cout << "finish load\n";
 }
 void CreditState::setup(){
   images["t0"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
@@ -38,6 +36,7 @@ void CreditState::load() {
     y = it->second->getDestRect()->y;
     it->second->setPosition(x, y);
     it->second->velocityY = -200;
+    std::cout << it->first << " vel: " << it->second->velocityY << "\n";
   }
 }
 

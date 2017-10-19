@@ -12,12 +12,16 @@
 
 /* Maps */
 #define TILES_IMG "assets/blocks_2.png"
-#define TILES_TXT "maps/level_1_legend.txt"
-#define TILES_ADD "maps/level_1_additions_legend.txt"
-// level 0
-#define LEVEL_0 "maps/level_1_New.txt"
-#define LEVEL_0_E "maps/level_1_enemies.txt"
-#define LEVEL_0_ADD "maps/level_1_additions.txt"
+#define TILES_TXT "maps/level_legend.txt"
+#define TILES_ADD "maps/level_additions_legend.txt"
+// level 1
+#define LEVEL_1 "maps/level_1.txt"
+#define LEVEL_1_E "maps/level_1_enemies.txt"
+#define LEVEL_1_ADD "maps/level_1_additions.txt"
+// level 2
+#define LEVEL_2 "maps/level_2.txt"
+#define LEVEL_2_E "maps/level_2_enemies.txt"
+#define LEVEL_2_ADD "maps/level_2_additions.txt"
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
@@ -54,5 +58,11 @@
 /* Energy */
 #define STA_BAR "assets/stamina_bar.png"
 #define STA_BOX "assets/stamina_outline.png"
+
+/* LAYER */
+#define ELE 0
+#define PPL 1
+#define ADD 2
+#define TOP 3
 
 #endif

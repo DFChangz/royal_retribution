@@ -18,10 +18,12 @@ class IntroState : public State {
     std::tuple<int, int> getCenterForImage(Image*);
 
     int a = 0;
+    int event = 0;
     int counter = 0;
     double newA = 0;
     double speed = 50;
 
+    bool end = false;
     bool raise = false;
     std::string skip = "Press [1] to SKIP";
     std::string s1 = "MY KING! I bear bad news! (next [n])";

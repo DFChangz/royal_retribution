@@ -8,10 +8,10 @@
 IntroState::IntroState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
-  map = new Map(engine->renderer, errorHandler, LEVEL_0, TILES_TXT,
+  map = new Map(engine->renderer, errorHandler, LEVEL_1, TILES_TXT,
     &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_0_ADD);
+  map->loadSecondLayout(LEVEL_1_ADD);
 
   setup();
   load();
@@ -20,58 +20,61 @@ IntroState::IntroState(Engine* engine, ErrorHandler* errorHandler)
 /* setup images */
 void IntroState::setup() {
   // throne
-  images["throne"] = new Sprite(engine->renderer, THRONE_FILENAME, errorHandler,
-    2530, 1370, false);
+  images["0throne"] = new Sprite(engine->renderer, THRONE_FILENAME,
+     errorHandler, 1854, 2160, false);
   // king 
-  images["king"] = new Character(engine->renderer, E_C_FILENAME, errorHandler,
-    16, 25, 2546, 1320, &eventHandler, &audioHandler, this);
+  images["1king"] = new Character(engine->renderer, E_C_FILENAME, errorHandler,
+    16, 25, 1902, 2209, &eventHandler, &audioHandler, this);
   // squire
-  images["squire"] = new Squire(engine->renderer, SQUIRE_FILENAME, errorHandler,
-    16, 25, 2546, 1014, 0, 0);
-  camera.setCharacter(static_cast<Character*>(images["squire"]));
+  images["1squire"] = new Squire(engine->renderer, SQUIRE_FILENAME,
+    errorHandler, 16, 25, 1902, 2677, 0, 0);
+  camera.setCharacter(static_cast<Character*>(images["1squire"]));
   // text
-  images["skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    0, 0, 25, skip);
-  images["c0"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c0"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, s1);
-  images["c1"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c1"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k1);
-  images["c2"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c2"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, s2);
-  images["c3"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c3"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k2);
-  images["c4"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c4"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, s3);
-  images["c5"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c5"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k3);
-  images["c6"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c6"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k4);
-  images["c7"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images["2c7"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 40, s4, ROYAL_GOLD);
+  images["2skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, skip);
 }
 
 /* loads images */
 void IntroState::load() {
   State::load();
-  // king starts facing up & frozen
-  static_cast<Character*>(images["king"])->dir = "up";
-  static_cast<Character*>(images["king"])->frozen = true;;
+  // set up throne
+  images["0throne"]->getDestRect()->w *= 2;
+  images["0throne"]->getDestRect()->h *= 2;
+  // squre faces up and king is frozen
+  static_cast<Squire*>(images["1squire"])->dir = "left";
+  //static_cast<Character*>(images["1king"])->frozen = true;
   // make convo textures transparent
-  for (it = images.find("s1"); it != images.end(); it++) {
+  for (it = images.find("2c0"); it != images.end(); it++) {
     SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
   }
   // position all the text
-  for (it = images.find("skip"); it != images.end(); it++) {
+  for (it = images.find("2c0"); it != images.end(); it++) {
     auto center = getCenterForImage(it->second);
     it->second->setPosition(std::get<0>(center), std::get<1>(center));
-    if (it->first == "skip") {
-      it->second->pos_y = 0;
-    } else if (it->first == "c7") {
-      it->second->pos_y -= 114;
-    } else if (it->first == "c0" || it->first == "c2" || it->first == "c4") {
-      it->second->pos_y -= 54;
+    if (it->first == "2skip") {
+      it->second->pos_y -= 350;
+    } else if (it->first == "2c7") {
+      it->second->pos_y += 275;
+    } else if (it->first == "2c0" || it->first == "2c2" || it->first == "2c4") {
+      it->second->pos_y -= 55;
     } else {
-      it->second->pos_y += 144;
+      it->second->pos_y -= 290;
     }
   }
 }
@@ -79,55 +82,72 @@ void IntroState::load() {
 /* updates the screen */
 void IntroState::update(double seconds) {
   State::update(seconds);
-
   // skip intro
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     engine->setState("instruction");}, SDLK_1);
 
-  std::string s = "c" + counter;
-  std::string prev = "c" + counter-1;
+  std::string s = "2c" + std::to_string(counter);
+  std::string prev = "2c" + std::to_string(counter-1);
 
-  // squire walks in
-  if (images["squire"]->pos_y < 1125) {
-    images["squire"]->velocityY = 100;
-  } else {
-    images["squire"]->velocityY = 0;
-    // text displayed with [n]
+  switch(event) {
+    // squire walks in
+    case 0:
+      if (images["1squire"]->pos_x > 1265) {
+        images["1squire"]->velocityX = -300;
+      } else {
+        images["1squire"]->velocityX = 0;
+        event++;
+      }
+      break;
+    case 1:
+      if (images["1squire"]->pos_y > 2405) {
+        images["1squire"]->velocityY = -300;
+      } else {
+        images["1squire"]->velocityY = 0;
+        event++;
+      }
+      break;
+    case 2:
+      if (images["1squire"]->pos_x < 1902) {
+        images["1squire"]->velocityX = 300;
+      } else {
+        event++;
+        images["1squire"]->velocityX = 0;
+        static_cast<Squire*>(images["1squire"])->dir = "up";
+      }
+      break;
+  }
+  // text displayed with [n]
+  if (event == 3) {
     if (counter < 7) {
       SDL_SetTextureAlphaMod(images[s]->getTexture(), 255);
       if (counter > 0) {
         SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
       }
+      if (counter == 5) {
+        if (images["1king"]->pos_y < 2287) {
+          images["1king"]->velocityY = 100;
+        } else  images["1king"]->velocityY = 0;
+      }
       // increments to the next text
       eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
         raise = true;}, SDLK_n);
       if (raise) { raise = false; counter++; }
-      //eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-        //raise = false;}, SDLK_n);
-    }
-  }
-  if (counter == 7) {
-    SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
-    // edit king movement
-    if (images["king"]->pos_y > 1014) {
-      images["king"]->velocityY = -150;
     } else {
-      images["king"]->velocityY = 0;
-      images["king"]->velocityX = 150;
-    }
-    // edit squire movement
-    if (images["squire"]->pos_x > 2470) {
-      images["squire"]->velocityX = -50;
-    } else {
-      images["squire"]->velocityX = 0;
-      static_cast<Squire*>(images["squire"])->dir = "right";
-    }
-    // final quote
-    if (images["king"]->pos_x > 3000) {
-      a = fadeIn("c7", a, seconds, 2);
-      eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-        static_cast<Character*>(images["king"])->frozen = false;
-        engine->setState("instruction");}, SDLK_n);
+      SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
+      // edit king movement
+      images["1king"]->velocityX = 150;
+      // edit squire movement
+      if (images["1king"]->pos_x > 1910 && !end) {
+        static_cast<Squire*>(images["1squire"])->dir = "right";
+        end = true;
+      }
+      if (images["1king"]->pos_x > 2550) {
+        a = fadeIn("2c7", a, seconds, 2);
+        eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+        static_cast<Character*>(images["1king"])->frozen = false;
+          engine->setState("instruction");}, SDLK_n);
+      }
     }
   }
 }

@@ -42,14 +42,12 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
+  std::cout << "xpos: " << pos_x << "\n";
+  std::cout << "ypos: " << pos_y << "\n";
+
   // update sta and exp 
   updateSta();
   updateExp();
-
-  // make it so stam always increases
-  if (!running && sta < 1) {
-    sta += 0.01;
-  }
 
   if (lastAttack && attackingTimer
       > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
@@ -155,6 +153,17 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     this->setPair(static_cast<Sprite*>(image)->pair);
     return;
   }
+  else if(static_cast<Sprite*>(image)->isDoor() && static_cast<Sprite*>(image)->pair == nullptr){
+    if(interacting){
+      for(Pickup* item : inventory){
+        if( item->getType() == keyNum){
+          SDL_SetTextureAlphaMod(image->getTexture(), 0);
+          static_cast<Sprite*>(image)->setCollidable(false);
+          item->activate();
+        }
+      }
+    }
+  }
   // either up/down
   if (intersection->w > intersection->h) {
     if (intersection->y <= image->pos_y)
@@ -172,6 +181,13 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
       static_cast<Sprite*>(image)->pair = this;
   }
 
+  if(static_cast<Sprite*>(image)->isDoor() && interacting == true){
+    for( unsigned i = 0; i < inventory.size(); i++){
+      if(!inventory[i]->isActivated()){
+        inventory[i]->activate();
+      }
+    } 
+  }
   //When collision detector detects a collision play the sound effect
   if (image->isEnemy() && (!attacking || collisionDir != dir) && !invincible) {
     audioHandler->play("collision", 1);
@@ -199,11 +215,13 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
 }
 
 void Character::updateSta() {
+  if (sta > 1) sta = 1;
+  if (sta < 0) sta = 0;
   // if running
   if (running) {
     if (velocityX != 0 || velocityY != 0) {
       if (sta > 0) {
-        sta -= 0.05;
+        sta -= 0.02;
       } else {
         speedMultiplier = 1;
         running = false;
@@ -211,9 +229,7 @@ void Character::updateSta() {
     }
   // if not running
   } else {
-    if (sta < 1 && sta > 0) {
-      sta += 0.005;
-    }
+    sta += 0.005;
   }
 }
 

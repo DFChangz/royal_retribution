@@ -41,7 +41,6 @@ class State {
     double speed = 50;
     int fadeIn(std::string s, int a, double seconds, double mult);
 
-    //std::vector<Image*> images;
     std::map<std::string,Image*> images;
     std::map<std::string,Image*>::iterator it;
 
@@ -53,6 +52,11 @@ class State {
 
 
     void pauseUpdate(double);
+
+    std::string ele = std::to_string(ELE);
+    std::string ppl = std::to_string(PPL);
+    std::string add = std::to_string(ADD);
+    std::string top = std::to_string(TOP);
 
   private:
     bool paused = false;

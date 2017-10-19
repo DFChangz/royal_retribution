@@ -3,9 +3,9 @@
  */
 
 #include <algorithm>
+#include "collision_detector.h"
 #include "types.h"
 #include "character.h"
-#include "collision_detector.h"
 
 //Definitions of the collision detector class
 
