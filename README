@@ -5,28 +5,23 @@
 #                                    #
 ######################################
 ================
-# Assignment 6 #
+# Assignment 7 #
 ================
 
 NEW THINGS
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-Intro Scene (Tae Jin)
-~ occurs right after you press "New Game"
-~ explains the situation (who, what, where, why)
-~ Important Buttons
-  * press [n]: go to next in the coversation
-  * press [1]: skip the enture intro -> playing state
-
-Instruction Scene (Tae Jin)
-~ explains the basic controls (move, attack, run)
-
 Assets (Derek Chang)
 - created all assets and map layout.
 
-Lighting (Idean)
-~ the torches are a light source that allows the character to see
-~ Working on a grid for collision detection for (hopefully) next week
+Collision Grid/Buckets (Idean)
+- Split the map into a grid layout, and collision checks occur within each grid.
+- Changed the collision resolution logic to use velocities rather than collision
+  rectangles for determining the collision direction. This should fix many bugs
+  with collisions that may occur when clipping corners.
+- Made enhancements to the update and collisions logic to increase the FPS of
+  the game enormously.
+- Initial implementation of a fixed time-step (in progress by next week)
 
 Traps (Billy)
 1) when a character steps into a room, traps activate
@@ -38,19 +33,14 @@ Chest and Doors (Billy)
 1) walking up to a chest and pressing e will open the chest.
 2) item will show up below stamina bar to simulate an inventory.
 3) if item is a key, walking up to a door and pressing e will open it.
-4) after opening the door, the key is used and disappears. 
+4) after opening the door, the key is used and disappears.
 
-New Sprint Characteristics (Tae Jin)
-~ now sprint needs stamina
-  * stamina: top left green bar
-~ when sprinting, enemies do not notice you
-  * however, if the enemies have already found you, they will follow you even
-    when you start sprinting
-
-Little Debugging
-~ there is no lag in character's movements (Tae Jin)
-
-Created all the images and map text files (Derek)
+IN-PROGRESS FIXES
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Attacking animations. There is a janky change in position occuring when
+attacking. To fix this, we are currently splitting the sword sprite from the
+character sprite so that the character will stay in the same position on the map
+while the sword swings and checks for collisions.
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Build Instructions:
