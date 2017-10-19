@@ -42,6 +42,8 @@ class Sprite : public Image {
     void setDoor(bool door_p){ door = door_p;}
     bool isChest(){ return chest;}
     void setChest(bool chest_p){ chest = chest_p;}
+    bool isHole(){ return hole;}
+    void setHole(bool hole_p){ hole = hole_p;}
     char pairing = -1;
     void setPair(Sprite *pair_p){ pair = pair_p;}
     Sprite* pair = nullptr;
@@ -64,6 +66,7 @@ class Sprite : public Image {
     bool trap = false;
     bool door = false;
     bool chest = false;
+    bool hole = false;
 };
 
 #endif

@@ -79,11 +79,11 @@ void PlayingState::setup() {
     }
   }
   images.push_back(new Pickup(engine->renderer, KEY,
-    errorHandler, 32, 32, keyPosX, keyPosY, false, false));
+    errorHandler, 32, 32, keyPosX, keyPosY, false, false, keyNum));
   static_cast<Sprite*>(images[num_enemies + num_lights + 9])->setPair(C1);
   
   images.push_back(new Pickup(engine->renderer, COIN,
-    errorHandler, 32, 32, coinPosX, coinPosY, false, false));
+    errorHandler, 32, 32, coinPosX, coinPosY, false, false, coinNum));
   static_cast<Sprite*>(images[num_enemies + num_lights + 10])->setPair(C2);
   // FPS Counter 
   images.push_back(new Text(engine->renderer, FONT_FILENAME, errorHandler,
@@ -191,18 +191,16 @@ void PlayingState::update(double seconds) {
   SDL_SetTextureAlphaMod(images[num_enemies + num_lights + 10]->getTexture(), 0);
 
   int x = 0;  
-//  for(unsigned i = 0; i < static_cast<Character*>(images[1])->inventory.size(); i++){
+// set up inventory display
   for(Pickup *pUp : static_cast<Character*>(images[1])->inventory){  
     pUp->setFixed(true);
     pUp->setPosition(x * 40, 66);
-    SDL_SetTextureAlphaMod(pUp->getTexture(), 255);
     if(!pUp->isActivated()){
+      SDL_SetTextureAlphaMod(pUp->getTexture(), 255);
       x++;
     }
-//    static_cast<Character*>(images[1])->inventory[i]->setFixed(true);
-//    static_cast<Character*>(images[1])->inventory[i]->setPosition(i * 40, 66);
-//    SDL_SetTextureAlphaMod(static_cast<Character*>(images[1])->inventory[i]->getTexture(), 255);
-    
+
+// shows contents of chest when open
   }
   if(static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair->pair == static_cast<Sprite*>(images[num_enemies + num_lights + 9])->pair
     && !static_cast<Pickup*>(images[num_enemies + num_lights + 9])->isPickedUp()){

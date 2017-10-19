@@ -156,6 +156,17 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     this->setPair(static_cast<Sprite*>(image)->pair);
     return;
   }
+  else if(static_cast<Sprite*>(image)->isDoor() && static_cast<Sprite*>(image)->pair == nullptr){
+    if(interacting){
+      for(Pickup* item : inventory){
+        if( item->getType() == keyNum){
+          SDL_SetTextureAlphaMod(image->getTexture(), 0);
+          static_cast<Sprite*>(image)->setCollidable(false);
+          item->activate();
+        }
+      }
+    }
+  }
   // either up/down
   if (intersection->w > intersection->h) {
     if (intersection->y <= image->pos_y)
