@@ -34,6 +34,12 @@ Traps (Billy)
 3) he kills all of the enemies in the room before they kill him
 * During Gameplay, the screen will go "TRAPPED, KILL THEM ALL TO ESCAPE"
 
+Chest and Doors (Billy)
+1) walking up to a chest and pressing e will open the chest.
+2) item will show up below stamina bar to simulate an inventory.
+3) if item is a key, walking up to a door and pressing e will open it.
+4) after opening the door, the key is used and disappears. 
+
 New Sprint Characteristics (Tae Jin)
 ~ now sprint needs stamina
   * stamina: top left green bar
