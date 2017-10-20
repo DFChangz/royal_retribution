@@ -12,7 +12,7 @@ CreditState::CreditState(Engine* eng, ErrorHandler* eHandler)
 }
 void CreditState::setup(){
   images["t0"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 2, HEIGHT, 40, "Credits" );
+    WIDTH / 2, HEIGHT / 3, 40, "Credits" );
   images["t1"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 2, images["t0"]->getDestRect()->y + 60, 40, "Programmers");
   images["t2"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
@@ -35,8 +35,7 @@ void CreditState::load() {
     x = WIDTH / 2 - it->second->getDestRect()->w / 2;
     y = it->second->getDestRect()->y;
     it->second->setPosition(x, y);
-    it->second->velocityY = -200;
-    std::cout << it->first << " vel: " << it->second->velocityY << "\n";
+    it->second->velocityY = -150;
   }
 }
 
