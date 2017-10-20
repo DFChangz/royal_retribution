@@ -45,11 +45,11 @@ void PlayingState::setup() {
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));  
   // Heart types
   images[top+"heart_1"] = new Sprite(engine->renderer, HEART, errorHandler,
-    32, 32, WIDTH - 120, 34, false, true);
+    32, 32, WIDTH - 40, 34, false, true);
   images[top+"heart_2"] = new Sprite(engine->renderer, HEART, errorHandler,
     32, 32, WIDTH - 80, 34, false, true);
   images[top+"heart_3"] = new Sprite(engine->renderer, HEART, errorHandler,
-    32, 32, WIDTH - 40, 34, false, true);
+    32, 32, WIDTH - 120, 34, false, true);
   // Stamina
   images[top+"sta_box"] = new Sprite(engine->renderer, STA_BOX, errorHandler,
     0, 34, false, true);
