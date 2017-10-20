@@ -211,7 +211,7 @@ void PlayingState::update(double seconds) {
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
 
   int x = 0;  
-// set up inventory display
+  // set up inventory display
   for(Pickup *pUp : static_cast<Character*>(images[ppl+"king"])->inventory){  
     pUp->setFixed(true);
     pUp->setPosition(x * 40, 66);
@@ -220,8 +220,8 @@ void PlayingState::update(double seconds) {
       x++;
     }
   }
-// shows contents of chest when open
-  if(static_cast<Sprite*>(images[add+"key"])->pair//->pair
+  // shows contents of chest when open
+  if(static_cast<Sprite*>(images[add+"key"])->pair->pair
     == static_cast<Sprite*>(images[add+"key"])->pair
     && !static_cast<Pickup*>(images[add+"key"])->isPickedUp())
   {
@@ -232,7 +232,7 @@ void PlayingState::update(double seconds) {
       = static_cast<Character*>(images[ppl+"king"]);
     static_cast<Pickup*>(images[add+"key"])->pickUp();
   }
-  if(static_cast<Sprite*>(images[add+"coin"])->pair//->pair
+  if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
     == static_cast<Sprite*>(images[add+"coin"])->pair
     && !static_cast<Pickup*>(images[add+"coin"])->isPickedUp())
   {

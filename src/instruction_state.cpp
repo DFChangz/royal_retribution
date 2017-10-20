@@ -95,7 +95,6 @@ void InstructionState::load() {
     }
   }
   // set size of stam & exp & hearts
-  std::cout << "do this\n";
   images[top+"sta_box"]->getDestRect()->h = 32;
   images[top+"sta_box"]->getDestRect()->w = 150;
   images[top+"sta_bar"]->getDestRect()->h = 24;
@@ -112,7 +111,6 @@ void InstructionState::load() {
 /* updates the screen */
 void InstructionState::update(double seconds) {
   State::update(seconds);
-  std::cout << "start\n";
 
   // update sta
   bar_w = int(static_cast<Character*>(images["0king"])->sta * 146);

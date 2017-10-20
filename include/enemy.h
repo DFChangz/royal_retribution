@@ -28,12 +28,13 @@ class Enemy : public Sprite {
 
 
     void kill() { dead = true; } 
-    bool isEnemy() { return true; }
     bool isDead() { return dead; }
+    bool isEnemy() { return true; }
 
     bool following = false;
 
     std::string dir="right";
+
   private:
     bool dead = false;
 

@@ -219,7 +219,7 @@ void Level_2_State::update(double seconds) {
     }
   }
 // shows contents of chest when open
-  if(static_cast<Sprite*>(images[add+"key"])->pair//->pair
+  if(static_cast<Sprite*>(images[add+"key"])->pair->pair
     == static_cast<Sprite*>(images[add+"key"])->pair
     && !static_cast<Pickup*>(images[add+"key"])->isPickedUp())
   {
@@ -230,7 +230,7 @@ void Level_2_State::update(double seconds) {
       = static_cast<Character*>(images[ppl+"king"]);
     static_cast<Pickup*>(images[add+"key"])->pickUp();
   }
-  if(static_cast<Sprite*>(images[add+"coin"])->pair//->pair
+  if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
     == static_cast<Sprite*>(images[add+"coin"])->pair
     && !static_cast<Pickup*>(images[add+"coin"])->isPickedUp())
   {
