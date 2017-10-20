@@ -125,7 +125,7 @@ void IntroState::update(double seconds) {
       if (counter > 0) {
         SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
       }
-      if (counter == 5) {
+      if (counter >= 5) {
         if (images["1king"]->pos_y < 2287) {
           images["1king"]->velocityY = 100;
         } else  images["1king"]->velocityY = 0;

@@ -27,6 +27,7 @@ and rendering textures along with any audio and text. Plus it destroys
 objects and frees memory when done*/
 class State;
 class Engine {
+
   public:
     void start();
     void cleanup();
@@ -40,12 +41,14 @@ class Engine {
     SDL_Renderer *renderer = nullptr;
 
     void setState(std::string);
+    void setNextLevel(std::string, Image*&);
 
     void quit();
     void incrementScore(int increment);
     int score = 0;
     std::map<std::string, State*> states;
     static int volume;
+
   private:
     void setup();
     void loop();

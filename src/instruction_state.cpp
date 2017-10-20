@@ -66,6 +66,9 @@ void InstructionState::setup() {
     WIDTH/2 - 75, 34, false, true);
   images[top+"exp_bar"] = new Sprite(engine->renderer, EXP_BAR, errorHandler,
     WIDTH/2 - 72, 38, false, true);
+  // FPS Counter 
+  images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
+    2, 2, 16, "FPS: ");
 }
 
 /* loads images */
@@ -111,7 +114,17 @@ void InstructionState::load() {
 /* updates the screen */
 void InstructionState::update(double seconds) {
   State::update(seconds);
+  timer += seconds;
 
+  // update FPS
+  if (timer > 1) {
+    delete images[top+"fps"];
+    images[top+"fps"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+      2, 2, 16, "FPS: " + std::to_string((int)(1/seconds)));
+    std::cout << seconds << "\n";
+    images[top+"fps"]->load();
+    timer = 0;
+  }
   // update sta
   bar_w = int(static_cast<Character*>(images["0king"])->sta * 146);
   images[top+"sta_bar"]->getDestRect()->w = bar_w;

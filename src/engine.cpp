@@ -143,6 +143,7 @@ void Engine::createStates() {
   newHighscore();
 }
 
+
 Engine::Engine() : 
   error_handler(this) {};
 
@@ -180,9 +181,18 @@ void Engine::newGame() {
   states["lose"] = new LoseState(this, &error_handler);
   states["intro"] = new IntroState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
-  states["level_2"] = new Level_2_State(this, &error_handler);
+  states["level_2"] = new Level_2_State(this, &error_handler, nullptr);
   states["instruction"] = new InstructionState(this, &error_handler);
 }
+
+void Engine::setNextLevel(std::string level, Image* &sentKing) {
+  if (states[level] != nullptr) {
+    delete states[level];
+    states[level] = nullptr;
+  }
+  states[level] = new Level_2_State(this, &error_handler, sentKing);
+  setState(level);
+} 
 
 void Engine::newHighscore() {
   if (states["Highscore"] != nullptr) {

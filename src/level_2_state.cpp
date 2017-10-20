@@ -4,7 +4,8 @@
 
 #include "level_2_state.h"
 
-Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
+Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler,
+  Image* sentKing)
   : State(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_2, TILES_TXT,
@@ -12,17 +13,30 @@ Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_2_ADD);
 
+  king = sentKing;
+
   setup();
+  std::cout << "finish setup\n";
   load();
+  std::cout << "finish load\n";
 }
 
 void Level_2_State::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 45, map->height - 150, false);
-  // Player 
-  images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
-    errorHandler, 16, 25, 80, 300, &eventHandler, &audioHandler, this);
+  // King
+  if (king != nullptr) {
+    std::cout << "king not null\n";
+    images[ppl+"king"] = king;
+    images[ppl+"king"]->pos_x = 100;
+    images[ppl+"king"]->pos_y = 300;
+    std::cout << "does this\n";
+  } else {
+    std::cout << "king null\n";
+    images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
+      errorHandler, 16, 25, 100, 300, &eventHandler, &audioHandler, this);
+  }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Enemies
   std::ifstream file(LEVEL_2_E);
@@ -98,7 +112,6 @@ void Level_2_State::setup() {
 
 void Level_2_State::load() {
   State::load();
-
   // set size of stairs & stam & exp
   images[ele+"stairs"]->getDestRect()->h = 90;
   images[ele+"stairs"]->getDestRect()->w = 90;
@@ -135,8 +148,10 @@ void Level_2_State::load() {
 }
 
 void Level_2_State::update(double seconds) {
+  std::cout << "update\n";
   timer += seconds;
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
+  std::cout << "gets level\n";
 
   if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
   // update FPS Display
@@ -218,11 +233,13 @@ void Level_2_State::update(double seconds) {
       x++;
     }
   }
-// shows contents of chest when open
+  // shows contents of chest when open
+  std::cout << "start\n";
   if(static_cast<Sprite*>(images[add+"key"])->pair->pair
     == static_cast<Sprite*>(images[add+"key"])->pair
     && !static_cast<Pickup*>(images[add+"key"])->isPickedUp())
   {
+    std::cout << "finish if\n";
     SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 255);
     static_cast<Character*>(images[ppl+"king"])
       ->inventory.push_back(static_cast<Pickup*>(images[add+"key"]));

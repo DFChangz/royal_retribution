@@ -93,6 +93,7 @@ void CollisionDetector::checkCollision(Image* img1, Image* img2) {
 // Updates the buckets for the specified image
 //void CollisionDetector::updateBuckets(Image* image, int img_index) {
 void CollisionDetector::updateBuckets(Image* image, Map* map) {
+  std::cout << "start\n";
   unsigned int width;
   unsigned int height;
   if (map == nullptr) {
@@ -104,7 +105,6 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
   }
 
   if (!image->isCollidable()) return;
-
   int x = image->pos_x;
   int y = image->pos_y;
 
@@ -116,23 +116,25 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
   unsigned int grid_y = y / GRID_HEIGHT;
   SDL_Rect grid_rect = {0, 0, GRID_WIDTH, GRID_HEIGHT};
   SDL_Rect* image_rect = image->getDestRect();
-
+  std::cout << "did\n";
   for (auto bucket = image->buckets.begin(); bucket != image->buckets.end();
     ) {
     grid_rect.x = *bucket % BUCKET_COLS * GRID_WIDTH;
     grid_rect.y = *bucket / BUCKET_COLS * GRID_HEIGHT;
-
+    std::cout << "did\n";
     if (!SDL_HasIntersection(&grid_rect, image_rect)) {
       auto img_bucket = &(buckets[*bucket]);
       img_bucket->erase(std::find((*img_bucket).begin(), (*img_bucket).end(), image));
       bucket = image->buckets.erase(bucket);
     } else {
       bucket++;
+      std::cout << "bucket++\n";
     }
   }
 
   grid_rect.x = grid_x * GRID_WIDTH;
   grid_rect.y = grid_y * GRID_HEIGHT;
+  std::cout << "grid\n";  
 
   for (int i = grid_x; i < BUCKET_COLS &&
       SDL_HasIntersection(&grid_rect, image_rect); i++) {
@@ -144,9 +146,10 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
 
       grid_rect.x = (i + 1) * GRID_WIDTH;
       grid_rect.y = (j + 1) * GRID_HEIGHT;
-
+      std::cout << "before find\n";
       if (std::find(image->buckets.begin(), image->buckets.end(), index) !=
          image->buckets.end())
+         std::cout << "after if\n";
         continue;
 
       buckets[index].push_back(image);

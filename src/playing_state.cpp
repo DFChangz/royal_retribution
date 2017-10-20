@@ -257,19 +257,11 @@ void PlayingState::update(double seconds) {
       && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
         > map->height - 150)
   {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
-    file.close();
-    engine->setState("level_2");
+    engine->setNextLevel("level_2", nullptr/*images[ppl+"king"]*/);
   }
   // automatically go to next flooe w/ '1'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
-    file.close();
-    engine->setState("level_2");
+    engine->setNextLevel("level_2", images[ppl+"king"]);
    }, SDLK_1);
   // automatically lose w/ '4'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {

@@ -17,6 +17,7 @@
 class State {
   public:
     State(Engine* engine, ErrorHandler* errorHandler);
+    State(Engine* engine, ErrorHandler* errorHandler, Image* sentKing);
 
     virtual void load();
 
@@ -36,6 +37,8 @@ class State {
     virtual void render();
     virtual void cleanup();
     virtual void update(double seconds);
+
+    Image* king = nullptr;
 
     double newA = 0;
     double speed = 50;
