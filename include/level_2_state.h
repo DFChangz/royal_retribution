@@ -1,16 +1,16 @@
-#ifndef PLAYING_STATE_H
-#define PLAYING_STATE_H
+#ifndef LEVEL_2_STATE_H
+#define LEVEL_2_STATE_H
 
 #include "state.h"
 
 #define NUM_ENEMIES     10
 #define ENEMY_FILENAME  "level_1_enemies.txt"
 
-class PlayingState : public State {
+class Level_2_State : public State {
   public:
-    PlayingState(Engine* engine, ErrorHandler* errorHandler);
+    Level_2_State(Engine* engine, ErrorHandler* errorHandler);
 
-    virtual ~PlayingState();
+    virtual ~Level_2_State();
     virtual void load();
 
     double timer = 1;

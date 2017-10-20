@@ -55,9 +55,10 @@
 #define COIN "assets/coin.png"
 #define KEY "assets/key.png"
 
-/* Energy */
+/* Bars */
+#define BAR_BOX "assets/bar_outline.png"
 #define STA_BAR "assets/stamina_bar.png"
-#define STA_BOX "assets/stamina_outline.png"
+#define EXP_BAR "assets/experience_bar.png"
 
 /* LAYER */
 #define ELE 0

@@ -208,7 +208,6 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     }
     exp += expInc; 
     state->engine->score += 1000;
-    
   }
 
   Sprite::notifyCollision(image, intersection);
@@ -234,11 +233,10 @@ void Character::updateSta() {
 }
 
 void Character::updateExp() {
-  if (exp > 1) {
+  if (exp >= 1) {
     exp -= 1;
-    maxH += 2;
+    level++;
     expInc -= 0.05;
-    leveledUp = true;
   }
 }
 

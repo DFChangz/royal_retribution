@@ -1,31 +1,31 @@
 /*
- * playing_state.cpp
+ * level_2_state.cpp
  */
 
-#include "playing_state.h"
+#include "level_2_state.h"
 
-PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
+Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
-  map = new Map(engine->renderer, errorHandler, LEVEL_1, TILES_TXT,
+  map = new Map(engine->renderer, errorHandler, LEVEL_2, TILES_TXT,
     &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_1_ADD);
+  map->loadSecondLayout(LEVEL_2_ADD);
 
   setup();
   load();
 }
 
-void PlayingState::setup() {
+void Level_2_State::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 45, map->height - 150, false);
   // Player 
   images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
-    errorHandler, 16, 25, 80, 80, &eventHandler, &audioHandler, this);
+    errorHandler, 16, 25, 80, 300, &eventHandler, &audioHandler, this);
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Enemies
-  std::ifstream file(LEVEL_1_E);
+  std::ifstream file(LEVEL_2_E);
   int x = -1;
   int y = -1;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
@@ -96,7 +96,7 @@ void PlayingState::setup() {
     2, 2, 16, "FPS: ");
 }
 
-void PlayingState::load() {
+void Level_2_State::load() {
   State::load();
 
   // set size of stairs & stam & exp
@@ -132,7 +132,7 @@ void PlayingState::load() {
   }
 }
 
-void PlayingState::update(double seconds) {
+void Level_2_State::update(double seconds) {
   timer += seconds;
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
 
@@ -255,7 +255,7 @@ void PlayingState::update(double seconds) {
     file.open(SCORE_FILENAME, std::ios_base::app);
     file << std::to_string(engine->score) << std::endl;
     file.close();
-    engine->setState("level_2");
+    engine->setState("win");
   }
   // automatically win w/ '3'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
@@ -263,14 +263,14 @@ void PlayingState::update(double seconds) {
     file.open(SCORE_FILENAME, std::ios_base::app);
     file << std::to_string(engine->score) << std::endl;
     file.close();
-    engine->setState("level_2");
+    engine->setState("win");
    }, SDLK_3);
   // automatically lose w/ '4'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("lose"); }, SDLK_4);
 }
 
-void PlayingState::checkFollow() {
+void Level_2_State::checkFollow() {
   int borderX = images[ppl+"king"]->pos_x
     + images[ppl+"king"]->getDestRect()->w+100;
   int borderY = images[ppl+"king"]->pos_y
@@ -289,7 +289,7 @@ void PlayingState::checkFollow() {
   }
 }
       
-void PlayingState::enemyFollow() {
+void Level_2_State::enemyFollow() {
   for (int i = 0; i < num_enemies; i++) {
     std::string s = ppl+"enemy_"+std::to_string(i);
     if (static_cast<Enemy*>(images[s])->following) {
@@ -324,15 +324,15 @@ void PlayingState::enemyFollow() {
 }
 
 // inc/dec sta
-void PlayingState::updateSta() {
+void Level_2_State::updateSta() {
   int w = int(static_cast<Character*>(images[ppl+"king"])->sta * 146);  
   images[top+"sta_bar"]->getDestRect()->w = w;
 }
 
 // inc/dec exp
-void PlayingState::updateExp() {
+void Level_2_State::updateExp() {
   int w = int(static_cast<Character*>(images[ppl+"king"])->exp * 146);
   images[top+"exp_bar"]->getDestRect()->w = w;
 }
 
-PlayingState::~PlayingState() {}
+Level_2_State::~Level_2_State() {}

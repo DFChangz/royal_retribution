@@ -41,11 +41,11 @@ class Character : public Sprite {
     virtual void render(Camera*);
     virtual void cleanup();
 
-    int maxH = 6;
     int hearts = 6;
 
+    int level = 1;
     double sta = 1;
-    double exp = 1;
+    double exp = 0;
 
     bool frozen = false;
     bool running = false;
@@ -53,6 +53,7 @@ class Character : public Sprite {
 
     std::string dir = "down";
     std::vector<Pickup*> inventory;
+
     ~Character();
 
   private:
@@ -69,7 +70,7 @@ class Character : public Sprite {
     bool invincible = false;
     bool interacting = false;
 
-    double expInc = 0.2;
+    double expInc = 0.4;
     double attackingTimer = 0;
     double staSec = STA_WAITING_TIME;
     double invincibilitySeconds = INVINCIBLE_TIME;
