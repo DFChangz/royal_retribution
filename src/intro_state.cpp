@@ -58,9 +58,10 @@ void IntroState::load() {
   images["0throne"]->getDestRect()->h *= 2;
   // squre faces up and king is frozen
   static_cast<Squire*>(images["1squire"])->dir = "left";
-  //static_cast<Character*>(images["1king"])->frozen = true;
+  static_cast<Character*>(images["1king"])->frozen = true;
   // make convo textures transparent
   for (it = images.find("2c0"); it != images.end(); it++) {
+    if (it->first != "2skip")
     SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
   }
   // position all the text
@@ -68,11 +69,11 @@ void IntroState::load() {
     auto center = getCenterForImage(it->second);
     it->second->setPosition(std::get<0>(center), std::get<1>(center));
     if (it->first == "2skip") {
-      it->second->pos_y -= 350;
+      it->second->pos_y = 0;
     } else if (it->first == "2c7") {
-      it->second->pos_y += 275;
+      it->second->pos_y += 270;
     } else if (it->first == "2c0" || it->first == "2c2" || it->first == "2c4") {
-      it->second->pos_y -= 55;
+      it->second->pos_y -= 60;
     } else {
       it->second->pos_y -= 290;
     }

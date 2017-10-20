@@ -47,12 +47,12 @@ void PlayingState::setup() {
   images[top+"level"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH/2-25, 2, 16, "LEVEL "); 
   // Heart types
-  images[top+"heart_3"] = new Sprite(engine->renderer, HEART, errorHandler,
-    32, 32, WIDTH - 120, 34, false, true);
-  images[top+"heart_2"] = new Sprite(engine->renderer, HEART, errorHandler,
-    32, 32, WIDTH - 80, 34, false, true);
   images[top+"heart_1"] = new Sprite(engine->renderer, HEART, errorHandler,
     32, 32, WIDTH - 40, 34, false, true);
+  images[top+"heart_2"] = new Sprite(engine->renderer, HEART, errorHandler,
+    32, 32, WIDTH - 80, 34, false, true);
+  images[top+"heart_3"] = new Sprite(engine->renderer, HEART, errorHandler,
+    32, 32, WIDTH - 120, 34, false, true);
   // Stamina
   images[top+"sta_box"] = new Sprite(engine->renderer, BAR_BOX, errorHandler,
     0, 34, false, true);
