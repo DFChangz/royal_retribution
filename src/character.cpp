@@ -2,8 +2,8 @@
  * character.cpp
  */
 
-#include "state.h"
 #include "character.h"
+#include "state.h"
 //Definitions for the character class that inherits from Sprite
 
 //constructor that takes in arguments for the width and height for the rect
@@ -42,8 +42,8 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-  std::cout << "xpos: " << pos_x << "\n";
-  std::cout << "ypos: " << pos_y << "\n";
+  //std::cout << "xpos: " << pos_x << "\n";
+  //std::cout << "ypos: " << pos_y << "\n";
 
   // update sta and exp 
   updateSta();

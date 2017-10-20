@@ -56,7 +56,7 @@ void IntroState::load() {
   // set up throne
   images["0throne"]->getDestRect()->w *= 2;
   images["0throne"]->getDestRect()->h *= 2;
-  // squre faces up and king is frozen
+  // squre faces left and king is frozen
   static_cast<Squire*>(images["1squire"])->dir = "left";
   static_cast<Character*>(images["1king"])->frozen = true;
   // make convo textures transparent
@@ -71,11 +71,11 @@ void IntroState::load() {
     if (it->first == "2skip") {
       it->second->pos_y = 0;
     } else if (it->first == "2c7") {
-      it->second->pos_y += 270;
+      it->second->pos_y += 280;
     } else if (it->first == "2c0" || it->first == "2c2" || it->first == "2c4") {
-      it->second->pos_y -= 60;
+      it->second->pos_y -= 50;
     } else {
-      it->second->pos_y -= 290;
+      it->second->pos_y -= 285;
     }
   }
 }
@@ -138,6 +138,7 @@ void IntroState::update(double seconds) {
       SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
       // edit king movement
       images["1king"]->velocityX = 150;
+      if (images["1king"]->pos_y > 2287) images["1king"]->velocityY = 0;
       // edit squire movement
       if (images["1king"]->pos_x > 1910 && !end) {
         static_cast<Squire*>(images["1squire"])->dir = "right";
@@ -145,6 +146,7 @@ void IntroState::update(double seconds) {
       }
       if (images["1king"]->pos_x > 2550) {
         a = fadeIn("2c7", a, seconds, 2);
+        static_cast<Squire*>(images["1squire"])->dir = "down";
         eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
         static_cast<Character*>(images["1king"])->frozen = false;
           engine->setState("instruction");}, SDLK_n);

@@ -50,7 +50,6 @@ class State {
 
     Camera camera;
 
-
     void pauseUpdate(double);
 
     std::string ele = std::to_string(ELE);

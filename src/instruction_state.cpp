@@ -43,6 +43,29 @@ void InstructionState::setup() {
     0, 0, 25, sp);
   images["1end"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 40, end, ROYAL_GOLD);
+  // Score
+  images[top+"score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));
+  // Level
+  images[top+"level"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH/2-25, 2, 16, "LEVEL 1");
+  // Heart types
+  images[top+"heart_1"] = new Sprite(engine->renderer, HEART, errorHandler,
+    32, 32, WIDTH - 40, 34, false, true);
+  images[top+"heart_2"] = new Sprite(engine->renderer, HEART, errorHandler,
+    32, 32, WIDTH - 80, 34, false, true);
+  images[top+"heart_3"] = new Sprite(engine->renderer, HEART, errorHandler,
+    32, 32, WIDTH - 120, 34, false, true);
+  // Stamina
+  images[top+"sta_box"] = new Sprite(engine->renderer, BAR_BOX, errorHandler,
+    0, 34, false, true);
+  images[top+"sta_bar"] = new Sprite(engine->renderer, STA_BAR, errorHandler,
+    2, 38, false, true);
+  // Experience
+  images[top+"exp_box"] = new Sprite(engine->renderer, BAR_BOX, errorHandler,
+    WIDTH/2 - 75, 34, false, true);
+  images[top+"exp_bar"] = new Sprite(engine->renderer, EXP_BAR, errorHandler,
+    WIDTH/2 - 72, 38, false, true);
 }
 
 /* loads images */
@@ -71,11 +94,32 @@ void InstructionState::load() {
       }
     }
   }
+  // set size of stam & exp & hearts
+  std::cout << "do this\n";
+  images[top+"sta_box"]->getDestRect()->h = 32;
+  images[top+"sta_box"]->getDestRect()->w = 150;
+  images[top+"sta_bar"]->getDestRect()->h = 24;
+  images[top+"sta_bar"]->getDestRect()->w = 146;
+  images[top+"exp_box"]->getDestRect()->h = 32;
+  images[top+"exp_box"]->getDestRect()->w = 150;
+  images[top+"exp_bar"]->getDestRect()->h = 24;
+  images[top+"exp_bar"]->getDestRect()->w = 148;
+  static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(0, 0, 32, 32);
+  static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
+  static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
 }
 
 /* updates the screen */
 void InstructionState::update(double seconds) {
   State::update(seconds);
+  std::cout << "start\n";
+
+  // update sta
+  bar_w = int(static_cast<Character*>(images["0king"])->sta * 146);
+  images[top+"sta_bar"]->getDestRect()->w = bar_w;
+  // update exp
+  bar_w = int(static_cast<Character*>(images["0king"])->exp * 146);
+  images[top+"exp_bar"]->getDestRect()->w = bar_w;
 
   // skip intro
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {

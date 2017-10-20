@@ -29,14 +29,14 @@ void MenuState::setup() {
     500, 40, "Brightness: ");
   images["1_12"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 80,
     540, 20, "(Use keys 1 and 2 to increase/decrease)");
-  images["1Bnum"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 350,
-    500, 40, "100%");
+  images["1Bnum"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    350, 500, 40, "100%");
   images["1VM"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 800,
     500, 40, "Volume: ");
   images["1_90"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 800,
     540, 20, "(Use keys 9 and 0 to increase/decrease)");
-  images["1Vnm"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 1000,
-    500, 40, "100%");
+  images["1Vnum"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    1000, 500, 40, "100%");
 }
 
 void MenuState::load() {

@@ -26,6 +26,7 @@ class InstructionState : public State {
     int a6 = 0;
     int a7 = 0;
     int a8 = 0;
+    int bar_w = 0;
     double newA = 0;
     double speed = 50;
 

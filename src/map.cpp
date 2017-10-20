@@ -138,7 +138,7 @@ void Map::loadSecondLayout(std::string filename) {
       bool torch = ((texture->options & 8) == 8);
       bool chest = ((texture->options & 16) == 16);
       bool hole = ((texture->options & 32) == 32);
-
+      
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
                 col * TILE_DIM - 1.5*TILE_DIM, row * TILE_DIM - TILE_DIM,

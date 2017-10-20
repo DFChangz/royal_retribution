@@ -114,8 +114,10 @@ void Level_2_State::load() {
   for (int i = 0; i < num_lights; i++) {
     std::string s = add+"light_"+std::to_string(i);
 
-    images[s]->getDestRect()->w = TILE_DIM * 5;
-    images[s]->getDestRect()->h = TILE_DIM * 5;
+    images[s]->getDestRect()->w = TILE_DIM * 2;
+    images[s]->getDestRect()->h = TILE_DIM * 1;
+    images[s]->pos_x += TILE_DIM;
+    images[s]->pos_y += TILE_DIM;
 
     SDL_SetTextureBlendMode(images[s]->getTexture(),SDL_BLENDMODE_ADD);
     if (SDL_SetTextureAlphaMod(images[s]->getTexture(), 80) < 0)
@@ -247,9 +249,11 @@ void Level_2_State::update(double seconds) {
     engine->setState("lose");
   }
   // changes state to Win
-  if (images[ppl+"king"]->pos_x > map->width/2 - 45
-      && images[ppl+"king"]->pos_x < map->width/2 + 45
-      && images[ppl+"king"]->pos_y > map->height - 150)
+  if (images[ppl+"king"]->pos_x < map->width/2 + 45
+      && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
+        > map->width/2 - 45
+      && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
+        > map->height - 150)
   {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);
@@ -264,10 +268,10 @@ void Level_2_State::update(double seconds) {
     file << std::to_string(engine->score) << std::endl;
     file.close();
     engine->setState("win");
-   }, SDLK_3);
+   }, SDLK_1);
   // automatically lose w/ '4'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("lose"); }, SDLK_4);
+   engine->setState("lose"); }, SDLK_2);
 }
 
 void Level_2_State::checkFollow() {
