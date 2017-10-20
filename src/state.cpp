@@ -12,7 +12,7 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) :
   errorHandler = &engine->error_handler;
 }
 
-State::State(Engine* engine_ref, ErrorHandler* errorHandler, Image* sentKing) :
+/*State::State(Engine* engine_ref,ErrorHandler* errorHandler,Image* sentKing) :
   audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
 
   engine = engine_ref;
@@ -20,7 +20,7 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler, Image* sentKing) :
   errorHandler = &engine->error_handler;
 
   king = sentKing;
-}
+}*/
 
 void State::run(double* seconds) {
   if (!paused) {
@@ -40,9 +40,7 @@ void State::load() {
   audioHandler.load();
 
   for (it = images.begin(); it != images.end(); it++) {
-    std::cout << "im: " << it->first << "\n";
     it->second->load();
-    std::cout << "finish col\n";
     collisionDetector.updateBuckets(it->second, map);
   }
 }

@@ -17,7 +17,7 @@
 class State {
   public:
     State(Engine* engine, ErrorHandler* errorHandler);
-    State(Engine* engine, ErrorHandler* errorHandler, Image* sentKing);
+    //State(Engine* engine, ErrorHandler* errorHandler, Image* sentKing);
 
     virtual void load();
 

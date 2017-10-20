@@ -21,8 +21,14 @@ void PlayingState::setup() {
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 45, map->height - 150, false);
   // Player 
-  images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
-    errorHandler, 16, 25, 80, 80, &eventHandler, &audioHandler, this);
+  if (king != nullptr) {
+    images[ppl+"king"] = king;
+    std::cout << "king is not null\n";
+  } else {
+    images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
+      errorHandler, 16, 25, 80, 80, &eventHandler, &audioHandler, this);
+    std::cout << "king is null\n";
+  }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Enemies
   std::ifstream file(LEVEL_1_E);
@@ -257,15 +263,29 @@ void PlayingState::update(double seconds) {
       && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
         > map->height - 150)
   {
-    engine->setNextLevel("level_2", nullptr/*images[ppl+"king"]*/);
+    images[ppl+"king"]->pos_x = 100;
+    images[ppl+"king"]->pos_y = 300;
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    static_cast<Character*>(images[ppl+"king"])->dir = "down";
+    king = images[ppl+"king"]; 
+    engine->setState("level_2");
   }
-  // automatically go to next flooe w/ '1'
+  // go to floor 2
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    engine->setNextLevel("level_2", images[ppl+"king"]);
-   }, SDLK_1);
-  // automatically lose w/ '4'
+    images[ppl+"king"]->pos_x = 100;
+    images[ppl+"king"]->pos_y = 300;
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    static_cast<Character*>(images[ppl+"king"])->dir = "down";
+    king = images[ppl+"king"];
+    if (king == nullptr) std::cout << "king still null\n";
+    else std::cout << "king is no longer null\n";
+    engine->setState("level_2");
+   }, SDLK_2);
+  // automatically lose w/ '3'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("lose"); }, SDLK_2);
+   engine->setState("lose"); }, SDLK_3);
 }
 
 void PlayingState::checkFollow() {

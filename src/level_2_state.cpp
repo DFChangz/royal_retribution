@@ -4,8 +4,7 @@
 
 #include "level_2_state.h"
 
-Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler,
-  Image* sentKing)
+Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_2, TILES_TXT,
@@ -13,12 +12,8 @@ Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler,
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_2_ADD);
 
-  king = sentKing;
-
   setup();
-  std::cout << "finish setup\n";
   load();
-  std::cout << "finish load\n";
 }
 
 void Level_2_State::setup() {
@@ -27,15 +22,12 @@ void Level_2_State::setup() {
     errorHandler, map->width/2 - 45, map->height - 150, false);
   // King
   if (king != nullptr) {
-    std::cout << "king not null\n";
     images[ppl+"king"] = king;
-    images[ppl+"king"]->pos_x = 100;
-    images[ppl+"king"]->pos_y = 300;
-    std::cout << "does this\n";
+    std::cout << "king is not null\n";
   } else {
-    std::cout << "king null\n";
     images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
       errorHandler, 16, 25, 100, 300, &eventHandler, &audioHandler, this);
+    std::cout << "king is null\n";
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Enemies
@@ -148,10 +140,8 @@ void Level_2_State::load() {
 }
 
 void Level_2_State::update(double seconds) {
-  std::cout << "update\n";
   timer += seconds;
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
-  std::cout << "gets level\n";
 
   if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
   // update FPS Display
@@ -234,12 +224,10 @@ void Level_2_State::update(double seconds) {
     }
   }
   // shows contents of chest when open
-  std::cout << "start\n";
   if(static_cast<Sprite*>(images[add+"key"])->pair->pair
     == static_cast<Sprite*>(images[add+"key"])->pair
     && !static_cast<Pickup*>(images[add+"key"])->isPickedUp())
   {
-    std::cout << "finish if\n";
     SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 255);
     static_cast<Character*>(images[ppl+"king"])
       ->inventory.push_back(static_cast<Pickup*>(images[add+"key"]));
@@ -278,15 +266,25 @@ void Level_2_State::update(double seconds) {
     file.close();
     engine->setState("win");
   }
-  // automatically win w/ '3'
+  // go to floor 1
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
-    file.close();
-    engine->setState("win");
+    static_cast<Character*>(images[ppl+"king"])->setPosition(
+      images[ele+"stiars"]->pos_x + 45 - images[ppl+"king"]->getDestRect()->w/2,
+      images[ele+"stiars"]->pos_y - 10 - images[ppl+"king"]->getDestRect()->h);
+    std::cout << "do this\n";
+    static_cast<Character*>(images[ppl+"king"])->dir = "up";
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    king = images[ppl+"king"];
+    std::cout << "do this\n";
+    //if (king == nullptr) std::cout << "king still null\n";
+    //else std::cout << "king is no longer null\n";
+    engine->setState("playing_state");
    }, SDLK_1);
-  // automatically lose w/ '4'
+  // automatically win w/ '2'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   engine->setState("win"); }, SDLK_2);
+  // automatically lose w/ '3'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("lose"); }, SDLK_2);
 }

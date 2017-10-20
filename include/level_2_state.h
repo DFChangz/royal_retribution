@@ -8,7 +8,7 @@
 
 class Level_2_State : public State {
   public:
-    Level_2_State(Engine* engine, ErrorHandler* errorHandler, Image* sentKing);
+    Level_2_State(Engine* engine, ErrorHandler* errorHandler);
 
     virtual ~Level_2_State();
     virtual void load();

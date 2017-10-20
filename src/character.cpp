@@ -17,6 +17,9 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
   rect.w *= 2;
   rect.h *= 2;
 
+  startingX = pos_x;
+  startingY = pos_y;
+
   state = state_p;
   createListeners(eventHandler);
 }
@@ -31,6 +34,9 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 
   rect.w *= 2;
   rect.h *= 2;
+
+  startingX = pos_x;
+  startingY = pos_y;
 
   state = state_p;
   
@@ -163,6 +169,12 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
         }
       }
     }
+  }
+  if(static_cast<Sprite*>(image)->isHole()){
+    setPosition(startingX, startingY);
+    velocityX = 0;
+    velocityY = 0;
+    state->engine->setState("playing");
   }
   // either up/down
   if (intersection->w > intersection->h) {
