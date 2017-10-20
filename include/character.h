@@ -46,6 +46,8 @@ class Character : public Sprite {
     int level = 1;
     double sta = 1;
     double exp = 0;
+    double startingX = 0.0;
+    double startingY = 0.0;
 
     bool frozen = false;
     bool running = false;

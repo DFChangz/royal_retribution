@@ -261,6 +261,11 @@ void PlayingState::update(double seconds) {
     file.open(SCORE_FILENAME, std::ios_base::app);
     file << std::to_string(engine->score) << std::endl;
     file.close();
+    static_cast<Character*>(images[ppl+"king"])->setPosition(
+      static_cast<Character*>(images[ppl+"king"])->startingX,
+      static_cast<Character*>(images[ppl+"king"])->startingY);
+    static_cast<Character*>(images[ppl+"king"])->velocityX = 0;
+    static_cast<Character*>(images[ppl+"king"])->velocityY = 0;
     engine->setState("level_2");
   }
   // automatically go to next flooe w/ '1'
