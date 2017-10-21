@@ -48,12 +48,6 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-<<<<<<< a6b05ffb35ec5ea355510de24bea6b5782cece51
-  std::cout << "xpos: " << pos_x << "\n";
-  std::cout << "ypos: " << pos_y << "\n";
-=======
->>>>>>> Worked on instruction text, and Fixed some traps and chest issues.
-
   // update sta and exp 
   updateSta();
   updateExp();
