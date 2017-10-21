@@ -54,9 +54,15 @@ King Level (Tae Jin Kim)
 2) you level up once you kill enough enemies
 3) it becomes harder to level up as your level increases
 
+Floor Movement (Tae Jin Kim)
+Floor 1 to Floor 2    press [2]
+Floor 1 to lose       press [3]
+Floor 2 to win        press [2]
+Floor 2 to lose       press [3]
+* stats of the king are retained when moving to different floors
+
 Other (Tae Jin Kim)
-1) stats of the king are retained when moving to different floors
-2) edited all of the states so that they utilized maps rather than vectors
+~ edited all of the states so that they utilized maps rather than vectors
 
 IN-PROGRESS FIXES
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -88,8 +94,6 @@ In Intro Screen:
   To Go to Next Speech: [n]
 
 In Playing State:
-  To Automatically Win: [3]
-  To Automatically Lose: [4]
   LIVES:
   ~ Start with 3 hearts
   ~ Lose 1/2 heart every time an enemy touches you
@@ -110,7 +114,6 @@ In Menu Screen:
   Credits: Shows who worked on the game
   Quit: Same as pressing [ESCAPE], quits program
   Options can be Chosen with Mouse / arrow keys & [ENTER]/[SPACE]
-
 
 Notes:
   After running with both valgrind and sanitizers, there are many leaks that
