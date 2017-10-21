@@ -23,11 +23,9 @@ void PlayingState::setup() {
   // Player 
   if (king != nullptr) {
     images[ppl+"king"] = king;
-    std::cout << "king is not null\n";
   } else {
     images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
       errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
-    std::cout << "king is null\n";
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Enemies
@@ -99,6 +97,13 @@ void PlayingState::setup() {
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
+  //instuctions
+  images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'n' to clear text");
+  images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 3, 92, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'n' to clear text ");
+  images[top+"cInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 3, 60, 16, "Press 'e' to open chest. Press 'n' to clear text");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
@@ -213,6 +218,9 @@ void PlayingState::update(double seconds) {
   checkFollow();
   enemyFollow();
 
+//  SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 0);
+//  SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0);
+//  SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
   //displaying instructions for chests
   int chestBorder1X= images[add+"key"]->getDestRect()->w + images[ppl+"king"]->getDestRect()->w;
   int chestBorder1Y = images[add+"key"]->getDestRect()->h + images[ppl+"king"]->getDestRect()->h;
@@ -303,8 +311,6 @@ void PlayingState::update(double seconds) {
     images[ppl+"king"]->velocityY = 0;
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
     king = images[ppl+"king"];
-    if (king == nullptr) std::cout << "king still null\n";
-    else std::cout << "king is no longer null\n";
     engine->setState("level_2");
    }, SDLK_2);
   // automatically lose w/ '3'
@@ -373,29 +379,23 @@ void PlayingState::updateExp() {
 void PlayingState::activateInstructionText(int instruct){
   if(instruct == chestNum){ 
 
-    images[top+"cInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-      WIDTH / 2, 2, 16, "Press 'e' to open chest. Press 'n' to clear text");
+    SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 255);
   }
   if(instruct == doorKeyNum){ 
 
-    images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-      WIDTH / 2, 18, 16, "You got a key. It opens a special door. Press 'n' to clear text");
+    SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 255);
   }
   if(instruct == trapNum){ 
 
-    images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-      WIDTH / 2, 34, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'n' to clear text ");
+    SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 255); 
   }
 
 }
 
 void PlayingState::deactivateInstructionText(){
-  if(images[top+"tInstruct"] != nullptr) 
-    delete images[top+"tInstruct"];
-  if(images[top+"cInstruct"] != nullptr) 
-    delete images[top+"cInstruct"];
-  if(images[top+"dkInstruct"] != nullptr) 
-    delete images[top+"dkInstruct"];
+    SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
+    SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 0);
+    SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
 }
 
 PlayingState::~PlayingState() {}

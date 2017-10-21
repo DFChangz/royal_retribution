@@ -160,6 +160,7 @@ void Map::loadSecondLayout(std::string filename) {
         if(t.image->pairing != -1 && additions[i].image->pairing == t.image->pairing){
           t.image->setPair(additions[i].image);
           additions[i].image->setPair(t.image);
+          std::cout << t.image->pair << std::endl;
         }
       }
 
