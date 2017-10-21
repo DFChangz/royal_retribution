@@ -13,6 +13,7 @@
 #include "camera.h"
 #include "event_handler.h"
 #include "collision_detector.h"
+enum instruction {trapNum = 2, chestNum = 3, doorKeyNum = 5};
 
 class State {
   public:
@@ -32,6 +33,8 @@ class State {
     CollisionDetector collisionDetector;
 
     Map *map = nullptr;
+
+    virtual void activateInstructionText(int);
 
   protected:
     virtual void render();
@@ -59,6 +62,7 @@ class State {
     std::string ppl = std::to_string(PPL);
     std::string add = std::to_string(ADD);
     std::string top = std::to_string(TOP);
+
 
   private:
     bool paused = false;

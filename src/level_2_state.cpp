@@ -265,15 +265,27 @@ void Level_2_State::update(double seconds) {
     engine->setState("win");
   }
   // go to floor 1
-  /*eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    king->pos_x = 1906;
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+/*    king->pos_x = 1906;
     king->pos_y = 2956;
+=======
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    static_cast<Character*>(images[ppl+"king"])->setPosition(
+      images[ele+"stiars"]->pos_x + 45 - images[ppl+"king"]->getDestRect()->w/2,
+      images[ele+"stiars"]->pos_y - 10 - images[ppl+"king"]->getDestRect()->h);
+    static_cast<Character*>(images[ppl+"king"])->dir = "up";
+>>>>>>> Worked on instruction text, and Fixed some traps and chest issues.
     images[ppl+"king"]->velocityX = 0;
     images[ppl+"king"]->velocityY = 0;
     static_cast<Character*>(images[ppl+"king"])->dir = "up";
     king = images[ppl+"king"];
+<<<<<<< a6b05ffb35ec5ea355510de24bea6b5782cece51
     engine->setState("playing");
    }, SDLK_1);*/
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    engine->setState("playing_state");
+   }, SDLK_1);
   // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("win"); }, SDLK_2);

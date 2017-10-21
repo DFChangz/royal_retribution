@@ -12,6 +12,8 @@ class PlayingState : public State {
 
     virtual ~PlayingState();
     virtual void load();
+    virtual void activateInstructionText(int);
+    void deactivateInstructionText();
 
     double timer = 1;
   private:

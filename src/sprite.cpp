@@ -155,10 +155,10 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 velocity changes direction if more width, x direction changes*/
 void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
 
-  if (pair != nullptr){
+ /* if (pair != nullptr){
     pair->collidable = true;
     SDL_SetTextureAlphaMod(pair->getTexture(), 255);   
-  }
+  }*/
   if (abs(velocityY) > abs(velocityX)) {
     if (velocityY != 0) {
       double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));

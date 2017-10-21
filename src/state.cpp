@@ -35,6 +35,9 @@ void State::run(double* seconds) {
 
   *seconds = 0;
 }
+void State::activateInstructionText(int){
+
+}
 
 void State::load() {
   audioHandler.load();

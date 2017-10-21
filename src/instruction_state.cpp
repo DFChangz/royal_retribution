@@ -125,7 +125,6 @@ void InstructionState::update(double seconds) {
     delete images[top+"fps"];
     images[top+"fps"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
       2, 2, 16, "FPS: " + std::to_string((int)(1/seconds)));
-    std::cout << seconds << "\n";
     images[top+"fps"]->load();
     timer = 0;
   }
