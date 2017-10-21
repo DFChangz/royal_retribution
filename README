@@ -34,6 +34,29 @@ Chest and Doors (Billy)
 2) item will show up below stamina bar to simulate an inventory.
 3) if item is a key, walking up to a door and pressing e will open it.
 4) after opening the door, the key is used and disappears.
+* when opening a chest, make sure to be facing its front and walking towards
+  it at the same time
+
+Holes (Billy)
+1) walking upon a cracked hole will cause you to fall down a floor
+
+Instructions (Tae Jin Kim)
+1) added a new instruction for opening chests
+2) made it so pressing buttons before the instructions show up do not cause
+   the instructions to be fulfilled
+
+Intro (Tae Jin Kim)
+1) fixed the issue where the character can move during the intro
+2) edited the location (position & throne) and events of the throne room
+
+King Level (Tae Jin Kim)
+1) killing enemies increases your experience
+2) you level up once you kill enough enemies
+3) it becomes harder to level up as your level increases
+
+Other (Tae Jin Kim)
+1) stats of the king are retained when moving to different floors
+2) edited all of the states so that they utilized maps rather than vectors
 
 IN-PROGRESS FIXES
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
