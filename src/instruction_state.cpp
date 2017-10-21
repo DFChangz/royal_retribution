@@ -20,7 +20,7 @@ InstructionState::InstructionState(Engine* engine, ErrorHandler* errorHandler)
 void InstructionState::setup() {
   // king 0
   images["0king"] = new Character(engine->renderer, E_C_FILENAME, errorHandler,
-    16, 25, 670, 540, &eventHandler, &audioHandler, this);
+    16, 25, 619, 2214, &eventHandler, &audioHandler, this);
   camera.setCharacter(static_cast<Character*>(images["0king"]));
   // instructions
   images["1skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
@@ -41,6 +41,10 @@ void InstructionState::setup() {
     0, 0, 25, sh);
   images["1space"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 25, sp);
+  images["1i3"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 30, i3, ROYAL_GOLD);
+  images["1open"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 25, e);
   images["1end"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 40, end, ROYAL_GOLD);
   // Score
@@ -84,7 +88,7 @@ void InstructionState::load() {
       it->second->setPosition(std::get<0>(center), std::get<1>(center));
       if (it->first == "1skip") {
         it->second->pos_y = HEIGHT - 100;
-      } else if (it->first == "1up" || it->first == "1shift") {
+      } else if (it->first=="1up"||it->first=="1shift"||it->first=="1open") {
         it->second->pos_y -= 50;
       } else if (it->first == "1left") {
         it->second->pos_x -= 110;
@@ -187,7 +191,6 @@ void InstructionState::update(double seconds) {
     a5 = fadeIn("1i2", a5, seconds, 4);
     a6 = fadeIn("1shift", a6, seconds, 4);
     a7 = fadeIn("1space", a7, seconds, 4);
-  }
 
   // determine if all action buttons were pressed
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
@@ -198,12 +201,25 @@ void InstructionState::update(double seconds) {
     SDL_SetTextureColorMod(images["1space"]->getTexture(), 0, 255, 0);
     attack = true;
   }, SDLK_SPACE);
+  }
 
   // if so, end
   if (run && attack) {
     SDL_SetTextureAlphaMod(images["1i2"]->getTexture(), 0);
     SDL_SetTextureAlphaMod(images["1shift"]->getTexture(), 0);
     SDL_SetTextureAlphaMod(images["1space"]->getTexture(), 0);
+    a9 = fadeIn("1i3", a9, seconds, 4);
+    a10 = fadeIn("1open", a10, seconds, 4);
+
+    eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+      SDL_SetTextureColorMod(images["1open"]->getTexture(), 0, 255, 0);
+      open = true;
+    }, SDLK_e);
+  }
+
+  if (open) {
+    SDL_SetTextureAlphaMod(images["1i3"]->getTexture(), 0);
+    SDL_SetTextureAlphaMod(images["1open"]->getTexture(), 0);
     a8 = fadeIn("1end", a8, seconds, 4);
     eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
       engine->setState("playing");}, SDLK_n);

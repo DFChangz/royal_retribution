@@ -26,7 +26,7 @@ void Level_2_State::setup() {
     std::cout << "king is not null\n";
   } else {
     images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
-      errorHandler, 16, 25, 100, 300, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 128, 358, &eventHandler, &audioHandler, this);
     std::cout << "king is null\n";
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
@@ -267,20 +267,15 @@ void Level_2_State::update(double seconds) {
     engine->setState("win");
   }
   // go to floor 1
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    static_cast<Character*>(images[ppl+"king"])->setPosition(
-      images[ele+"stiars"]->pos_x + 45 - images[ppl+"king"]->getDestRect()->w/2,
-      images[ele+"stiars"]->pos_y - 10 - images[ppl+"king"]->getDestRect()->h);
-    std::cout << "do this\n";
-    static_cast<Character*>(images[ppl+"king"])->dir = "up";
+  /*eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    king->pos_x = 1906;
+    king->pos_y = 2956;
     images[ppl+"king"]->velocityX = 0;
     images[ppl+"king"]->velocityY = 0;
+    static_cast<Character*>(images[ppl+"king"])->dir = "up";
     king = images[ppl+"king"];
-    std::cout << "do this\n";
-    //if (king == nullptr) std::cout << "king still null\n";
-    //else std::cout << "king is no longer null\n";
-    engine->setState("playing_state");
-   }, SDLK_1);
+    engine->setState("playing");
+   }, SDLK_1);*/
   // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("win"); }, SDLK_2);
@@ -313,31 +308,21 @@ void Level_2_State::enemyFollow() {
     std::string s = ppl+"enemy_"+std::to_string(i);
     if (static_cast<Enemy*>(images[s])->following) {
       // edit x velocity
-      if (images[s]->pos_x
-          < images[ppl+"king"]->pos_x-images[s]->getDestRect()->w+1)
-      {
+      if (images[s]->pos_x < images[ppl+"king"]->pos_x - 31) {
         images[s]->velocityX = 100;
-      } else
-      if (images[s]->pos_x
-          > images[ppl+"king"]->pos_x+images[ppl+"king"]->getDestRect()->w-1)
-      {
+      } else if (images[s]->pos_x > images[ppl+"king"]->pos_x + 31) {
         images[s]->velocityX = -100;
       } else {
         images[s]->velocityX = 0;
       }
       // edit y velocity
-      if (images[s]->pos_y + images[s]->getDestRect()->h / 2
-          < images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h/2)
-      {
+      if (images[s]->pos_y + 25 < images[ppl+"king"]->pos_y + 25) {
         images[s]->velocityY = 100;
-      } else
-      if (images[s]->pos_y + images[s]->getDestRect()->h / 2 
-          > images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h/2)
-      {
+      } else if (images[s]->pos_y + 25 > images[ppl+"king"]->pos_y + 25) {
         images[s]->velocityY = -100;
       } else {
         images[s]->velocityY = 0;
-      } 
+      }
     }
   }
 }

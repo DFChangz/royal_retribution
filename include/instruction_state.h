@@ -26,6 +26,8 @@ class InstructionState : public State {
     int a6 = 0;
     int a7 = 0;
     int a8 = 0;
+    int a9 = 0;
+    int a10 = 0;
     int bar_w = 0;
     double newA = 0;
     double speed = 50;
@@ -36,6 +38,7 @@ class InstructionState : public State {
     bool right = false;
     bool run = false;
     bool attack = false;
+    bool open = false;
 
     std::string skip = "Press [1] to SKIP";
     std::string i1 = "MOVE AROUND by pressing w,a,s,d or the arrow keys";
@@ -46,6 +49,8 @@ class InstructionState : public State {
     std::string i2 = "Hold [SHIFT] to run and Press [SPACE] to attack";
     std::string sh = "[SHIFT]";
     std::string sp = "[SPACE]";
+    std::string i3 = "Press [e] while walking towards the front of the chest";
+    std::string e = "[e]";
     std::string end = "Now Go Out There and Defend You Castle! (next [n])";
 };
 

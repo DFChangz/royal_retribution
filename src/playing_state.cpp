@@ -26,7 +26,7 @@ void PlayingState::setup() {
     std::cout << "king is not null\n";
   } else {
     images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
-      errorHandler, 16, 25, 80, 80, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
     std::cout << "king is null\n";
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
@@ -263,8 +263,8 @@ void PlayingState::update(double seconds) {
       && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
         > map->height - 150)
   {
-    images[ppl+"king"]->pos_x = 100;
-    images[ppl+"king"]->pos_y = 300;
+    images[ppl+"king"]->pos_x = 128;
+    images[ppl+"king"]->pos_y = 358;
     images[ppl+"king"]->velocityX = 0;
     images[ppl+"king"]->velocityY = 0;
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
@@ -273,8 +273,8 @@ void PlayingState::update(double seconds) {
   }
   // go to floor 2
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    images[ppl+"king"]->pos_x = 100;
-    images[ppl+"king"]->pos_y = 300;
+    images[ppl+"king"]->pos_x = 128;
+    images[ppl+"king"]->pos_y = 358;
     images[ppl+"king"]->velocityX = 0;
     images[ppl+"king"]->velocityY = 0;
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
@@ -295,7 +295,7 @@ void PlayingState::checkFollow() {
     + images[ppl+"king"]->getDestRect()->h+100;
   for (int i = 0; i < num_enemies; i++) {
     std::string s = ppl+"enemy_"+std::to_string(i);
-    if (!static_cast<Character*>(images[s])->running
+    if (!static_cast<Character*>(images[ppl+"king"])->running
         && images[s]->pos_x
         >= images[ppl+"king"]->pos_x - 100 - images[s]->getDestRect()->w
         && images[s]->pos_y
@@ -312,27 +312,17 @@ void PlayingState::enemyFollow() {
     std::string s = ppl+"enemy_"+std::to_string(i);
     if (static_cast<Enemy*>(images[s])->following) {
       // edit x velocity
-      if (images[s]->pos_x
-          < images[ppl+"king"]->pos_x-images[s]->getDestRect()->w+1)
-      {
+      if (images[s]->pos_x < images[ppl+"king"]->pos_x - 31) {
         images[s]->velocityX = 100;
-      } else
-      if (images[s]->pos_x
-          > images[ppl+"king"]->pos_x+images[ppl+"king"]->getDestRect()->w-1)
-      {
+      } else if (images[s]->pos_x > images[ppl+"king"]->pos_x + 31) {
         images[s]->velocityX = -100;
       } else {
         images[s]->velocityX = 0;
       }
       // edit y velocity
-      if (images[s]->pos_y + images[s]->getDestRect()->h / 2
-          < images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h/2)
-      {
+      if (images[s]->pos_y + 25 < images[ppl+"king"]->pos_y + 25) {
         images[s]->velocityY = 100;
-      } else
-      if (images[s]->pos_y + images[s]->getDestRect()->h / 2 
-          > images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h/2)
-      {
+      } else if (images[s]->pos_y + 25 > images[ppl+"king"]->pos_y + 25) {
         images[s]->velocityY = -100;
       } else {
         images[s]->velocityY = 0;
