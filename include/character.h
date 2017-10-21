@@ -72,7 +72,7 @@ class Character : public Sprite {
     bool invincible = false;
     bool interacting = false;
 
-    double expInc = 0.4;
+    double expInc = 0.35;
     double attackingTimer = 0;
     double staSec = STA_WAITING_TIME;
     double invincibilitySeconds = INVINCIBLE_TIME;

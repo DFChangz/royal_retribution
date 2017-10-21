@@ -23,11 +23,9 @@ void PlayingState::setup() {
   // Player 
   if (king != nullptr) {
     images[ppl+"king"] = king;
-    std::cout << "king is not null\n";
   } else {
     images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
       errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
-    std::cout << "king is null\n";
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Enemies
@@ -279,8 +277,6 @@ void PlayingState::update(double seconds) {
     images[ppl+"king"]->velocityY = 0;
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
     king = images[ppl+"king"];
-    if (king == nullptr) std::cout << "king still null\n";
-    else std::cout << "king is no longer null\n";
     engine->setState("level_2");
    }, SDLK_2);
   // automatically lose w/ '3'

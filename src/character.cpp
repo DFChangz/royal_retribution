@@ -48,8 +48,8 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-  std::cout << "xpos: " << pos_x << "\n";
-  std::cout << "ypos: " << pos_y << "\n";
+  //std::cout << "xpos: " << pos_x << "\n";
+  //std::cout << "ypos: " << pos_y << "\n";
 
   // update sta and exp 
   updateSta();

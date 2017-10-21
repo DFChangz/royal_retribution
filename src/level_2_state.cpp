@@ -23,11 +23,9 @@ void Level_2_State::setup() {
   // King
   if (king != nullptr) {
     images[ppl+"king"] = king;
-    std::cout << "king is not null\n";
   } else {
     images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
       errorHandler, 16, 25, 128, 358, &eventHandler, &audioHandler, this);
-    std::cout << "king is null\n";
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Enemies

@@ -39,6 +39,7 @@ Chest and Doors (Billy)
 
 Holes (Billy)
 1) walking upon a cracked hole will cause you to fall down a floor
+2) your position will be set to a fixed position on level 1
 
 Instructions (Tae Jin Kim)
 1) added a new instruction for opening chests
@@ -59,7 +60,6 @@ Floor 1 to Floor 2    press [2]
 Floor 1 to lose       press [3]
 Floor 2 to win        press [2]
 Floor 2 to lose       press [3]
-* stats of the king are retained when moving to different floors
 
 Other (Tae Jin Kim)
 ~ edited all of the states so that they utilized maps rather than vectors
