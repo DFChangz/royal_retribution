@@ -26,7 +26,7 @@ Collision Grid/Buckets (Idean)
 Traps (Billy)
 1) when a character steps into a room, traps activate
 2) the doors close behind him and he cannot escape unless...
-3) he kills all of the enemies in the room before they kill him
+3) he kills one of the enemies in the room before they kill him
 * During Gameplay, the screen will go "TRAPPED, KILL THEM ALL TO ESCAPE"
 
 Chest and Doors (Billy)
@@ -34,7 +34,8 @@ Chest and Doors (Billy)
 2) item will show up below stamina bar to simulate an inventory.
 3) if item is a key, walking up to a door and pressing e will open it.
 4) after opening the door, the key is used and disappears.
-* when opening a chest, make sure to be facing its front and walking towards
+5) After getting keys a text appears that says the key is to be used on a special door
+* when opening a chest, make sure to be  walking towards
   it at the same time
 
 Holes (Billy)
