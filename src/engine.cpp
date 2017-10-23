@@ -183,6 +183,11 @@ void Engine::newGame() {
   states["playing"] = new PlayingState(this, &error_handler);
   states["level_2"] = new Level_2_State(this, &error_handler);
   states["instruction"] = new InstructionState(this, &error_handler);
+
+  while(!Character::inventory.empty()){
+    Character::inventory.pop_back();
+  }
+  Character::hearts = 6;
 }
 
 /*void Engine::setNextLevel(std::string level, Image* &sentKing) {

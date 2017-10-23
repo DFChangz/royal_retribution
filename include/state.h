@@ -35,6 +35,7 @@ class State {
     Map *map = nullptr;
 
     virtual void activateInstructionText(int);
+    virtual void deactivateInstructionText(){}
 
   protected:
     virtual void render();

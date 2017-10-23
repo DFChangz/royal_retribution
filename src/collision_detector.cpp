@@ -118,7 +118,7 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
   for (auto bucket = image->buckets.begin(); bucket != image->buckets.end();
     ) {
     grid_rect.x = *bucket % BUCKET_COLS * GRID_WIDTH;
-    grid_rect.y = *bucket / BUCKET_COLS * GRID_HEIGHT;
+    grid_rect.y = *bucket / BUCKET_ROWS * GRID_HEIGHT;
     if (!SDL_HasIntersection(&grid_rect, image_rect)) {
       auto img_bucket = &(buckets[*bucket]);
       img_bucket->erase(std::find((*img_bucket).begin(), (*img_bucket).end(), image));

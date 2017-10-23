@@ -145,6 +145,7 @@ void PlayingState::load() {
   if (SDL_SetTextureAlphaMod(images[add+"black"]->getTexture(), 150) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
+  deactivateInstructionText();
 }
 
 void PlayingState::update(double seconds) {

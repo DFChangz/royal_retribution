@@ -150,7 +150,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   /*after stepping on a trap tile the associated door appears and is collidable
   The trap is no longer collidable, and the character is paired with the door
   */
-  if(static_cast<Sprite*>(image)->isTrap()){
+  if(static_cast<Sprite*>(image)->isTrap()&& static_cast<Sprite*>(image)->pair != nullptr){
     static_cast<Sprite*>(image)->pair->setCollidable(true);
     state->collisionDetector.updateBuckets(static_cast<Sprite*>(image)->pair, state->map);
     
@@ -219,6 +219,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
       this->pair->setCollidable(false);
       SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
       this->pair = nullptr;
+      state->deactivateInstructionText();
     }
     exp += expInc; 
     state->engine->score += 1000;
@@ -323,3 +324,11 @@ Character::~Character(){
 //  cleanup();
 
 }
+
+std::vector<Pickup*> Character::inventory;
+
+int Character::hearts = 6;
+
+int Character::level = 1;
+
+double Character::exp = 0;

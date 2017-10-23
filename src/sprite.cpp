@@ -48,7 +48,7 @@ void Sprite::load(SDL_Texture *texture_p) {
   }
   
   if(door && !collidable){
-    SDL_SetTextureAlphaMod(this->getTexture(), 0);   
+    SDL_SetTextureAlphaMod(this->getTexture(), 0);  
   }
 }
 

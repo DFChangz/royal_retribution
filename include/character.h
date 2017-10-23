@@ -41,11 +41,11 @@ class Character : public Sprite {
     virtual void render(Camera*);
     virtual void cleanup();
 
-    int hearts = 6;
+    static int hearts;
 
-    int level = 1;
+    static int level;
     double sta = 1;
-    double exp = 0;
+    static double exp;
     double startingX = 0.0;
     double startingY = 0.0;
 
@@ -54,7 +54,8 @@ class Character : public Sprite {
     bool leveledUp = false;
 
     std::string dir = "down";
-    std::vector<Pickup*> inventory;
+    static std::vector<Pickup*> inventory;
+
 
     ~Character();
 
