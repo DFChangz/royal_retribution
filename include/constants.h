@@ -9,6 +9,7 @@
 #define SCORE_FILENAME  "assets/scores.txt"
 #define SPRITE_PADDING_AMOUNT_X 28
 #define SPRITE_PADDING_AMOUNT_Y 20
+#define DELTA_TIME              0.0167
 
 /* Maps */
 #define TILES_IMG "assets/blocks_2.png"

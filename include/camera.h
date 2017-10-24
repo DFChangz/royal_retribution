@@ -14,6 +14,8 @@ class Camera {
     void updatePosition();
 
     int render(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*,
+      SDL_Rect*, double, bool fixed = false);
+    int render(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*,
       bool fixed = false);
     Character* character;
 
@@ -23,6 +25,10 @@ class Camera {
     double pos_y = 0.0;
     
     ErrorHandler* errorHandler;
+
+    SDL_Rect prevRect;
+
+    void interpolate(SDL_Rect*, SDL_Rect*, double);
 };
 
 #endif

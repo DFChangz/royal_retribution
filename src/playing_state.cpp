@@ -157,7 +157,7 @@ void PlayingState::update(double seconds) {
   if (timer > 1) {
     delete images[top+"fps"];
     images[top+"fps"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-      2, 2, 16, "FPS: " + std::to_string((int)(1/seconds)));
+      2, 2, 16, "FPS: " + std::to_string((int)(1/renderSeconds)));
     images[top+"fps"]->load();
     timer = 0;
   }

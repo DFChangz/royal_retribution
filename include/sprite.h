@@ -20,7 +20,7 @@ class Sprite : public Image {
 
     virtual void load(SDL_Texture* texture = nullptr);
     virtual void update(double seconds);
-    virtual void render(Camera*);
+    virtual void render(Camera*, double interpol_alpha = 1);
 
     virtual void notifyCollision(Image*, SDL_Rect*);
 
@@ -57,6 +57,7 @@ class Sprite : public Image {
     ErrorHandler *error_handler;
     SDL_Rect rect;
     SDL_Rect srcRect;
+    SDL_Rect prevRect;
     void get_texture_size(SDL_Texture*, int*, int*);
   private:
     SDL_Rect usualSrcRect = {0, 0, 0, 0};

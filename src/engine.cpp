@@ -83,14 +83,23 @@ void Engine::loop() {
   while(running) {
     //converts time to seconds and keeps track of time passed and total time
     unsigned int currentTime = SDL_GetTicks();
-    seconds = 0;
+    double seconds = 0;
     seconds += (currentTime - lastTime) / 1000.0;
-    lastTime = currentTime;
+    accumulator += seconds;
     totalTime += seconds;
-    eventHandler.getEvents();
-    eventHandler.check();
+    lastTime = currentTime;
 
-    currentState->run(&seconds);
+    while (accumulator >= DELTA_TIME) {
+      eventHandler.getEvents();
+      eventHandler.check();
+
+      currentState->run(&accumulator);
+    }
+
+    double interpol_alpha = accumulator/DELTA_TIME;
+    currentState->render(interpol_alpha);
+
+    SDL_Delay((DELTA_TIME - accumulator)*1000);
   }
 }
 

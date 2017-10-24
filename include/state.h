@@ -36,11 +36,12 @@ class State {
 
     virtual void activateInstructionText(int);
     virtual void deactivateInstructionText(){}
-
+    virtual void render(double interpol_alpha = 1);
   protected:
-    virtual void render();
     virtual void cleanup();
     virtual void update(double seconds);
+
+    double renderSeconds = 0;
 
     Image* king = nullptr;
 
@@ -66,6 +67,8 @@ class State {
 
 
   private:
+    unsigned int lastRender = 0;
+
     bool paused = false;
 };
 

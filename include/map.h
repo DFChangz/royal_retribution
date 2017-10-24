@@ -52,7 +52,7 @@ class Map {
     void cleanup();
 
     void update(double seconds);
-    void render(Camera* camera);
+    void render(Camera* camera, double interpol_alpha = 1);
 
     int width = 0;
     int height = 0;

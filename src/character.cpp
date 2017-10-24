@@ -118,17 +118,17 @@ void Character::update(double seconds) {
   }
 }
 
-void Character::render(Camera* camera) {
+void Character::render(Camera* camera, double interpol_alpha) {
   if (invincibilitySeconds < INVINCIBLE_TIME)
     SDL_SetTextureAlphaMod(texture, 100);
   else
     SDL_SetTextureAlphaMod(texture, 255);
 
-  Sprite::render(camera);
+  Sprite::render(camera, interpol_alpha);
  
   for(Pickup* item : inventory){
     if(item != nullptr && !item->isActivated())
-      item->render(camera);
+      item->render(camera, interpol_alpha);
   }
 }
 
