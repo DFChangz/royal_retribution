@@ -129,8 +129,8 @@ void PlayingState::load() {
 
     images[s]->getDestRect()->w = TILE_DIM * 2;
     images[s]->getDestRect()->h = TILE_DIM * 1;
-    images[s]->pos_x += TILE_DIM;
-    images[s]->pos_y += TILE_DIM;
+    /*images[s]->pos_x += TILE_DIM;
+    images[s]->pos_y += TILE_DIM;*/
 
     SDL_SetTextureBlendMode(images[s]->getTexture(),SDL_BLENDMODE_ADD);
     if (SDL_SetTextureAlphaMod(images[s]->getTexture(), 80) < 0)
