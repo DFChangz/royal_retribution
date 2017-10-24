@@ -11,7 +11,7 @@ class Text : public Sprite {
   public:
     virtual void load(SDL_Texture *texture = nullptr);
     virtual void cleanup();
-    virtual void render(Camera*);
+    virtual void render(Camera*, double interpol_alpha = 1);
 
     Text(SDL_Renderer *renderer, std::string font_filename,
     ErrorHandler *error_handler, int pos_x, int pos_y, int font_size,

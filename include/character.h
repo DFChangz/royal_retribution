@@ -38,7 +38,7 @@ class Character : public Sprite {
 
     virtual void notifyCollision(Image*, SDL_Rect* intersection);
     virtual void update(double seconds);
-    virtual void render(Camera*);
+    virtual void render(Camera*, double interpol_alpha = 1);
     virtual void cleanup();
 
     static int hearts;

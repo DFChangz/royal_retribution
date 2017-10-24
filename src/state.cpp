@@ -22,18 +22,15 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) :
   king = sentKing;
 }*/
 
-void State::run(double* seconds) {
+void State::run(double* accumulator) {
   if (!paused) {
     eventHandler.check();
-    update(*seconds);
+    update(DELTA_TIME);
     collisionDetector.check(&camera, map);
   } else {
-    pauseUpdate(*seconds);
+    pauseUpdate(DELTA_TIME);
   }
-
-  render();
-
-  *seconds = 0;
+  *accumulator -= DELTA_TIME;
 }
 void State::activateInstructionText(int){
 
@@ -77,20 +74,25 @@ void State::update(double seconds) {
 
 void State::pauseUpdate(double) {}
 
-void State::render() {
+void State::render(double interpol_alpha) {
   if (SDL_RenderClear(engine->renderer) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
+  
   if (map != nullptr) {
-    map->render(&camera);
+    map->render(&camera, interpol_alpha);
   }
 
   for (it = images.begin(); it != images.end(); it++) {
     if (!it->second->isEnemy() || !static_cast<Enemy*>(it->second)->isDead())
-      it->second->render(&camera);
+      it->second->render(&camera, interpol_alpha);
   }
 
   SDL_RenderPresent(engine->renderer);
+
+  unsigned int currentTime = SDL_GetTicks();
+  renderSeconds = (currentTime - lastRender) / 1000.0;
+  lastRender = currentTime;
 }
 
 /* fades in a texture */

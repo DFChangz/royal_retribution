@@ -11,6 +11,8 @@ void Camera::setCharacter(Character* character_p) {
 
 void Camera::updatePosition() {
   if (character != nullptr) {
+    prevRect = getRect();
+
     SDL_Rect* char_rect = character->getDestRect();
     pos_x = character->pos_x - WIDTH / 2 + char_rect->w/2;
     pos_y = character->pos_y - HEIGHT / 2 + char_rect->h/2;
@@ -22,9 +24,16 @@ SDL_Rect Camera::getRect() {
   return cameraRect;
 }
 
-int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcRect, SDL_Rect* destRect, bool fixed) {
+int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture,
+  SDL_Rect* srcRect, SDL_Rect* destRect, SDL_Rect* img_prevRect, double alpha, 
+  bool fixed) {
+
   SDL_Rect cameraRect = getRect();
+  //interpolate(&prevRect, &cameraRect, alpha);
+  //interpolate(prevRect, destRect, alpha);
+  
   if (SDL_HasIntersection(destRect, &cameraRect) || fixed) {
+    //interpolate(img_prevRect, destRect, alpha);
     if (!fixed) {
       destRect->x -= pos_x;
       destRect->y -= pos_y;
@@ -33,5 +42,16 @@ int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcRe
     return SDL_RenderCopy(renderer, texture, srcRect, destRect);
   } else {
     return 0;
+  }
+}
+
+int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcRect, SDL_Rect* destRect, bool fixed) {
+  return render(renderer, texture, srcRect, destRect, NULL, 0, fixed);
+}
+
+void Camera::interpolate(SDL_Rect* orig_rect, SDL_Rect* new_rect, double alpha) {
+  if (orig_rect != NULL && new_rect != NULL) {
+    new_rect->x = new_rect->x * alpha + orig_rect->x * (1.0 - alpha);
+    new_rect->y = new_rect->y * alpha + orig_rect->y * (1.0 - alpha);
   }
 }

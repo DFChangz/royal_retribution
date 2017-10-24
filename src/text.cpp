@@ -45,7 +45,7 @@ SDL_Rect* Text::getDestRect() {
   return &rect;
 }
 
-void Text::render(Camera*) {
+void Text::render(Camera*, double) {
   if (SDL_RenderCopy(renderer, texture, NULL, &rect)) {
     error_handler->quit(__func__, SDL_GetError());
   }

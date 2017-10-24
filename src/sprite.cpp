@@ -54,6 +54,7 @@ void Sprite::load(SDL_Texture *texture_p) {
 
 //moves the position of sprite based on current velocity and time passed
 void Sprite::update(double seconds) {
+  prevRect = rect;
   double new_x = speedMultiplier * velocityX * seconds + pos_x;
   double new_y = speedMultiplier * velocityY * seconds + pos_y;
 
@@ -116,16 +117,16 @@ void Sprite::animate(double seconds, int start_frame, int end_frame,
   timer += seconds;
 }
 
-void Sprite::render(Camera* camera) {
+void Sprite::render(Camera* camera, double interpol_alpha) {
   if (camera == nullptr) {
     error_handler->quit(__func__, "must specify a non-null camera to render for a sprite!"); 
   }
 
   int renderResult = 0;
   if (srcRect.w == 0 && srcRect.h == 0) {
-    renderResult = camera->render(renderer, texture, NULL, &rect, fixed);
+    renderResult = camera->render(renderer, texture, NULL, &rect, &prevRect, interpol_alpha, fixed);
   } else {
-    renderResult = camera->render(renderer, texture, &srcRect, &rect, fixed);
+    renderResult = camera->render(renderer, texture, &srcRect, &rect, &prevRect, interpol_alpha, fixed);
   }
 
   if (renderResult < 0) {

@@ -17,7 +17,7 @@ class Image {
   public:
     virtual void load(SDL_Texture* texture = nullptr);
     virtual void update(double seconds);
-    virtual void render(Camera* camera = nullptr);
+    virtual void render(Camera* camera = nullptr, double interpol_alpha = 1);
     virtual void cleanup();
 
     virtual void notifyCollision(Image*, SDL_Rect*) {};
