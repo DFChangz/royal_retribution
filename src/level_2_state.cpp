@@ -264,8 +264,6 @@ void Level_2_State::update(double seconds) {
     file.close();
     engine->setState("win");
   }
-<<<<<<< 8590df4ffe7d3b7a087216b3d92e5bfaff414b73
-=======
   // go to floor 1
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     images[ppl+"king"]->velocityX = 0;

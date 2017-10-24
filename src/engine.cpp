@@ -188,6 +188,8 @@ void Engine::newGame() {
     Character::inventory.pop_back();
   }
   Character::hearts = 6;
+  Character::level = 1;
+  Character::exp = 0;
 }
 
 /*void Engine::setNextLevel(std::string level, Image* &sentKing) {

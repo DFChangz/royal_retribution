@@ -151,6 +151,7 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
 
     grid_rect.y = grid_y * GRID_HEIGHT;
   }
+
 }
 
 void CollisionDetector::initializeBuckets() {

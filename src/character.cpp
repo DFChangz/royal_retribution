@@ -153,7 +153,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
   if(static_cast<Sprite*>(image)->isTrap()&& static_cast<Sprite*>(image)->pair != nullptr){
     static_cast<Sprite*>(image)->pair->setCollidable(true);
     state->collisionDetector.updateBuckets(static_cast<Sprite*>(image)->pair, state->map);
-    
+
     SDL_SetTextureAlphaMod(static_cast<Sprite*>(image)->pair->getTexture(), 255);
     static_cast<Sprite*>(image)->setCollidable(false);
     this->setPair(static_cast<Sprite*>(image)->pair);
