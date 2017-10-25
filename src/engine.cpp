@@ -196,6 +196,10 @@ void Engine::newGame() {
   while(!Character::inventory.empty()){
     Character::inventory.pop_back();
   }
+  while(!Character::activePowerups.empty()){
+    Character::activePowerups.pop_back();
+  }
+
   Character::hearts = 6;
   Character::level = 1;
   Character::exp = 0;

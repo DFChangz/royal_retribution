@@ -55,6 +55,7 @@ class Character : public Sprite {
 
     std::string dir = "down";
     static std::vector<Pickup*> inventory;
+    static std::vector<int> activePowerups;
 
 
     ~Character();

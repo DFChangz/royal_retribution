@@ -2,7 +2,7 @@
 #define PICKUP_H
 
 #include "sprite.h"
-enum item_type {keyNum, coinNum};
+enum item_type {keyNum, coinNum, foodNum};
 
 class Pickup : public Sprite {
   public:
@@ -13,7 +13,7 @@ class Pickup : public Sprite {
     int pos_x, int pos_y, bool collidable, bool powerup, int theType);
 
     bool isPickedUp() { return pickedUp; }
-    void pickUp() { pickedUp = true; }
+    void pickUp();
     bool isActivated(){ return activated;}
     void activate(){ activated = true;}
     virtual bool isPickup(){ return true; }

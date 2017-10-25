@@ -12,6 +12,8 @@ class Level_2_State : public State {
 
     virtual ~Level_2_State();
     virtual void load();
+    void updateHearts();
+    void updateHeartsPlus();
 
     double timer = 1;
   private:

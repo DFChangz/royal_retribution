@@ -329,6 +329,8 @@ Character::~Character(){
 
 std::vector<Pickup*> Character::inventory;
 
+std::vector<int>Character::activePowerups;
+
 int Character::hearts = 6;
 
 int Character::level = 1;

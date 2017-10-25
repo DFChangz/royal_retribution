@@ -1,4 +1,5 @@
 #include "pickup.h"
+#include "character.h"
 
 Pickup::Pickup(SDL_Renderer *renderer, std::string filename, ErrorHandler *error_handler,
   int width, int height, int pos_x, int pos_y, bool collidable, bool powerup, int theType):
@@ -15,4 +16,10 @@ Pickup::Pickup(SDL_Renderer *renderer, std::string filename, ErrorHandler *error
 
 }
 
+void Pickup::pickUp() {
+  pickedUp = true;
+  if(powerup){
+    Character::activePowerups.push_back(type);
+  }
+}
 
