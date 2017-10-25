@@ -29,8 +29,6 @@ class Level_2_State : public State {
 
     int num_lights = 0;
     int num_enemies = 0;
-
-    bool teleport = false;
 };
 
 #endif
