@@ -68,8 +68,10 @@ void Character::update(double seconds) {
   // If attacking, don't move. Hack to get around changing the velocity
   //irreversibly
   if (attacking) {
-    pos_x -= velocityX * seconds * speedMultiplier;
-    pos_y -= velocityY * seconds * speedMultiplier;
+    velocityX = 0;
+    velocityY = 0;
+    //pos_x -= velocityX * seconds * speedMultiplier;
+    //pos_y -= velocityY * seconds * speedMultiplier;
   }
 
   //if the character would leave the window, stop movement in that direction.
@@ -105,16 +107,16 @@ void Character::update(double seconds) {
   if (attacking) {
     if (dir == "up")
       Sprite::animate(seconds, U_ATTACK_POS, U_ATTACK_POS + ATTACK_FRAMES - 1,
-        36, 36, CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS*speedMultiplier);
     else if (dir == "down")
       Sprite::animate(seconds, D_ATTACK_POS, D_ATTACK_POS + ATTACK_FRAMES - 1,
-        36, 36, CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS*speedMultiplier);
     else if (dir == "right")
       Sprite::animate(seconds, R_ATTACK_POS, R_ATTACK_POS + ATTACK_FRAMES - 1,
-        36, 36, CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS*speedMultiplier);
     else if (dir == "left")
       Sprite::animate(seconds, L_ATTACK_POS, L_ATTACK_POS + ATTACK_FRAMES - 1,
-        36, 36, CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS*speedMultiplier);
   }
 }
 

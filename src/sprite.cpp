@@ -62,36 +62,6 @@ void Sprite::update(double seconds) {
 }
 
 void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
-  animate(seconds, start_frame, end_frame, -1, -1, fps);
-}
-void Sprite::animate(double seconds, int start_frame, int end_frame,
-  int frame_width, int frame_height, int fps) {
-
-  if (start_frame > end_frame) end_frame = start_frame;
-
-  int padding_x = SPRITE_PADDING_AMOUNT_X;
-  int padding_y = SPRITE_PADDING_AMOUNT_Y;
-
-  if (usualSrcRect.w != 0 && usualSrcRect.h != 0 && frame_width == -1
-      && frame_height == -1) {
-    srcRect = usualSrcRect;
-    usualSrcRect = {0, 0, 0, 0};
-
-    rect.w = 2*srcRect.w;
-    rect.h = 2*srcRect.h;
-  }
-
-  if (frame_width != -1 && frame_height != -1) {
-    if (usualSrcRect.w == 0 && usualSrcRect.h == 0) usualSrcRect = srcRect;
-    srcRect = {srcRect.x, srcRect.y, frame_width, frame_height};
-    
-    padding_x -= (srcRect.w - usualSrcRect.w);
-    padding_y -= (srcRect.h - usualSrcRect.h);
-
-    rect.w = 2*srcRect.w;
-    rect.h = 2*srcRect.h;
-  }
-
   double spf = 1/((double) fps);
   if (currentFrame > end_frame || currentFrame < start_frame) {
     currentFrame = start_frame - 1;
@@ -105,8 +75,9 @@ void Sprite::animate(double seconds, int start_frame, int end_frame,
     int row = currentFrame / NUM_ROWS;
     int col = currentFrame % NUM_COLS;
 
-    srcRect.x = col*(srcRect.w + padding_x);
-    srcRect.y = row*(srcRect.h + padding_y);
+    srcRect.x = col*(srcRect.w + SPRITE_PADDING_AMOUNT_X);
+    srcRect.y = row*(srcRect.h + SPRITE_PADDING_AMOUNT_Y);
+
     if(chest && currentFrame == 63){
       pair = this;
       return;

@@ -24,7 +24,7 @@ void PlayingState::setup() {
   if (king != nullptr) {
     images[ppl+"king"] = king;
   } else {
-    images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
+    images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
@@ -34,7 +34,7 @@ void PlayingState::setup() {
   int y = -1;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
     std::string s = ppl+"enemy_"+std::to_string(num_enemies);
-    images[s] = new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
+    images[s] = new Enemy(engine->renderer, ANI_FILENAME, errorHandler,
       16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
     num_enemies++;
   }

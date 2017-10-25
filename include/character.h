@@ -1,7 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#define CHARACTER_FPS   5
+#define CHARACTER_FPS     5
 #define RUNNING_FRAMES    4
 #define ATTACK_FRAMES     3
 #define IDLE_FRAMES       1
