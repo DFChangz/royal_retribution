@@ -60,6 +60,7 @@ class Engine {
     EventHandler eventHandler;
     State* currentState = nullptr;
     Mix_Music *intro = nullptr;
+    unsigned int lastTime = 0;
 };
 
 #endif
