@@ -29,11 +29,10 @@ int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture,
   bool fixed) {
 
   SDL_Rect cameraRect = getRect();
-  //interpolate(&prevRect, &cameraRect, alpha);
-  //interpolate(prevRect, destRect, alpha);
+  interpolate(&prevRect, &cameraRect, alpha);
   
+  interpolate(img_prevRect, destRect, alpha);
   if (SDL_HasIntersection(destRect, &cameraRect) || fixed) {
-    //interpolate(img_prevRect, destRect, alpha);
     if (!fixed) {
       destRect->x -= pos_x;
       destRect->y -= pos_y;
@@ -51,7 +50,7 @@ int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcRe
 
 void Camera::interpolate(SDL_Rect* orig_rect, SDL_Rect* new_rect, double alpha) {
   if (orig_rect != NULL && new_rect != NULL) {
-    new_rect->x = new_rect->x * alpha + orig_rect->x * (1.0 - alpha);
-    new_rect->y = new_rect->y * alpha + orig_rect->y * (1.0 - alpha);
+    new_rect->x += (new_rect->x - orig_rect->x) * alpha;
+    new_rect->y += (new_rect->y - orig_rect->y) * alpha;
   }
 }

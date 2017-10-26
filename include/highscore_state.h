@@ -31,8 +31,6 @@ class HighscoreState : public State {
     int a8 = 0;
     int a9 = 0;
     int a10 = 0;
-
-    double speed = 50;
 };
 
 #endif

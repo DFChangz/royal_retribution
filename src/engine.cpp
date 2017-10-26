@@ -77,7 +77,7 @@ void Engine::setup() {
 
 // The heart
 void Engine::loop() {
-  unsigned int lastTime = SDL_GetTicks();
+  lastTime = SDL_GetTicks();
   double totalTime = 0;
 
   while(running) {
@@ -196,9 +196,15 @@ void Engine::newGame() {
   while(!Character::inventory.empty()){
     Character::inventory.pop_back();
   }
+  while(!Character::activePowerups.empty()){
+    Character::activePowerups.pop_back();
+  }
+
   Character::hearts = 6;
   Character::level = 1;
   Character::exp = 0;
+
+  lastTime = SDL_GetTicks();
 }
 
 /*void Engine::setNextLevel(std::string level, Image* &sentKing) {

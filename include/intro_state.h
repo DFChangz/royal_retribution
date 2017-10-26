@@ -20,8 +20,6 @@ class IntroState : public State {
     int a = 0;
     int event = 0;
     int counter = 0;
-    double newA = 0;
-    double speed = 50;
 
     bool end = false;
     bool raise = false;

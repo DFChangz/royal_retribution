@@ -18,8 +18,6 @@ class LoseState : public State {
 
     int x, y;
     int a0 = 0;
-    double newA = 0;
-    double speed = 50;
     double totalTime = 0;
     std::string logo = "G A M E   O V E R";
 };

@@ -165,39 +165,6 @@ void Level_2_State::update(double seconds) {
     currentScore = engine->score;
   }
 
-  // updates Health
-  switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
-    case 6:
-      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
-      break;
-    case 5:
-      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
-      break;
-    case 4:
-      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
-      break;
-    case 3:
-      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(40, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
-      break;
-    case 2:
-      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
-      break;
-    case 1:
-      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
-      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(40, 0, 32, 32);
-      break;
-  }
   // update stamina & experience
   updateSta();
   updateExp();
@@ -243,6 +210,9 @@ void Level_2_State::update(double seconds) {
     engine->score += 1000;
     static_cast<Pickup*>(images[add+"coin"])->pickUp();
   }
+
+  // updates Health
+  updateHearts();
   State::update(seconds);
 
   // changes state to Lose
@@ -331,4 +301,102 @@ void Level_2_State::updateExp() {
   images[top+"exp_bar"]->getDestRect()->w = w;
 }
 
+void Level_2_State::updateHeartsPlus(){
+  if(images[top+"heart_4"] == nullptr){
+    images[top+"heart_4"] = new Sprite(engine->renderer, HEART, errorHandler,
+      32, 32, WIDTH - 160, 34, false, true);
+    images[top+"heart_4"]->load();
+  }
+  switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
+    case 8:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 7:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 6:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 5:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 4:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 3:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 2:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 1:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_4"])->setSrcRect(40, 0, 32, 32);
+      break;
+  }
+}
+void Level_2_State::updateHearts(){
+  for(unsigned n =0; n < Character::activePowerups.size(); n++){
+    if(Character::activePowerups[n] == foodNum){
+      updateHeartsPlus();
+      return;
+    }
+  }
+
+  switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
+    case 6:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 5:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 4:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 3:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(40, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 2:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+      break;
+    case 1:
+      static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
+      static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(40, 0, 32, 32);
+      break;
+  }
+}
 Level_2_State::~Level_2_State() {}

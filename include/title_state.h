@@ -21,7 +21,6 @@ class TitleState : public State {
     int a1 = 0;
     int a2 = 0;
     int a3 = 0;
-    double newA = 0;
     double speed = 50;
     double totalTime = 0;
     std::string logo = "Team  UBIHARD  presents";
