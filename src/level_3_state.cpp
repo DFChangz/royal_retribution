@@ -1,22 +1,21 @@
 /*
- * level_2_state.cpp
+ * level_3_state.cpp
  */
 
-#include "level_2_state.h"
+#include "level_3_state.h"
 
-Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
+Level_3_State::Level_3_State(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
-  map = new Map(engine->renderer, errorHandler, LEVEL_2, TILES_TXT,
+  map = new Map(engine->renderer, errorHandler, LEVEL_3, TILES_TXT,
     &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_2_ADD);
-
+  map->loadSecondLayout(LEVEL_3_ADD);
   setup();
   load();
 }
 
-void Level_2_State::setup() {
+void Level_3_State::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 45, map->height - 150, false);
@@ -100,7 +99,7 @@ void Level_2_State::setup() {
     2, 2, 16, "FPS: ");
 }
 
-void Level_2_State::load() {
+void Level_3_State::load() {
   State::load();
   // set size of stairs & stam & exp
   images[ele+"stairs"]->getDestRect()->h = 90;
@@ -135,7 +134,7 @@ void Level_2_State::load() {
   }
 }
 
-void Level_2_State::update(double seconds) {
+void Level_3_State::update(double seconds) {
   timer += seconds;
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
 
@@ -232,21 +231,21 @@ void Level_2_State::update(double seconds) {
     file.close();
     engine->setState("win");
   }
-  // go to floor 1 w/ '1'
+  // go to floor 2 w/ '1'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     images[ppl+"king"]->velocityX = 0;
     images[ppl+"king"]->velocityY = 0;
-    engine->setState("playing");
+    engine->setState("level_2");
    }, SDLK_1);
-  // go to floor 2 w/ '1'
+  // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("level_3"); }, SDLK_2);
-  // automatically lose w/ '0'
+   engine->setState("win"); }, SDLK_2);
+  // automatically lose w/ '3'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("lose"); }, SDLK_0);
+   engine->setState("lose"); }, SDLK_2);
 }
 
-void Level_2_State::checkFollow() {
+void Level_3_State::checkFollow() {
   int borderX = images[ppl+"king"]->pos_x
     + images[ppl+"king"]->getDestRect()->w+100;
   int borderY = images[ppl+"king"]->pos_y
@@ -265,7 +264,7 @@ void Level_2_State::checkFollow() {
   }
 }
       
-void Level_2_State::enemyFollow() {
+void Level_3_State::enemyFollow() {
   for (int i = 0; i < num_enemies; i++) {
     std::string s = ppl+"enemy_"+std::to_string(i);
     if (static_cast<Enemy*>(images[s])->following) {
@@ -290,18 +289,18 @@ void Level_2_State::enemyFollow() {
 }
 
 // inc/dec sta
-void Level_2_State::updateSta() {
+void Level_3_State::updateSta() {
   int w = int(static_cast<Character*>(images[ppl+"king"])->sta * 146);  
   images[top+"sta_bar"]->getDestRect()->w = w;
 }
 
 // inc/dec exp
-void Level_2_State::updateExp() {
+void Level_3_State::updateExp() {
   int w = int(static_cast<Character*>(images[ppl+"king"])->exp * 146);
   images[top+"exp_bar"]->getDestRect()->w = w;
 }
 
-void Level_2_State::updateHeartsPlus(){
+void Level_3_State::updateHeartsPlus(){
   if(images[top+"heart_4"] == nullptr){
     images[top+"heart_4"] = new Sprite(engine->renderer, HEART, errorHandler,
       32, 32, WIDTH - 160, 34, false, true);
@@ -358,7 +357,7 @@ void Level_2_State::updateHeartsPlus(){
       break;
   }
 }
-void Level_2_State::updateHearts(){
+void Level_3_State::updateHearts(){
   for(unsigned n =0; n < Character::activePowerups.size(); n++){
     if(Character::activePowerups[n] == foodNum){
       updateHeartsPlus();
@@ -399,4 +398,4 @@ void Level_2_State::updateHearts(){
       break;
   }
 }
-Level_2_State::~Level_2_State() {}
+Level_3_State::~Level_3_State() {}

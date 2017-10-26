@@ -11,6 +11,7 @@
 #include "credit_state.h"
 #include "playing_state.h"
 #include "level_2_state.h"
+#include "level_3_state.h"
 #include "highscore_state.h"
 #include "instruction_state.h"
 
@@ -146,6 +147,7 @@ void Engine::createStates() {
   states["intro"] = nullptr;
   states["playing"] = nullptr;
   states["level_2"] = nullptr;
+  states["level_3"] = nullptr;
   states["instruction"] = nullptr;
   newGame();
   states["Highscore"] = nullptr;
@@ -169,6 +171,10 @@ void Engine::newGame() {
     delete states["Level_2"];
     states["Level_2"] = nullptr;
   }
+  if (states["level_3"] != nullptr) {
+    delete states["level_3"];
+    states["level_3"] = nullptr;
+  }
   if (states["win"] != nullptr) {
     delete states["win"];
     states["win"] = nullptr;
@@ -191,6 +197,7 @@ void Engine::newGame() {
   states["intro"] = new IntroState(this, &error_handler);
   states["playing"] = new PlayingState(this, &error_handler);
   states["level_2"] = new Level_2_State(this, &error_handler);
+  states["level_3"] = new Level_3_State(this, &error_handler);
   states["instruction"] = new InstructionState(this, &error_handler);
 
   while(!Character::inventory.empty()){
