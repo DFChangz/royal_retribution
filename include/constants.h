@@ -44,6 +44,7 @@
 #define NUM_ROWS 4
 #define NUM_COLS 4
 #define HEART "assets/Heart.png"
+#define SWORD "assets/characters/Sword_anim.png"
 #define ANI_FILENAME "assets/characters/Animations.png"
 #define SQUIRE_FILENAME "assets/characters/Squire_sheet.png"
 

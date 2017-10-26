@@ -16,11 +16,6 @@
 #define L_ATTACK_POS      38
 #define R_ATTACK_POS      41
 
-#define D_SWORD_POS      0
-#define U_SWORD_POS      3
-#define L_SWPRD_POS      6
-#define R_SWORD_POS      9
-
 #define INVINCIBLE_TIME   3.0
 #define STA_WAITING_TIME  3.0
 
@@ -54,6 +49,8 @@ class Character : public Sprite {
     static int level;
     double sta = 1;
     static double exp;
+    double expInc = 0.40;
+
     double startingX = 0.0;
     double startingY = 0.0;
 
@@ -82,7 +79,6 @@ class Character : public Sprite {
     bool invincible = false;
     bool interacting = false;
 
-    double expInc = 0.35;
     double attackingTimer = 0;
     double staSec = STA_WAITING_TIME;
     double invincibilitySeconds = INVINCIBLE_TIME;

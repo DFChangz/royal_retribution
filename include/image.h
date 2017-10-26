@@ -32,8 +32,8 @@ class Image {
 
     virtual ~Image();
 
+    virtual bool isSword() { return false; }
     virtual bool isEnemy() { return false; }
-
     virtual bool isPickup() { return false; }
 
     virtual void setPosition(double x, double y);

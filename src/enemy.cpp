@@ -61,7 +61,7 @@ void Enemy::update(double seconds) {
 }
 
 void Enemy::notifyCollision(Image* img, SDL_Rect* intersection) {
-  Sprite::notifyCollision(img, intersection);
+  if (!img->isSword()) Sprite::notifyCollision(img, intersection);
 
   if(img->isEnemy() || dynamic_cast<Character*>(img) != nullptr){
     return;

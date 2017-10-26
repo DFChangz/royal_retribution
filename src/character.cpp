@@ -48,8 +48,8 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-  //std::cout << "xpos: " << pos_x << "\n";
-  //std::cout << "ypos: " << pos_y << "\n";
+  //std::cout << "charX: " << pos_x << "\n";
+  //std::cout << "charY: " << pos_y << "\n";
 
   // update sta and exp 
   updateSta();
@@ -188,7 +188,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     else
       collisionDir = "left";
   }
- 
+
   if(static_cast<Sprite*>(image)->isChest() && interacting == true){
       static_cast<Sprite*>(image)->pair = this;
   }
@@ -222,7 +222,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     exp += expInc; 
     state->engine->score += 1000;
   }
-  Sprite::notifyCollision(image, intersection);
+  if (!image->isSword()) Sprite::notifyCollision(image, intersection);
 }
 
 void Character::updateSta() {

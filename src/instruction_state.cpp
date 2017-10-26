@@ -22,6 +22,8 @@ void InstructionState::setup() {
   images["0king"] = new Character(engine->renderer, ANI_FILENAME, errorHandler,
     16, 25, 619, 2214, &eventHandler, &audioHandler, this);
   camera.setCharacter(static_cast<Character*>(images["0king"]));
+  images["0sword"] = new Sword(engine->renderer, SWORD, errorHandler,
+    56, 56, 0, 0, images["0king"], &eventHandler, &audioHandler, this);
   // instructions
   images["1skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 30, skip, ROYAL_GOLD); 

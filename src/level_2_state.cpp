@@ -28,6 +28,9 @@ void Level_2_State::setup() {
       errorHandler, 16, 25, 128, 358, &eventHandler, &audioHandler, this);
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
+  // Sword
+  images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
+    56, 56, 0, 0, images[ppl+"king"], &eventHandler, &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_2_E);
   int x = -1;

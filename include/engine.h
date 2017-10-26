@@ -14,6 +14,7 @@
 #include "audio.h"
 #include "state.h"
 #include "enemy.h"
+#include "sword.h"
 #include "sprite.h"
 #include "squire.h"
 #include "constants.h"
