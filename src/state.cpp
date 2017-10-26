@@ -12,16 +12,6 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) :
   errorHandler = &engine->error_handler;
 }
 
-/*State::State(Engine* engine_ref,ErrorHandler* errorHandler,Image* sentKing) :
-  audioHandler(errorHandler), errorHandler(errorHandler), camera(errorHandler) {
-
-  engine = engine_ref;
-
-  errorHandler = &engine->error_handler;
-
-  king = sentKing;
-}*/
-
 void State::run(double* accumulator) {
   if (!paused) {
     eventHandler.check();

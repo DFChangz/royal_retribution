@@ -73,8 +73,8 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
   // enemies die when attacked
   if (attacking && image->isEnemy()
       && collisionDir == static_cast<Character*>(king)->dir) {
-    audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
+    audioHandler->play("kill", 1);
     if (this->pair != nullptr) {
       this->pair->setCollidable(false);
       SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
