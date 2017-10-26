@@ -141,7 +141,7 @@ void Map::loadSecondLayout(std::string filename) {
       
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
-                TILE_DIM * (col - 0.5), TILE_DIM * row,
+                TILE_DIM * col, TILE_DIM * row,
                 false));
       }
 

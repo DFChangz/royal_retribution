@@ -68,10 +68,8 @@ void Character::update(double seconds) {
   // If attacking, don't move. Hack to get around changing the velocity
   //irreversibly
   if (attacking) {
-    velocityX = 0;
-    velocityY = 0;
-    //pos_x -= velocityX * seconds * speedMultiplier;
-    //pos_y -= velocityY * seconds * speedMultiplier;
+    pos_x -= velocityX * seconds * speedMultiplier;
+    pos_y -= velocityY * seconds * speedMultiplier;
   }
 
   //if the character would leave the window, stop movement in that direction.
@@ -86,17 +84,14 @@ void Character::update(double seconds) {
         CHARACTER_FPS*speedMultiplier);
     } else if (velocityX < 0) {
       dir = "left";
-
       Sprite::animate(seconds, L_RUNNING_POS, L_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else if (velocityY > 0) {
       dir = "down";
-
       Sprite::animate(seconds, D_RUNNING_POS, D_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else if (velocityY < 0) {
       dir = "up";
-
       Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else {
@@ -114,6 +109,7 @@ void Character::update(double seconds) {
     else if (dir == "right")
       Sprite::animate(seconds, R_ATTACK_POS, R_ATTACK_POS + ATTACK_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
+      
     else if (dir == "left")
       Sprite::animate(seconds, L_ATTACK_POS, L_ATTACK_POS + ATTACK_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
@@ -226,7 +222,6 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     exp += expInc; 
     state->engine->score += 1000;
   }
-
   Sprite::notifyCollision(image, intersection);
 }
 

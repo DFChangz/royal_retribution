@@ -127,10 +127,8 @@ void PlayingState::load() {
   for (int i = 0; i < num_lights; i++) {
     std::string s = add+"light_"+std::to_string(i);
 
-    images[s]->getDestRect()->w = TILE_DIM * 2;
-    images[s]->getDestRect()->h = TILE_DIM * 1;
-    /*images[s]->pos_x += TILE_DIM;
-    images[s]->pos_y += TILE_DIM;*/
+    images[s]->getDestRect()->w = TILE_DIM;
+    images[s]->getDestRect()->h = TILE_DIM;
 
     SDL_SetTextureBlendMode(images[s]->getTexture(),SDL_BLENDMODE_ADD);
     if (SDL_SetTextureAlphaMod(images[s]->getTexture(), 80) < 0)
@@ -314,9 +312,9 @@ void PlayingState::update(double seconds) {
     king = images[ppl+"king"];
     engine->setState("level_2");
    }, SDLK_2);
-  // automatically lose w/ '3'
+  // automatically lose w/ '0'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("lose"); }, SDLK_3);
+   engine->setState("lose"); }, SDLK_0);
 
   //Delete instruction text by pressing 'n'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {

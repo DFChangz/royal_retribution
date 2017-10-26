@@ -19,7 +19,7 @@ InstructionState::InstructionState(Engine* engine, ErrorHandler* errorHandler)
 /* setup images */
 void InstructionState::setup() {
   // king 0
-  images["0king"] = new Character(engine->renderer, E_C_FILENAME, errorHandler,
+  images["0king"] = new Character(engine->renderer, ANI_FILENAME, errorHandler,
     16, 25, 619, 2214, &eventHandler, &audioHandler, this);
   camera.setCharacter(static_cast<Character*>(images["0king"]));
   // instructions

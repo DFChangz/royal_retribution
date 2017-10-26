@@ -24,7 +24,7 @@ void Level_2_State::setup() {
   if (king != nullptr) {
     images[ppl+"king"] = king;
   } else {
-    images[ppl+"king"] = new Character(engine->renderer, E_C_FILENAME,
+    images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 128, 358, &eventHandler, &audioHandler, this);
   }
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
@@ -34,7 +34,7 @@ void Level_2_State::setup() {
   int y = -1;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
     std::string s = ppl+"enemy_"+std::to_string(num_enemies);
-    images[s] = new Enemy(engine->renderer, E_C_FILENAME, errorHandler,
+    images[s] = new Enemy(engine->renderer, ANI_FILENAME, errorHandler,
       16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
     num_enemies++;
   }
@@ -117,10 +117,8 @@ void Level_2_State::load() {
   for (int i = 0; i < num_lights; i++) {
     std::string s = add+"light_"+std::to_string(i);
 
-    images[s]->getDestRect()->w = TILE_DIM * 2;
-    images[s]->getDestRect()->h = TILE_DIM * 1;
-    images[s]->pos_x += TILE_DIM;
-    images[s]->pos_y += TILE_DIM;
+    images[s]->getDestRect()->w = TILE_DIM;
+    images[s]->getDestRect()->h = TILE_DIM;
 
     SDL_SetTextureBlendMode(images[s]->getTexture(),SDL_BLENDMODE_ADD);
     if (SDL_SetTextureAlphaMod(images[s]->getTexture(), 80) < 0)

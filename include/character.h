@@ -5,14 +5,22 @@
 #define RUNNING_FRAMES    4
 #define ATTACK_FRAMES     3
 #define IDLE_FRAMES       1
+
 #define R_RUNNING_POS     12
 #define L_RUNNING_POS     8
 #define D_RUNNING_POS     0
 #define U_RUNNING_POS     4
+
 #define D_ATTACK_POS      32
 #define U_ATTACK_POS      35
 #define L_ATTACK_POS      38
 #define R_ATTACK_POS      41
+
+#define D_SWORD_POS      0
+#define U_SWORD_POS      3
+#define L_SWPRD_POS      6
+#define R_SWORD_POS      9
+
 #define INVINCIBLE_TIME   3.0
 #define STA_WAITING_TIME  3.0
 

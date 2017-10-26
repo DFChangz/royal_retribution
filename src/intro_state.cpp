@@ -23,7 +23,7 @@ void IntroState::setup() {
   images["0throne"] = new Sprite(engine->renderer, THRONE_FILENAME,
      errorHandler, 1854, 2160, false);
   // king 
-  images["1king"] = new Character(engine->renderer, E_C_FILENAME, errorHandler,
+  images["1king"] = new Character(engine->renderer, ANI_FILENAME, errorHandler,
     16, 25, 1902, 2209, &eventHandler, &audioHandler, this);
   // squire
   images["1squire"] = new Squire(engine->renderer, SQUIRE_FILENAME,
