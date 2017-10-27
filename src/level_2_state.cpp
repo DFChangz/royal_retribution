@@ -52,7 +52,7 @@ void Level_2_State::setup() {
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));
   // Level
   images[top+"level"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH/2-25, 2, 16, "LEVEL "); 
+    WIDTH/2-48, 2, 16, "KING LEVEL "); 
   // Heart types
   images[top+"heart_3"] = new Sprite(engine->renderer, HEART, errorHandler,
     32, 32, WIDTH - 120, 34, false, true);
@@ -155,7 +155,7 @@ void Level_2_State::update(double seconds) {
   if (currentLevel != kingLevel) {
     delete images[top+"level"];
     images[top+"level"] = new Text(engine->renderer, FONT_FILENAME,
-      errorHandler, WIDTH/2-25, 2, 16, "LEVEL" + std::to_string(kingLevel));
+      errorHandler, WIDTH/2-48, 2, 16, "KING LEVEL "+std::to_string(kingLevel));
     images[top+"level"]->load();
     currentLevel = kingLevel;
   }

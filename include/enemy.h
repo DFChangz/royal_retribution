@@ -3,7 +3,7 @@
 
 #define ENEMY_FPS             5
 #define ENEMY_MOVING_FRAMES   4
-#define ENEMY_IDLE_FRAMES     1
+#define ENEMY_IDLE_FRAMES     16
 #define ENEMY_R_MOVING_POS    28
 #define ENEMY_L_MOVING_POS    24
 #define ENEMY_UP_MOVING_POS   20
@@ -26,17 +26,20 @@ class Enemy : public Sprite {
     virtual void update(double seconds);
     virtual void notifyCollision(Image*, SDL_Rect*);
 
-
+    void thaw();
+    void freeze();
     void kill() { dead = true; } 
     bool isDead() { return dead; }
     bool isEnemy() { return true; }
 
+    bool frozen = false;
     bool following = false;
-
     std::string dir="right";
 
   private:
     bool dead = false;
+    double tempVX = 0;
+    double tempVY = 0;
 
     void idleAnimation(double);
 };

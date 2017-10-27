@@ -47,10 +47,10 @@ class Character : public Sprite {
 
     static int hearts;
 
-    static int level;
     double sta = 1;
+    static int level;
     static double exp;
-    double expInc = 0.40;
+    double expInc = 0.30;
 
     double startingX = 0.0;
     double startingY = 0.0;

@@ -68,18 +68,24 @@ void Sword::render(Camera* camera, double interpol_alpha) {
 }
 
 void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
-  // determine collision dir
-  if (intersection->w > intersection->h) {
-    if (intersection->y <= image->pos_y) collisionDir = "down";
-      else collisionDir = "up";
-  } else {
-    if (intersection->x <= image->pos_x)  collisionDir = "right";
-      else collisionDir = "left";
-  }
+  if (intersection) {}
 
+  //check y position
+  if (image->pos_x+32 > pos_x+4 && image->pos_x < pos_x+108) {
+    if (image->pos_y+50 > pos_y+3 && image->pos_y+50 <= king->pos_y)
+      collisionDir = "up";
+    if (image->pos_y >= king->pos_y+50 && image->pos_y < pos_y+109)
+      collisionDir = "down";
+  }
+  // check x positoin
+  if (image->pos_y+50 > pos_y+3 && image->pos_y < pos_y+109) {
+    if (image->pos_x+32 > pos_x+4 && image->pos_x+32 <= king->pos_x)
+      collisionDir = "left";
+    if (image->pos_x >= king->pos_x+32 && image->pos_x < pos_x+108)
+      collisionDir = "right";
+  }
   // enemies die when attacked
-  if (attacking && image->isEnemy()
-      && collisionDir == static_cast<Character*>(king)->dir) {
+  if (attacking && image->isEnemy() && collisionDir == dir) {
     static_cast<Enemy*>(image)->kill();
     audioHandler->play("kill", 1);
     if (this->pair != nullptr) {

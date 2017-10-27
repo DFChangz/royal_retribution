@@ -54,6 +54,7 @@ void Sprite::load(SDL_Texture *texture_p) {
 
 //moves the position of sprite based on current velocity and time passed
 void Sprite::update(double seconds) {
+  //prevRect = rect;
   prevRect = {(int) pos_x, (int) pos_y, rect.w, rect.h};
   double new_x = speedMultiplier * velocityX * seconds + pos_x;
   double new_y = speedMultiplier * velocityY * seconds + pos_y;

@@ -13,8 +13,9 @@ State::State(Engine* engine_ref, ErrorHandler* errorHandler) :
 }
 
 void State::run(double* accumulator) {
-  if (!paused) {
-    eventHandler.check();
+  eventHandler.check();
+
+  if(!paused) {
     update(DELTA_TIME);
     collisionDetector.check(&camera, map);
   } else {
@@ -22,9 +23,8 @@ void State::run(double* accumulator) {
   }
   *accumulator -= DELTA_TIME;
 }
-void State::activateInstructionText(int){
 
-}
+void State::activateInstructionText(int) {}
 
 void State::load() {
   audioHandler.load();
@@ -52,7 +52,6 @@ void State::update(double seconds) {
     it->second->update(seconds);
 
     collisionDetector.updateBuckets(it->second, map);
-
     counter++;
   }
   if (map != nullptr) {
@@ -62,7 +61,30 @@ void State::update(double seconds) {
   audioHandler.setVolume(engine->volume);
 }
 
-void State::pauseUpdate(double) {}
+void State::pauseUpdate(double seconds) {
+  // freeze character and enemy
+  for (it = images.begin(); it != images.end(); it++) {
+    if (it->first[0] == '1') {
+      if (it->first[1] == 'e')
+        static_cast<Enemy*>(it->second)->freeze();
+      if (it->first[1] == 'k')
+        static_cast<Character*>(it->second)->frozen = true;
+    }
+  }
+  update(seconds);
+  // resume w/ 'r'
+  eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    resume();
+    for (it = images.begin(); it != images.end(); it++) {
+      if (it->first[0] == '1') {
+        if (it->first[1] == 'e')
+          static_cast<Enemy*>(it->second)->thaw();
+        if (it->first[1] == 'k')
+          static_cast<Character*>(it->second)->frozen = false;
+      }
+    }
+  }, SDLK_r);
+}
 
 void State::render(double interpol_alpha) {
   if (SDL_RenderClear(engine->renderer) < 0) {

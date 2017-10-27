@@ -30,6 +30,22 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
     velocityY = velocity_Y;
 }
 
+void Enemy::freeze() {
+  if (!frozen) {
+    tempVX = velocityX;
+    tempVY = velocityY;
+    velocityX = 0;
+    velocityY = 0;
+    frozen = true;
+  }
+}
+
+void Enemy::thaw() {
+  frozen = false;
+  velocityX = tempVX;
+  velocityY = tempVY;
+}
+
 void Enemy::update(double seconds) {
   Sprite::update(seconds);
 

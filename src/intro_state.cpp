@@ -10,8 +10,6 @@ IntroState::IntroState(Engine* engine, ErrorHandler* errorHandler)
 
   map = new Map(engine->renderer, errorHandler, LEVEL_1, TILES_TXT,
     &collisionDetector);
-  map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_1_ADD);
 
   setup();
   load();

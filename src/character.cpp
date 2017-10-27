@@ -52,7 +52,7 @@ void Character::update(double seconds) {
   //std::cout << "charY: " << pos_y << "\n";
 
   // update sta
-  updateSta();
+  if (!frozen) updateSta();
 
   if (lastAttack && attackingTimer
       > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
@@ -209,16 +209,6 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     /*if attacking an enemy that collides in the same direction the enemy dies
     you get 1000 points and if you are paired with a door, it opens
     */
-  } else if (attacking && collisionDir == dir && image->isEnemy()) {
-    static_cast<Enemy*>(image)->kill();
-    audioHandler->play("kill", 1);
-    if (this->pair != nullptr) {
-      this->pair->setCollidable(false);
-      SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
-      this->pair = nullptr;
-      state->deactivateInstructionText();
-    }
-    updateExp();
   }
   if (!image->isSword()) Sprite::notifyCollision(image, intersection);
 }
@@ -248,8 +238,7 @@ void Character::updateExp() {
     exp--;
     level++;
     hearts = 6;
-    if (level == 9) expInc = 0.02;
-    if (level == 10) expInc = 0;
+    expInc -= 0.03;
   }
   state->engine->score += 1000;
 }

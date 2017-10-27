@@ -29,9 +29,11 @@ int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture,
   bool fixed) {
 
   SDL_Rect cameraRect = getRect();
-  interpolate(&prevRect, &cameraRect, alpha);
   
-  interpolate(img_prevRect, destRect, alpha);
+  /* LOOK OVER THIS FOR LATER */
+  //interpolate(&prevRect, &cameraRect, alpha);
+  //interpolate(img_prevRect, destRect, alpha);
+
   if (SDL_HasIntersection(destRect, &cameraRect) || fixed) {
     if (!fixed) {
       destRect->x -= pos_x;
