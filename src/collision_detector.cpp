@@ -18,6 +18,7 @@ to all the others */
 void CollisionDetector::check(Camera* camera, Map* map) {
   checkInBuckets(camera, map);
 
+  
   /*for (auto it = images->begin(); it != images->end(); ++it) {
     if (!(*it)->isCollidable()) continue;
 >>>>>>> 2dc10886364bd3807ce21519bd1dcbc1edb00b56
@@ -139,8 +140,8 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
 
       unsigned int index = j * BUCKET_COLS + i;
 
-      grid_rect.x = (i + 1) * GRID_WIDTH;
       grid_rect.y = (j + 1) * GRID_HEIGHT;
+      
       if (std::find(image->buckets.begin(), image->buckets.end(), index) !=
          image->buckets.end())
         continue;
@@ -149,6 +150,7 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
       image->buckets.push_back(index);
     }
 
+    grid_rect.x = (i + 1) * GRID_WIDTH;
     grid_rect.y = grid_y * GRID_HEIGHT;
   }
 

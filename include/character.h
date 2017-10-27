@@ -63,6 +63,7 @@ class Character : public Sprite {
     static std::vector<Pickup*> inventory;
     static std::vector<int> activePowerups;
 
+    virtual bool isCharacter() { return true; };
 
     ~Character();
 

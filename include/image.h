@@ -32,6 +32,7 @@ class Image {
 
     virtual ~Image();
 
+    virtual bool isCharacter() { return false; }
     virtual bool isSword() { return false; }
     virtual bool isEnemy() { return false; }
     virtual bool isPickup() { return false; }
