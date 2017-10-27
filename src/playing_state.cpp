@@ -108,7 +108,7 @@ void PlayingState::setup() {
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
   // add food
-  images[add+"food"] = new Pickup(engine->renderer, COIN, errorHandler,
+  images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
     32, 32, foodPosX, foodPosY, false, true, foodNum);
   static_cast<Sprite*>(images[add+"food"])->setPair(C3);
   //instuctions
