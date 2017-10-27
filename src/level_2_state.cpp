@@ -275,17 +275,17 @@ void Level_2_State::enemyFollow() {
     std::string s = ppl+"enemy_"+std::to_string(i);
     if (static_cast<Enemy*>(images[s])->following) {
       // edit x velocity
-      if (images[s]->pos_x < images[ppl+"king"]->pos_x - 31) {
+      if (images[s]->pos_x+32 < images[ppl+"king"]->pos_x) {
         images[s]->velocityX = 100;
-      } else if (images[s]->pos_x > images[ppl+"king"]->pos_x + 31) {
+      } else if (images[s]->pos_x > images[ppl+"king"]->pos_x+32) {
         images[s]->velocityX = -100;
       } else {
         images[s]->velocityX = 0;
       }
       // edit y velocity
-      if (images[s]->pos_y + 25 < images[ppl+"king"]->pos_y + 25) {
+      if (images[s]->pos_y < images[ppl+"king"]->pos_y-25) {
         images[s]->velocityY = 100;
-      } else if (images[s]->pos_y + 25 > images[ppl+"king"]->pos_y + 25) {
+      } else if (images[s]->pos_y > images[ppl+"king"]->pos_y+25) {
         images[s]->velocityY = -100;
       } else {
         images[s]->velocityY = 0;

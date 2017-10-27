@@ -1,11 +1,11 @@
 ######################################
-#                                    #
-#       T E A M  U B I H A R D       #
-#    Idean, Tae Jin, Billy, Derek    #
-#                                    #
+=                                    =
+=       T E A M  U B I H A R D       =
+=    Idean, Tae Jin, Billy, Derek    =
+=                                    =
 ######################################
 ================
-# Assignment 7 #
+# Assignment 8 #
 ================
 
 NEW THINGS
@@ -13,6 +13,26 @@ NEW THINGS
 
 Assets (Derek Chang)
 - created all assets and map layout.
+
+Levels (Tae)
+~ press [p] to pause the game
+~ press [r] to resume the game
+~ press [0] to automatically lose
+~ press [1] to go to the prev level (!@level1)
+~ press [2] to go to the next level (win @level3)
+
+Fixed Sword Implementation (Tae)
+~ it is its own separate sprite
+~ cool combo: [space], run right after
+
+Seg Fault Mistakes (Billy)
+~ enemies were randomy causing seg faults
+~ seg faults now no longer occur when touching a trap
+
+Created new Trap (Billy)
+~ timed laser that the king must evade
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 Collision Grid/Buckets (Idean)
 - Split the map into a grid layout, and collision checks occur within each grid.
