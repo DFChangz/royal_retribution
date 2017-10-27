@@ -18,7 +18,7 @@ class State;
 class Sword : public Sprite {
   public:
     Sword(SDL_Renderer *renderer, std::string filename,
-      ErrorHandler *errorHandler, int, int, int, int, Image* king_p,
+      ErrorHandler *errorHandler, int, int, int, int, Sprite* king_p,
       EventHandler *eventHandler, Audio *audioHandler, State *state_p);
 
     bool isSword() { return true; }
@@ -34,10 +34,11 @@ class Sword : public Sprite {
   private:
     void createListeners(EventHandler*);
 
-    Image* king = nullptr;
+    Sprite* king = nullptr;
     State* state = nullptr;
     Audio *audioHandler = nullptr;
 
+    bool hit = false;
     bool attacking = false;
     bool lastAttack = false;
     bool interacting = false;

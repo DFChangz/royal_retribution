@@ -50,7 +50,7 @@ class Character : public Sprite {
     double sta = 1;
     static int level;
     static double exp;
-    double expInc = 0.30;
+    double expInc = 0.20;
 
     double startingX = 0.0;
     double startingY = 0.0;
@@ -63,6 +63,7 @@ class Character : public Sprite {
     static std::vector<Pickup*> inventory;
     static std::vector<int> activePowerups;
 
+    virtual bool isCharacter() { return true; };
 
     ~Character();
 

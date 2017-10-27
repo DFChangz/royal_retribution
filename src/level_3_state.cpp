@@ -29,7 +29,7 @@ void Level_3_State::setup() {
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 0, 0, images[ppl+"king"], &eventHandler, &audioHandler, this);
+    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);
   // Enemies
   /*std::ifstream file(LEVEL_3_E);
   int x = -1;
@@ -53,6 +53,8 @@ void Level_3_State::setup() {
   images[top+"level"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH/2-48, 2, 16, "KING LEVEL "); 
   // Heart types
+  images[top+"heart_4"] = new Sprite(engine->renderer, HEART, errorHandler,
+    32, 32, WIDTH - 160, 34, false, true);
   images[top+"heart_3"] = new Sprite(engine->renderer, HEART, errorHandler,
     32, 32, WIDTH - 120, 34, false, true);
   images[top+"heart_2"] = new Sprite(engine->renderer, HEART, errorHandler,
@@ -162,7 +164,7 @@ void Level_3_State::update(double seconds) {
   if (currentScore != engine->score) {
     delete images[top+"score"];
     images[top+"score"] = new Text(engine->renderer, FONT_FILENAME,
-      errorHandler, WIDTH-114, 2, 16, "SCORE = "+std::to_string(engine->score));  
+      errorHandler, WIDTH-114, 2, 16, "SCORE = "+std::to_string(engine->score));
     images[top+"score"]->load();
     currentScore = engine->score;
   }
@@ -304,11 +306,7 @@ void Level_3_State::updateExp() {
 }
 
 void Level_3_State::updateHeartsPlus(){
-  if(images[top+"heart_4"] == nullptr){
-    images[top+"heart_4"] = new Sprite(engine->renderer, HEART, errorHandler,
-      32, 32, WIDTH - 160, 34, false, true);
-    images[top+"heart_4"]->load();
-  }
+  SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 255);
   switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
     case 8:
       static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(0, 0, 32, 32);
@@ -361,6 +359,7 @@ void Level_3_State::updateHeartsPlus(){
   }
 }
 void Level_3_State::updateHearts(){
+  SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 0);
   for(unsigned n =0; n < Character::activePowerups.size(); n++){
     if(Character::activePowerups[n] == foodNum){
       updateHeartsPlus();

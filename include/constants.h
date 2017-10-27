@@ -62,6 +62,7 @@
 /* Level Elements */
 #define KEY "assets/key.png"
 #define COIN "assets/coin.png"
+#define FOOD "assets/food.png"
 #define STAIRS_FILENAME "assets/stairs.png"
 
 /* Bars */

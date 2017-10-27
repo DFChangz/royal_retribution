@@ -206,9 +206,6 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     hearts--;
 
     invincibilitySeconds = 0;
-    /*if attacking an enemy that collides in the same direction the enemy dies
-    you get 1000 points and if you are paired with a door, it opens
-    */
   }
   if (!image->isSword()) Sprite::notifyCollision(image, intersection);
 }
@@ -237,8 +234,7 @@ void Character::updateExp() {
   if (exp >= 1) {
     exp--;
     level++;
-    hearts = 6;
-    expInc -= 0.03;
+    expInc -= 0.02;
   }
   state->engine->score += 1000;
 }
