@@ -8,7 +8,7 @@
 
 // constructor that takes in arguments for the width and height for the rect
 Sword::Sword(SDL_Renderer *renderer, std::string filename, ErrorHandler
-  *errorHandler, int w, int h, int pos_x, int pos_y, Image *king_p,
+  *errorHandler, int w, int h, int pos_x, int pos_y, Sprite *king_p,
   EventHandler *eventHandler, Audio *audioHandler, State *state_p)
     : Sprite(renderer, filename, errorHandler, w, h, pos_x, pos_y, true),
     audioHandler(audioHandler) {
@@ -81,11 +81,12 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
   if (attacking && image->isEnemy()
       && collisionDir == static_cast<Character*>(king)->dir) {
     static_cast<Enemy*>(image)->kill();
+    //std::cout << this->pair << std::endl;
     audioHandler->play("kill", 1);
-    if (this->pair != nullptr) {
-      this->pair->setCollidable(false);
-      SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
-      this->pair = nullptr;
+    if (this->king->pair != nullptr) {
+      this->king->pair->setCollidable(false);
+      SDL_SetTextureAlphaMod(this->king->pair->getTexture(), 0);
+      this->king->pair = nullptr;
       state->deactivateInstructionText();
     }
     static_cast<Character*>(king)->updateExp();

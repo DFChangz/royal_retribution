@@ -30,7 +30,7 @@ void PlayingState::setup() {
   camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 0, 0, images[ppl+"king"], &eventHandler, &audioHandler, this);
+    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_1_E);
   int x = -1;
@@ -62,6 +62,8 @@ void PlayingState::setup() {
     32, 32, WIDTH - 80, 34, false, true);
   images[top+"heart_3"] = new Sprite(engine->renderer, HEART, errorHandler,
     32, 32, WIDTH - 120, 34, false, true);
+  images[top+"heart_4"] = new Sprite(engine->renderer, HEART, errorHandler,
+    32, 32, WIDTH - 160, 34, false, true);
   // Stamina
   images[top+"sta_box"] = new Sprite(engine->renderer, BAR_BOX, errorHandler,
     0, 34, false, true);
@@ -280,10 +282,6 @@ void PlayingState::update(double seconds) {
     static_cast<Pickup*>(images[add+"food"])->pickUp();
     Character::hearts = 8;
 
-    images[top+"heart_4"] = new Sprite(engine->renderer, HEART, errorHandler,
-      32, 32, WIDTH - 160, 34, false, true);
-    images[top+"heart_4"]->load();
-
   }
   // updates Health
   updateHearts();
@@ -408,6 +406,7 @@ void PlayingState::deactivateInstructionText(){
     SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
 }
 void PlayingState::updateHeartsPlus(){
+  SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 255);
   switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
     case 8:
       static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(0, 0, 32, 32);
@@ -462,6 +461,7 @@ void PlayingState::updateHeartsPlus(){
   }
 }
 void PlayingState::updateHearts(){
+  SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 0);
   for(unsigned n =0; n < Character::activePowerups.size(); n++){
     if(Character::activePowerups[n] == foodNum){
       updateHeartsPlus();

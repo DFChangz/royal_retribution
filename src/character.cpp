@@ -209,9 +209,10 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     /*if attacking an enemy that collides in the same direction the enemy dies
     you get 1000 points and if you are paired with a door, it opens
     */
-  } else if (attacking && collisionDir == dir && image->isEnemy()) {
+  } /*else if (attacking && collisionDir == dir && image->isEnemy()) {
     static_cast<Enemy*>(image)->kill();
     audioHandler->play("kill", 1);
+    std::cout << this->pair << std::endl;
     if (this->pair != nullptr) {
       this->pair->setCollidable(false);
       SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
@@ -219,7 +220,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
       state->deactivateInstructionText();
     }
     updateExp();
-  }
+  }*/
   if (!image->isSword()) Sprite::notifyCollision(image, intersection);
 }
 
