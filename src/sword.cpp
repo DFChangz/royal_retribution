@@ -26,9 +26,10 @@ void Sword::update(double seconds) {
 
   pos_x = king->pos_x - 40;
   pos_y = king->pos_y - 31;
+  dir = static_cast<Character*>(king)->dir;
   
-  if (lastAttack && attackingTimer
-      > 1 / (CHARACTER_FPS*speedMultiplier) * ATTACK_FRAMES) {
+  if (lastAttack
+      && attackingTimer > ATTACK_FRAMES/(CHARACTER_FPS*speedMultiplier)) {
     attacking = false;
     lastAttack = false;
   }
@@ -36,7 +37,7 @@ void Sword::update(double seconds) {
   Sprite::update(seconds);
 
   if (attacking) {
-    switch (static_cast<Character*>(king)->dir[0]) {
+    switch (dir[0]) {
       case 'u':
         Sprite::animate(seconds, U_SWORD_POS, U_SWORD_POS + ATTACK_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
@@ -67,8 +68,14 @@ void Sword::render(Camera* camera, double interpol_alpha) {
 }
 
 void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
-  if (intersection) {};
-  std::string collisionDir = "";
+  // determine collision dir
+  if (intersection->w > intersection->h) {
+    if (intersection->y <= image->pos_y) collisionDir = "down";
+      else collisionDir = "up";
+  } else {
+    if (intersection->x <= image->pos_x)  collisionDir = "right";
+      else collisionDir = "left";
+  }
 
   // enemies die when attacked
   if (attacking && image->isEnemy()
@@ -81,22 +88,15 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
       this->pair = nullptr;
       state->deactivateInstructionText();
     }
-    static_cast<Character*>(king)->exp+=static_cast<Character*>(king)->expInc;
-    state->engine->score += 1000;
+    static_cast<Character*>(king)->updateExp();
   }
 }
 
 void Sword::createListeners(EventHandler *eventHandler) {
-  // attacking
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
     attacking = true;}, SDLK_SPACE);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     lastAttack = true; attackingTimer = 0;}, SDLK_SPACE);
-  // interacting 
-  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    interacting = true;}, SDLK_e);
-  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    interacting = false;}, SDLK_e);
 }
 
 void Sword::cleanup() {}

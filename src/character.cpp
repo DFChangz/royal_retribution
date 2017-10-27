@@ -51,9 +51,8 @@ void Character::update(double seconds) {
   //std::cout << "charX: " << pos_x << "\n";
   //std::cout << "charY: " << pos_y << "\n";
 
-  // update sta and exp 
+  // update sta
   updateSta();
-  updateExp();
 
   if (lastAttack && attackingTimer
       > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
@@ -211,16 +210,15 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     you get 1000 points and if you are paired with a door, it opens
     */
   } else if (attacking && collisionDir == dir && image->isEnemy()) {
-    audioHandler->play("kill", 1);
     static_cast<Enemy*>(image)->kill();
-    if(this->pair != nullptr){
+    audioHandler->play("kill", 1);
+    if (this->pair != nullptr) {
       this->pair->setCollidable(false);
       SDL_SetTextureAlphaMod(this->pair->getTexture(), 0);
       this->pair = nullptr;
       state->deactivateInstructionText();
     }
-    exp += expInc; 
-    state->engine->score += 1000;
+    updateExp();
   }
   if (!image->isSword()) Sprite::notifyCollision(image, intersection);
 }
@@ -245,11 +243,15 @@ void Character::updateSta() {
 }
 
 void Character::updateExp() {
+  exp += expInc;
   if (exp >= 1) {
-    exp -= 1;
+    exp--;
     level++;
-    expInc -= 0.05;
+    hearts = 6;
+    if (level == 9) expInc = 0.02;
+    if (level == 10) expInc = 0;
   }
+  state->engine->score += 1000;
 }
 
 void Character::createListeners(EventHandler *eventHandler) {

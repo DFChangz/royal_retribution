@@ -43,6 +43,7 @@ class Character : public Sprite {
     virtual void update(double seconds);
     virtual void render(Camera*, double interpol_alpha = 1);
     virtual void cleanup();
+    void updateExp();
 
     static int hearts;
 
@@ -67,7 +68,6 @@ class Character : public Sprite {
 
   private:
     void updateSta();
-    void updateExp();
     void idleAnimation(double seconds);
     void createListeners(EventHandler*);
     Audio *audioHandler = nullptr;

@@ -43,6 +43,9 @@ class Sword : public Sprite {
     bool interacting = false;
 
     double attackingTimer = 0;
+
+    std::string dir = "";
+    std::string collisionDir = "";
 };
 
 #endif
