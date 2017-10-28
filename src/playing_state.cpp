@@ -132,9 +132,9 @@ void PlayingState::load() {
   images[top+"exp_bar"]->getDestRect()->h = 24;
   images[top+"exp_bar"]->getDestRect()->w = 148;
 
-  // setup hole invisible
-  images[ele+"hole"]->getDestRect()->h = 14;
-  images[ele+"hole"]->getDestRect()->w = 40;
+  // setup hole
+  images[ele+"hole"]->getDestRect()->h = 22;
+  images[ele+"hole"]->getDestRect()->w = 50;
   SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
 
   for (int i = 0; i < num_lights; i++) {
@@ -266,6 +266,7 @@ void PlayingState::update(double seconds) {
   }*/
 
   if(PlayingState::fallen == 1){
+    a0 = fadeOut(ppl+"king", a0, seconds, 0.5);
     activateInstructionText(holeNum);
   }
 
@@ -429,8 +430,8 @@ void PlayingState::activateInstructionText(int instruct){
   if(instruct == holeNum && instrGiven % holeNum != 0){ 
     pause();
 
-    images[ele+"hole"]->pos_x = images[ppl+"king"]->pos_x-4;
-    images[ele+"hole"]->pos_y = images[ppl+"king"]->pos_y+45;
+    images[ele+"hole"]->pos_x = images[ppl+"king"]->pos_x-9;
+    images[ele+"hole"]->pos_y = images[ppl+"king"]->pos_y+39;
     SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 255);
     PlayingState::instrGiven *= holeNum;
@@ -445,13 +446,14 @@ void PlayingState::activateInstructionText(int instruct){
 
 }
 
-void PlayingState::deactivateInstructionText(){
+void PlayingState::deactivateInstructionText() {
   SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
-  
+  SDL_SetTextureAlphaMod(images[ppl+"king"]->getTexture(), 255);
 }
+
 //Health update with extra heart
 void PlayingState::updateHeartsPlus(){
   SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 255);

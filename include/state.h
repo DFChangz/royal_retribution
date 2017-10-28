@@ -51,6 +51,7 @@ class State {
     double speed = 50;
 
     int fadeIn(std::string s, int a, double seconds, double mult);
+    int fadeOut(std::string s, int a, double seconds, double mult);
 
     std::map<std::string,Image*> images;
     std::map<std::string,Image*>::iterator it;

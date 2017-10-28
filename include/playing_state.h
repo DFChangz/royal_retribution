@@ -36,7 +36,7 @@ class PlayingState : public State {
 
     bool skipPan = false;
 
-    int a0 = 0;
+    int a0 = 255;
 };
 
 #endif

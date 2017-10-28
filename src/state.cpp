@@ -133,6 +133,18 @@ int State::fadeIn(std::string s, int a, double seconds, double mult) {
   return a;
 }
 
+/* fades out a texture */
+int State::fadeOut(std::string s, int a, double seconds, double mult) {
+  newA = (double)a - speed * seconds * mult;
+  if (newA > 0) {
+    a = (int)newA;
+    SDL_SetTextureAlphaMod(images[s]->getTexture(), a);
+  } else {
+    SDL_SetTextureAlphaMod(images[s]->getTexture(), 0);
+  }
+  return a;
+}
+
 void State::cleanup() {
   audioHandler.cleanup();
 

@@ -74,6 +74,7 @@ void TitleState::update(double seconds) {
   }
   // after 11.5 sec, fade in earth
   if (totalTime > 11.5) {
+    a3 = fadeOut("3logo", a3, seconds, 2.5);
     a2 = fadeIn("2earth", a2, seconds, 2.5);
     x = images["2earth"]->pos_x - 4.0 * speed * seconds;
     y = images["2earth"]->pos_y - 3.0 * speed * seconds;
