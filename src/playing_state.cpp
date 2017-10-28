@@ -163,8 +163,10 @@ void PlayingState::load() {
 void PlayingState::update(double seconds) {
   timer += seconds;
 
-  if (!camera.pan(images[ppl+"king"], seconds)) {
+  if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
     static_cast<Character*>(images[ppl+"king"])->frozen = true;
+    eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+      skipPan = true; }, SDLK_m);
   } else {
     static_cast<Character*>(images[ppl+"king"])->frozen = false;
     camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));

@@ -27,6 +27,8 @@ class Level_2_State : public State {
     void checkFollow();
     void enemyFollow();
 
+    bool skipPan = false;
+
     int num_lights = 0;
     int num_enemies = 0;
 };

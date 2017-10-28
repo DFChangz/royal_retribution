@@ -31,6 +31,8 @@ class PlayingState : public State {
 
     int num_lights = 0;
     int num_enemies = 0;
+
+    bool skipPan = false;
 };
 
 #endif
