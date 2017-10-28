@@ -212,6 +212,8 @@ void Engine::newGame() {
   Character::level = 1;
   Character::exp = 0;
   Character::currFloor = 1;
+  PlayingState::instrGiven = 1;
+  PlayingState::fallen = 0;
 
   lastTime = SDL_GetTicks();
 }

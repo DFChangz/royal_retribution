@@ -17,6 +17,8 @@ class PlayingState : public State {
     void updateHearts();
     void updateHeartsPlus();
 
+    static int instrGiven;
+    static int fallen;
     double timer = 1;
   protected:
     int currentLevel;

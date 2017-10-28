@@ -106,7 +106,7 @@ void PlayingState::setup() {
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 76, 16, "You fell down a hole.You are now on the previous floor. Press 'r' to clear text");
+    WIDTH / 3, 76, 16, "You fell down a hole. You are now on the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
   // FPS Counter 
@@ -257,6 +257,9 @@ void PlayingState::update(double seconds) {
 
   }*/
 
+  if(PlayingState::fallen == 1){
+    activateInstructionText(holeNum);
+  }
 
   // updates Health
   updateHearts();
@@ -408,19 +411,25 @@ void PlayingState::updateExp() {
 }
 void PlayingState::activateInstructionText(int instruct){
 
-  pause();
 
-  if(instruct == doorKeyNum){ 
+  if(instruct == doorKeyNum && instrGiven % doorKeyNum != 0){ 
+    pause();
 
     SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 255);
+    PlayingState::instrGiven *= doorKeyNum;
   }
-  if(instruct == holeNum){ 
+  if(instruct == holeNum && instrGiven % holeNum != 0){ 
+    pause();
 
     SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 255);
+    PlayingState::instrGiven *= holeNum;
+    PlayingState::fallen++;
   }
-  if(instruct == trapNum){ 
+  if(instruct == trapNum && instrGiven % trapNum != 0){ 
+    pause();
 
     SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 255); 
+    PlayingState::instrGiven *= trapNum;
   }
 
 }
@@ -536,3 +545,7 @@ void PlayingState::updateHearts(){
 }
 
 PlayingState::~PlayingState() {}
+
+int PlayingState::instrGiven = 1;
+
+int PlayingState::fallen = 0;

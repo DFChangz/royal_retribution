@@ -4,6 +4,7 @@
 
 #include "character.h"
 #include "state.h"
+#include "playing_state.h"
 //Definitions for the character class that inherits from Sprite
 
 //constructor that takes in arguments for the width and height for the rect
@@ -170,11 +171,18 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     }
   }
   if(static_cast<Sprite*>(image)->isHole()){
+    PlayingState::fallen++;
     setPosition(startingX, startingY);
     velocityX = 0;
     velocityY = 0;
-    Character::currFloor = 1;
-    state->engine->setState("playing");
+    if(Character::currFloor == 2){
+      Character::currFloor = 1;
+      state->engine->setState("playing");
+    }
+    if(Character::currFloor == 3){
+      Character::currFloor = 2;
+      state->engine->setState("level_2");
+    }
   }
   // either up/down
   if (intersection->w > intersection->h) {
