@@ -60,6 +60,10 @@ void CollisionDetector::checkInBuckets(Camera* camera, Map* map) {
         bucket_index / BUCKET_COLS * GRID_HEIGHT, GRID_WIDTH, GRID_HEIGHT};
 
       SDL_Rect camera_rect = camera->getRect();
+      camera_rect.x -= 30;
+      camera_rect.y -= 30;
+      camera_rect.w += 60;
+      camera_rect.h += 60;
 
       if (!SDL_HasIntersection(&bucket_rect, &camera_rect)) continue;
     }
