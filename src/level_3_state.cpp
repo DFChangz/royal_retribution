@@ -5,7 +5,7 @@
 #include "level_3_state.h"
 
 Level_3_State::Level_3_State(Engine* engine, ErrorHandler* errorHandler)
-  : State(engine, errorHandler) {
+  : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_3, TILES_TXT,
     &collisionDetector);
@@ -99,13 +99,21 @@ void Level_3_State::setup() {
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
+  //instuctions
+  images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'r' to clear text");
+  images[top+"hInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 3, 76, 16, "You fell down a hole.You are now on the previous floor. Press 'r' to clear text");
+  images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
 }
 
 void Level_3_State::load() {
-  State::load();
+  PlayingState::load();
+/*
   // set size of stairs & stam & exp
   images[ele+"stairs"]->getDestRect()->h = 90;
   images[ele+"stairs"]->getDestRect()->w = 90;
@@ -136,11 +144,11 @@ void Level_3_State::load() {
     ->getTexture(), SDL_BLENDMODE_BLEND);
   if (SDL_SetTextureAlphaMod(images[add+"black"]->getTexture(), 150) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
-  }
+  }*/
 }
 
 void Level_3_State::update(double seconds) {
-  timer += seconds;
+/*  timer += seconds;
 
   if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
     static_cast<Character*>(images[ppl+"king"])->frozen = true;
@@ -255,17 +263,50 @@ void Level_3_State::update(double seconds) {
   // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("win"); }, SDLK_2);
-  // automatically lose w/ '3'
+  // automatically lose w/ '0'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("lose"); }, SDLK_3);
+   engine->setState("lose"); }, SDLK_0);
   // pause w/ 'p'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   pause(); }, SDLK_p);
-  //Delete instruction text by pressing 'n'
+   pause(); }, SDLK_p);*/
+
+
+  PlayingState::update(seconds);
+
+  // changes state to Win
+  if (images[ppl+"king"]->pos_x < map->width/2 + 45
+      && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
+        > map->width/2 - 45
+      && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
+        > map->height - 150)
+  {
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file << std::to_string(engine->score) << std::endl;
+    file.close();
+    engine->setState("win");
+  }
+  // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   deactivateInstructionText(); }, SDLK_n);
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file << std::to_string(engine->score) << std::endl;
+    file.close();
+    engine->setState("win"); 
+
+  }, SDLK_2);
+
+  // go to floor 2 w/ '1'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    Character::currFloor = 2;
+    engine->setState("level_2");
+   }, SDLK_1);
 }
 
+
+/*
 void Level_3_State::checkFollow() {
   int borderX = images[ppl+"king"]->pos_x
     + images[ppl+"king"]->getDestRect()->w+100;
@@ -422,5 +463,5 @@ void Level_3_State::updateHearts(){
       static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(40, 0, 32, 32);
       break;
   }
-}
+}*/
 Level_3_State::~Level_3_State() {}

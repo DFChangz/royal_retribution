@@ -13,7 +13,7 @@
 #include "event_handler.h"
 #include "collision_detector.h"
 #include "camera.h"
-enum instruction {trapNum = 2, chestNum = 3, doorKeyNum = 5};
+enum instruction {trapNum = 2, holeNum = 3, doorKeyNum = 5};
 
 class State {
   public:

@@ -173,6 +173,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     setPosition(startingX, startingY);
     velocityX = 0;
     velocityY = 0;
+    Character::currFloor = 1;
     state->engine->setState("playing");
   }
   // either up/down
@@ -321,3 +322,5 @@ int Character::hearts = 6;
 int Character::level = 1;
 
 double Character::exp = 0;
+
+int Character::currFloor = 1;

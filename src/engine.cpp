@@ -10,6 +10,7 @@
 #include "intro_state.h"
 #include "credit_state.h"
 #include "playing_state.h"
+#include "level_1_state.h"
 #include "level_2_state.h"
 #include "level_3_state.h"
 #include "highscore_state.h"
@@ -195,7 +196,7 @@ void Engine::newGame() {
   states["win"] = new WinState(this, &error_handler);
   states["lose"] = new LoseState(this, &error_handler);
   states["intro"] = new IntroState(this, &error_handler);
-  states["playing"] = new PlayingState(this, &error_handler);
+  states["playing"] = new Level_1_State(this, &error_handler);
   states["level_2"] = new Level_2_State(this, &error_handler);
   states["level_3"] = new Level_3_State(this, &error_handler);
   states["instruction"] = new InstructionState(this, &error_handler);
@@ -210,6 +211,7 @@ void Engine::newGame() {
   Character::hearts = 6;
   Character::level = 1;
   Character::exp = 0;
+  Character::currFloor = 1;
 
   lastTime = SDL_GetTicks();
 }

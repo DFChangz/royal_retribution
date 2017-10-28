@@ -3,8 +3,8 @@
 
 #include "state.h"
 
-#define NUM_ENEMIES     10
-#define ENEMY_FILENAME  "level_1_enemies.txt"
+//#define NUM_ENEMIES     10
+//#define ENEMY_FILENAME  "level_1_enemies.txt"
 
 class PlayingState : public State {
   public:
@@ -18,7 +18,7 @@ class PlayingState : public State {
     void updateHeartsPlus();
 
     double timer = 1;
-  private:
+  protected:
     int currentLevel;
     int currentScore;
     void update(double);

@@ -6,14 +6,14 @@
 
 PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
-
+/*
   map = new Map(engine->renderer, errorHandler, LEVEL_1, TILES_TXT,
     &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_1_ADD);
 
   setup();
-  load();
+  load();*/
 }
 
 void PlayingState::setup() {
@@ -79,11 +79,8 @@ void PlayingState::setup() {
   double keyPosY = 0.0;
   double coinPosX = 0.0;
   double coinPosY = 0.0;
-  double foodPosX = 0.0;
-  double foodPosY = 0.0;
   Sprite *C1 = nullptr;
   Sprite *C2 = nullptr;
-  Sprite *C3 = nullptr;
   for(auto tile : map->additions){
     if(tile.image->isChest()){
       if(keyPosX == 0.0 && keyPosY == 0.0){
@@ -94,10 +91,6 @@ void PlayingState::setup() {
         coinPosX = tile.image->pos_x;
         coinPosY = tile.image->pos_y;
         C2 = tile.image;
-      } else {
-        foodPosX = tile.image->pos_x;
-        foodPosY = tile.image->pos_y;
-        C3 = tile.image;
       }
     }
   }
@@ -109,15 +102,13 @@ void PlayingState::setup() {
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
-  // add food
-  images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
-    32, 32, foodPosX, foodPosY, false, true, foodNum);
-  static_cast<Sprite*>(images[add+"food"])->setPair(C3);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'r' to clear text");
+  images[top+"hInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 3, 76, 16, "You fell down a hole.You are now on the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 92, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+    WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
@@ -209,12 +200,10 @@ void PlayingState::update(double seconds) {
   checkFollow();
   enemyFollow();
 
-//  SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0);
-//  SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
-
+  //makes pickups invisble while in chests
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
+  //SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
 
   int x = 0;  
   // set up inventory display
@@ -254,7 +243,7 @@ void PlayingState::update(double seconds) {
     engine->score += 1000;
     static_cast<Pickup*>(images[add+"coin"])->pickUp();
   }
-  if(static_cast<Sprite*>(images[add+"food"])->pair->pair
+/*  if(static_cast<Sprite*>(images[add+"food"])->pair->pair
     == static_cast<Sprite*>(images[add+"food"])->pair
     && !static_cast<Pickup*>(images[add+"food"])->isPickedUp())
   {
@@ -267,7 +256,9 @@ void PlayingState::update(double seconds) {
     static_cast<Pickup*>(images[add+"food"])->pickUp();
     Character::hearts = 8;
 
-  }
+  }*/
+
+
   // updates Health
   updateHearts();
   State::update(seconds);
@@ -276,38 +267,83 @@ void PlayingState::update(double seconds) {
   if (static_cast<Character*>(images[ppl+"king"])->hearts <= 0) {
     engine->setState("lose");
   }
+
+
+
   // changes state to Level_2
-  if (images[ppl+"king"]->pos_x < map->width/2 + 45
+ /* if (images[ppl+"king"]->pos_x < map->width/2 + 45
       && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
         > map->width/2 - 45
       && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
         > map->height - 150)
   {
-    images[ppl+"king"]->pos_x = 128;
-    images[ppl+"king"]->pos_y = 358;
+    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
+    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
     images[ppl+"king"]->velocityX = 0;
     images[ppl+"king"]->velocityY = 0;
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
     king = images[ppl+"king"]; 
     engine->setState("level_2");
-  }
-  // go to floor 2
+  }*/
+
+
+/*
+  // go down a floor w/ '1'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    images[ppl+"king"]->pos_x = 128;
-    images[ppl+"king"]->pos_y = 358;
+//    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
+//    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
     images[ppl+"king"]->velocityX = 0;
     images[ppl+"king"]->velocityY = 0;
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
     king = images[ppl+"king"];
-    engine->setState("level_2");
-   }, SDLK_2);
+    if(Character::currFloor == 2){
+      Character::currFloor = 1;
+      engine->setState("playing");
+    }
+    if(Character::currFloor == 3){
+      Character::currFloor = 2;
+      engine->setState("level_2");
+    }
+    if(Character::currFloor == 4){
+      Character::currFloor = 3;
+      engine->setState("level_3");
+    }
+  }, SDLK_1);
+  // go up a floor w/ '2'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
+    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    static_cast<Character*>(images[ppl+"king"])->dir = "down";
+    king = images[ppl+"king"];
+    std::cout << Character::currFloor << std::endl;
+    if(Character::currFloor == 1){
+      Character::currFloor = 2;
+      engine->setState("level_2");
+    }
+    if(Character::currFloor == 2){
+      Character::currFloor = 3;
+      engine->setState("level_3");
+    }
+    if(Character::currFloor == 3){
+//      Character::currFloor = 4;
+      std::ofstream file;
+      file.open(SCORE_FILENAME, std::ios_base::app);
+      file << std::to_string(engine->score) << std::endl;
+      file.close();
+      engine->setState("win");
+    }
+  }, SDLK_2);*/
+
+
   // automatically lose w/ '0'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("lose"); }, SDLK_0);
   // pause w/ 'p'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    pause(); }, SDLK_p);
-  //Delete instruction text by pressing 'n'
+  //Delete instruction text by pressing 'r'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     deactivateInstructionText(); 
     resume();
@@ -381,6 +417,10 @@ void PlayingState::activateInstructionText(int instruct){
 
     SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 255);
   }
+  if(instruct == holeNum){ 
+
+    SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 255);
+  }
   if(instruct == trapNum){ 
 
     SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 255); 
@@ -390,6 +430,7 @@ void PlayingState::activateInstructionText(int instruct){
 
 void PlayingState::deactivateInstructionText(){
   SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
+  SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
 }
 //Health update with extra heart

@@ -1,14 +1,13 @@
-#ifndef LEVEL_3_STATE_H
-#define LEVEL_3_STATE_H
+#ifndef LEVEL_1_STATE_H
+#define LEVEL_1_STATE_H
 
 #include "playing_state.h"
 
-
-class Level_3_State : public PlayingState {
+class Level_1_State : public PlayingState {
   public:
-    Level_3_State(Engine* engine, ErrorHandler* errorHandler);
+    Level_1_State(Engine* engine, ErrorHandler* errorHandler);
 
-    virtual ~Level_3_State();
+    virtual ~Level_1_State();
     virtual void load();
 //    void updateHearts();
 //    void updateHeartsPlus();
