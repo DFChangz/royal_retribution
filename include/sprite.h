@@ -69,6 +69,9 @@ class Sprite : public Image {
     bool chest = false;
     bool hole = false;
     bool blade = false;
+
+    void resolveXCollision(Image*, int);
+    void resolveYCollision(Image*, int);
 };
 
 #endif
