@@ -21,6 +21,9 @@ void PlayingState::setup() {
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 45, map->height - 150, false);
   camera.setPosition(images[ele+"stairs"]);
+  // Hole
+  images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
+    errorHandler, 0, 0, false);
   // Player 
   if (king != nullptr) {
     images[ppl+"king"] = king;
@@ -128,6 +131,11 @@ void PlayingState::load() {
   images[top+"exp_box"]->getDestRect()->w = 150;
   images[top+"exp_bar"]->getDestRect()->h = 24;
   images[top+"exp_bar"]->getDestRect()->w = 148;
+
+  // setup hole invisible
+  images[ele+"hole"]->getDestRect()->h = 14;
+  images[ele+"hole"]->getDestRect()->w = 40;
+  SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
 
   for (int i = 0; i < num_lights; i++) {
     std::string s = add+"light_"+std::to_string(i);
@@ -421,6 +429,9 @@ void PlayingState::activateInstructionText(int instruct){
   if(instruct == holeNum && instrGiven % holeNum != 0){ 
     pause();
 
+    images[ele+"hole"]->pos_x = images[ppl+"king"]->pos_x-4;
+    images[ele+"hole"]->pos_y = images[ppl+"king"]->pos_y+45;
+    SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 255);
     PlayingState::instrGiven *= holeNum;
     PlayingState::fallen++;
@@ -438,6 +449,8 @@ void PlayingState::deactivateInstructionText(){
   SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
+  
 }
 //Health update with extra heart
 void PlayingState::updateHeartsPlus(){

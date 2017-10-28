@@ -30,6 +30,8 @@ class State {
 
     Engine* engine;
 
+    bool isPaused() { return paused; }
+
     CollisionDetector collisionDetector;
 
     Map *map = nullptr;

@@ -175,13 +175,14 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     setPosition(startingX, startingY);
     velocityX = 0;
     velocityY = 0;
+    
     if(Character::currFloor == 2){
       Character::currFloor = 1;
-      state->engine->setState("playing");
+      if (!frozen) state->engine->setState("playing");
     }
     if(Character::currFloor == 3){
       Character::currFloor = 2;
-      state->engine->setState("level_2");
+      if (!frozen) state->engine->setState("level_2");
     }
   }
   // either up/down
