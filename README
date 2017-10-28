@@ -14,6 +14,13 @@ NEW THINGS
 Assets (Derek Chang)
 - created all assets and map layout.
 
+Fixed Time-step (Idean)
+- Using a fixed timestep now throughout.
+
+Fixed Collision Bugs (Idean)
+- Fixed many bugs related to collision resolution. Especially due to rounding
+  issues.
+
 Levels (Tae)
 ~ press [p] to pause the game
 ~ press [r] to resume the game
