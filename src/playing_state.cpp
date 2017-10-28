@@ -309,7 +309,7 @@ void PlayingState::update(double seconds) {
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     deactivateInstructionText(); 
     resume();
-  }, SDLK_n);
+  }, SDLK_r);
 }
 
 void PlayingState::checkFollow() {

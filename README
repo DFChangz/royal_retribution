@@ -30,7 +30,9 @@ Seg Fault Mistakes (Billy)
 ~ seg faults now no longer occur when touching a trap
 
 Created new Trap (Billy)
-~ spikes that injure the king when he steps on them
+~ spinning blades king must evade
+~ health powerup you will get you an extra heart
+  ~ and you will regain full health.
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -57,7 +59,6 @@ Chest and Doors (Billy)
 5) After getting keys a text appears that says the key is to be used on a special door
 * when opening a chest, make sure to be  walking towards
   it at the same time
-6) if item is a health powerup, you will get an extra heart, and you will regain full health.
 
 Holes (Billy)
 1) walking upon a cracked hole will cause you to fall down a floor

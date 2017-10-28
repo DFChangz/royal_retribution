@@ -76,11 +76,7 @@ void State::pauseUpdate(double seconds) {
   update(seconds);
   // resume w/ 'r'
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    resume(); }, SDLK_r);
-}
-//void State::resume(){ paused = false; }
-void State::resume(){
-  paused = false;
+    resume(); 
   for (it = images.begin(); it != images.end(); it++) {
     if (it->first[0] == '1') {
       if (it->first[1] == 'e')
@@ -89,6 +85,20 @@ void State::resume(){
         static_cast<Character*>(it->second)->frozen = false;
     }
   }
+
+  }, SDLK_r);
+}
+//void State::resume(){ paused = false; }
+void State::resume(){
+  paused = false;
+/*  for (it = images.begin(); it != images.end(); it++) {
+    if (it->first[0] == '1') {
+      if (it->first[1] == 'e')
+        static_cast<Enemy*>(it->second)->thaw();
+      if (it->first[1] == 'k')
+        static_cast<Character*>(it->second)->frozen = false;
+    }
+  }*/
 }
 void State::render(double interpol_alpha) {
   if (SDL_RenderClear(engine->renderer) < 0) {

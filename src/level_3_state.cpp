@@ -286,6 +286,11 @@ void Level_3_State::checkFollow() {
 void Level_3_State::enemyFollow() {
   for (int i = 0; i < num_enemies; i++) {
     std::string s = ppl+"enemy_"+std::to_string(i);
+    if (static_cast<Enemy*>(images[s])->frozen){
+      images[s]->velocityX = 0;
+      images[s]->velocityY = 0;
+      continue;
+    }
     if (static_cast<Enemy*>(images[s])->following) {
       // edit x velocity
       if (images[s]->pos_x+32 < images[ppl+"king"]->pos_x) {
