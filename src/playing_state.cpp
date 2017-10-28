@@ -191,7 +191,6 @@ void PlayingState::update(double seconds) {
     currentScore = engine->score;
   }
 
-
   // update stamina & experience
   updateSta();
   updateExp();
@@ -268,10 +267,8 @@ void PlayingState::update(double seconds) {
     engine->setState("lose");
   }
 
-
-
   // changes state to Level_2
- /* if (images[ppl+"king"]->pos_x < map->width/2 + 45
+  /*if (images[ppl+"king"]->pos_x < map->width/2 + 45
       && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
         > map->width/2 - 45
       && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h

@@ -363,7 +363,6 @@ void Level_1_State::update(double seconds) {
    }, SDLK_2);
 }
 
-
 /*
 void PlayingState::checkFollow() {
   int borderX = images[ppl+"king"]->pos_x

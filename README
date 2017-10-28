@@ -27,6 +27,8 @@ Levels (Tae)
 ~ press [0] to automatically lose
 ~ press [1] to go to the prev level (!@level1)
 ~ press [2] to go to the next level (win @level3)
+~ at the start of each level: panning scene - shows where the stairs are
+  * if you want to skip this scene, press [m]
 
 Fixed Sword Implementation (Tae)
 ~ it is its own separate sprite
@@ -40,6 +42,10 @@ Created new Trap (Billy)
 ~ spinning blades king must evade
 ~ health powerup you will get you an extra heart
   ~ and you will regain full health.
+
+All levels are now subclassed (Billy)
+~ fixed many bugs associated with the levels
+  * enemies were not acting correctly, faciltate changing up code
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 

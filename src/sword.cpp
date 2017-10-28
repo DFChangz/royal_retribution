@@ -86,9 +86,8 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
       collisionDir = "right";
   }
   // enemies die when attacked
-  if (!hit && attacking && image->isEnemy() && collisionDir == dir) {
+  if (attacking && image->isEnemy() && collisionDir == dir) {
     static_cast<Enemy*>(image)->kill();
-    //std::cout << this->pair << std::endl;
     audioHandler->play("kill", 1);
     if (this->king->pair != nullptr) {
       this->king->pair->setCollidable(false);
@@ -96,7 +95,7 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
       this->king->pair = nullptr;
       state->deactivateInstructionText();
     }
-    static_cast<Character*>(king)->updateExp();
+    if (!hit) static_cast<Character*>(king)->updateExp();
     hit = true;
   }
 }
