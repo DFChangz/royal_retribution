@@ -102,7 +102,8 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
 
 void Sword::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    attacking = true;}, SDLK_SPACE);
+    if (!static_cast<Character*>(king)->frozen)
+      attacking = true;}, SDLK_SPACE);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     lastAttack = true; attackingTimer = 0;}, SDLK_SPACE);
 }

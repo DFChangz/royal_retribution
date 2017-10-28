@@ -19,7 +19,7 @@ void TitleState::setup() {
     0, 0, false);
   // ship img 1
   images["1ship"] = new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
-    -50, 180, false);
+    -80, 180, false);
   // earth img 2
   images["2earth"] = new Sprite(engine->renderer, PLANET_FILENAME, errorHandler,
     0, 0, false);
@@ -75,11 +75,11 @@ void TitleState::update(double seconds) {
   // after 11.5 sec, fade in earth
   if (totalTime > 11.5) {
     a2 = fadeIn("2earth", a2, seconds, 2.5);
-    x = images["2earth"]->pos_x - 5.0 * speed * seconds;
-    y = images["2earth"]->pos_y - 5.0 * speed * seconds;
+    x = images["2earth"]->pos_x - 4.0 * speed * seconds;
+    y = images["2earth"]->pos_y - 3.0 * speed * seconds;
     images["2earth"]->setPosition(x, y);
-    images["2earth"]->getDestRect()->w += 10.0 * speed * seconds;
-    images["2earth"]->getDestRect()->h += 10.0 * speed * seconds;
+    images["2earth"]->getDestRect()->w += 14.0 * speed * seconds;
+    images["2earth"]->getDestRect()->h += 14.0 * speed * seconds;
   }
   // after 15.5 sec, transfer to menu
   if (totalTime > 15.5) {
