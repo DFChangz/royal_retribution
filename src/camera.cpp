@@ -31,12 +31,13 @@ bool Camera::pan(Image* to, double seconds) {
   SDL_Rect* t_rect = to->getDestRect();
   dest_x = to->pos_x - WIDTH / 2 + t_rect->w/2;
   dest_y = to->pos_y - HEIGHT / 2 + t_rect->h/2;
+
   // edit velocity
   if (pos_y > dest_y) {
-    velocityY = -300;
+    velocityY = -500;
     pos_y += velocityY * seconds;
   } else if (pos_x > dest_x) {
-    velocityX = -300;
+    velocityX = -500;
     pos_x += velocityX * seconds;
   } else {
     start = false;
@@ -55,6 +56,9 @@ int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture,
   bool fixed) {
 
   SDL_Rect cameraRect = getRect();
+
+  // for warning
+  if (alpha && img_prevRect) {};
   
   /* LOOK OVER THIS FOR LATER */
   //interpolate(&prevRect, &cameraRect, alpha);
