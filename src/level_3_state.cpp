@@ -31,7 +31,7 @@ void Level_3_State::setup() {
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);
   // Enemies
-  /*std::ifstream file(LEVEL_3_E);
+  std::ifstream file(LEVEL_3_E);
   int x = -1;
   int y = -1;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
@@ -40,7 +40,7 @@ void Level_3_State::setup() {
       16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
     num_enemies++;
   }
-  file.close();*/
+  file.close();
   // Lights
   num_lights = map->pushLights(images);
   // Black

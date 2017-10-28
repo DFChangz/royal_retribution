@@ -25,7 +25,7 @@ SDL_Rect Camera::getRect() {
 }
 
 int Camera::render(SDL_Renderer* renderer, SDL_Texture* texture,
-  SDL_Rect* srcRect, SDL_Rect* destRect, SDL_Rect* img_prevRect, double alpha, 
+  SDL_Rect* srcRect, SDL_Rect* destRect, SDL_Rect*, double, 
   bool fixed) {
 
   SDL_Rect cameraRect = getRect();

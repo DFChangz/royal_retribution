@@ -41,7 +41,6 @@ class Sword : public Sprite {
     bool hit = false;
     bool attacking = false;
     bool lastAttack = false;
-    bool interacting = false;
 
     double attackingTimer = 0;
 
