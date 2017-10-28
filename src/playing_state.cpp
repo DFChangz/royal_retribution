@@ -115,9 +115,9 @@ void PlayingState::setup() {
   static_cast<Sprite*>(images[add+"food"])->setPair(C3);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'n' to clear text");
+    WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 92, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'n' to clear text ");
+    WIDTH / 3, 92, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
