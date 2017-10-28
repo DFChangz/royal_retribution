@@ -69,23 +69,27 @@ void State::pauseUpdate(double seconds) {
         static_cast<Enemy*>(it->second)->freeze();
       if (it->first[1] == 'k')
         static_cast<Character*>(it->second)->frozen = true;
+        static_cast<Character*>(it->second)->velocityX = 0;
+        static_cast<Character*>(it->second)->velocityY = 0;
     }
   }
   update(seconds);
   // resume w/ 'r'
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    resume();
-    for (it = images.begin(); it != images.end(); it++) {
-      if (it->first[0] == '1') {
-        if (it->first[1] == 'e')
-          static_cast<Enemy*>(it->second)->thaw();
-        if (it->first[1] == 'k')
-          static_cast<Character*>(it->second)->frozen = false;
-      }
-    }
-  }, SDLK_r);
+    resume(); }, SDLK_r);
 }
-
+//void State::resume(){ paused = false; }
+void State::resume(){
+  paused = false;
+  for (it = images.begin(); it != images.end(); it++) {
+    if (it->first[0] == '1') {
+      if (it->first[1] == 'e')
+        static_cast<Enemy*>(it->second)->thaw();
+      if (it->first[1] == 'k')
+        static_cast<Character*>(it->second)->frozen = false;
+    }
+  }
+}
 void State::render(double interpol_alpha) {
   if (SDL_RenderClear(engine->renderer) < 0) {
     errorHandler->quit(__func__, SDL_GetError());

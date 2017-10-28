@@ -133,34 +133,49 @@ void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
     pair->collidable = true;
     SDL_SetTextureAlphaMod(pair->getTexture(), 255);   
   }*/
-  if (abs(velocityY) > abs(velocityX)) {
-    if (velocityY != 0) {
-      double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));
-
-      pos_y -= velocityY / abs(velocityY) * ((intersection->h) * velRatio);
-    }
-  } else if (abs(velocityY) == abs(velocityX)) {
+  /*if (abs(velocityY) > abs(velocityX)) {
+    resolveYCollision(img, intersection->h);
+  } else if (abs(velocityY) == abs(velocityX)) {*/
     if (intersection->w > intersection->h) {
-      if (velocityY != 0) {
-        double velRatio = (double)abs(velocityY) / ((double) abs(velocityY) + (double) abs(img->velocityY));
-
-        pos_y -= velocityY / abs(velocityY) * ((intersection->h) * velRatio);
-      }
+      resolveYCollision(img, intersection->h);
     } else {
-      if (velocityX != 0) {
-        double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
-        pos_x -= velocityX / abs(velocityX) * ((intersection->w)* velRatio);
-      }
+      resolveXCollision(img, intersection->w);
     }
-  } else {
-    if (velocityX != 0) {
-      double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
-      pos_x -= velocityX / abs(velocityX) * ((intersection->w)* velRatio);
-      pos_x = ceil(pos_x);
-    }
-  }
+  /*} else {
+    resolveXCollision(img, intersection->w);
+  }*/
 
   setPosition(pos_x, pos_y);
+  img->setPosition(img->pos_x, img->pos_y);
+}
+
+void Sprite::resolveXCollision(Image* img, int intersection) {
+  if (velocityX != 0) {
+    double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
+
+    int adjustmentMagnitude = round((double) intersection * velRatio);
+    pos_x = ((int) pos_x) - velocityX / abs(velocityX) * (adjustmentMagnitude);
+
+    if (img->velocityX != 0) {
+      adjustmentMagnitude = intersection - adjustmentMagnitude;
+      img->pos_x = ((int) img->pos_x) - img->velocityX / abs(img->velocityX) * (adjustmentMagnitude);
+    }
+  }
+}
+
+void Sprite::resolveYCollision(Image* img, int intersection) {
+  if (velocityY != 0) {
+    double velRatio = abs(velocityY) / (abs(velocityY) + abs(img->velocityY));
+
+    int adjustmentMagnitude = round((double) intersection * velRatio);
+
+    pos_y = ((int) pos_y) - velocityY / abs(velocityY) * (adjustmentMagnitude);
+
+    if (img->velocityY != 0) {
+      adjustmentMagnitude = intersection - adjustmentMagnitude;
+      img->pos_y = ((int) img->pos_y) - img->velocityY / abs(img->velocityY) * (adjustmentMagnitude);
+    }
+  }
 }
 
 Sprite::~Sprite() {

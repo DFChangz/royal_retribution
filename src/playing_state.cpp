@@ -118,8 +118,6 @@ void PlayingState::setup() {
     WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'n' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 92, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'n' to clear text ");
-  images[top+"cInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 60, 16, "Press 'e' to open chest. Press 'n' to clear text");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
@@ -209,31 +207,8 @@ void PlayingState::update(double seconds) {
   checkFollow();
   enemyFollow();
 
-//  SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 0);
 //  SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0);
 //  SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
-  //displaying instructions for chests
-  int chestBorder1X= images[add+"key"]->getDestRect()->w + images[ppl+"king"]->getDestRect()->w;
-  int chestBorder1Y = images[add+"key"]->getDestRect()->h + images[ppl+"king"]->getDestRect()->h;
-  int chestBorder2X = images[add+"coin"]->getDestRect()->w + images[ppl+"king"]->getDestRect()->w;
-  int chestBorder2Y = images[add+"coin"]->getDestRect()->y + images[ppl+"king"]->getDestRect()->h;
-
-  if(images[ppl+"king"]->getDestRect()->x <= images[add+"key"]->getDestRect()->x + chestBorder1X
-    && images[ppl+"king"]->getDestRect()->x >= images[add+"key"]->getDestRect()->x - chestBorder1X
-    && images[ppl+"king"]->getDestRect()->y <= images[add+"key"]->getDestRect()->y + chestBorder1Y
-    && images[ppl+"king"]->getDestRect()->y >= images[add+"key"]->getDestRect()->y + chestBorder1Y){
-    activateInstructionText(chestNum);
-  }
-  if(images[ppl+"king"]->getDestRect()->x <= images[add+"coin"]->getDestRect()->x + chestBorder2X
-    && images[ppl+"king"]->getDestRect()->x >= images[add+"coin"]->getDestRect()->x - chestBorder2X
-    && images[ppl+"king"]->getDestRect()->y <= images[add+"coin"]->getDestRect()->y + chestBorder2Y
-    && images[ppl+"king"]->getDestRect()->y >= images[add+"coin"]->getDestRect()->y + chestBorder2Y){
-    activateInstructionText(chestNum);
-  }
-
-
- 
-
 
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
@@ -332,7 +307,9 @@ void PlayingState::update(double seconds) {
    pause(); }, SDLK_p);
   //Delete instruction text by pressing 'n'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   deactivateInstructionText(); }, SDLK_n);
+    deactivateInstructionText(); 
+    resume();
+  }, SDLK_n);
 }
 
 void PlayingState::checkFollow() {
@@ -357,6 +334,11 @@ void PlayingState::checkFollow() {
 void PlayingState::enemyFollow() {
   for (int i = 0; i < num_enemies; i++) {
     std::string s = ppl+"enemy_"+std::to_string(i);
+    if (static_cast<Enemy*>(images[s])->frozen){
+      images[s]->velocityX = 0;
+      images[s]->velocityY = 0;
+      continue;
+    }
     if (static_cast<Enemy*>(images[s])->following) {
       // edit x velocity
       if (images[s]->pos_x+32 < images[ppl+"king"]->pos_x) {
@@ -390,10 +372,9 @@ void PlayingState::updateExp() {
   images[top+"exp_bar"]->getDestRect()->w = w;
 }
 void PlayingState::activateInstructionText(int instruct){
-  if(instruct == chestNum){ 
 
-    SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 255);
-  }
+  pause();
+
   if(instruct == doorKeyNum){ 
 
     SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 255);
@@ -406,10 +387,10 @@ void PlayingState::activateInstructionText(int instruct){
 }
 
 void PlayingState::deactivateInstructionText(){
-    SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
-    SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 0);
-    SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
+  SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
 }
+//Health update with extra heart
 void PlayingState::updateHeartsPlus(){
   SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 255);
   switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
@@ -465,6 +446,7 @@ void PlayingState::updateHeartsPlus(){
       break;
   }
 }
+//health update with normal hearts
 void PlayingState::updateHearts(){
   SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 0);
   for(unsigned n =0; n < Character::activePowerups.size(); n++){

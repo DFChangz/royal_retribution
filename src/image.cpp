@@ -44,6 +44,7 @@ void Image::cleanup() {
 
   if (texture != nullptr) {
     SDL_DestroyTexture(texture);
+    texture = nullptr;
   }
 }
 

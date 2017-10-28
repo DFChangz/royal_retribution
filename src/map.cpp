@@ -138,6 +138,7 @@ void Map::loadSecondLayout(std::string filename) {
       bool torch = ((texture->options & 8) == 8);
       bool chest = ((texture->options & 16) == 16);
       bool hole = ((texture->options & 32) == 32);
+      bool blade = ((texture->options & 64) == 64);
       
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
@@ -155,6 +156,7 @@ void Map::loadSecondLayout(std::string filename) {
       t.image->setTrap(trap);
       t.image->setDoor(door);
       t.image->setChest(chest);
+      t.image->setBlade(blade);
       t.image->setHole(hole);
       for(unsigned i = 0; i < additions.size(); i++){
         if(t.image->pairing != -1 && additions[i].image->pairing == t.image->pairing){

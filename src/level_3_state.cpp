@@ -255,7 +255,13 @@ void Level_3_State::update(double seconds) {
    engine->setState("win"); }, SDLK_2);
   // automatically lose w/ '3'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("lose"); }, SDLK_2);
+   engine->setState("lose"); }, SDLK_3);
+  // pause w/ 'p'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   pause(); }, SDLK_p);
+  //Delete instruction text by pressing 'n'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   deactivateInstructionText(); }, SDLK_n);
 }
 
 void Level_3_State::checkFollow() {
@@ -313,6 +319,7 @@ void Level_3_State::updateExp() {
   images[top+"exp_bar"]->getDestRect()->w = w;
 }
 
+//Health update with extra heart
 void Level_3_State::updateHeartsPlus(){
   SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 255);
   switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
@@ -366,6 +373,7 @@ void Level_3_State::updateHeartsPlus(){
       break;
   }
 }
+//Health update with normal heart
 void Level_3_State::updateHearts(){
   SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 0);
   for(unsigned n =0; n < Character::activePowerups.size(); n++){

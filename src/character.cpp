@@ -200,7 +200,8 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     } 
   }
   //When collision detector detects a collision play the sound effect
-  if (image->isEnemy() && (!attacking || collisionDir != dir) && !invincible) {
+  if ((image->isEnemy() && (!attacking || collisionDir != dir) && !invincible)
+    || (static_cast<Sprite*>(image)->isBlade() && !invincible)) {
     audioHandler->play("collision", 1);
 
     hearts--;
@@ -235,6 +236,8 @@ void Character::updateExp() {
     exp--;
     level++;
     expInc -= 0.02;
+    if (level == 9) expInc = 0.02;
+    if (level == 10) expInc = 0;
   }
   state->engine->score += 1000;
 }
