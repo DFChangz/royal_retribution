@@ -236,6 +236,8 @@ void Character::updateExp() {
     exp--;
     level++;
     expInc -= 0.02;
+    if (level == 9) expInc = 0.02;
+    if (level == 10) expInc = 0;
   }
   state->engine->score += 1000;
 }
