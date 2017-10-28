@@ -12,7 +12,7 @@
 #define SPRITE_PADDING_AMOUNT_Y 20
 
 /* Maps */
-#define TILES_IMG "assets/blocks.png"
+#define TILES_IMG "assets/blocks_2.png"
 #define TILES_TXT "maps/level_legend.txt"
 #define TILES_ADD "maps/level_additions_legend.txt"
 // level 1
