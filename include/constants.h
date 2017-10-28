@@ -25,7 +25,7 @@
 #define LEVEL_2_ADD "maps/level_2_additions.txt"
 // level 3
 #define LEVEL_3 "maps/level_3.txt"
-#define LEVEL_3_E "maps/level_2_enemies.txt"
+#define LEVEL_3_E "maps/level_3_enemies.txt"
 #define LEVEL_3_ADD "maps/level_3_additions.txt"
 
 /* Fonts */

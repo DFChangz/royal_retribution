@@ -10,9 +10,9 @@
 #include "text.h"
 #include "audio.h"
 #include "engine.h"
-#include "camera.h"
 #include "event_handler.h"
 #include "collision_detector.h"
+#include "camera.h"
 enum instruction {trapNum = 2, chestNum = 3, doorKeyNum = 5};
 
 class State {
@@ -47,6 +47,7 @@ class State {
 
     double newA = 0;
     double speed = 50;
+
     int fadeIn(std::string s, int a, double seconds, double mult);
 
     std::map<std::string,Image*> images;

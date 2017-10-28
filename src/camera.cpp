@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "image.h"
 #include "character.h"
 
 Camera::Camera(ErrorHandler *errorHandler_p) : character(nullptr) {
@@ -9,6 +10,12 @@ void Camera::setCharacter(Character* character_p) {
   character = character_p;
 }
 
+void Camera::setPosition(Image *img) {
+  SDL_Rect* rect = img->getDestRect();
+  pos_x = img->pos_x - WIDTH / 2 + rect->w/2;
+  pos_y = img->pos_y - HEIGHT / 2 + rect->h/2; 
+}
+
 void Camera::updatePosition() {
   if (character != nullptr) {
     prevRect = getRect();
@@ -17,6 +24,25 @@ void Camera::updatePosition() {
     pos_x = character->pos_x - WIDTH / 2 + char_rect->w/2;
     pos_y = character->pos_y - HEIGHT / 2 + char_rect->h/2;
   }
+}
+
+bool Camera::pan(Image* to, double seconds) {
+  // destination point
+  SDL_Rect* t_rect = to->getDestRect();
+  dest_x = to->pos_x - WIDTH / 2 + t_rect->w/2;
+  dest_y = to->pos_y - HEIGHT / 2 + t_rect->h/2;
+  // edit velocity
+  if (pos_y > dest_y) {
+    velocityY = -300;
+    pos_y += velocityY * seconds;
+  } else if (pos_x > dest_x) {
+    velocityX = -300;
+    pos_x += velocityX * seconds;
+  } else {
+    start = false;
+    return true;
+  }
+  return false;
 }
 
 SDL_Rect Camera::getRect() {

@@ -20,6 +20,7 @@ void PlayingState::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 45, map->height - 150, false);
+  camera.setPosition(images[ele+"stairs"]);
   // Player 
   if (king != nullptr) {
     images[ppl+"king"] = king;
@@ -27,7 +28,6 @@ void PlayingState::setup() {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
   }
-  camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);
@@ -164,6 +164,14 @@ void PlayingState::load() {
 
 void PlayingState::update(double seconds) {
   timer += seconds;
+
+  if (!camera.pan(images[ppl+"king"], seconds)) {
+    static_cast<Character*>(images[ppl+"king"])->frozen = true;
+  } else {
+    static_cast<Character*>(images[ppl+"king"])->frozen = false;
+    camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
+  }
+
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
 
   if(Mix_PausedMusic() == 1){audioHandler.play("theme");}

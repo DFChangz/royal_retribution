@@ -4,6 +4,7 @@
 
 #include "sprite.h"
 #include "character.h"
+#include "camera.h"
 //Definitions for the the parent class that other sprite objects inherit from
 
 /*Constructor that makes a sprite from an inputed image file along with a gi-
