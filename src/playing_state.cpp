@@ -109,7 +109,7 @@ void PlayingState::setup() {
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 76, 16, "You fell down a hole. You are now on the previous floor. Press 'r' to clear text");
+    WIDTH / 3, 76, 16, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
   // FPS Counter 
@@ -269,6 +269,19 @@ void PlayingState::update(double seconds) {
     a0 = fadeOut(ppl+"king", a0, seconds, 0.5);
     activateInstructionText(holeNum);
   }
+  if(PlayingState::fallen == 2){
+    a0 = fadeOut(ppl+"king", a0, seconds, 0.5);
+    fallen = 0;
+    if(Character::currFloor == 2){
+      Character::currFloor = 1;
+      SDL_SetTextureAlphaMod(images[ppl+"king"]->getTexture(), 255);
+      engine->setState("playing");
+    }
+    if(Character::currFloor == 3){
+      Character::currFloor = 2;
+      engine->setState("level_2");
+    }
+  }
 
   // updates Health
   updateHearts();
@@ -354,8 +367,8 @@ void PlayingState::update(double seconds) {
    pause(); }, SDLK_p);
   //Delete instruction text by pressing 'r'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    deactivateInstructionText(); 
     resume();
+    deactivateInstructionText(); 
   }, SDLK_r);
 }
 
@@ -434,8 +447,7 @@ void PlayingState::activateInstructionText(int instruct){
     images[ele+"hole"]->pos_y = images[ppl+"king"]->pos_y+39;
     SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 255);
-    PlayingState::instrGiven *= holeNum;
-    PlayingState::fallen++;
+    //PlayingState::instrGiven *= holeNum;
   }
   if(instruct == trapNum && instrGiven % trapNum != 0){ 
     pause();
@@ -451,7 +463,11 @@ void PlayingState::deactivateInstructionText() {
   SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[ppl+"king"]->getTexture(), 255);
+  if(PlayingState::fallen == 1){
+    PlayingState::fallen = 2;
+    static_cast<Character*>(images[ppl+"king"])->setPosition(static_cast<Character*>(images[ppl+"king"])->startingX,
+      static_cast<Character*>(images[ppl+"king"])->startingY);
+  }
 }
 
 //Health update with extra heart

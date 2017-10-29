@@ -171,19 +171,10 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
     }
   }
   if(static_cast<Sprite*>(image)->isHole()){
-    PlayingState::fallen++;
-    setPosition(startingX, startingY);
+    PlayingState::fallen = 1;
     velocityX = 0;
     velocityY = 0;
-    
-    if(Character::currFloor == 2){
-      Character::currFloor = 1;
-      if (!frozen) state->engine->setState("playing");
-    }
-    if(Character::currFloor == 3){
-      Character::currFloor = 2;
-      if (!frozen) state->engine->setState("level_2");
-    }
+    //state->activateInstructionText(holeNum);
   }
   // either up/down
   if (intersection->w > intersection->h) {
