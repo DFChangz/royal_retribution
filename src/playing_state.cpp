@@ -274,11 +274,10 @@ void PlayingState::update(double seconds) {
     activateInstructionText(holeNum);
   }
   if(PlayingState::fallen == 2){
-    a0 = fadeOut(ppl+"king", a0, seconds, 0.5);
+    SDL_SetTextureAlphaMod(images[ppl+"king"]->getTexture(), 255);
     fallen = 0;
     if(Character::currFloor == 2){
       Character::currFloor = 1;
-      SDL_SetTextureAlphaMod(images[ppl+"king"]->getTexture(), 255);
       engine->setState("playing");
     }
     if(Character::currFloor == 3){
