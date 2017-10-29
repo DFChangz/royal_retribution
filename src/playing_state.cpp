@@ -269,7 +269,8 @@ void PlayingState::update(double seconds) {
   }*/
 
   if(PlayingState::fallen == 1){
-    a0 = fadeOut(ppl+"king", a0, seconds, 0.5);
+    a0 = fadeIn("0hole", a0, seconds, 2.5);
+    a1 = fadeOut("1king", a1, seconds, 2.5);
     activateInstructionText(holeNum);
   }
   if(PlayingState::fallen == 2){
@@ -448,7 +449,6 @@ void PlayingState::activateInstructionText(int instruct){
 
     images[ele+"hole"]->pos_x = images[ppl+"king"]->pos_x-9;
     images[ele+"hole"]->pos_y = images[ppl+"king"]->pos_y+39;
-    SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 255);
     //PlayingState::instrGiven *= holeNum;
   }

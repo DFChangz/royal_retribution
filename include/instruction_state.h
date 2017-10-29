@@ -47,7 +47,7 @@ class InstructionState : public State {
     std::string i2 = "Hold [SHIFT] to run and Press [SPACE] to attack";
     std::string sh = "[SHIFT]";
     std::string sp = "[SPACE]";
-    std::string i3 = "Press [e] while walking towards the chest";
+    std::string i3 = "Press [e] while walking towards anything (chest) to interact with it";
     std::string e = "[e]";
     std::string end = "Now Go Out There and Defend You Castle! (next [n])";
 };
