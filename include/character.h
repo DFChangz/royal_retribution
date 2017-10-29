@@ -47,6 +47,7 @@ class Character : public Sprite {
 
     static int hearts;
     static int currFloor;
+    static int highestFloor;
 
     double sta = 1;
     static int level;
