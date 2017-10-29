@@ -43,6 +43,10 @@ Created new Trap (Billy)
 ~ health powerup you will get you an extra heart
   ~ and you will regain full health.
 
+Instruction texts(Billy and Tae)
+~ when activating trap getting a key or falling down a hole, the game will pause
+   and you will get an text saying what happened.
+
 All levels are now subclassed (Billy)
 ~ fixed many bugs associated with the levels
   * enemies were not acting correctly, faciltate changing up code
