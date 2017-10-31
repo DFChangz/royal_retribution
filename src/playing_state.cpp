@@ -111,6 +111,8 @@ void PlayingState::setup() {
     WIDTH / 3, 76, 16, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+  images[top+"cInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 4, 60, 16, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text ");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
@@ -233,6 +235,7 @@ void PlayingState::update(double seconds) {
       = static_cast<Character*>(images[ppl+"king"]);
     static_cast<Pickup*>(images[add+"key"])->pickUp();
     activateInstructionText(doorKeyNum);
+    activateInstructionText(chestNum);
   }
   if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
     == static_cast<Sprite*>(images[add+"coin"])->pair
@@ -245,6 +248,7 @@ void PlayingState::update(double seconds) {
       = static_cast<Character*>(images[ppl+"king"]);
     engine->score += 1000;
     static_cast<Pickup*>(images[add+"coin"])->pickUp();
+    activateInstructionText(chestNum);
   }
 /*  if(static_cast<Sprite*>(images[add+"food"])->pair->pair
     == static_cast<Sprite*>(images[add+"food"])->pair
@@ -446,7 +450,7 @@ void PlayingState::activateInstructionText(int instruct){
     SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 255);
     PlayingState::instrGiven *= doorKeyNum;
   }
-  if(instruct == holeNum && instrGiven % holeNum != 0){ 
+  if(instruct == holeNum){ 
     pause();
 
     images[ele+"hole"]->pos_x = images[ppl+"king"]->pos_x-9;
@@ -461,12 +465,20 @@ void PlayingState::activateInstructionText(int instruct){
     PlayingState::instrGiven *= trapNum;
   }
 
+  if(instruct == chestNum && instrGiven % chestNum != 0){ 
+    pause();
+
+    SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 255); 
+    PlayingState::instrGiven *= chestNum;
+  }
+
 }
 
 void PlayingState::deactivateInstructionText() {
   SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
   if(PlayingState::fallen == 1){
     PlayingState::fallen = 2;
