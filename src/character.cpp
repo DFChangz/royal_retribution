@@ -223,7 +223,7 @@ void Character::updateSta() {
   if (sta < 0) sta = 0;
   // if running
   if (running) {
-    if (velocityX != 0 || velocityY != 0) {
+    if ((velocityX != 0 || velocityY != 0) && !staminaBypass) {
       if (sta > 0) {
         sta -= 0.02;
       } else {
@@ -293,9 +293,14 @@ void Character::createListeners(EventHandler *eventHandler) {
   
   // boost control
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    if (!frozen) speedMultiplier = 4; running = true; }, SDLK_LSHIFT);
+    if (!frozen) speedMultiplier = 4; running = true;}, SDLK_LSHIFT);
+  eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+    if (!frozen) speedMultiplier = 4; running = true; staminaBypass = true;}, SDLK_RSHIFT);
+
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     speedMultiplier = 1; running = false; }, SDLK_LSHIFT);
+  eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
+    speedMultiplier = 1; running = false; staminaBypass = false;}, SDLK_RSHIFT);
   //object interaction 
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
     if (!frozen) interacting = true;}, SDLK_e);

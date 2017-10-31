@@ -81,6 +81,7 @@ class Character : public Sprite {
     bool lastAttack = false;
     bool invincible = false;
     bool interacting = false;
+    bool staminaBypass = false;
 
     double attackingTimer = 0;
     double staSec = STA_WAITING_TIME;
