@@ -20,7 +20,6 @@ void PlayingState::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 45, map->height - 150, false);
-  camera.setPosition(images[ele+"stairs"]);
   // Hole
   images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
     errorHandler, 0, 0, false);
@@ -156,6 +155,8 @@ void PlayingState::load() {
   if (SDL_SetTextureAlphaMod(images[add+"black"]->getTexture(), 150) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
+  camera.setPosition(images[ele+"stairs"]);
+
   deactivateInstructionText();
 }
 
@@ -164,14 +165,6 @@ void PlayingState::update(double seconds) {
 
   if (Character::highestFloor > Character::currFloor) {
     skipPan = true;
-  }
-  if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
-    static_cast<Character*>(images[ppl+"king"])->frozen = true;
-    eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-      skipPan = true; }, SDLK_m);
-  } else {
-    static_cast<Character*>(images[ppl+"king"])->frozen = false;
-    camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
   }
 
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
@@ -360,6 +353,16 @@ void PlayingState::update(double seconds) {
       engine->setState("win");
     }
   }, SDLK_2);*/
+
+  if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
+    static_cast<Character*>(images[ppl+"king"])->frozen = true;
+    eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+      skipPan = true; }, SDLK_m);
+  } else {
+    static_cast<Character*>(images[ppl+"king"])->frozen = false;
+    camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
+    skipPan = true;
+  }
 
 
   // automatically lose w/ '0'
