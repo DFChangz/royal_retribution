@@ -77,10 +77,11 @@ void Enemy::update(double seconds) {
 }
 
 void Enemy::notifyCollision(Image* img, SDL_Rect* intersection) {
+  if (!img->isSword() && !img->isEnemy()) Sprite::notifyCollision(img, intersection);
+
   if(img->isEnemy() || img->isCharacter()){
     return;
   }
-  if (!img->isSword()) Sprite::notifyCollision(img, intersection);
 
   if (intersection->w > intersection->h) {
     velocityY *= -1;
