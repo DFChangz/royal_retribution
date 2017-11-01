@@ -30,7 +30,6 @@ void Level_1_State::setup() {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
   }
-  //SDL_SetTextureBlendMode(images[ppl+"king"]->getTexture(),SDL_BLENDMODE_BLEND);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);

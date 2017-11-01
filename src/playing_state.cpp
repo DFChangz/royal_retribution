@@ -23,6 +23,7 @@ void PlayingState::setup() {
   // Hole
   images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
     errorHandler, 0, 0, false);
+  SDL_SetTextureBlendMode(images[ele+"hole"]->getTexture(),SDL_BLENDMODE_BLEND);
   // Player 
   if (king != nullptr) {
     images[ppl+"king"] = king;
@@ -30,7 +31,6 @@ void PlayingState::setup() {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
   }
-  //SDL_SetTextureBlendMode(images[ppl+"king"]->getTexture(),SDL_BLENDMODE_BLEND);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
@@ -138,6 +138,7 @@ void PlayingState::load() {
   // setup hole
   images[ele+"hole"]->getDestRect()->h = 22;
   images[ele+"hole"]->getDestRect()->w = 50;
+  SDL_SetTextureBlendMode(images[ele+"hole"]->getTexture(),SDL_BLENDMODE_BLEND);
   SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
 
   for (int i = 0; i < num_lights; i++) {
@@ -268,8 +269,8 @@ void PlayingState::update(double seconds) {
   }*/
 
   if(PlayingState::fallen == 1){
-    a0 = fadeIn("0hole", a0, seconds, 2.5);
-    a1 = fadeOut("1king", a1, seconds, 2.5);
+    a0 = fadeIn(ele+"hole", a0, seconds, 6);
+    a1 = fadeOut(ppl+"king", a1, seconds, 2);
     activateInstructionText(holeNum);
   }
   if(PlayingState::fallen == 2){
@@ -477,6 +478,8 @@ void PlayingState::activateInstructionText(int instruct){
 }
 
 void PlayingState::deactivateInstructionText() {
+  a0 = 0;
+  a1 = 255;
   SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 

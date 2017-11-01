@@ -49,8 +49,8 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-  std::cout << "charX: " << pos_x << "\n";
-  std::cout << "charY: " << pos_y << "\n";
+  //std::cout << "charX: " << pos_x << "\n";
+  //std::cout << "charY: " << pos_y << "\n";
 
   // update sta
   if (!frozen) updateSta();
