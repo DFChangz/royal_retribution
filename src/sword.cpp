@@ -62,7 +62,7 @@ void Sword::render(Camera* camera, double interpol_alpha) {
   if (attacking) {
     SDL_SetTextureAlphaMod(texture, 255);
   } else {
-    SDL_SetTextureAlphaMod(texture, 100);
+    SDL_SetTextureAlphaMod(texture, 0);
   }
   Sprite::render(camera, interpol_alpha);
 }
