@@ -20,7 +20,7 @@ class Image {
     virtual void render(Camera* camera = nullptr, double interpol_alpha = 1);
     virtual void cleanup();
 
-    virtual void notifyCollision(Image*, SDL_Rect*) {};
+    virtual void notifyCollision(Image*, SDL_Rect*, bool = false) {};
 
     virtual bool isCollidable();
     virtual void setCollidable(bool);

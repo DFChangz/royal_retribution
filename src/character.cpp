@@ -148,7 +148,8 @@ void Character::idleAnimation(double seconds) {
   Sprite::animate(seconds, pos, pos + IDLE_FRAMES - 1);
 }
 
-void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
+void Character::notifyCollision(Image* image, SDL_Rect* intersection,
+  bool resolved) {
   std::string collisionDir = "";
 
   /*after stepping on a trap tile the associated door appears and is collidable
@@ -215,7 +216,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection) {
 
     invincibilitySeconds = 0;
   }
-  if (!image->isSword()) Sprite::notifyCollision(image, intersection);
+  if (!image->isSword()) Sprite::notifyCollision(image, intersection, resolved);
 }
 
 void Character::updateSta() {

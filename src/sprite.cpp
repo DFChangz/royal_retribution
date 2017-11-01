@@ -127,7 +127,8 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 
 /*if the intersection of 2 collidable sprites have more height overlap, y 
 velocity changes direction if more width, x direction changes*/
-void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
+void Sprite::notifyCollision(Image* img, SDL_Rect* intersection, bool resolved) {
+  if (!resolved) {
 
  /* if (pair != nullptr){
     pair->collidable = true;
@@ -136,6 +137,7 @@ void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
   /*if (abs(velocityY) > abs(velocityX)) {
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/
+
     if (intersection->w > intersection->h) {
       resolveYCollision(img, intersection->h);
     } else {
@@ -145,8 +147,12 @@ void Sprite::notifyCollision(Image* img, SDL_Rect* intersection) {
     resolveXCollision(img, intersection->w);
   }*/
 
-  setPosition(pos_x, pos_y);
-  img->setPosition(img->pos_x, img->pos_y);
+    setPosition(pos_x, pos_y);
+    img->setPosition(img->pos_x, img->pos_y);
+
+
+    img->notifyCollision(this, intersection, true);
+  }
 }
 
 void Sprite::resolveXCollision(Image* img, int intersection) {

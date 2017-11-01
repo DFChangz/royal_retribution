@@ -39,7 +39,7 @@ class Character : public Sprite {
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
      int pos_x, int pos_y, EventHandler*, Audio*, State*);
 
-    virtual void notifyCollision(Image*, SDL_Rect* intersection);
+    virtual void notifyCollision(Image*, SDL_Rect* intersection, bool resolved = false);
     virtual void update(double seconds);
     virtual void render(Camera*, double interpol_alpha = 1);
     virtual void cleanup();

@@ -21,7 +21,7 @@ class Sprite : public Image {
     virtual void update(double seconds);
     virtual void render(Camera*, double interpol_alpha = 1);
 
-    virtual void notifyCollision(Image*, SDL_Rect*);
+    virtual void notifyCollision(Image*, SDL_Rect*, bool resolved = false);
 
     virtual bool isCollidable();
     virtual void setCollidable(bool);
