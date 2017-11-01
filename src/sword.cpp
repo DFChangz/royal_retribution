@@ -30,7 +30,6 @@ void Sword::update(double seconds) {
   
   if (lastAttack
       && attackingTimer > ATTACK_FRAMES/(CHARACTER_FPS*speedMultiplier)) {
-    hit = false;
     attacking = false;
     lastAttack = false;
   }
@@ -41,19 +40,19 @@ void Sword::update(double seconds) {
     switch (dir[0]) {
       case 'u':
         Sprite::animate(seconds, U_SWORD_POS, U_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS);
         break;
       case 'd':
         Sprite::animate(seconds, D_SWORD_POS, D_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS);
         break;
       case 'r':
         Sprite::animate(seconds, R_SWORD_POS, R_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS);
         break;
       case 'l':
         Sprite::animate(seconds, L_SWORD_POS, L_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS);
         break;
     }
   }
@@ -72,21 +71,22 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection, bool) {
   if (intersection) {}
 
   //check y position
-  if (image->pos_x+32 > pos_x+4 && image->pos_x < pos_x+108) {
-    if (image->pos_y+50 > pos_y+3 && image->pos_y+50 <= king->pos_y)
+  if (image->pos_x+32 > pos_x && image->pos_x < pos_x+112) {
+    if (image->pos_y+50 > pos_y && image->pos_y+50 < king->pos_y+25)
       collisionDir = "up";
-    if (image->pos_y >= king->pos_y+50 && image->pos_y < pos_y+109)
+    if (image->pos_y > king->pos_y+25 && image->pos_y < pos_y+112)
       collisionDir = "down";
   }
   // check x positoin
-  if (image->pos_y+50 > pos_y+3 && image->pos_y < pos_y+109) {
-    if (image->pos_x+32 > pos_x+4 && image->pos_x+32 <= king->pos_x)
+  if (image->pos_y+50 > pos_y && image->pos_y < pos_y+112) {
+    if (image->pos_x+32 > pos_x && image->pos_x+32 < king->pos_x+10)
       collisionDir = "left";
-    if (image->pos_x >= king->pos_x+32 && image->pos_x < pos_x+108)
+    if (image->pos_x >= king->pos_x+22 && image->pos_x < pos_x+112)
       collisionDir = "right";
   }
   // enemies die when attacked
-  if (attacking && image->isEnemy() && collisionDir == dir) {
+  if (attacking && image->isEnemy() && collisionDir == dir
+      && !static_cast<Enemy*>(image)->isDead()) {
     static_cast<Enemy*>(image)->kill();
     audioHandler->play("kill", 1);
     if (this->king->pair != nullptr) {
@@ -95,8 +95,7 @@ void Sword::notifyCollision(Image* image, SDL_Rect* intersection, bool) {
       this->king->pair = nullptr;
       state->deactivateInstructionText();
     }
-    if (!hit) static_cast<Character*>(king)->updateExp();
-    hit = true;
+    static_cast<Character*>(king)->updateExp();
   }
 }
 

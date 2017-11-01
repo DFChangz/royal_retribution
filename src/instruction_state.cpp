@@ -22,6 +22,8 @@ void InstructionState::setup() {
   images["0king"] = new Character(engine->renderer, ANI_FILENAME, errorHandler,
     16, 25, 619, 2214, &eventHandler, &audioHandler, this);
   camera.setCharacter(static_cast<Character*>(images["0king"]));
+  SDL_SetTextureBlendMode(images["0king"]->getTexture(),SDL_BLENDMODE_BLEND);
+  SDL_SetTextureAlphaMod(images["0king"]->getTexture(), 0);
   images["0sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, 0, 0, static_cast<Sprite*>(images["0king"]), &eventHandler, &audioHandler, this);
   // instructions
@@ -84,7 +86,9 @@ void InstructionState::load() {
   for (it = images.begin(); it != images.end(); it++) {
     if (it->first[0] == '1') {
       if (it->first != "1skip") {
-        SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
+        if (SDL_SetTextureAlphaMod(it->second->getTexture(), 0) < 0) {
+          errorHandler->quit(__func__, SDL_GetError());
+        }
       }
       auto center = getCenterForImage(it->second);
       it->second->setPosition(std::get<0>(center), std::get<1>(center));
@@ -115,6 +119,7 @@ void InstructionState::load() {
   static_cast<Sprite*>(images[top+"heart_1"])->setSrcRect(0, 0, 32, 32);
   static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(0, 0, 32, 32);
   static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(0, 0, 32, 32);
+
 }
 
 /* updates the screen */
@@ -193,18 +198,21 @@ void InstructionState::update(double seconds) {
     a6 = fadeIn("1shift", a6, seconds, 4);
     a7 = fadeIn("1space", a7, seconds, 4);
 
-  // determine if all action buttons were pressed
-  eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    SDL_SetTextureColorMod(images["1shift"]->getTexture(), 0, 255, 0);
-    run = true;
-  }, SDLK_LSHIFT);
-  eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    SDL_SetTextureColorMod(images["1space"]->getTexture(), 0, 255, 0);
-    attack = true;
-  }, SDLK_SPACE);
+    // determine if all action buttons were pressed
+    if (static_cast<Character*>(images["0king"])->running
+        && (static_cast<Sprite*>(images["0king"])->velocityX != 0
+            || static_cast<Sprite*>(images["0king"])->velocityY != 0))
+    {
+      SDL_SetTextureColorMod(images["1shift"]->getTexture(), 0, 255, 0);
+      run = true;
+    }
+    eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+      SDL_SetTextureColorMod(images["1space"]->getTexture(), 0, 255, 0);
+      attack = true;
+    }, SDLK_SPACE);
   }
 
-  // if so, end
+  // if ran and attacked
   if (run && attack) {
     SDL_SetTextureAlphaMod(images["1i2"]->getTexture(), 0);
     SDL_SetTextureAlphaMod(images["1shift"]->getTexture(), 0);
@@ -212,10 +220,12 @@ void InstructionState::update(double seconds) {
     a9 = fadeIn("1i3", a9, seconds, 4);
     a10 = fadeIn("1open", a10, seconds, 4);
 
-    eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-      SDL_SetTextureColorMod(images["1open"]->getTexture(), 0, 255, 0);
-      open = true;
-    }, SDLK_e);
+    if (images["0king"]->pos_x >= 832 && images["0king"]->pos_y <= 2112) {
+      eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
+        SDL_SetTextureColorMod(images["1open"]->getTexture(), 0, 255, 0);
+        open = true;
+      }, SDLK_e);
+    }
   }
 
   if (open) {

@@ -122,6 +122,8 @@ void Level_1_State::setup() {
     WIDTH / 3, 76, 16, "You fell down a hole.You are now on the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+  images[top+"cInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 4, 60, 16, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text ");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
@@ -333,6 +335,7 @@ void Level_1_State::update(double seconds) {
     engine->score += 1000;
     static_cast<Pickup*>(images[add+"food"])->pickUp();
     Character::hearts = 8;
+    activateInstructionText(chestNum);
 
   }
 

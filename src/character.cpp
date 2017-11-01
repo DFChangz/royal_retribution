@@ -55,8 +55,7 @@ void Character::update(double seconds) {
   // update sta
   if (!frozen) updateSta();
 
-  if (lastAttack && attackingTimer
-      > 1/(CHARACTER_FPS*speedMultiplier)*ATTACK_FRAMES) {
+  if (lastAttack && attackingTimer > 1/(CHARACTER_FPS)*ATTACK_FRAMES) {
     attacking = false;
     lastAttack = false;
   }
@@ -79,7 +78,6 @@ void Character::update(double seconds) {
   if (!attacking) {
     if (velocityX > 0) {
       dir = "right";
-
       Sprite::animate(seconds, R_RUNNING_POS, R_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
     } else if (velocityX < 0) {
@@ -102,17 +100,16 @@ void Character::update(double seconds) {
   if (attacking) {
     if (dir == "up")
       Sprite::animate(seconds, U_ATTACK_POS, U_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS);
     else if (dir == "down")
       Sprite::animate(seconds, D_ATTACK_POS, D_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS);
     else if (dir == "right")
       Sprite::animate(seconds, R_ATTACK_POS, R_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
-      
+        CHARACTER_FPS);
     else if (dir == "left")
       Sprite::animate(seconds, L_ATTACK_POS, L_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS*speedMultiplier);
+        CHARACTER_FPS);
   }
   if (Character::currFloor == 2 && Character::highestFloor == 1) {
     Character::highestFloor = 2;
@@ -125,8 +122,10 @@ void Character::update(double seconds) {
 void Character::render(Camera* camera, double interpol_alpha) {
   if (invincibilitySeconds < INVINCIBLE_TIME)
     SDL_SetTextureAlphaMod(texture, 100);
-  else
-    SDL_SetTextureAlphaMod(texture, 255);
+  else {
+    if (!falling) SDL_SetTextureAlphaMod(texture, 255);
+    hurt = false;
+  }
 
   Sprite::render(camera, interpol_alpha);
  
@@ -179,6 +178,7 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection,
   }
   if(static_cast<Sprite*>(image)->isHole()){
     PlayingState::fallen = 1;
+    falling = true;
     velocityX = 0;
     velocityY = 0;
     //state->activateInstructionText(holeNum);
@@ -212,7 +212,10 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection,
     || (static_cast<Sprite*>(image)->isBlade() && !invincible)) {
     audioHandler->play("collision", 1);
 
-    hearts--;
+    if (!hurt) {
+      hearts--;
+      hurt = true;
+    }
 
     invincibilitySeconds = 0;
   }

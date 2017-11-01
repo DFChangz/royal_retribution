@@ -27,7 +27,7 @@ void Level_3_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 128, 358, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 3698, 1469, &eventHandler, &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
@@ -108,6 +108,8 @@ void Level_3_State::setup() {
     WIDTH / 3, 76, 16, "You fell down a hole.You are now on the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+  images[top+"cInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH / 4, 60, 16, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text ");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
