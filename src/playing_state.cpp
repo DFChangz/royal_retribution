@@ -31,9 +31,11 @@ void PlayingState::setup() {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
   }
+  //SDL_SetTextureBlendMode(images[ppl+"king"]->getTexture(),SDL_BLENDMODE_BLEND);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);
+    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
+    &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_1_E);
   int x = -1;
@@ -404,9 +406,9 @@ void PlayingState::enemyFollow() {
     }
     if (static_cast<Enemy*>(images[s])->following) {
       // edit x velocity
-      if (images[s]->pos_x+32 < images[ppl+"king"]->pos_x) {
+      if (images[s]->pos_x+32 < images[ppl+"king"]->pos_x+1) {
         images[s]->velocityX = 100;
-      } else if (images[s]->pos_x > images[ppl+"king"]->pos_x+32) {
+      } else if (images[s]->pos_x > images[ppl+"king"]->pos_x+31) {
         images[s]->velocityX = -100;
       } else {
         images[s]->velocityX = 0;
@@ -461,14 +463,16 @@ void PlayingState::activateInstructionText(int instruct){
 }
 
 void PlayingState::deactivateInstructionText() {
+  SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
   if(PlayingState::fallen == 1){
     PlayingState::fallen = 2;
-    static_cast<Character*>(images[ppl+"king"])->setPosition(static_cast<Character*>(images[ppl+"king"])->startingX,
-      static_cast<Character*>(images[ppl+"king"])->startingY);
+    static_cast<Character*>(images[ppl+"king"])->
+      setPosition(static_cast<Character*>(images[ppl+"king"])->startingX,
+                  static_cast<Character*>(images[ppl+"king"])->startingY);
+    static_cast<Character*>(images[ppl+"king"])->falling = false;
   }
 }
 

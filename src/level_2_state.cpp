@@ -24,6 +24,7 @@ void Level_2_State::setup() {
   // Hole
   images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
     errorHandler, 0, 0, false);
+  SDL_SetTextureBlendMode(images[ele+"hole"]->getTexture(),SDL_BLENDMODE_BLEND);
   // King
   if (king != nullptr) {
     images[ppl+"king"] = king;
@@ -31,6 +32,7 @@ void Level_2_State::setup() {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 128, 358, &eventHandler, &audioHandler, this);
   }
+  //SDL_SetTextureBlendMode(images[ppl+"king"]->getTexture(),SDL_BLENDMODE_BLEND);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);

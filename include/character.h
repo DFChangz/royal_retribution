@@ -57,7 +57,9 @@ class Character : public Sprite {
     double startingX = 0.0;
     double startingY = 0.0;
 
+    bool hurt = false;
     bool frozen = false;
+    bool falling = false;
     bool running = false;
     bool leveledUp = false;
 

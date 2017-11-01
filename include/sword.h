@@ -38,7 +38,6 @@ class Sword : public Sprite {
     State* state = nullptr;
     Audio *audioHandler = nullptr;
 
-    bool hit = false;
     bool attacking = false;
     bool lastAttack = false;
 
