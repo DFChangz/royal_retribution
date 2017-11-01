@@ -127,8 +127,10 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 
 /*if the intersection of 2 collidable sprites have more height overlap, y 
 velocity changes direction if more width, x direction changes*/
-void Sprite::notifyCollision(Image* img, SDL_Rect* intersection, bool resolved) {
+void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
   if (!resolved) {
+  /*if (isCharacter() || img->isCharacter())
+    std::cout << "---------------" << std::endl;*/
 
  /* if (pair != nullptr){
     pair->collidable = true;
@@ -138,49 +140,65 @@ void Sprite::notifyCollision(Image* img, SDL_Rect* intersection, bool resolved) 
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/
 
-    if (intersection->w > intersection->h) {
-      resolveYCollision(img, intersection->h);
+    if (velocityX == 0 && velocityY == 0 && (img->velocityX != 0 ||
+      img->velocityY != 0)) {
+
+      img->notifyCollision(this, intersection, false);
     } else {
-      resolveXCollision(img, intersection->w);
+      if (intersection->w > intersection->h) {
+        resolveYCollision(img, intersection->h);
+      } else {
+        resolveXCollision(img, intersection->w);
+      }
+
+      img->notifyCollision(this, intersection, true);
+
+      setPosition(pos_x, pos_y);
+      img->setPosition(img->pos_x, img->pos_y);
     }
   /*} else {
     resolveXCollision(img, intersection->w);
   }*/
-
-    setPosition(pos_x, pos_y);
-    img->setPosition(img->pos_x, img->pos_y);
-
-
-    img->notifyCollision(this, intersection, true);
   }
 }
 
-void Sprite::resolveXCollision(Image* img, int intersection) {
+void Sprite::resolveXCollision(Image* img, double intersection) {
   if (velocityX != 0) {
     double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
 
-    int adjustmentMagnitude = round((double) intersection * velRatio);
-    pos_x = ((int) pos_x) - velocityX / abs(velocityX) * (adjustmentMagnitude);
+    //int adjustmentMagnitude = round((double) intersection * velRatio);
+    double adjustmentMagnitude = intersection * velRatio;
+    pos_x -= velocityX / abs(velocityX) * (adjustmentMagnitude);
 
     if (img->velocityX != 0) {
       adjustmentMagnitude = intersection - adjustmentMagnitude;
-      img->pos_x = ((int) img->pos_x) - img->velocityX / abs(img->velocityX) * (adjustmentMagnitude);
+      img->pos_x -= img->velocityX / abs(img->velocityX) * (adjustmentMagnitude);
     }
   }
 }
 
-void Sprite::resolveYCollision(Image* img, int intersection) {
+void Sprite::resolveYCollision(Image* img, double intersection) {
   if (velocityY != 0) {
     double velRatio = abs(velocityY) / (abs(velocityY) + abs(img->velocityY));
 
-    int adjustmentMagnitude = round((double) intersection * velRatio);
+    double adjustmentMagnitude = intersection * velRatio;
 
-    pos_y = ((int) pos_y) - velocityY / abs(velocityY) * (adjustmentMagnitude);
+    pos_y -= velocityY / abs(velocityY) * (adjustmentMagnitude);
 
     if (img->velocityY != 0) {
       adjustmentMagnitude = intersection - adjustmentMagnitude;
-      img->pos_y = ((int) img->pos_y) - img->velocityY / abs(img->velocityY) * (adjustmentMagnitude);
+      img->pos_y -= img->velocityY / abs(img->velocityY) * (adjustmentMagnitude);
     }
+
+    /*if (isCharacter() || img->isCharacter()) {
+      if (isCharacter()) {
+        std::cout << "CHAR: " << pos_y << std::endl;
+        std::cout << "ENEMY: " << img->pos_y + 50 << std::endl;
+      } else {
+        std::cout << "CHAR: " << img->pos_y << std::endl;
+        std::cout << "ENEMY: " << pos_y + 50 << std::endl;
+      }
+    }*/
   }
 }
 

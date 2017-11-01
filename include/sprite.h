@@ -3,6 +3,7 @@
 
 #include "image.h"
 #include "constants.h"
+#include "types.h"
 
 /*header file for the sprite class that inherits from image and is the parent 
 class of the 2 moveable object  classes character and enemy. Holds a velocity
@@ -21,7 +22,7 @@ class Sprite : public Image {
     virtual void update(double seconds);
     virtual void render(Camera*, double interpol_alpha = 1);
 
-    virtual void notifyCollision(Image*, SDL_Rect*, bool resolved = false);
+    virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
 
     virtual bool isCollidable();
     virtual void setCollidable(bool);
@@ -69,8 +70,8 @@ class Sprite : public Image {
     bool hole = false;
     bool blade = false;
 
-    void resolveXCollision(Image*, int);
-    void resolveYCollision(Image*, int);
+    void resolveXCollision(Image*, double);
+    void resolveYCollision(Image*, double);
 };
 
 #endif

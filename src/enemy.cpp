@@ -81,7 +81,7 @@ void Enemy::update(double seconds) {
   }
 }
 
-void Enemy::notifyCollision(Image* img, SDL_Rect* intersection, bool resolved) {
+void Enemy::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
   if (!img->isSword() && !img->isEnemy()) Sprite::notifyCollision(img,
                                                   intersection, resolved);
 

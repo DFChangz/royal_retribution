@@ -5,6 +5,7 @@
 #include <vector>
 #include "image.h"
 #include "map.h"
+#include "types.h"
 
 #define BUCKET_ROWS 50
 #define BUCKET_COLS 50
@@ -20,6 +21,7 @@ class CollisionDetector {
 
     void updateBuckets(Image* image, Map* map = nullptr);
   private:
+    bool getIntersection(Image*, Image*, doubleRect*);
     void checkInBuckets(Camera*, Map* map = nullptr);
     void checkCollision(Image*, Image*);
     std::vector<collision_bucket> buckets;

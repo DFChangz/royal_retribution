@@ -120,11 +120,11 @@ void Character::update(double seconds) {
 }
 
 void Character::render(Camera* camera, double interpol_alpha) {
-  if (invincibilitySeconds < INVINCIBLE_TIME)
+  if (invincibilitySeconds < INVINCIBLE_TIME) {
     SDL_SetTextureAlphaMod(texture, 100);
-  else {
+  } else {
     if (!falling) SDL_SetTextureAlphaMod(texture, 255);
-    hurt = false;
+    //hurt = false;
   }
 
   Sprite::render(camera, interpol_alpha);
@@ -147,7 +147,7 @@ void Character::idleAnimation(double seconds) {
   Sprite::animate(seconds, pos, pos + IDLE_FRAMES - 1);
 }
 
-void Character::notifyCollision(Image* image, SDL_Rect* intersection,
+void Character::notifyCollision(Image* image, doubleRect* intersection,
   bool resolved) {
   std::string collisionDir = "";
 
@@ -207,19 +207,20 @@ void Character::notifyCollision(Image* image, SDL_Rect* intersection,
       }
     } 
   }
+
+  if (!image->isSword()) Sprite::notifyCollision(image, intersection, resolved);
   //When collision detector detects a collision play the sound effect
+
   if ((image->isEnemy() && (!attacking || collisionDir != dir) && !invincible)
     || (static_cast<Sprite*>(image)->isBlade() && !invincible)) {
+
     audioHandler->play("collision", 1);
 
-    if (!hurt) {
-      hearts--;
-      hurt = true;
-    }
+    hearts--;
 
     invincibilitySeconds = 0;
+    invincible = true;
   }
-  if (!image->isSword()) Sprite::notifyCollision(image, intersection, resolved);
 }
 
 void Character::updateSta() {
