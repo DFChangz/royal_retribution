@@ -47,10 +47,14 @@ void Level_1_State::setup() {
 
   // Lights
   num_lights = map->pushLights(images);
-
   // Black
   images[add+"black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler,
     0, 0, false);
+
+  // Skip Pan Test
+  images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH/2-170, HEIGHT-35, 30, "Press [m] to Skip Pan", ROYAL_GOLD);
+
   // Score
   images[top+"score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));
@@ -353,6 +357,7 @@ void Level_1_State::update(double seconds) {
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
     king = images[ppl+"king"]; 
     Character::currFloor = 2;
+    if (Character::highestFloor == 1) Character::highestFloor = 2;
     engine->setState("level_2");
   }
   // go to floor 2
@@ -364,6 +369,7 @@ void Level_1_State::update(double seconds) {
     static_cast<Character*>(images[ppl+"king"])->dir = "down";
     king = images[ppl+"king"];
     Character::currFloor = 2;
+    if (Character::highestFloor == 1) Character::highestFloor = 2;
     engine->setState("level_2");
    }, SDLK_2);
 }

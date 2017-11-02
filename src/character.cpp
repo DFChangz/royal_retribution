@@ -111,12 +111,6 @@ void Character::update(double seconds) {
       Sprite::animate(seconds, L_ATTACK_POS, L_ATTACK_POS + ATTACK_FRAMES - 1,
         CHARACTER_FPS);
   }
-  if (Character::currFloor == 2 && Character::highestFloor == 1) {
-    Character::highestFloor = 2;
-  }
-  if (Character::currFloor == 3 && Character::highestFloor == 2) {
-    Character::highestFloor = 3;
-  }
 }
 
 void Character::render(Camera* camera, double interpol_alpha) {

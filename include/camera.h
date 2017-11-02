@@ -26,15 +26,15 @@ class Camera {
 
     SDL_Rect getRect();
   private:
+    int counter  = 1;
+
+    bool left = false;
     bool start = true;
 
     double pos_x = 0.0;
     double pos_y = 0.0;
     double dest_x = 0.0;
     double dest_y = 0.0;
-
-    double velocityX = 0.0;
-    double velocityY = 0.0;
 
     ErrorHandler* errorHandler;
 

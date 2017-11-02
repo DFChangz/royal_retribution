@@ -67,9 +67,7 @@ void Sword::render(Camera* camera, double interpol_alpha) {
   Sprite::render(camera, interpol_alpha);
 }
 
-void Sword::notifyCollision(Image* image, SDL_Rect* intersection) {
-  if (intersection) {}
-
+void Sword::notifyCollision(Image* image, SDL_Rect*) {
   //check y position
   if (image->pos_x+32 > pos_x && image->pos_x < pos_x+112) {
     if (image->pos_y+50 > pos_y && image->pos_y+50 < king->pos_y+25)

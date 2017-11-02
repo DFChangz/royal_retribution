@@ -49,10 +49,14 @@ void PlayingState::setup() {
 
   // Lights
   num_lights = map->pushLights(images);
-
   // Black
   images[add+"black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler,
     0, 0, false);
+
+  // Skip Pan Test
+  images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    WIDTH/2-170, HEIGHT-35, 30, "Press [m] to Skip Pan", ROYAL_GOLD);
+
   // Score
   images[top+"score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));
@@ -167,10 +171,6 @@ void PlayingState::load() {
 
 void PlayingState::update(double seconds) {
   timer += seconds;
-
-  if (Character::highestFloor > Character::currFloor) {
-    skipPan = true;
-  }
 
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
 
@@ -366,6 +366,7 @@ void PlayingState::update(double seconds) {
     eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
       skipPan = true; }, SDLK_m);
   } else {
+    SDL_SetTextureAlphaMod(images[top+"skip"]->getTexture(), 0);
     static_cast<Character*>(images[ppl+"king"])->frozen = false;
     camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
     skipPan = true;

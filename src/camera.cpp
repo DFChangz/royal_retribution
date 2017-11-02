@@ -33,15 +33,24 @@ bool Camera::pan(Image* to, double seconds) {
   dest_y = to->pos_y - HEIGHT / 2 + t_rect->h/2;
 
   // edit velocity
-  if (pos_y > dest_y) {
-    velocityY = -500;
-    pos_y += velocityY * seconds;
-  } else if (pos_x > dest_x) {
-    velocityX = -500;
-    pos_x += velocityX * seconds;
-  } else {
-    start = false;
-    return true;
+  switch (counter) {
+    case 1:
+      pos_y -= 500 * seconds;
+      if (pos_y <= dest_y) counter++;
+      break;
+    case 2:
+      if (pos_x > dest_x) left = true;
+      if (left) {
+        if (pos_x > dest_x) pos_x -= 500 * seconds;
+        else counter++;
+      } else {
+        if (pos_x < dest_x) pos_x += 500 * seconds;
+        else counter++;
+      }
+      break;
+    case 3:
+      start = false;
+      return true;
   }
   return false;
 }
