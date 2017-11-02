@@ -67,7 +67,6 @@ void CollisionDetector::checkInBuckets(Camera* camera, Map* map) {
 
       if (!SDL_HasIntersection(&bucket_rect, &camera_rect)) continue;
     }
-
     for (auto img1_it = bucket_it->begin(); img1_it != bucket_it->end();
       img1_it++) {
       for (auto img2_it = bucket_it->begin(); img2_it != bucket_it->end();
@@ -86,13 +85,48 @@ void CollisionDetector::checkCollision(Image* img1, Image* img2) {
   if (img1->isCollidable() && img2->isCollidable() && img1->getDestRect() != nullptr &&
       img2->getDestRect() != nullptr) {
 
-    SDL_Rect intersection;
-    if (SDL_IntersectRect(img1->getDestRect(), img2->getDestRect(),
-      &intersection) == SDL_TRUE) {
-
+    doubleRect intersection;
+    /*SDL_Rect img1Rect = *(img1->getDestRect());
+    img1Rect.x = img1->pos_x;
+    img1Rect.y = img1->pos_y;
+    SDL_Rect img2Rect = *(img2->getDestRect());
+    img2Rect.x = img2->pos_x;
+    img2Rect.y = img2->pos_y;*/
+    //if (SDL_IntersectRect(&img1Rect, &img2Rect,
+    //  &intersection) == SDL_TRUE) {
+    if (getIntersection(img1, img2, &intersection)) {
         img1->notifyCollision(img2, &intersection);
     }
   }
+}
+
+bool CollisionDetector::getIntersection(Image* img1, Image* img2, doubleRect* intersection) {
+  double aMin, bMin, aMax, bMax;
+
+  aMin = img1->pos_x;
+  aMax = aMin + img1->getDestRect()->w;
+  bMin = img2->pos_x;
+  bMax = bMin + img2->getDestRect()->w;
+  if (bMin > aMin)
+    aMin = bMin;
+  intersection->x = aMin;
+  if (bMax < aMax)
+    aMax = bMax;
+  intersection->w = aMax - aMin;
+
+  aMin = img1->pos_y;
+  aMax = aMin + img1->getDestRect()->h;
+  bMin = img2->pos_y;
+  bMax = bMin + img2->getDestRect()->h;
+  if (bMin > aMin)
+    aMin = bMin;
+  intersection->y = aMin;
+  if (bMax < aMax)
+    aMax = bMax;
+  intersection->h = aMax - aMin;
+
+  if (intersection->w > 0 && intersection->h > 0) return true;
+  return false;
 }
 
 // Updates the buckets for the specified image
@@ -108,7 +142,6 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
     height = map->height;
   }
 
-  if (!image->isCollidable()) return;
   int x = image->pos_x;
   int y = image->pos_y;
 
@@ -124,7 +157,7 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
     ) {
     grid_rect.x = *bucket % BUCKET_COLS * GRID_WIDTH;
     grid_rect.y = *bucket / BUCKET_ROWS * GRID_HEIGHT;
-    if (!SDL_HasIntersection(&grid_rect, image_rect)) {
+    if (!image->isCollidable() || !SDL_HasIntersection(&grid_rect, image_rect)) {
       auto img_bucket = &(buckets[*bucket]);
       img_bucket->erase(std::find((*img_bucket).begin(), (*img_bucket).end(), image));
       bucket = image->buckets.erase(bucket);
@@ -132,6 +165,8 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
       bucket++;
     }
   }
+
+  if (!image->isCollidable()) return;
 
   grid_rect.x = grid_x * GRID_WIDTH;
   grid_rect.y = grid_y * GRID_HEIGHT;

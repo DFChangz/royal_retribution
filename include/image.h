@@ -8,6 +8,7 @@
 #include "error_handler.h"
 #include "types.h"
 #include "constants.h"
+#include "types.h"
 
 /*Header file for the base class image which handles an image and makes it 
 into a texture to be rendered by the game engine also hold a collision detector
@@ -20,7 +21,7 @@ class Image {
     virtual void render(Camera* camera = nullptr, double interpol_alpha = 1);
     virtual void cleanup();
 
-    virtual void notifyCollision(Image*, SDL_Rect*) {};
+    virtual void notifyCollision(Image*, doubleRect*, bool = false) {};
 
     virtual bool isCollidable();
     virtual void setCollidable(bool);

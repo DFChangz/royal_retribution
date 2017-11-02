@@ -13,6 +13,7 @@
 #include "sprite.h"
 #include "constants.h"
 #include "event_handler.h"
+#include "types.h"
 
 class State;
 class Sword : public Sprite {
@@ -25,7 +26,7 @@ class Sword : public Sprite {
 
     virtual void update(double seconds);
     virtual void render(Camera*, double interpol_alpha = 1);
-    virtual void notifyCollision(Image*, SDL_Rect*);
+    virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
 
     virtual void cleanup();
 

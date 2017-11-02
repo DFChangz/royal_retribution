@@ -47,6 +47,11 @@ void Enemy::thaw() {
 }
 
 void Enemy::update(double seconds) {
+  if (flipXVelocity) velocityX *= -1;
+  if (flipYVelocity) velocityY *= -1;
+  flipXVelocity = false;
+  flipYVelocity = false;
+
   Sprite::update(seconds);
 
   if (this->dead) {
@@ -76,17 +81,18 @@ void Enemy::update(double seconds) {
   }
 }
 
-void Enemy::notifyCollision(Image* img, SDL_Rect* intersection) {
-  if (!img->isSword() && !img->isEnemy()) Sprite::notifyCollision(img, intersection);
+void Enemy::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
+  if (!img->isSword() && !img->isEnemy()) Sprite::notifyCollision(img,
+                                                  intersection, resolved);
 
-  if(img->isEnemy() || img->isCharacter()){
+  if(img->isEnemy() || img->isCharacter() || img->isSword()){
     return;
   }
 
   if (intersection->w > intersection->h) {
-    velocityY *= -1;
+    flipYVelocity = true;
   } else {
-    velocityX *= -1;
+    flipXVelocity = true;
   }
 }
 

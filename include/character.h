@@ -25,6 +25,7 @@
 #include "event_handler.h"
 #include "camera.h"
 #include "pickup.h"
+#include "types.h"
 
 /*class for the player character that inherits from sprite will be 
 responsible for player movement events and holds certain sfx along with
@@ -39,7 +40,7 @@ class Character : public Sprite {
     Character(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
      int pos_x, int pos_y, EventHandler*, Audio*, State*);
 
-    virtual void notifyCollision(Image*, SDL_Rect* intersection);
+    virtual void notifyCollision(Image*, doubleRect* intersection, bool resolved = false);
     virtual void update(double seconds);
     virtual void render(Camera*, double interpol_alpha = 1);
     virtual void cleanup();
@@ -57,7 +58,6 @@ class Character : public Sprite {
     double startingX = 0.0;
     double startingY = 0.0;
 
-    bool hurt = false;
     bool frozen = false;
     bool falling = false;
     bool running = false;

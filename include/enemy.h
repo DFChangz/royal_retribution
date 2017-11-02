@@ -12,6 +12,7 @@
 #include "sprite.h"
 #include "constants.h"
 #include "event_handler.h"
+#include "types.h"
 
 //Header file for enemy class that holds enemy position and its rect
 class Enemy : public Sprite {
@@ -24,7 +25,7 @@ class Enemy : public Sprite {
       int pos_x, int pos_y, double velocityX, double velocityY);
 
     virtual void update(double seconds);
-    virtual void notifyCollision(Image*, SDL_Rect*);
+    virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
 
     void thaw();
     void freeze();
@@ -40,6 +41,9 @@ class Enemy : public Sprite {
     bool dead = false;
     double tempVX = 0;
     double tempVY = 0;
+
+    bool flipXVelocity = false;
+    bool flipYVelocity = false;
 
     void idleAnimation(double);
 };
