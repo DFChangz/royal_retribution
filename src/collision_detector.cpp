@@ -13,41 +13,11 @@ CollisionDetector::CollisionDetector() {
   initializeBuckets();
 }
 
-/* two iterators that go through the whole vector of images comparing one image
-to all the others */ 
 void CollisionDetector::check(Camera* camera, Map* map) {
   checkInBuckets(camera, map);
-
-  
-  /*for (auto it = images->begin(); it != images->end(); ++it) {
-    if (!(*it)->isCollidable()) continue;
->>>>>>> 2dc10886364bd3807ce21519bd1dcbc1edb00b56
-
-    if (map != nullptr) {   
-      for (auto it2 = map->tiles.begin();
-          it2 != map->tiles.end(); ++it2) {
-
-        if (!it2->image->isCollidable())
-          break;
-
-        checkCollision(it->second, it2->image);
-      }
-      for (auto it2 = map->additions.begin();
-          it2 != map->additions.end(); ++it2) {
-
-<<<<<<< HEAD
-        checkCollision(it->second, it2->image);
-=======
-        if (!it2->image->isCollidable())
-          break;
-
-        checkCollision(*it, it2->image);
->>>>>>> 2dc10886364bd3807ce21519bd1dcbc1edb00b56
-      }
-    }
-  }*/
 }
 
+/* For each bucket on screen, checks for collisions between all items */
 void CollisionDetector::checkInBuckets(Camera* camera, Map* map) {
   for (auto bucket_it = buckets.begin(); bucket_it != buckets.end();
     bucket_it++) {
@@ -100,6 +70,7 @@ void CollisionDetector::checkCollision(Image* img1, Image* img2) {
   }
 }
 
+/* gets the intersection of two doubleRects */
 bool CollisionDetector::getIntersection(Image* img1, Image* img2, doubleRect* intersection) {
   double aMin, bMin, aMax, bMax;
 
