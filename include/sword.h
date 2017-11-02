@@ -33,11 +33,21 @@ class Sword : public Sprite {
     ~Sword();
 
   private:
+    void kill(Image*);
     void createListeners(EventHandler*);
 
     Sprite* king = nullptr;
     State* state = nullptr;
     Audio *audioHandler = nullptr;
+
+    bool u = false;
+    bool d = false;
+    bool l = false;
+    bool r = false;
+    bool ul = false;
+    bool ur = false;
+    bool dl = false;
+    bool dr = false;
 
     bool attacking = false;
     bool lastAttack = false;

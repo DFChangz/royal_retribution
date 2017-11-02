@@ -247,7 +247,7 @@ void PlayingState::update(double seconds) {
 
   if(PlayingState::fallen == 1){
     a0 = fadeIn(ele+"hole", a0, seconds, 6);
-    a1 = fadeOut(ppl+"king", a1, seconds, 2);
+    a1 = fadeOut(ppl+"king", a1, seconds, 1);
     activateInstructionText(holeNum);
   }
   if(PlayingState::fallen == 2){

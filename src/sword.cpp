@@ -68,33 +68,50 @@ void Sword::render(Camera* camera, double interpol_alpha) {
 }
 
 void Sword::notifyCollision(Image* image, doubleRect*, bool) {
-  //check y position
-  if (image->pos_x+32 > pos_x && image->pos_x < pos_x+112) {
-    if (image->pos_y+50 > pos_y && image->pos_y+50 < king->pos_y+25)
-      collisionDir = "up";
-    if (image->pos_y > king->pos_y+25 && image->pos_y < pos_y+112)
-      collisionDir = "down";
-  }
-  // check x positoin
-  if (image->pos_y+50 > pos_y && image->pos_y < pos_y+112) {
-    if (image->pos_x+32 > pos_x && image->pos_x+32 < king->pos_x+10)
-      collisionDir = "left";
-    if (image->pos_x >= king->pos_x+22 && image->pos_x < pos_x+112)
-      collisionDir = "right";
+  if (attacking && image->isEnemy()) {
+    //check ul
+    if (image->pos_x+32 > pos_x && image->pos_x < pos_x+56
+        && image->pos_y+50 > pos_y && image->pos_y < pos_y+56) { ul = true; }
+    // check ur
+    if (image->pos_x > pos_x+56 && image->pos_x < pos_x+112
+        && image->pos_y+50 > pos_y && image->pos_y < pos_y+56) { ur = true; }
+    // check dl
+    if (image->pos_x+32 > pos_x && image->pos_x < pos_x+56
+        && image->pos_y > pos_y+56 && image->pos_y < pos_y+112) { dl = true; }
+    // check dr
+    if (image->pos_x > pos_x+56 && image->pos_x < pos_x+112
+        && image->pos_y > pos_y+56 && image->pos_y < pos_y+112) { dr = true; }
   }
   // enemies die when attacked
-  if (attacking && image->isEnemy() && collisionDir == dir
-      && !static_cast<Enemy*>(image)->isDead()) {
-    static_cast<Enemy*>(image)->kill();
-    audioHandler->play("kill", 1);
-    if (this->king->pair != nullptr) {
-      this->king->pair->setCollidable(false);
-      SDL_SetTextureAlphaMod(this->king->pair->getTexture(), 0);
-      this->king->pair = nullptr;
-      state->deactivateInstructionText();
+  if (attacking && image->isEnemy() && !static_cast<Enemy*>(image)->isDead()) {
+    switch (dir[0]) {
+      case 'u':
+        if (ul || ur) kill(image);
+        break;
+      case 'l':
+        if (ul || dl) kill(image);
+        break;
+      case 'd':
+        if (dl || dr) kill(image);
+        break;
+      case 'r':
+        if (ur || dr) kill(image);
+        break;
     }
-    static_cast<Character*>(king)->updateExp();
+    ul = false; ur = false; dl = false; dr = false;
   }
+}
+
+void Sword::kill(Image* image) {
+  static_cast<Enemy*>(image)->kill();
+  audioHandler->play("kill", 1);
+  if (this->king->pair != nullptr) {
+    this->king->pair->setCollidable(false);
+    SDL_SetTextureAlphaMod(this->king->pair->getTexture(), 0);
+    this->king->pair = nullptr;
+    state->deactivateInstructionText();
+  }
+  static_cast<Character*>(king)->updateExp();
 }
 
 void Sword::createListeners(EventHandler *eventHandler) {
