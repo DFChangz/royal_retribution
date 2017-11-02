@@ -129,13 +129,6 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 velocity changes direction if more width, x direction changes*/
 void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
   if (!resolved) {
-  /*if (isCharacter() || img->isCharacter())
-    std::cout << "---------------" << std::endl;*/
-
- /* if (pair != nullptr){
-    pair->collidable = true;
-    SDL_SetTextureAlphaMod(pair->getTexture(), 255);   
-  }*/
   /*if (abs(velocityY) > abs(velocityX)) {
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/

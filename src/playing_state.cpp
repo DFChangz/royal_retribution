@@ -6,14 +6,6 @@
 
 PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
-/*
-  map = new Map(engine->renderer, errorHandler, LEVEL_1, TILES_TXT,
-    &collisionDetector);
-  map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_1_ADD);
-
-  setup();
-  load();*/
 }
 
 void PlayingState::setup() {
@@ -211,7 +203,6 @@ void PlayingState::update(double seconds) {
   //makes pickups invisble while in chests
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
-  //SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
 
   int x = 0;  
   // set up inventory display
@@ -253,20 +244,6 @@ void PlayingState::update(double seconds) {
     static_cast<Pickup*>(images[add+"coin"])->pickUp();
     activateInstructionText(chestNum);
   }
-/*  if(static_cast<Sprite*>(images[add+"food"])->pair->pair
-    == static_cast<Sprite*>(images[add+"food"])->pair
-    && !static_cast<Pickup*>(images[add+"food"])->isPickedUp())
-  {
-    SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 255);
-    static_cast<Character*>(images[ppl+"king"])
-      ->inventory.push_back(static_cast<Pickup*>(images[add+"food"]));
-    static_cast<Sprite*>(images[add+"food"])->pair
-      = static_cast<Character*>(images[ppl+"king"]);
-    engine->score += 1000;
-    static_cast<Pickup*>(images[add+"food"])->pickUp();
-    Character::hearts = 8;
-
-  }*/
 
   if(PlayingState::fallen == 1){
     a0 = fadeIn(ele+"hole", a0, seconds, 6);
@@ -295,71 +272,6 @@ void PlayingState::update(double seconds) {
     engine->setState("lose");
   }
 
-  // changes state to Level_2
-  /*if (images[ppl+"king"]->pos_x < map->width/2 + 45
-      && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
-        > map->width/2 - 45
-      && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
-        > map->height - 150)
-  {
-    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
-    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
-    images[ppl+"king"]->velocityX = 0;
-    images[ppl+"king"]->velocityY = 0;
-    static_cast<Character*>(images[ppl+"king"])->dir = "down";
-    king = images[ppl+"king"]; 
-    engine->setState("level_2");
-  }*/
-
-
-/*
-  // go down a floor w/ '1'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-//    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
-//    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
-    images[ppl+"king"]->velocityX = 0;
-    images[ppl+"king"]->velocityY = 0;
-    static_cast<Character*>(images[ppl+"king"])->dir = "down";
-    king = images[ppl+"king"];
-    if(Character::currFloor == 2){
-      Character::currFloor = 1;
-      engine->setState("playing");
-    }
-    if(Character::currFloor == 3){
-      Character::currFloor = 2;
-      engine->setState("level_2");
-    }
-    if(Character::currFloor == 4){
-      Character::currFloor = 3;
-      engine->setState("level_3");
-    }
-  }, SDLK_1);
-  // go up a floor w/ '2'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
-    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
-    images[ppl+"king"]->velocityX = 0;
-    images[ppl+"king"]->velocityY = 0;
-    static_cast<Character*>(images[ppl+"king"])->dir = "down";
-    king = images[ppl+"king"];
-    std::cout << Character::currFloor << std::endl;
-    if(Character::currFloor == 1){
-      Character::currFloor = 2;
-      engine->setState("level_2");
-    }
-    if(Character::currFloor == 2){
-      Character::currFloor = 3;
-      engine->setState("level_3");
-    }
-    if(Character::currFloor == 3){
-//      Character::currFloor = 4;
-      std::ofstream file;
-      file.open(SCORE_FILENAME, std::ios_base::app);
-      file << std::to_string(engine->score) << std::endl;
-      file.close();
-      engine->setState("win");
-    }
-  }, SDLK_2);*/
 
   if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
     static_cast<Character*>(images[ppl+"king"])->frozen = true;

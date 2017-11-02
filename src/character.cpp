@@ -49,9 +49,6 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-  //std::cout << "charX: " << pos_x << "\n";
-  //std::cout << "charY: " << pos_y << "\n";
-
   // update sta
   if (!frozen) updateSta();
 
@@ -175,7 +172,6 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
     falling = true;
     velocityX = 0;
     velocityY = 0;
-    //state->activateInstructionText(holeNum);
   }
   // either up/down
   if (intersection->w > intersection->h) {
@@ -309,19 +305,9 @@ void Character::createListeners(EventHandler *eventHandler) {
 
 
 
-void Character::cleanup(){
-  /*for(Sprite* item : inventory){
-    if(item != nullptr){
-      delete item;
-      item = nullptr; 
-    }
-  }*/
-}
+void Character::cleanup(){}
 
-Character::~Character(){
-//  cleanup();
-
-}
+Character::~Character(){}
 
 std::vector<Pickup*> Character::inventory;
 
