@@ -114,6 +114,14 @@ void PlayingState::setup() {
     2, 2, 16, "FPS: ");
 }
 
+void PlayingState::enter() {
+  if (images.find(top + "sta_bar") != images.end()) 
+    static_cast<Character*>(images[ppl + "king"])->staminaBar = images[top + "sta_bar"];
+
+  if (images.find(top + "exp_bar") != images.end())
+    static_cast<Character*>(images[ppl + "king"])->setExpBar(images[top + "exp_bar"]);
+}
+
 void PlayingState::load() {
   State::load();
 
@@ -128,14 +136,6 @@ void PlayingState::load() {
   images[top+"exp_box"]->getDestRect()->w = 150;
   images[top+"exp_bar"]->getDestRect()->h = 24;
   images[top+"exp_bar"]->getDestRect()->w = 148;
-
-  if (static_cast<Character*>(images[ppl + "king"])->staminaBar != nullptr)
-      delete static_cast<Character*>(images[ppl + "king"])->staminaBar;
-  static_cast<Character*>(images[ppl + "king"])->staminaBar = images[top + "sta_bar"];
-
-  if (static_cast<Character*>(images[ppl + "king"])->expBar != nullptr)
-      delete static_cast<Character*>(images[ppl + "king"])->expBar;
-  static_cast<Character*>(images[ppl + "king"])->expBar = images[top + "exp_bar"];
 
   // setup hole
   images[ele+"hole"]->getDestRect()->h = 22;
@@ -218,13 +218,6 @@ void PlayingState::update(double seconds) {
     images[top+"score"]->load();
     currentScore = engine->score;
   }
-  
-  /*************
-  UPDATE ENEMY 
-  *************/
-  // enemy follows king if conditions met
-  checkFollow();
-  enemyFollow();
 
   /*************
   LOAD?
@@ -349,57 +342,7 @@ void PlayingState::update(double seconds) {
   }, SDLK_r);
 }
 
-void PlayingState::checkFollow() {
-  int borderX = images[ppl+"king"]->pos_x
-    + images[ppl+"king"]->getDestRect()->w+100;
-  int borderY = images[ppl+"king"]->pos_y
-    + images[ppl+"king"]->getDestRect()->h+100;
-  for (int i = 0; i < num_enemies; i++) {
-    std::string s = ppl+"enemy_"+std::to_string(i);
-    if (!static_cast<Character*>(images[ppl+"king"])->running
-        && images[s]->pos_x
-        >= images[ppl+"king"]->pos_x - 100 - images[s]->getDestRect()->w
-        && images[s]->pos_y
-        >= images[ppl+"king"]->pos_y - 100 - images[s]->getDestRect()->h
-        && images[s]->pos_x <= borderX && images[s]->pos_y <= borderY)
-    {
-      static_cast<Enemy*>(images[s])->following = true;
-    }
-  }
-}
-      
-void PlayingState::enemyFollow() {
-  for (int i = 0; i < num_enemies; i++) {
-    std::string s = ppl+"enemy_"+std::to_string(i);
-    if (static_cast<Enemy*>(images[s])->frozen){
-      images[s]->velocityX = 0;
-      images[s]->velocityY = 0;
-      continue;
-    }
-    if (static_cast<Enemy*>(images[s])->following) {
-      // edit x velocity
-      if (images[s]->pos_x+32 <= images[ppl+"king"]->pos_x) {
-        images[s]->velocityX = 100;
-      } else if (images[s]->pos_x >= images[ppl+"king"]->pos_x+32) {
-        images[s]->velocityX = -100;
-      } else {
-        images[s]->velocityX = 0;
-      }
-      // edit y velocity
-      if (images[s]->pos_y <= images[ppl+"king"]->pos_y-50) {
-        images[s]->velocityY = 100;
-      } else if (images[s]->pos_y >= images[ppl+"king"]->pos_y+50) {
-        images[s]->velocityY = -100;
-      } else {
-        images[s]->velocityY = 0;
-      } 
-    }
-  }
-}
-
 void PlayingState::activateInstructionText(int instruct){
-
-
   if(instruct == doorKeyNum && instrGiven % doorKeyNum != 0){ 
     pause();
 

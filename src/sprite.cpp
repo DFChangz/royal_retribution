@@ -212,3 +212,12 @@ void Sprite::setPosition(double x, double y) {
   rect.x = (int) x;
   rect.y = (int) y;
 }
+
+doubleRect Sprite::getDoubleRect() {
+  doubleRect x;
+  x.x = pos_x;
+  x.y = pos_y;
+  x.w = rect.w;
+  x.h = rect.h;
+  return x;
+}

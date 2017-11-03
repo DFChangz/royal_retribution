@@ -20,16 +20,13 @@ class PlayingState : public State {
     static int instrGiven;
     static int fallen;
     double timer = 1;
+
+    virtual void enter();
   protected:
     int currentLevel;
     int currentScore;
     void update(double);
     virtual void setup();
-
-    void updateSta();
-    void updateExp();
-    void checkFollow();
-    void enemyFollow();
 
     int num_lights = 0;
     int num_enemies = 0;

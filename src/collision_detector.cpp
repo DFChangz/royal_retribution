@@ -6,6 +6,7 @@
 #include "collision_detector.h"
 #include "types.h"
 #include "character.h"
+#include "util.h"
 
 //Definitions of the collision detector class
 
@@ -56,48 +57,10 @@ void CollisionDetector::checkCollision(Image* img1, Image* img2) {
       img2->getDestRect() != nullptr) {
 
     doubleRect intersection;
-    /*SDL_Rect img1Rect = *(img1->getDestRect());
-    img1Rect.x = img1->pos_x;
-    img1Rect.y = img1->pos_y;
-    SDL_Rect img2Rect = *(img2->getDestRect());
-    img2Rect.x = img2->pos_x;
-    img2Rect.y = img2->pos_y;*/
-    //if (SDL_IntersectRect(&img1Rect, &img2Rect,
-    //  &intersection) == SDL_TRUE) {
-    if (getIntersection(img1, img2, &intersection)) {
+    if (Util::getIntersection(img1, img2, &intersection)) {
         img1->notifyCollision(img2, &intersection);
     }
   }
-}
-
-/* gets the intersection of two doubleRects */
-bool CollisionDetector::getIntersection(Image* img1, Image* img2, doubleRect* intersection) {
-  double aMin, bMin, aMax, bMax;
-
-  aMin = img1->pos_x;
-  aMax = aMin + img1->getDestRect()->w;
-  bMin = img2->pos_x;
-  bMax = bMin + img2->getDestRect()->w;
-  if (bMin > aMin)
-    aMin = bMin;
-  intersection->x = aMin;
-  if (bMax < aMax)
-    aMax = bMax;
-  intersection->w = aMax - aMin;
-
-  aMin = img1->pos_y;
-  aMax = aMin + img1->getDestRect()->h;
-  bMin = img2->pos_y;
-  bMax = bMin + img2->getDestRect()->h;
-  if (bMin > aMin)
-    aMin = bMin;
-  intersection->y = aMin;
-  if (bMax < aMax)
-    aMax = bMax;
-  intersection->h = aMax - aMin;
-
-  if (intersection->w > 0 && intersection->h > 0) return true;
-  return false;
 }
 
 // Updates the buckets for the specified image

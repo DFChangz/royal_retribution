@@ -13,6 +13,7 @@
 #include "constants.h"
 #include "event_handler.h"
 #include "types.h"
+#include "util.h"
 
 //Header file for enemy class that holds enemy position and its rect
 class Enemy : public Sprite {
@@ -34,10 +35,19 @@ class Enemy : public Sprite {
     bool isEnemy() { return true; }
 
     bool frozen = false;
-    bool following = false;
+
     std::string dir="right";
 
+    void followWhenClose(Image* sprite, double radius);
+    bool checkDistance(Image* sprite, double radius);
+    void followSprite();
   private:
+    void attemptFollow();
+
+    Image* shouldFollow = nullptr;
+    double radiusFollow;
+    bool following = false;
+
     bool dead = false;
     double tempVX = 0;
     double tempVY = 0;

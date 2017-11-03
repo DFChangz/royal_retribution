@@ -14,7 +14,6 @@ class LoseState : public State {
     virtual void load();
     virtual void update(double seconds);
 
-    int x, y;
     int a0 = 0;
     double totalTime = 0;
     std::string logo = "G A M E   O V E R";

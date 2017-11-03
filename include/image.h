@@ -50,6 +50,10 @@ class Image {
     double velocityY = 0.0;
 
     std::vector<unsigned int> buckets;
+
+    virtual doubleRect getDoubleRect() {
+      return {0, 0, 0, 0};
+    }
   protected:
     SDL_Renderer *renderer;
     ErrorHandler *error_handler;

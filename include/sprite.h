@@ -48,6 +48,8 @@ class Sprite : public Image {
     char pairing = -1;
     void setPair(Sprite *pair_p){ pair = pair_p;}
     Sprite* pair = nullptr;
+
+    virtual doubleRect getDoubleRect();
   protected:
     bool collidable = true;
 

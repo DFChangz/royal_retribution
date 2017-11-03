@@ -237,6 +237,18 @@ void Character::updateSta() {
   }
 }
 
+void Character::updateExpBar() {
+  if (expBar != nullptr) {
+    int w = int(exp * 146);
+    expBar->getDestRect()->w = w;
+  }
+}
+
+void Character::setExpBar(Image* img) {
+  expBar = img;
+  updateExpBar();
+}
+
 void Character::updateExp() {
   exp += expInc;
   if (exp >= 1) {
@@ -247,11 +259,8 @@ void Character::updateExp() {
     if (level == 10) expInc = 0;
   }
   state->engine->score += 1000;
-
-  if (expBar != nullptr) {
-    int w = int(exp * 146);
-    expBar->getDestRect()->w = w;
-  }
+  
+  updateExpBar();
 }
 
 void Character::createListeners(EventHandler *eventHandler) {

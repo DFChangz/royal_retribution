@@ -28,6 +28,9 @@ class State {
 
     virtual ~State();
 
+    virtual void enter() { }
+    virtual void exit() { }
+
     Engine* engine;
 
     bool isPaused() { return paused; }

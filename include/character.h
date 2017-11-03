@@ -73,7 +73,10 @@ class Character : public Sprite {
 
     Image* staminaBar = nullptr;
     Image* expBar = nullptr;
+
+    void setExpBar(Image*);
   private:
+    void updateExpBar();
     void updateSta();
     void idleAnimation(double seconds);
     void createListeners(EventHandler*);

@@ -1,6 +1,10 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <iostream>
+#include <map>
+#include <SDL.h>
+
 class Image;
 
 typedef std::vector<Image*> collision_bucket;

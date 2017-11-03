@@ -139,6 +139,8 @@ void Engine::setState(std::string state) {
     error_handler.quit(__func__, "A state with this name does not exist");
   }
   currentState = states[state];
+
+  currentState->enter();
 }
 
 void Engine::createStates() {

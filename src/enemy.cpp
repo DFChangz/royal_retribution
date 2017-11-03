@@ -52,8 +52,6 @@ void Enemy::update(double seconds) {
   flipXVelocity = false;
   flipYVelocity = false;
 
-  Sprite::update(seconds);
-
   if (this->dead) {
     velocityY = 0;
     velocityX = 0;
@@ -61,6 +59,11 @@ void Enemy::update(double seconds) {
     SDL_SetTextureAlphaMod(this->getTexture(), 0);
     return;
   }
+
+  if (shouldFollow != nullptr)
+    attemptFollow();
+
+  Sprite::update(seconds);
 
   if (velocityX > 0) {
     dir = "right";
@@ -79,6 +82,42 @@ void Enemy::update(double seconds) {
     Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   }
+}
+
+void Enemy::followWhenClose(Image* sprite, double radius) {
+  shouldFollow = sprite;
+  radiusFollow = radius;
+}
+
+void Enemy::attemptFollow() {
+  if (checkDistance(shouldFollow, radiusFollow)) following = true;
+
+  if (following)
+    followSprite();
+}
+
+bool Enemy::checkDistance(Image* sprite, double radius) {
+  doubleRect spriteRect = sprite->getDoubleRect();
+  doubleRect thisRect = getDoubleRect();
+
+  spriteRect.x -= radius - spriteRect.w / 2;
+  spriteRect.y -= radius - spriteRect.h / 2;
+  spriteRect.w += radius * 2;
+  spriteRect.h += radius * 2;
+
+  return Util::isIntersecting(&spriteRect, &thisRect);
+}
+
+void Enemy::followSprite() {
+  if (frozen) return;
+
+  if (pos_x + 32 <= shouldFollow->pos_x) velocityX = 100;
+  else if (pos_x >= shouldFollow->pos_x + 32) velocityX = -100;
+  else velocityX = 0;
+
+  if (pos_y + 50 <= shouldFollow->pos_y) velocityY = 100;
+  else if (pos_y >= shouldFollow->pos_y + 50) velocityY = -100;
+  else velocityY = 0;
 }
 
 void Enemy::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
