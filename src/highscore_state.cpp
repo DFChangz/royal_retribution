@@ -32,13 +32,16 @@ void HighscoreState::setup() {
     images[s] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
       0, images[prev]->getDestRect()->y+60, 30, std::to_string(scores[i]));
   }
+  images["skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, HEIGHT-35, 30, "Press [q] to return to main");
 }
 
 void HighscoreState::load() {
   State::load();
   // center(x) of text and fade out
   for (it = images.begin(); it != images.end(); it++) {
-    SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
+    if (it->first != "skip")
+      SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
     int x = WIDTH / 2 - it->second->getDestRect()->w / 2;
     int y = it->second->getDestRect()->y;
     it->second->setPosition(x, y);

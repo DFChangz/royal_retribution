@@ -146,6 +146,13 @@ int State::fadeOut(std::string s, int a, double seconds, double mult) {
   return a;
 }
 
+/* center positions */
+std::tuple<int, int> State::getCenterForImage(Image* image) {
+  int x = WIDTH / 2 - image->getDestRect()->w / 2;
+  int y = HEIGHT / 2 - image->getDestRect()->h / 2;
+  return std::tuple<int, int>(x, y);
+}
+
 void State::cleanup() {
   audioHandler.cleanup();
 

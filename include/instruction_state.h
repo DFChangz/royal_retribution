@@ -15,8 +15,6 @@ class InstructionState : public State {
     virtual void setup();
     virtual void update(double seconds);
 
-    std::tuple<int, int> getCenterForImage(Image*);
-
     int a0 = 0;
     int a1 = 0;
     int a2 = 0;

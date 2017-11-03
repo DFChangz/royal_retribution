@@ -25,6 +25,8 @@ void CreditState::setup(){
     WIDTH / 2, images["t4"]->getDestRect()->y + 60, 40, " Graphics");
   images["t6"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 2, images["t5"]->getDestRect()->y + 60, 30, "Derek Chang");
+  images["skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, HEIGHT-35, 30, "Press [q] to return to main");
 }
 
 void CreditState::load() {
@@ -34,8 +36,11 @@ void CreditState::load() {
   for (it = images.begin(); it != images.end(); it++) {
     x = WIDTH / 2 - it->second->getDestRect()->w / 2;
     y = it->second->getDestRect()->y;
-    it->second->setPosition(x, y);
-    it->second->velocityY = -150;
+    if (it->first == "skip") it->second->setPosition(x, HEIGHT-35);
+    else {
+      it->second->setPosition(x, y);
+      it->second->velocityY = -150;
+    }
   }
 }
 

@@ -237,11 +237,4 @@ void InstructionState::update(double seconds) {
   }
 }
 
-/* center positions */
-std::tuple<int, int> InstructionState::getCenterForImage(Image* image) {
-  int x = WIDTH / 2 - image->getDestRect()->w / 2;
-  int y = HEIGHT / 2 - image->getDestRect()->h / 2;
-  return std::tuple<int, int>(x, y);
-}
-
 InstructionState::~InstructionState() {}

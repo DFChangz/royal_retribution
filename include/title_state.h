@@ -14,8 +14,6 @@ class TitleState : public State {
     virtual void load();
     virtual void update(double seconds);
 
-    std::tuple<int, int> getCenterForImage(Image*);
-
     int x, y;
     int a0 = 0;
     int a1 = 0;

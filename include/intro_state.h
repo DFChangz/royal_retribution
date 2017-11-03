@@ -15,8 +15,6 @@ class IntroState : public State {
     virtual void setup();
     virtual void update(double seconds);
 
-    std::tuple<int, int> getCenterForImage(Image*);
-
     int a = 0;
     int event = 0;
     int counter = 0;

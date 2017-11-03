@@ -45,11 +45,4 @@ void LoseState::update(double seconds) {
   }
 }
 
-/* center positions */
-std::tuple<int, int> LoseState::getCenterForImage(Image* image) {
-  x = WIDTH / 2 - image->getDestRect()->w / 2;
-  y = HEIGHT / 2 - image->getDestRect()->h / 2;
-  return std::tuple<int, int>(x, y);
-}
-
 LoseState::~LoseState() {}

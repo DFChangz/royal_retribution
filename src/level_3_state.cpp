@@ -108,14 +108,14 @@ void Level_3_State::setup() {
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
   //instuctions
-  images[top+"dkInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 76, 16, "You got a key. It opens a special door. Press 'r' to clear text");
-  images[top+"hInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 76, 16, "You fell down a hole.You are now on the previous floor. Press 'r' to clear text");
-  images[top+"tInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 3, 76, 16, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
-  images[top+"cInstruct"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 4, 60, 16, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text ");
+  images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You got a key. It opens a special door. Press 'r' to clear text");
+  images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
+  images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+  images[top+"cInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text ");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");

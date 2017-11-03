@@ -50,6 +50,7 @@ class State {
     double newA = 0;
     double speed = 50;
 
+    std::tuple<int, int> getCenterForImage(Image*);
     int fadeIn(std::string s, int a, double seconds, double mult);
     int fadeOut(std::string s, int a, double seconds, double mult);
 
