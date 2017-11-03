@@ -31,7 +31,7 @@ void Level_3_State::setup() {
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
+    56, 56, 3600, 1400, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
     &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_3_E);
