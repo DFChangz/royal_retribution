@@ -33,9 +33,19 @@ Other
 - many of the bugs related to collision have been removed
 
 Concerning Coding
-- playing_state.cpp has been cleaned up so that it is more readable
-- enemy-related code is in enemy, character-related code is in chatacter
-- level files have all been cleaned up so that there are no more repetitions
+
+*  Previously, many functions unrelated to levels were scattered throughout the
+   level_x_state.cpp files in order to accomplish certain goals via quick, sim-
+   ple fixes. This seemed very unintuitive, so all enemy-related code was moved
+   to enemy.cpp and all character-related code was moved to character.cpp.
+
+*  In addition, due to their similar functionality, all the level files had re-
+   petitive uses of the same functions. This was fixed by placing all these re-
+   peated functions within playing_state.cpp.
+
+*  We also realized that many of the x_state files were using similar functions
+   "privately" rather than sharing them under a "protected" class. This was fi-
+   xed by placing these function within state.cpp.
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
