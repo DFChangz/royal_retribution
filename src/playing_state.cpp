@@ -288,7 +288,6 @@ void PlayingState::update(double seconds) {
     engine->setState("lose");
   }
 
-
   if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
     static_cast<Character*>(images[ppl+"king"])->frozen = true;
     eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {

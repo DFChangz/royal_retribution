@@ -30,6 +30,8 @@ class State;
 class Engine {
 
   public:
+    static Engine* instance;
+
     void start();
     void cleanup();
     void newGame();
