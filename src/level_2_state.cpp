@@ -32,7 +32,8 @@ void Level_2_State::setup() {
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler, &audioHandler, this);
+    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
+    &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_2_E);
   int x = -1;
@@ -44,17 +45,14 @@ void Level_2_State::setup() {
     num_enemies++;
   }
   file.close();
-
   // Lights
   num_lights = map->pushLights(images);
   // Black
   images[add+"black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler,
     0, 0, false);
-
   // Skip Pan Test
   images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH/2-170, HEIGHT-35, 30, "Press [m] to Skip Pan", ROYAL_GOLD);
-
   // Score
   images[top+"score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));
@@ -110,13 +108,13 @@ void Level_2_State::setup() {
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got a key. It opens a special door. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door. Press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "YOU FELL DOWN A HOLE! You are now going to the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+    errorHandler, 0, 0, 25, "YOU ARE TRAPPED! Kill an enemy to escape! press 'r' to clear text ");
   images[top+"cInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text ");
+    errorHandler, 0, 0, 25, "YOU OPENED A CHEST! The item is now in your inventory. press 'r' to clear text");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");

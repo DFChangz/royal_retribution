@@ -38,17 +38,14 @@ void PlayingState::setup() {
     num_enemies++;
   }
   file.close();
-
   // Lights
   num_lights = map->pushLights(images);
   // Black
   images[add+"black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler,
     0, 0, false);
-
   // Skip Pan Test
   images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH/2-170, HEIGHT-35, 30, "Press [m] to Skip Pan", ROYAL_GOLD);
-
   // Score
   images[top+"score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));
