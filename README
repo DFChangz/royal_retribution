@@ -8,7 +8,33 @@
 # Assignment 8 #
 ================
 
-NEW THINGS
+FIXES
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Concerning Levels
+- new music plays in-game
+- instruction texts are now centered
+- instruction texts are more event-specific
+- panning does not have glitchy flying images
+  * panning can now move in multiple directions
+
+Concerning Character
+- character cannot push around enemies
+- character cannot run through enemies
+- sword hitbox has become more accurate
+- character actually "falls" down a hole
+  ~ the hole does not remain in the level
+- running no longer sneaks past enemies (you are louder when you run)
+
+Other
+- character can run forever with [RSHIFT]
+- many of the bugs related to collision have been removed
+
+Concerning Coding
+- playing_state.cpp has been cleaned up so that it is more readable
+- the level files have all been cleaned up so that there are no more repetitions
+- all enemy-related code is in enemy.cpp, all character-relatedcode is in chatacter.cpp
+
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 Assets (Derek Chang)
@@ -50,8 +76,6 @@ Instruction texts(Billy and Tae)
 All levels are now subclassed (Billy)
 ~ fixed many bugs associated with the levels
   * enemies were not acting correctly, faciltate changing up code
-
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 Collision Grid/Buckets (Idean)
 - Split the map into a grid layout, and collision checks occur within each grid.
