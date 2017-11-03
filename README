@@ -16,6 +16,7 @@ Concerning Levels
 - instruction texts are now centered
 - instruction texts are more event-specific
 - panning does not have glitchy flying images
+  * how to skip panning instructions were added
   * panning can now move in multiple directions
 
 Concerning Character
@@ -27,13 +28,14 @@ Concerning Character
 - running no longer sneaks past enemies (you are louder when you run)
 
 Other
-- character can run forever with [RSHIFT]
+- character can run forever with [RSHIFT] (for testing)
+- highscore and credit screens show how to return to main
 - many of the bugs related to collision have been removed
 
 Concerning Coding
 - playing_state.cpp has been cleaned up so that it is more readable
-- the level files have all been cleaned up so that there are no more repetitions
-- all enemy-related code is in enemy.cpp, all character-relatedcode is in chatacter.cpp
+- enemy-related code is in enemy, character-related code is in chatacter
+- level files have all been cleaned up so that there are no more repetitions
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
