@@ -129,6 +129,19 @@ void Level_1_State::setup() {
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
+
+  // go to floor 2
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
+    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    static_cast<Character*>(images[ppl+"king"])->dir = "down";
+    king = images[ppl+"king"];
+    Character::currFloor = 2;
+    if (Character::highestFloor == 1) Character::highestFloor = 2;
+    engine->setState("level_2");
+   }, SDLK_2);
 }
 
 void Level_1_State::update(double seconds) {
@@ -168,18 +181,6 @@ void Level_1_State::update(double seconds) {
     if (Character::highestFloor == 1) Character::highestFloor = 2;
     engine->setState("level_2");
   }
-  // go to floor 2
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
-    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
-    images[ppl+"king"]->velocityX = 0;
-    images[ppl+"king"]->velocityY = 0;
-    static_cast<Character*>(images[ppl+"king"])->dir = "down";
-    king = images[ppl+"king"];
-    Character::currFloor = 2;
-    if (Character::highestFloor == 1) Character::highestFloor = 2;
-    engine->setState("level_2");
-   }, SDLK_2);
 }
 
 Level_1_State::~Level_1_State() {}

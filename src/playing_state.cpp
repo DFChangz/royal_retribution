@@ -66,6 +66,7 @@ void PlayingState::setup() {
     0, 34, false, true);
   images[top+"sta_bar"] = new Sprite(engine->renderer, STA_BAR, errorHandler,
     2, 38, false, true);
+
   // Experience
   images[top+"exp_box"] = new Sprite(engine->renderer, BAR_BOX, errorHandler,
     WIDTH/2 - 75, 34, false, true);
@@ -128,6 +129,14 @@ void PlayingState::load() {
   images[top+"exp_bar"]->getDestRect()->h = 24;
   images[top+"exp_bar"]->getDestRect()->w = 148;
 
+  if (static_cast<Character*>(images[ppl + "king"])->staminaBar != nullptr)
+      delete static_cast<Character*>(images[ppl + "king"])->staminaBar;
+  static_cast<Character*>(images[ppl + "king"])->staminaBar = images[top + "sta_bar"];
+
+  if (static_cast<Character*>(images[ppl + "king"])->expBar != nullptr)
+      delete static_cast<Character*>(images[ppl + "king"])->expBar;
+  static_cast<Character*>(images[ppl + "king"])->expBar = images[top + "exp_bar"];
+
   // setup hole
   images[ele+"hole"]->getDestRect()->h = 22;
   images[ele+"hole"]->getDestRect()->w = 50;
@@ -180,6 +189,11 @@ void PlayingState::update(double seconds) {
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
 
   if(Mix_PausedMusic() == 1){audioHandler.play("theme");}
+
+  /***************
+     UPDATE TEXT
+  ***************/
+
   // update FPS Display
   if (timer > 1) {
     delete images[top+"fps"];
@@ -204,19 +218,24 @@ void PlayingState::update(double seconds) {
     images[top+"score"]->load();
     currentScore = engine->score;
   }
-
-  // update stamina & experience
-  updateSta();
-  updateExp();
   
+  /*************
+  UPDATE ENEMY 
+  *************/
   // enemy follows king if conditions met
   checkFollow();
   enemyFollow();
 
+  /*************
+  LOAD?
+  *************/
   //makes pickups invisble while in chests
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
 
+  /************
+  PICKUP
+  ************/
   int x = 0;  
   // set up inventory display
   for(Pickup *pUp : static_cast<Character*>(images[ppl+"king"])->inventory){  
@@ -230,6 +249,10 @@ void PlayingState::update(double seconds) {
       x++;
     }
   }
+
+  /********************
+  CHEST
+  ********************/
   // shows contents of chest when open
   if(static_cast<Sprite*>(images[add+"key"])->pair->pair
     == static_cast<Sprite*>(images[add+"key"])->pair
@@ -258,6 +281,9 @@ void PlayingState::update(double seconds) {
     activateInstructionText(chestNum);
   }
 
+  /********************
+  FALLING
+  ********************/
   if(PlayingState::fallen == 1){
     a0 = fadeIn(ele+"hole", a0, seconds, 6);
     a1 = fadeOut(ppl+"king", a1, seconds, 1);
@@ -276,16 +302,25 @@ void PlayingState::update(double seconds) {
     }
   }
 
+  /********************
+  HEARTS
+  *********************/
   // updates Health
   updateHearts();
   State::update(seconds);
 
+  
+  /********************
+  DIE
+  *********************/
   // changes state to Lose
   if (static_cast<Character*>(images[ppl+"king"])->hearts <= 0) {
     engine->setState("lose");
   }
 
-
+  /********************
+  CAMERA PAN
+  *********************/
   if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
     static_cast<Character*>(images[ppl+"king"])->frozen = true;
     eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
@@ -298,6 +333,9 @@ void PlayingState::update(double seconds) {
   }
 
 
+  /****************
+  CHEATS
+  ****************/
   // automatically lose w/ '0'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    engine->setState("lose"); }, SDLK_0);
@@ -359,17 +397,6 @@ void PlayingState::enemyFollow() {
   }
 }
 
-// inc/dec sta
-void PlayingState::updateSta() {
-  int w = int(static_cast<Character*>(images[ppl+"king"])->sta * 146);  
-  images[top+"sta_bar"]->getDestRect()->w = w;
-}
-
-// inc/dec exp
-void PlayingState::updateExp() {
-  int w = int(static_cast<Character*>(images[ppl+"king"])->exp * 146);
-  images[top+"exp_bar"]->getDestRect()->w = w;
-}
 void PlayingState::activateInstructionText(int instruct){
 
 
@@ -523,6 +550,20 @@ void PlayingState::updateHearts(){
       static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(80, 0, 32, 32);
      break; 
   }
+}
+
+void PlayingState::cleanup() {
+  if (images[ppl + "king"] != nullptr && static_cast<Character*>(images[ppl + "king"])->staminaBar != nullptr) {
+    delete static_cast<Character*>(images[ppl + "king"])->staminaBar;
+    static_cast<Character*>(images[ppl + "king"])->staminaBar = nullptr;
+  }
+
+  if (images[ppl + "king"] != nullptr && static_cast<Character*>(images[ppl + "king"])->expBar != nullptr) {
+    delete static_cast<Character*>(images[ppl + "king"])->expBar;
+    static_cast<Character*>(images[ppl + "king"])->expBar = nullptr;
+  }
+    
+  State::cleanup();
 }
 
 PlayingState::~PlayingState() {}

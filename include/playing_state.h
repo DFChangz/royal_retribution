@@ -38,6 +38,8 @@ class PlayingState : public State {
 
     int a0 = 0;
     int a1 = 255;
+
+    virtual void cleanup();
 };
 
 #endif

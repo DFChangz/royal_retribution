@@ -18,6 +18,8 @@
 
 // Starts the game
 int Engine::volume = 100;
+Engine* Engine::instance = NULL;    
+
 void Engine::start() {
   setup();
   loop();
@@ -157,7 +159,10 @@ void Engine::createStates() {
 
 
 Engine::Engine() : 
-  error_handler(this) {};
+  error_handler(this) {
+
+  Engine::instance = NULL;    
+};
 
 void Engine::quit() {
   running = false;

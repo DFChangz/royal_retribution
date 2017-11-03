@@ -71,6 +71,8 @@ class Character : public Sprite {
 
     ~Character();
 
+    Image* staminaBar = nullptr;
+    Image* expBar = nullptr;
   private:
     void updateSta();
     void idleAnimation(double seconds);

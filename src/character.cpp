@@ -230,6 +230,11 @@ void Character::updateSta() {
   } else {
     sta += 0.005;
   }
+
+  if (staminaBar != nullptr) {
+    int w = int(sta * 146);  
+    staminaBar->getDestRect()->w = w;
+  }
 }
 
 void Character::updateExp() {
@@ -242,6 +247,11 @@ void Character::updateExp() {
     if (level == 10) expInc = 0;
   }
   state->engine->score += 1000;
+
+  if (expBar != nullptr) {
+    int w = int(exp * 146);
+    expBar->getDestRect()->w = w;
+  }
 }
 
 void Character::createListeners(EventHandler *eventHandler) {
@@ -305,7 +315,8 @@ void Character::createListeners(EventHandler *eventHandler) {
 
 
 
-void Character::cleanup(){}
+void Character::cleanup(){
+}
 
 Character::~Character(){}
 

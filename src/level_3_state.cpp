@@ -117,6 +117,24 @@ void Level_3_State::setup() {
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
+
+  // automatically win w/ '2'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file << std::to_string(engine->score) << std::endl;
+    file.close();
+    engine->setState("win"); 
+
+  }, SDLK_2);
+
+  // go to floor 2 w/ '1'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    Character::currFloor = 2;
+    engine->setState("level_2");
+   }, SDLK_1);
 }
 
 void Level_3_State::update(double seconds) {
@@ -135,23 +153,6 @@ void Level_3_State::update(double seconds) {
     file.close();
     engine->setState("win");
   }
-  // automatically win w/ '2'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
-    file.close();
-    engine->setState("win"); 
-
-  }, SDLK_2);
-
-  // go to floor 2 w/ '1'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    images[ppl+"king"]->velocityX = 0;
-    images[ppl+"king"]->velocityY = 0;
-    Character::currFloor = 2;
-    engine->setState("level_2");
-   }, SDLK_1);
 }
 
 Level_3_State::~Level_3_State() {}
