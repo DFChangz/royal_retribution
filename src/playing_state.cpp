@@ -185,6 +185,10 @@ void PlayingState::load() {
   deactivateInstructionText();
 
   camera.setPosition(images[ele+"stairs"]);
+
+  //makes pickups invisible while in chests
+  SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
 }
 
 void PlayingState::update(double seconds) {
@@ -222,13 +226,6 @@ void PlayingState::update(double seconds) {
     images[top+"score"]->load();
     currentScore = engine->score;
   }
-
-  /*************
-  LOAD?
-  *************/
-  //makes pickups invisble while in chests
-  SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
 
   /************
   PICKUP
