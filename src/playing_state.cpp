@@ -171,8 +171,12 @@ void PlayingState::load() {
     } else if (it->first == "3level") {
       auto center = getCenterForImage(it->second); 
       it->second->setPosition(std::get<0>(center), 0);
-    } else if (it->first == "3dkInstruct" || it->first == "3hInstruct"
-               || it->first == "3tInstruct" || it->first == "3cInstruct")
+    } else if (it->first == "3cInstruct") {
+      auto center = getCenterForImage(it->second);
+      it->second->setPosition(std::get<0>(center), std::get<1>(center)-120);
+    } else if (it->first == "3dkInstruct"
+               || it->first == "3hInstruct"
+               || it->first == "3tInstruct")
     {
       auto center = getCenterForImage(it->second);
       it->second->setPosition(std::get<0>(center), std::get<1>(center)-80);

@@ -1,8 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "types.h"
 #include "image.h"
+#include "types.h"
 
 class Util {
   public:
