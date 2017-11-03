@@ -70,17 +70,17 @@ void Sword::render(Camera* camera, double interpol_alpha) {
 void Sword::notifyCollision(Image* image, doubleRect*, bool) {
   if (attacking && image->isEnemy()) {
     //check ul
-    if (image->pos_x+32 > pos_x && image->pos_x < pos_x+56
-        && image->pos_y+50 > pos_y && image->pos_y < pos_y+56) { ul = true; }
+    if (image->pos_x+32 > pos_x+20 && image->pos_x < pos_x+56
+        && image->pos_y+50 > pos_y+20 && image->pos_y < pos_y+56) { ul = true; }
     // check ur
-    if (image->pos_x > pos_x+56 && image->pos_x < pos_x+112
-        && image->pos_y+50 > pos_y && image->pos_y < pos_y+56) { ur = true; }
+    if (image->pos_x > pos_x+56 && image->pos_x < pos_x+92
+        && image->pos_y+50 > pos_y+20 && image->pos_y < pos_y+56) { ur = true; }
     // check dl
-    if (image->pos_x+32 > pos_x && image->pos_x < pos_x+56
-        && image->pos_y > pos_y+56 && image->pos_y < pos_y+112) { dl = true; }
+    if (image->pos_x+32 > pos_x+20 && image->pos_x < pos_x+56
+        && image->pos_y > pos_y+56 && image->pos_y < pos_y+92) { dl = true; }
     // check dr
-    if (image->pos_x > pos_x+56 && image->pos_x < pos_x+112
-        && image->pos_y > pos_y+56 && image->pos_y < pos_y+112) { dr = true; }
+    if (image->pos_x > pos_x+56 && image->pos_x < pos_x+92
+        && image->pos_y > pos_y+56 && image->pos_y < pos_y+92) { dr = true; }
   }
   // enemies die when attacked
   if (attacking && image->isEnemy() && !static_cast<Enemy*>(image)->isDead()) {
