@@ -27,7 +27,7 @@ void Level_3_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 3548, 1150, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 3584, 1150, &eventHandler, &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
