@@ -100,9 +100,14 @@ void PlayingState::setup() {
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
+  // add food
+  images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
+    32, 32, 0, 0, false, true, foodNum);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got a key. It opens a special door. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "You got a key. It opens a special door with 'e'. Press 'r' to clear text");
+  images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
@@ -176,7 +181,8 @@ void PlayingState::load() {
       it->second->setPosition(std::get<0>(center), std::get<1>(center)-120);
     } else if (it->first == "3dkInstruct"
                || it->first == "3hInstruct"
-               || it->first == "3tInstruct")
+               || it->first == "3tInstruct"
+               || it->first == "3fInstruct")
     {
       auto center = getCenterForImage(it->second);
       it->second->setPosition(std::get<0>(center), std::get<1>(center)-80);
@@ -189,6 +195,7 @@ void PlayingState::load() {
   //makes pickups invisible while in chests
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
 }
 
 void PlayingState::update(double seconds) {
@@ -338,7 +345,7 @@ void PlayingState::update(double seconds) {
    pause(); }, SDLK_p);
   //Delete instruction text / resume by pressing 'r'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    resume();
+    //resume();
     deactivateInstructionText(); 
   }, SDLK_r);
 }
@@ -371,7 +378,11 @@ void PlayingState::activateInstructionText(int instruct){
     SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 255); 
     PlayingState::instrGiven *= chestNum;
   }
+  if(instruct == foodTextNum){ 
+    pause();
 
+    SDL_SetTextureAlphaMod(images[top+"fInstruct"]->getTexture(), 255); 
+  }
 }
 
 void PlayingState::deactivateInstructionText() {
@@ -382,6 +393,7 @@ void PlayingState::deactivateInstructionText() {
   SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 0); 
   SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[top+"fInstruct"]->getTexture(), 0);
   if(PlayingState::fallen == 1){
     PlayingState::fallen = 2;
     static_cast<Character*>(images[ppl+"king"])->
