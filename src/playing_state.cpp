@@ -345,7 +345,7 @@ void PlayingState::update(double seconds) {
    if (skipPan) pause(); }, SDLK_p);
   //Delete instruction text / resume by pressing 'r'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    resume();
+    if (isPaused()) resume();
     deactivateInstructionText(); 
   }, SDLK_r);
 }
