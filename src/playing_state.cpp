@@ -342,7 +342,7 @@ void PlayingState::update(double seconds) {
    engine->setState("lose"); }, SDLK_0);
   // pause w/ 'p'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   pause(); }, SDLK_p);
+   if (skipPan) pause(); }, SDLK_p);
   //Delete instruction text / resume by pressing 'r'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     //resume();
