@@ -41,9 +41,11 @@ void Enemy::freeze() {
 }
 
 void Enemy::thaw() {
+  if (frozen) {
+    velocityX = tempVX;
+    velocityY = tempVY;
+  }
   frozen = false;
-  velocityX = tempVX;
-  velocityY = tempVY;
 }
 
 void Enemy::update(double seconds) {
