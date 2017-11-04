@@ -122,7 +122,9 @@ void Level_1_State::setup() {
   static_cast<Sprite*>(images[add+"food"])->setPair(C3);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door with 'e'. Press 'r' to clear text");
+  images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU FELL DOWN A HOLE! You are now going to the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
@@ -148,9 +150,11 @@ void Level_1_State::setup() {
 }
 
 void Level_1_State::update(double seconds) {
+
+//  SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
+
   PlayingState::update(seconds);
 
-  SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
   if(static_cast<Sprite*>(images[add+"food"])->pair->pair
     == static_cast<Sprite*>(images[add+"food"])->pair
     && !static_cast<Pickup*>(images[add+"food"])->isPickedUp())
@@ -164,6 +168,7 @@ void Level_1_State::update(double seconds) {
     static_cast<Pickup*>(images[add+"food"])->pickUp();
     Character::hearts = 8;
     activateInstructionText(chestNum);
+    activateInstructionText(foodTextNum);
 
   }
 

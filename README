@@ -8,6 +8,8 @@
 # Assignment 8 #
 ================
 
+
+
 FIXES
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -33,19 +35,28 @@ Other
 - many of the bugs related to collision have been removed
 
 Concerning Coding
+*  The collision detection and resolution system has almost completely been
+   rewritten to take into position the true double value of the characters,
+   rather than the SDL-preferred integer value of the pixels. This solves many
+   issues described above related to characters pushing and going through
+   walls.
 
 *  Previously, many functions unrelated to levels were scattered throughout the
    level_x_state.cpp files in order to accomplish certain goals via quick, sim-
-   ple fixes. This seemed very unintuitive, so all enemy-related code was moved
-   to enemy.cpp and all character-related code was moved to character.cpp.
-
-*  In addition, due to their similar functionality, all the level files had re-
-   petitive uses of the same functions. This was fixed by placing all these re-
-   peated functions within playing_state.cpp.
+   ple fixes. To keep our code DRY, we factored out most of the common code into
+   a "playing_state.cpp" file. Also, it became unintuitive to have files doing
+   multiple different tasks, so all enemy-related code was moved to enemy.cpp
+   and most of the character-related code was moved to character.cpp. In the
+   coming weeks, we will continue to factor out as much as possible and to keep
+   our new structure consistent.
 
 *  We also realized that many of the x_state files were using similar functions
    "privately" rather than sharing them under a "protected" class. This was fi-
    xed by placing these function within state.cpp.
+
+*  Lots of skeleton code that is now obsolete has been removed from various
+   places throughout the codebase, and code from collisions has been factored
+   out into "util" file for use in other places.
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
