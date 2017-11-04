@@ -15,7 +15,7 @@
 #define TILES_IMG "assets/blocks.png"
 #define TILES_TXT "maps/level_legend.txt"
 #define TILES_ADD "maps/level_additions_legend.txt"
-#define FOLLOW_RADIUS 50
+#define FOLLOW_RADIUS 100
 // level 1
 #define LEVEL_1 "maps/level_1.txt"
 #define LEVEL_1_E "maps/level_1_enemies.txt"
