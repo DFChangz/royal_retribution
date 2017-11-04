@@ -151,7 +151,7 @@ void Level_1_State::setup() {
 
 void Level_1_State::update(double seconds) {
 
-//  SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
 
   PlayingState::update(seconds);
 
