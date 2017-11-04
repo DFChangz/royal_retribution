@@ -3,7 +3,7 @@
 
 #define ENEMY_FPS             5
 #define ENEMY_MOVING_FRAMES   4
-#define ENEMY_IDLE_FRAMES     16
+#define ENEMY_IDLE_FRAMES     1
 #define ENEMY_R_MOVING_POS    28
 #define ENEMY_L_MOVING_POS    24
 #define ENEMY_UP_MOVING_POS   20

@@ -67,10 +67,11 @@ void State::pauseUpdate(double seconds) {
     if (it->first[0] == '1') {
       if (it->first[1] == 'e')
         static_cast<Enemy*>(it->second)->freeze();
-      if (it->first[1] == 'k')
+      if (it->first[1] == 'k') {
         static_cast<Character*>(it->second)->frozen = true;
         static_cast<Character*>(it->second)->velocityX = 0;
         static_cast<Character*>(it->second)->velocityY = 0;
+      }
     }
   }
   update(seconds);
