@@ -49,8 +49,8 @@ class Enemy : public Sprite {
     bool following = false;
 
     bool dead = false;
-    double tempVX = 0;
-    double tempVY = 0;
+    double tempVX = 150;
+    double tempVY = 150;
 
     bool flipXVelocity = false;
     bool flipYVelocity = false;
