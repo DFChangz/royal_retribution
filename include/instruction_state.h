@@ -42,8 +42,8 @@ class InstructionState : public State {
     std::string a = "[a] or [left]";
     std::string s = "[s] or [down]";
     std::string d = "[d] or [right]";
-    std::string i2 = "Hold [SHIFT] to run and Press [SPACE] to attack";
-    std::string sh = "[SHIFT]";
+    std::string i2 = "Hold [LSHIFT] and move to run, Press [SPACE] to attack";
+    std::string sh = "[LSHIFT]";
     std::string sp = "[SPACE]";
     std::string i3 = "Press [e] while walking towards anything (chest) to interact with it";
     std::string e = "[e]";
