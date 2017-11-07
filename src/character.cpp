@@ -159,7 +159,7 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
   else if(static_cast<Sprite*>(image)->isDoor() && static_cast<Sprite*>(image)->pair == nullptr){
     if(interacting){
       for(Pickup* item : inventory){
-        if( item->getType() == keyNum){
+        if( item->getType() == keyNum && !item->isActivated()){
           SDL_SetTextureAlphaMod(image->getTexture(), 0);
           static_cast<Sprite*>(image)->setCollidable(false);
           item->activate();
