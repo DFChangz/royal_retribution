@@ -16,11 +16,14 @@ Pickup::Pickup(SDL_Renderer *renderer, std::string filename, ErrorHandler *error
 
 }
 
-void Pickup::onPickUp(int num_inventory) {
+void Pickup::onPickUp(int) {
   pickedUp = true;
   setFixed(true);
-  setPosition(num_inventory * 40, 66);
+  setPosition(inventoryPos * 40, 66);
   SDL_SetTextureAlphaMod(texture, 255);
+  if(!powerup){
+    inventoryPos++;
+  }
 }
 
 void Pickup::activate() {
@@ -28,3 +31,5 @@ void Pickup::activate() {
 
   SDL_SetTextureAlphaMod(texture, 0);
 }
+
+int Pickup::inventoryPos = 0;
