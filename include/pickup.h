@@ -15,18 +15,17 @@ class Pickup : public Sprite {
     bool isPickedUp() { return pickedUp; }
     void pickUp();
     bool isActivated(){ return activated;}
-    void activate(){ activated = true;}
+    void activate();
     virtual bool isPickup(){ return true; }
     bool isPowerup() { return powerup; }
     int getType(){ return type; }
 
+    void onPickUp(int);
   private:
     bool pickedUp = false;
     bool powerup = false;
     bool activated = false;
     int type = keyNum;
-
-
 };
 
 #endif

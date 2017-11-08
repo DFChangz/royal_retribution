@@ -196,6 +196,21 @@ void PlayingState::load() {
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
+
+  /****************
+  CHEATS
+  ****************/
+  // automatically lose w/ '0'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   engine->setState("lose"); }, SDLK_0);
+  // pause w/ 'p'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   if (skipPan) pause(); }, SDLK_p);
+  //Delete instruction text / resume by pressing 'r'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    if (isPaused()) resume();
+    deactivateInstructionText(); 
+  }, SDLK_r);
 }
 
 void PlayingState::update(double seconds) {
@@ -234,51 +249,36 @@ void PlayingState::update(double seconds) {
     currentScore = engine->score;
   }
 
-  /************
-  PICKUP
-  ************/
-  int x = 0;  
-  // set up inventory display
-  for(Pickup *pUp : static_cast<Character*>(images[ppl+"king"])->inventory){  
-    pUp->setFixed(true);
-    pUp->setPosition(x * 40, 66);
-    if(pUp->isPowerup()){
-      pUp->activate();
-    }
-    if(!pUp->isActivated()){
-      SDL_SetTextureAlphaMod(pUp->getTexture(), 255);
-      x++;
-    }
-  }
-
   /********************
   CHEST
   ********************/
+  // !Fix pair unintuitiveness! last resort chest manager class
+
   // shows contents of chest when open
+  auto character = static_cast<Character*>(images[ppl+"king"]);
+  auto key = static_cast<Pickup*>(images[add+"key"]);
   if(static_cast<Sprite*>(images[add+"key"])->pair->pair
     == static_cast<Sprite*>(images[add+"key"])->pair
-    && !static_cast<Pickup*>(images[add+"key"])->isPickedUp())
+    && !key->isPickedUp())
   {
-    SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 255);
-    static_cast<Character*>(images[ppl+"king"])
-      ->inventory.push_back(static_cast<Pickup*>(images[add+"key"]));
-    static_cast<Sprite*>(images[add+"key"])->pair
-      = static_cast<Character*>(images[ppl+"king"]);
-    static_cast<Pickup*>(images[add+"key"])->pickUp();
+
+    character->pickUp(key);
+    //subscribe for lines below?
+
+    static_cast<Sprite*>(images[add+"key"])->pair = character;
+
     activateInstructionText(doorKeyNum);
     activateInstructionText(chestNum);
   }
+  auto coin = static_cast<Pickup*>(images[add+"coin"]);
   if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
     == static_cast<Sprite*>(images[add+"coin"])->pair
-    && !static_cast<Pickup*>(images[add+"coin"])->isPickedUp())
+    && !coin->isPickedUp())
   {
-    SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 255);
-    static_cast<Character*>(images[ppl+"king"])
-      ->inventory.push_back(static_cast<Pickup*>(images[add+"coin"]));
-    static_cast<Sprite*>(images[add+"coin"])->pair
-      = static_cast<Character*>(images[ppl+"king"]);
+    character->pickUp(coin);
+
+    static_cast<Sprite*>(images[add+"coin"])->pair = character;
     engine->score += 1000;
-    static_cast<Pickup*>(images[add+"coin"])->pickUp();
     activateInstructionText(chestNum);
   }
 
@@ -332,22 +332,6 @@ void PlayingState::update(double seconds) {
     camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
     skipPan = true;
   }
-
-
-  /****************
-  CHEATS
-  ****************/
-  // automatically lose w/ '0'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   engine->setState("lose"); }, SDLK_0);
-  // pause w/ 'p'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-   if (skipPan) pause(); }, SDLK_p);
-  //Delete instruction text / resume by pressing 'r'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    if (isPaused()) resume();
-    deactivateInstructionText(); 
-  }, SDLK_r);
 }
 
 void PlayingState::activateInstructionText(int instruct){

@@ -43,7 +43,6 @@ class Character : public Sprite {
     virtual void notifyCollision(Image*, doubleRect* intersection, bool resolved = false);
     virtual void update(double seconds);
     virtual void render(Camera*, double interpol_alpha = 1);
-    virtual void cleanup();
     void updateExp();
 
     static int hearts;
@@ -76,6 +75,8 @@ class Character : public Sprite {
 
     void setExpBar(Image*);
     virtual doubleRect getDoubleRect();
+
+    virtual void pickUp(Pickup*);
   private:
     void updateExpBar();
     void updateSta();

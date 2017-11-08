@@ -52,8 +52,6 @@ class Sprite : public Image {
     virtual doubleRect getDoubleRect();
   protected:
     bool collidable = true;
-
-    double speedMultiplier = 1;
     
     int currentFrame = -1;
 

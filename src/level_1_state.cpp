@@ -160,12 +160,14 @@ void Level_1_State::update(double seconds) {
     && !static_cast<Pickup*>(images[add+"food"])->isPickedUp())
   {
     SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 255);
-    static_cast<Character*>(images[ppl+"king"])
-      ->inventory.push_back(static_cast<Pickup*>(images[add+"food"]));
+
+    static_cast<Character*>(images[ppl+"king"])->pickUp(
+      static_cast<Pickup*>(images[add+"food"]));
+
     static_cast<Sprite*>(images[add+"food"])->pair
       = static_cast<Character*>(images[ppl+"king"]);
+
     engine->score += 1000;
-    static_cast<Pickup*>(images[add+"food"])->pickUp();
     Character::hearts = 8;
     activateInstructionText(chestNum);
     activateInstructionText(foodTextNum);

@@ -48,6 +48,7 @@ class Image {
 
     double velocityX = 0.0;
     double velocityY = 0.0;
+    int speedMultiplier = 1;
 
     std::vector<unsigned int> buckets;
 

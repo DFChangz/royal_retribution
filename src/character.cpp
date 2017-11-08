@@ -332,8 +332,14 @@ doubleRect Character::getDoubleRect() {
   return x;
 }
 
+void Character::pickUp(Pickup* pickup) {
+  inventory.push_back(pickup);
+  pickup->onPickUp(inventory.size() - 1);
 
-void Character::cleanup(){
+  if (pickup->isPowerup()) {
+    pickup->activate();
+    activePowerups.push_back(pickup->getType());
+  }
 }
 
 Character::~Character(){}

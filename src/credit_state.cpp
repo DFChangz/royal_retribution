@@ -16,7 +16,7 @@ void CreditState::setup(){
   images["t1"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 2, images["t0"]->getDestRect()->y + 60, 40, "Programmers");
   images["t2"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    WIDTH / 2, images["t1"]->getDestRect()->y + 60, 30, "Idean Labib");
+    WIDTH / 2, images["t1"]->getDestRect()->y + 60, 30, "Idean LaBiB");
   images["t3"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH / 2, images["t2"]->getDestRect()->y + 60, 30, "Tae Jin Kim");
   images["t4"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,

@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "character.h"
 #include "camera.h"
+#include "util.h"
 //Definitions for the the parent class that other sprite objects inherit from
 
 /*Constructor that makes a sprite from an inputed image file along with a gi-
@@ -132,7 +133,6 @@ void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved
   /*if (abs(velocityY) > abs(velocityX)) {
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/
-
     if (velocityX == 0 && velocityY == 0 && (img->velocityX != 0 ||
       img->velocityY != 0)) {
 
@@ -156,42 +156,35 @@ void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved
 }
 
 void Sprite::resolveXCollision(Image* img, double intersection) {
-  if (velocityX != 0) {
-    double velRatio = abs(velocityX) / (abs(velocityX) + abs(img->velocityX));
+  double velocity = velocityX * (double) speedMultiplier;
+  double img_velocity = img->velocityX * (double) img->speedMultiplier;
+  if (velocity != 0) {
+    double velRatio = abs(velocity) / (abs(velocity) + abs(img_velocity));
 
-    //int adjustmentMagnitude = round((double) intersection * velRatio);
     double adjustmentMagnitude = intersection * velRatio;
-    pos_x -= velocityX / abs(velocityX) * (adjustmentMagnitude);
+    pos_x -= velocity / abs(velocity) * (adjustmentMagnitude);
 
-    if (img->velocityX != 0) {
+    if (img_velocity != 0) {
       adjustmentMagnitude = intersection - adjustmentMagnitude;
-      img->pos_x -= img->velocityX / abs(img->velocityX) * (adjustmentMagnitude);
+      img->pos_x -= img_velocity / abs(img_velocity) * (adjustmentMagnitude);
     }
   }
 }
 
 void Sprite::resolveYCollision(Image* img, double intersection) {
-  if (velocityY != 0) {
-    double velRatio = abs(velocityY) / (abs(velocityY) + abs(img->velocityY));
+  double velocity = velocityY * (double) speedMultiplier;
+  double img_velocity = img->velocityY * (double) img->speedMultiplier;
+  if (velocity != 0) {
+    double velRatio = abs(velocity) / (abs(velocity) + abs(img_velocity));
 
     double adjustmentMagnitude = intersection * velRatio;
 
-    pos_y -= velocityY / abs(velocityY) * (adjustmentMagnitude);
+    pos_y -= velocity / abs(velocity) * (adjustmentMagnitude);
 
-    if (img->velocityY != 0) {
+    if (img_velocity != 0) {
       adjustmentMagnitude = intersection - adjustmentMagnitude;
-      img->pos_y -= img->velocityY / abs(img->velocityY) * (adjustmentMagnitude);
+      img->pos_y -= img_velocity / abs(img_velocity) * (adjustmentMagnitude);
     }
-
-    /*if (isCharacter() || img->isCharacter()) {
-      if (isCharacter()) {
-        std::cout << "CHAR: " << pos_y << std::endl;
-        std::cout << "ENEMY: " << img->pos_y + 50 << std::endl;
-      } else {
-        std::cout << "CHAR: " << img->pos_y << std::endl;
-        std::cout << "ENEMY: " << pos_y + 50 << std::endl;
-      }
-    }*/
   }
 }
 
