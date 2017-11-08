@@ -104,7 +104,7 @@ void Sword::notifyCollision(Image* image, doubleRect*, bool) {
 
 void Sword::kill(Image* image) {
   static_cast<Enemy*>(image)->kill();
-  audioHandler->play("kill", 1);
+  audioHandler->play("kill", 0);
   if (this->king->pair != nullptr) {
     this->king->pair->setCollidable(false);
     SDL_SetTextureAlphaMod(this->king->pair->getTexture(), 0);

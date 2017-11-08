@@ -205,7 +205,7 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
   if ((image->isEnemy() && (!attacking || collisionDir != dir) && !invincible)
     || (static_cast<Sprite*>(image)->isBlade() && !invincible)) {
 
-    audioHandler->play("collision", 1);
+    audioHandler->play("collision", 0);
 
     hearts--;
 
