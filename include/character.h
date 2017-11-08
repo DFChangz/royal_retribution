@@ -75,6 +75,7 @@ class Character : public Sprite {
     Image* expBar = nullptr;
 
     void setExpBar(Image*);
+    virtual doubleRect getDoubleRect();
   private:
     void updateExpBar();
     void updateSta();

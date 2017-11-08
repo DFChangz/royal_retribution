@@ -221,3 +221,5 @@ doubleRect Sprite::getDoubleRect() {
   x.h = rect.h;
   return x;
 }
+
+

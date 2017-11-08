@@ -49,6 +49,7 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
+
   // update sta
   if (!frozen) updateSta();
 
@@ -322,6 +323,14 @@ void Character::createListeners(EventHandler *eventHandler) {
     interacting = false;}, SDLK_e);
 }
 
+doubleRect Character::getDoubleRect() {
+  doubleRect x;
+  x.x = pos_x;
+  x.y = pos_y + (rect.h / 2);
+  x.w = rect.w;
+  x.h = rect.h / 2;
+  return x;
+}
 
 
 void Character::cleanup(){

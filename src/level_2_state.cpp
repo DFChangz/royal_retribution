@@ -19,7 +19,7 @@ Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
 void Level_2_State::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
-    errorHandler, map->width/2 - 45, map->height - 150, false);
+    errorHandler, map->width/2 - 45, map->height - 215, false);
   // Hole
   images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
     errorHandler, 0, 0, false);
@@ -155,7 +155,7 @@ void Level_2_State::update(double seconds) {
       && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
         > map->width/2 - 45
       && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
-        > map->height - 150)
+        > map->height - 215)
   {
     images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
     images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;

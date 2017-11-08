@@ -113,12 +113,12 @@ bool Enemy::checkDistance(Image* sprite, double radius) {
 void Enemy::followSprite() {
   if (frozen) return;
 
-  if (pos_x + 32 <= shouldFollow->pos_x) velocityX = 100;
-  else if (pos_x >= shouldFollow->pos_x + 32) velocityX = -100;
+  if (getDoubleRect().x + 32 <= shouldFollow->getDoubleRect().x) velocityX = 100;
+  else if (getDoubleRect().x >= shouldFollow->getDoubleRect().x + 32) velocityX = -100;
   else velocityX = 0;
 
-  if (pos_y + 50 <= shouldFollow->pos_y) velocityY = 100;
-  else if (pos_y >= shouldFollow->pos_y + 50) velocityY = -100;
+  if (getDoubleRect().y + 25 <= shouldFollow->getDoubleRect().y) velocityY = 100;
+  else if (getDoubleRect().y >= shouldFollow->getDoubleRect().y + 25) velocityY = -100;
   else velocityY = 0;
 }
 
@@ -147,4 +147,13 @@ void Enemy::idleAnimation(double seconds) {
   else error_handler->quit(__func__, "direction not found");
 
   Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);
+}
+
+doubleRect Enemy::getDoubleRect() {
+  doubleRect x;
+  x.x = pos_x;
+  x.y = pos_y + (rect.h / 2);
+  x.w = rect.w;
+  x.h = rect.h / 2;
+  return x;
 }

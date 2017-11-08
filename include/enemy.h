@@ -41,6 +41,7 @@ class Enemy : public Sprite {
     void followWhenClose(Image* sprite, double radius);
     bool checkDistance(Image* sprite, double radius);
     void followSprite();
+    virtual doubleRect getDoubleRect();
   private:
     void attemptFollow();
 
