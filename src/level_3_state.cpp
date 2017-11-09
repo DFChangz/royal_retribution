@@ -107,9 +107,6 @@ void Level_3_State::setup() {
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
-  // add food
-  images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
-    32, 32, 0, 0, false, true, foodNum);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door with 'e'. Press 'r' to clear text");
@@ -143,9 +140,42 @@ void Level_3_State::setup() {
     engine->setState("level_2");
    }, SDLK_1);
 }
+void Level_3_State::load() {
+  PlayingState::load(); 
+  //sets pickup texture to see thru when in chests
+  SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
+}
 
 void Level_3_State::update(double seconds) {
   PlayingState::update(seconds);
+
+  auto character = static_cast<Character*>(images[ppl+"king"]);
+  auto key = static_cast<Pickup*>(images[add+"key"]);
+  if(static_cast<Sprite*>(images[add+"key"])->pair->pair
+    == static_cast<Sprite*>(images[add+"key"])->pair
+    && !key->isPickedUp())
+  {
+
+    character->pickUp(key);
+    //subscribe for lines below?
+
+    static_cast<Sprite*>(images[add+"key"])->pair = character;
+
+    activateInstructionText(doorKeyNum);
+    activateInstructionText(chestNum);
+  }
+  auto coin = static_cast<Pickup*>(images[add+"coin"]);
+  if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin"])->pair
+    && !coin->isPickedUp())
+  {
+    character->pickUp(coin);
+
+    static_cast<Sprite*>(images[add+"coin"])->pair = character;
+    engine->score += 1000;
+    activateInstructionText(chestNum);
+  }
 
   // changes state to Win
   if (images[ppl+"king"]->pos_x < map->width/2 + 45

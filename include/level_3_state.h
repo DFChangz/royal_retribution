@@ -8,6 +8,7 @@ class Level_3_State : public PlayingState {
   public:
     Level_3_State(Engine* engine, ErrorHandler* errorHandler);
 
+    virtual void load();
     virtual ~Level_3_State();
   private:
     void update(double);

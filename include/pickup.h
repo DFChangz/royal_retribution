@@ -21,6 +21,7 @@ class Pickup : public Sprite {
     int getType(){ return type; }
 
     void onPickUp(int);
+    void updateList();
     static int inventoryPos;
   private:
     bool pickedUp = false;

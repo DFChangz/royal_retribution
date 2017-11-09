@@ -21,9 +21,20 @@ void Pickup::onPickUp(int) {
   setFixed(true);
   setPosition(inventoryPos * 40, 66);
   SDL_SetTextureAlphaMod(texture, 255);
-  if(!powerup){
+  if(!activated){
     inventoryPos++;
   }
+}
+
+void Pickup::updateList(){
+  inventoryPos = 0;
+  for(Pickup* item : Character::inventory){
+    if(item != nullptr && !item->isActivated()){
+      item->setPosition(inventoryPos * 40, 66);
+      inventoryPos++;
+    }
+  }
+  
 }
 
 void Pickup::activate() {

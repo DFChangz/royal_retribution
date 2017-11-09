@@ -164,6 +164,7 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
           SDL_SetTextureAlphaMod(image->getTexture(), 0);
           static_cast<Sprite*>(image)->setCollidable(false);
           item->activate();
+          item->updateList();
         }
       }
     }
@@ -189,14 +190,6 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
 
   if(static_cast<Sprite*>(image)->isChest() && interacting == true){
       static_cast<Sprite*>(image)->pair = this;
-  }
-
-  if(static_cast<Sprite*>(image)->isDoor() && interacting == true){
-    for( unsigned i = 0; i < inventory.size(); i++){
-      if(!inventory[i]->isActivated()){
-        inventory[i]->activate();
-      }
-    } 
   }
 
   if (!image->isSword()) Sprite::notifyCollision(image, intersection, resolved);
@@ -337,7 +330,6 @@ void Character::pickUp(Pickup* pickup) {
   pickup->onPickUp(inventory.size() - 1);
 
   if (pickup->isPowerup()) {
-    pickup->activate();
     activePowerups.push_back(pickup->getType());
   }
 }

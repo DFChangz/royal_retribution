@@ -148,18 +148,22 @@ void Level_1_State::setup() {
     engine->setState("level_2");
    }, SDLK_2);
 }
-
-void Level_1_State::update(double seconds) {
-
+void Level_1_State::load() {
+  PlayingState::load(); 
+  //sets pickup texture to see thru when in chests
+  SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
+}
+void Level_1_State::update(double seconds) {
 
   PlayingState::update(seconds);
 
+  //food chest
   if(static_cast<Sprite*>(images[add+"food"])->pair->pair
     == static_cast<Sprite*>(images[add+"food"])->pair
     && !static_cast<Pickup*>(images[add+"food"])->isPickedUp())
   {
-    SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 255);
 
     static_cast<Character*>(images[ppl+"king"])->pickUp(
       static_cast<Pickup*>(images[add+"food"]));
@@ -172,6 +176,33 @@ void Level_1_State::update(double seconds) {
     activateInstructionText(chestNum);
     activateInstructionText(foodTextNum);
 
+  }
+  //key chest
+  auto character = static_cast<Character*>(images[ppl+"king"]);
+  auto key = static_cast<Pickup*>(images[add+"key"]);
+  if(static_cast<Sprite*>(images[add+"key"])->pair->pair
+    == static_cast<Sprite*>(images[add+"key"])->pair
+    && !key->isPickedUp())
+  {
+
+    character->pickUp(key);
+
+    static_cast<Sprite*>(images[add+"key"])->pair = character;
+
+    activateInstructionText(doorKeyNum);
+    activateInstructionText(chestNum);
+  }
+  //coin chest
+  auto coin = static_cast<Pickup*>(images[add+"coin"]);
+  if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin"])->pair
+    && !coin->isPickedUp())
+  {
+    character->pickUp(coin);
+
+    static_cast<Sprite*>(images[add+"coin"])->pair = character;
+    engine->score += 1000;
+    activateInstructionText(chestNum);
   }
 
   // changes state to Level_2

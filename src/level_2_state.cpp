@@ -80,37 +80,34 @@ void Level_2_State::setup() {
     WIDTH/2 - 75, 34, false, true);
   images[top+"exp_bar"] = new Sprite(engine->renderer, EXP_BAR, errorHandler,
     WIDTH/2 - 72, 38, false, true);
-  // set key and coin pos
-  double keyPosX = 0.0;
-  double keyPosY = 0.0;
-  double coinPosX = 0.0;
-  double coinPosY = 0.0;
+  // set coin pos
+  double coinPos1X = 0.0;
+  double coinPos1Y = 0.0;
+  double coinPos2X = 0.0;
+  double coinPos2Y = 0.0;
   Sprite *C1 = nullptr;
   Sprite *C2 = nullptr;
   for(auto tile : map->additions){
     if(tile.image->isChest()){
-      if(keyPosX == 0.0 && keyPosY == 0.0){
-        keyPosX = tile.image->pos_x;
-        keyPosY = tile.image->pos_y;
+      if(coinPos1X == 0.0 && coinPos1Y == 0.0){
+        coinPos1X = tile.image->pos_x;
+        coinPos1Y = tile.image->pos_y;
         C1 = tile.image;
       } else {
-        coinPosX = tile.image->pos_x;
-        coinPosY = tile.image->pos_y;
+        coinPos2X = tile.image->pos_x;
+        coinPos2Y = tile.image->pos_y;
         C2 = tile.image;
       }
     }
   }
-  // add key
-  images[add+"key"] = new Pickup(engine->renderer, KEY, errorHandler,
-    32, 32, keyPosX, keyPosY, false, false, keyNum);
-  static_cast<Sprite*>(images[add+"key"])->setPair(C1);
-  // add coin
+  // add coin 1
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
-    32, 32, coinPosX, coinPosY, false, false, coinNum);
+    32, 32, coinPos1X, coinPos1Y, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
-  // add food
-  images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
-    32, 32, 0, 0, false, true, foodNum);
+  // add coin 2
+  images[add+"coin2"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos2X, coinPos2Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin2"])->setPair(C1);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door. Press 'r' to clear text");
@@ -147,8 +144,40 @@ void Level_2_State::setup() {
    }, SDLK_1);
 }
 
+void Level_2_State::load() {
+  PlayingState::load(); 
+  //sets pickup texture to see thru when in chests
+  SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin2"]->getTexture(), 0);
+}
 void Level_2_State::update(double seconds) {
   PlayingState::update(seconds);
+
+  auto character = static_cast<Character*>(images[ppl+"king"]);
+  auto coin2 = static_cast<Pickup*>(images[add+"coin2"]);
+  if(static_cast<Sprite*>(images[add+"coin2"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin2"])->pair
+    && !coin2->isPickedUp())
+  {
+
+    character->pickUp(coin2);
+
+    static_cast<Sprite*>(images[add+"coin2"])->pair = character;
+    engine->score += 1000;
+
+    activateInstructionText(chestNum);
+  }
+  auto coin = static_cast<Pickup*>(images[add+"coin"]);
+  if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin"])->pair
+    && !coin->isPickedUp())
+  {
+    character->pickUp(coin);
+
+    static_cast<Sprite*>(images[add+"coin"])->pair = character;
+    engine->score += 1000;
+    activateInstructionText(chestNum);
+  }
 
   // changes state to level 3
   if (images[ppl+"king"]->pos_x < map->width/2 + 45

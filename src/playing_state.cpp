@@ -192,10 +192,6 @@ void PlayingState::load() {
 
   camera.setPosition(images[ele+"stairs"]);
 
-  //makes pickups invisible while in chests
-  SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[add+"food"]->getTexture(), 0);
 
   /****************
   CHEATS
@@ -249,38 +245,6 @@ void PlayingState::update(double seconds) {
     currentScore = engine->score;
   }
 
-  /********************
-  CHEST
-  ********************/
-  // !Fix pair unintuitiveness! last resort chest manager class
-
-  // shows contents of chest when open
-  auto character = static_cast<Character*>(images[ppl+"king"]);
-  auto key = static_cast<Pickup*>(images[add+"key"]);
-  if(static_cast<Sprite*>(images[add+"key"])->pair->pair
-    == static_cast<Sprite*>(images[add+"key"])->pair
-    && !key->isPickedUp())
-  {
-
-    character->pickUp(key);
-    //subscribe for lines below?
-
-    static_cast<Sprite*>(images[add+"key"])->pair = character;
-
-    activateInstructionText(doorKeyNum);
-    activateInstructionText(chestNum);
-  }
-  auto coin = static_cast<Pickup*>(images[add+"coin"]);
-  if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
-    == static_cast<Sprite*>(images[add+"coin"])->pair
-    && !coin->isPickedUp())
-  {
-    character->pickUp(coin);
-
-    static_cast<Sprite*>(images[add+"coin"])->pair = character;
-    engine->score += 1000;
-    activateInstructionText(chestNum);
-  }
 
   /********************
   FALLING

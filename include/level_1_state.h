@@ -7,6 +7,7 @@ class Level_1_State : public PlayingState {
   public:
     Level_1_State(Engine* engine, ErrorHandler* errorHandler);
 
+    virtual void load();
     virtual ~Level_1_State();
   private:
     void update(double);
