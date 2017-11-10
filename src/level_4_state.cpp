@@ -10,7 +10,7 @@ Level_4_State::Level_4_State(Engine* engine, ErrorHandler* errorHandler)
   map = new Map(engine->renderer, errorHandler, LEVEL_4, TILES_TXT,
     &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_4_ADD);
+  map->loadSecondLayout(LEVEL_2_ADD);
   setup();
   load();
 }
@@ -27,11 +27,11 @@ void Level_4_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 3704, 1453, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 100, 300, &eventHandler, &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 3600, 1400, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
+    56, 56, 100, 300, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
     &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_4_E);

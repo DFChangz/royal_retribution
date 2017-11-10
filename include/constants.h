@@ -29,9 +29,9 @@
 #define LEVEL_3_E "maps/level_3_enemies.txt"
 #define LEVEL_3_ADD "maps/level_3_additions.txt"
 // level 4
-#define LEVEL_4 "maps/level_3.txt"
-#define LEVEL_4_E "maps/level_3_enemies.txt"
-#define LEVEL_4_ADD "maps/level_3_additions.txt"
+#define LEVEL_4 "maps/level_4.txt"
+#define LEVEL_4_E "maps/level_4_enemies.txt"
+#define LEVEL_4_ADD "maps/level_4_additions.txt"
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
