@@ -267,6 +267,10 @@ void Map::update(double seconds) {
         continue;
       }
     }
+    if(tile.image->isBlade()){
+      tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 9);
+      continue;
+    }
     tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
   }
 }
