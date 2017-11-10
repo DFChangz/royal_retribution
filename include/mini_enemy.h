@@ -23,6 +23,11 @@ class Mini_Enemy : public Enemy {
 
   private:
     bool transformed = false;
+    double transformingTimer = 0;
+
+    void transform(double);
+    void attemptFollow(double);
+    void idleAnimation(double);
 };
 
 #endif

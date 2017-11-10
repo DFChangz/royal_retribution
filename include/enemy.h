@@ -53,6 +53,7 @@ class Enemy : public Sprite {
     double tempVX = 150;
     double tempVY = 150;
 
+  private:
     void attemptFollow();
     void idleAnimation(double);
 };

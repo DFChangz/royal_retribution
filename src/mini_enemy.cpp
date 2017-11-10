@@ -26,7 +26,7 @@ void Mini_Enemy::update(double seconds) {
   }
 
   if (shouldFollow != nullptr)
-    attemptFollow();
+    attemptFollow(seconds);
 
   Sprite::update(seconds);
 
@@ -46,7 +46,25 @@ void Mini_Enemy::update(double seconds) {
     dir = "up";
     Sprite::animate(seconds, M_ENEMY_U_MOVING_POS, M_ENEMY_U_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+  } else {
+    idleAnimation(seconds);
   }
+}
+
+void Mini_Enemy::attemptFollow(double seconds) {
+  if (checkDistance(shouldFollow, radiusFollow)) following = true;
+
+  if (following) transform(seconds);
+  if (transformed) followSprite();
+}
+
+void Mini_Enemy::transform(double seconds) {
+  Sprite::animate(seconds, M_ENEMY_TRANSFORM_POS, M_ENEMY_TRANSFORM_POS
+    + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*1.0);
+  transformingTimer += seconds;
+
+  if (transformingTimer > ENEMY_MOVING_FRAMES/(ENEMY_FPS*1.0))
+    transformed = true;
 }
 
 void Mini_Enemy::notifyCollision(Image* img, doubleRect* intersection,
@@ -73,4 +91,18 @@ doubleRect Mini_Enemy::getDoubleRect() {
   x.w = rect.w;
   x.h = rect.h / 2;
   return x;
+}
+
+void Mini_Enemy::idleAnimation(double seconds) {
+  int pos = -1;
+
+  if (transformed) {
+    if (dir == "up") pos = M_ENEMY_U_MOVING_POS;
+    else if (dir == "down") pos = M_ENEMY_D_MOVING_POS;
+    else if (dir == "left") pos = M_ENEMY_L_MOVING_POS;
+    else if (dir == "right") pos = M_ENEMY_R_MOVING_POS;
+    else error_handler->quit(__func__, "direction not found");
+  } else pos = M_ENEMY_TRANSFORM_POS;
+
+  Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);
 }

@@ -46,7 +46,7 @@ void Level_4_State::setup() {
     } else {
       s = ppl+"enemy_mini_"+std::to_string(num_enemies);
       images[s] = new Mini_Enemy(engine->renderer, ANI_FILENAME, errorHandler,
-        16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
+        16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 0);
     }
     static_cast<Enemy*>(images[s])->followWhenClose(images[ppl + "king"],
       FOLLOW_RADIUS);

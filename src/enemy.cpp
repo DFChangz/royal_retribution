@@ -83,6 +83,8 @@ void Enemy::update(double seconds) {
     dir = "up";
     Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+  } else {
+    idleAnimation(seconds);
   }
 }
 
