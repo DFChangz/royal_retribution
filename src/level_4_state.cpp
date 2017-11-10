@@ -37,20 +37,22 @@ void Level_4_State::setup() {
   std::ifstream file(LEVEL_4_E);
   int x = -1;
   int y = -1;
+  int num_mini = 0;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
     std::string s = "";
-    if (num_enemies%2 == 0) {
+    if (num_enemies != 3) {
       s = ppl+"enemy_"+std::to_string(num_enemies);
       images[s] = new Enemy(engine->renderer, ANI_FILENAME, errorHandler,
         16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
+        num_enemies++;
     } else {
-      s = ppl+"enemy_mini_"+std::to_string(num_enemies);
+      s = ppl+"enemy_mini_"+std::to_string(num_mini);
       images[s] = new Mini_Enemy(engine->renderer, ANI_FILENAME, errorHandler,
         16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 0);
+        num_mini++;
     }
     static_cast<Enemy*>(images[s])->followWhenClose(images[ppl + "king"],
       FOLLOW_RADIUS);
-    num_enemies++;
   }
   file.close();
   // Lights
@@ -87,6 +89,7 @@ void Level_4_State::setup() {
   images[top+"exp_bar"] = new Sprite(engine->renderer, EXP_BAR, errorHandler,
     WIDTH/2 - 72, 38, false, true);
   // set key and coin pos
+  int currMini = 0;
   double keyPosX = 0.0;
   double keyPosY = 0.0;
   double coinPosX = 0.0;
@@ -99,10 +102,17 @@ void Level_4_State::setup() {
         keyPosX = tile.image->pos_x;
         keyPosY = tile.image->pos_y;
         C1 = tile.image;
-      } else {
+      } else if (coinPosX == 0.0 && coinPosY == 0.0){
         coinPosX = tile.image->pos_x;
         coinPosY = tile.image->pos_y;
         C2 = tile.image;
+      } else {
+        if(currMini < num_mini){
+          static_cast<Enemy*>(images[ppl+"enemy_mini_"+std::to_string(currMini)])->
+            setPosition(tile.image->pos_x, tile.image->pos_y);   
+          static_cast<Enemy*>(images[ppl+"enemy_mini_"+std::to_string(currMini)])->
+            setPair(tile.image);
+        }        
       }
     }
   }
