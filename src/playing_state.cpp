@@ -11,7 +11,7 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
 void PlayingState::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
-    errorHandler, map->width/2 - 45, map->height - 150, false);
+    errorHandler, map->width/2 - 16, map->height - 16, false);
   // Hole
   images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
     errorHandler, 0, 0, false);
@@ -131,8 +131,8 @@ void PlayingState::load() {
   State::load();
 
   // set size of stairs & stam & exp
-  images[ele+"stairs"]->getDestRect()->h = 90;
-  images[ele+"stairs"]->getDestRect()->w = 90;
+  images[ele+"stairs"]->getDestRect()->h = 50;
+  images[ele+"stairs"]->getDestRect()->w = 50;
   images[top+"sta_box"]->getDestRect()->h = 32;
   images[top+"sta_box"]->getDestRect()->w = 150;
   images[top+"sta_bar"]->getDestRect()->h = 24;

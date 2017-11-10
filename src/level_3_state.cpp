@@ -18,7 +18,7 @@ Level_3_State::Level_3_State(Engine* engine, ErrorHandler* errorHandler)
 void Level_3_State::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
-    errorHandler, map->width/2 - 45, map->height - 150, false);
+    errorHandler, map->width/2 - 25, map->height - 115, false);
   // Hole
   images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
     errorHandler, 0, 0, false);
@@ -122,14 +122,17 @@ void Level_3_State::setup() {
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
 
-  // automatically win w/ '2'
+  // go to floor 4 w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
-    file.close();
-    engine->setState("win"); 
-
+    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
+    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    static_cast<Character*>(images[ppl+"king"])->dir = "down";
+    king = images[ppl+"king"];
+    Character::currFloor = 4;
+    if (Character::highestFloor == 3) Character::highestFloor = 4;
+    engine->setState("level_4");
   }, SDLK_2);
 
   // go to floor 2 w/ '1'
@@ -177,18 +180,22 @@ void Level_3_State::update(double seconds) {
     activateInstructionText(chestNum);
   }
 
-  // changes state to Win
-  if (images[ppl+"king"]->pos_x < map->width/2 + 45
+  // go to floor 4
+  if (images[ppl+"king"]->pos_x < map->width/2 + 25
       && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
-        > map->width/2 - 45
+        > map->width/2 - 25
       && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
-        > map->height - 150)
+        > map->height - 115)
   {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
-    file.close();
-    engine->setState("win");
+    images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;
+    images[ppl+"king"]->pos_y = static_cast<Character*>(images[ppl+"king"])->startingY;
+    images[ppl+"king"]->velocityX = 0;
+    images[ppl+"king"]->velocityY = 0;
+    static_cast<Character*>(images[ppl+"king"])->dir = "down";
+    king = images[ppl+"king"];
+    Character::currFloor = 4;
+    if (Character::highestFloor == 3) Character::highestFloor = 4;
+    engine->setState("level_4");
   }
 }
 

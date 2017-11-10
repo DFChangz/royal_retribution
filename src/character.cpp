@@ -53,7 +53,7 @@ void Character::update(double seconds) {
   // update sta
   if (!frozen) updateSta();
 
-  if (lastAttack && attackingTimer > 1/(CHARACTER_FPS)*ATTACK_FRAMES) {
+  if (lastAttack && attackingTimer > ATTACK_FRAMES/(CHARACTER_FPS*2.0)) {
     attacking = false;
     lastAttack = false;
   }
@@ -98,16 +98,16 @@ void Character::update(double seconds) {
   if (attacking) {
     if (dir == "up")
       Sprite::animate(seconds, U_ATTACK_POS, U_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
     else if (dir == "down")
       Sprite::animate(seconds, D_ATTACK_POS, D_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
     else if (dir == "right")
       Sprite::animate(seconds, R_ATTACK_POS, R_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
     else if (dir == "left")
       Sprite::animate(seconds, L_ATTACK_POS, L_ATTACK_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
   }
 }
 

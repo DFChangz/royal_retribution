@@ -19,6 +19,7 @@
 #include "squire.h"
 #include "constants.h"
 #include "character.h"
+#include "mini_enemy.h"
 #include "event_handler.h"
 #include "error_handler.h"
 #include "collision_detector.h"

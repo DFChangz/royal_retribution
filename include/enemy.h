@@ -34,28 +34,26 @@ class Enemy : public Sprite {
     bool isDead() { return dead; }
     bool isEnemy() { return true; }
 
-    bool frozen = false;
-
     std::string dir="right";
 
     void followWhenClose(Image* sprite, double radius);
     bool checkDistance(Image* sprite, double radius);
     void followSprite();
     virtual doubleRect getDoubleRect();
-  private:
-    void attemptFollow();
-
+  protected:
     Image* shouldFollow = nullptr;
-    double radiusFollow;
-    bool following = false;
 
     bool dead = false;
-    double tempVX = 150;
-    double tempVY = 150;
-
+    bool frozen = false;
+    bool following = false;
     bool flipXVelocity = false;
     bool flipYVelocity = false;
 
+    double radiusFollow;
+    double tempVX = 150;
+    double tempVY = 150;
+
+    void attemptFollow();
     void idleAnimation(double);
 };
 

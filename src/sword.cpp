@@ -29,7 +29,7 @@ void Sword::update(double seconds) {
   dir = static_cast<Character*>(king)->dir;
   
   if (lastAttack
-      && attackingTimer > ATTACK_FRAMES/(CHARACTER_FPS*speedMultiplier)) {
+      && attackingTimer > ATTACK_FRAMES/(CHARACTER_FPS*2.0)) {
     attacking = false;
     lastAttack = false;
   }
@@ -40,19 +40,19 @@ void Sword::update(double seconds) {
     switch (dir[0]) {
       case 'u':
         Sprite::animate(seconds, U_SWORD_POS, U_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
         break;
       case 'd':
         Sprite::animate(seconds, D_SWORD_POS, D_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
         break;
       case 'r':
         Sprite::animate(seconds, R_SWORD_POS, R_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
         break;
       case 'l':
         Sprite::animate(seconds, L_SWORD_POS, L_SWORD_POS + ATTACK_FRAMES - 1,
-        CHARACTER_FPS);
+        CHARACTER_FPS*2.0);
         break;
     }
   }
