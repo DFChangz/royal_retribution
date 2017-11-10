@@ -106,6 +106,13 @@ void Level_4_State::setup() {
       }
     }
   }
+// moving blades
+/*  for(auto tile : map->additions){
+    if(tile.image->isBlade()){
+      tile.image->setVelocity(50, 0);
+      tile.image->setCollidable(true);
+    }
+  }*/
   // add key
   images[add+"key"] = new Pickup(engine->renderer, KEY, errorHandler,
     32, 32, keyPosX, keyPosY, false, false, keyNum);

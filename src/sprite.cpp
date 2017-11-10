@@ -205,6 +205,10 @@ void Sprite::setPosition(double x, double y) {
   rect.x = (int) x;
   rect.y = (int) y;
 }
+void Sprite::setVelocity(double x, double y) {
+  velocityX = x;
+  velocityY = y;
+}
 
 doubleRect Sprite::getDoubleRect() {
   doubleRect x;

@@ -256,6 +256,7 @@ void Map::update(double seconds) {
   }
   for (auto tile : additions) {
     tile.image->update(seconds);
+    collisionDetector->updateBuckets(tile.image, this);
     if(tile.image->isChest()){
       if(tile.image->pair == nullptr){
         tile.image->animate(seconds, tile.start_frame, tile.start_frame);
