@@ -130,6 +130,18 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 velocity changes direction if more width, x direction changes*/
 void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
   if (!resolved) {
+    if(isBlade()){
+      if(img->isSword()){
+        return;
+      }
+      if (intersection->w > intersection->h) {
+        velocityY *=-1; 
+      } else {
+        velocityX *=-1; 
+      }
+    
+      std::cout << "GG\n" << std::endl;
+    }
   /*if (abs(velocityY) > abs(velocityX)) {
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/
@@ -204,6 +216,10 @@ void Sprite::setPosition(double x, double y) {
   
   rect.x = (int) x;
   rect.y = (int) y;
+}
+void Sprite::setVelocity(double x, double y) {
+  velocityX = x;
+  velocityY = y;
 }
 
 doubleRect Sprite::getDoubleRect() {

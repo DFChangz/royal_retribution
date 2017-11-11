@@ -32,6 +32,7 @@ class Sprite : public Image {
 
     void setSrcRect(int posX, int posY, int rectWidth, int rectHeight);
     void setPosition(double x, double y);
+    void setVelocity(double x, double y);
 
     void animate(double, int, int, int fps = 3);
     void setFixed(bool fixed_p){ fixed = fixed_p;}

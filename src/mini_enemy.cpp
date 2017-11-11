@@ -49,16 +49,21 @@ void Mini_Enemy::update(double seconds) {
   } else {
     idleAnimation(seconds);
   }
+  if (transformed){
+    pair->setPosition(pos_x, pos_y);
+   // SDL_SetTextureAlphaMod(pair->getTexture(), 0);
+  }
 }
 
 void Mini_Enemy::attemptFollow(double seconds) {
   if (checkDistance(shouldFollow, radiusFollow)) following = true;
 
-  if (following) transform(seconds);
   if (transformed) followSprite();
+  else if (following) transform(seconds);
 }
 
 void Mini_Enemy::transform(double seconds) {
+  pair->setCollidable(false);
   Sprite::animate(seconds, M_ENEMY_TRANSFORM_POS, M_ENEMY_TRANSFORM_POS
     + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*1.0);
   transformingTimer += seconds;
