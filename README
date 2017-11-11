@@ -8,9 +8,30 @@
 # Assignment 8 #
 ================
 
+LEVEL 4
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+Design (Derek)
+- new map
+- edited animations
 
-FIXES
+New Enemy (Tae Jin Kim)
+- called mini enemy
+1) appears as a chest
+2) waits for the king to get close
+3) transforms and starts chasing king
+
+New Hitbox (Billy)
+- only bottom half of character and enemies collide
+
+Map Additions (Billy & Derek)
+- Derek created and Billy edited the map additions
+  ~ in order to match up the new enemies with the chests
+
+Overall Improvement of Code (Idean)
+- improved collisions (very few bugs now)
+- cleaned up code to improve look and efficiency
+
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 Concerning Levels
