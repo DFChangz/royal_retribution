@@ -54,12 +54,20 @@ void Enemy::update(double seconds) {
   flipXVelocity = false;
   flipYVelocity = false;
 
-  if (this->dead) {
+  if (!exploded && this->dead) {
     velocityY = 0;
     velocityX = 0;
     collidable = false;
-    SDL_SetTextureAlphaMod(this->getTexture(), 0);
-    return;
+
+    Sprite::animate(seconds, ENEMY_DIE_POS, ENEMY_DIE_POS + ENEMY_MOVING_FRAMES
+      - 1, ENEMY_FPS*0.5);
+    explodingTimer += seconds;
+    SDL_SetTextureAlphaMod(this->getTexture(), 255);
+
+    if (explodingTimer > ENEMY_MOVING_FRAMES/(ENEMY_FPS*0.5)) {
+      exploded = true;
+      SDL_SetTextureAlphaMod(this->getTexture(), 0);
+    }
   }
 
   if (shouldFollow != nullptr)

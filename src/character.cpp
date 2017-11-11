@@ -49,9 +49,8 @@ void Character::update(double seconds) {
   attackingTimer += seconds;
   staSec += seconds;
 
-
-  // update sta
   if (!frozen) updateSta();
+  if (hearts == 0) dying = true;
 
   if (lastAttack && attackingTimer > ATTACK_FRAMES/(CHARACTER_FPS*2.0)) {
     attacking = false;
@@ -90,6 +89,8 @@ void Character::update(double seconds) {
       dir = "up";
       Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
+    } else if (dying) {
+      die(seconds);
     } else {
       idleAnimation(seconds);
     }
@@ -115,8 +116,7 @@ void Character::render(Camera* camera, double interpol_alpha) {
   if (invincibilitySeconds < INVINCIBLE_TIME) {
     SDL_SetTextureAlphaMod(texture, 100);
   } else {
-    if (!falling) SDL_SetTextureAlphaMod(texture, 255);
-    //hurt = false;
+    if (!falling && !dead) SDL_SetTextureAlphaMod(texture, 255);
   }
 
   Sprite::render(camera, interpol_alpha);
@@ -332,6 +332,15 @@ void Character::pickUp(Pickup* pickup) {
   if (pickup->isPowerup()) {
     activePowerups.push_back(pickup->getType());
   }
+}
+
+void Character::die(double seconds) {
+  if (!dead) Sprite::animate(seconds, DIE_POS, DIE_POS + RUNNING_FRAMES - 1,
+    CHARACTER_FPS*0.5);
+  dyingTimer += seconds;
+
+  if (dyingTimer > RUNNING_FRAMES/(CHARACTER_FPS*0.5))
+    dead = true;
 }
 
 Character::~Character(){}

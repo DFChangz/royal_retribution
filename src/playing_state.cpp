@@ -198,6 +198,7 @@ void PlayingState::load() {
   ****************/
   // automatically lose w/ '0'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+   static_cast<Character*>(images[ppl+"king"])->hearts = 0;
    engine->setState("lose"); }, SDLK_0);
   // pause w/ 'p'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {

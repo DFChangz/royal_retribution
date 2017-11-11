@@ -2,8 +2,10 @@
 #define ENEMY_H
 
 #define ENEMY_FPS             5
-#define ENEMY_MOVING_FRAMES   4
 #define ENEMY_IDLE_FRAMES     1
+#define ENEMY_MOVING_FRAMES   4
+
+#define ENEMY_DIE_POS         44
 #define ENEMY_R_MOVING_POS    28
 #define ENEMY_L_MOVING_POS    24
 #define ENEMY_UP_MOVING_POS   20
@@ -45,6 +47,7 @@ class Enemy : public Sprite {
 
     bool dead = false;
     bool frozen = false;
+    bool exploded = false;
     bool following = false;
     bool flipXVelocity = false;
     bool flipYVelocity = false;
@@ -52,6 +55,7 @@ class Enemy : public Sprite {
     double radiusFollow;
     double tempVX = 150;
     double tempVY = 150;
+    double explodingTimer = 0;
 
   private:
     void attemptFollow();

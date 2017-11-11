@@ -16,6 +16,8 @@
 #define L_ATTACK_POS      38
 #define R_ATTACK_POS      41
 
+#define DIE_POS           48
+
 #define INVINCIBLE_TIME   3.0
 #define STA_WAITING_TIME  3.0
 
@@ -66,6 +68,8 @@ class Character : public Sprite {
     static std::vector<Pickup*> inventory;
     static std::vector<int> activePowerups;
 
+    void die(double);
+    bool isDead() { return dead; };
     virtual bool isCharacter() { return true; };
 
     ~Character();
@@ -86,12 +90,15 @@ class Character : public Sprite {
 
     State* state = nullptr;
 
+    bool dead = false;
+    bool dying = false;
     bool attacking = false;
     bool lastAttack = false;
     bool invincible = false;
     bool interacting = false;
     bool staminaBypass = false;
 
+    double dyingTimer = 0;
     double attackingTimer = 0;
     double staSec = STA_WAITING_TIME;
     double invincibilitySeconds = INVINCIBLE_TIME;

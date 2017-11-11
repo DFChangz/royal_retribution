@@ -14,19 +14,28 @@ LoseState::LoseState(Engine* engine, ErrorHandler* errorHandler)
 
 /* setup images */
 void LoseState::setup() {
+  // king
+  images["king"] = new Character(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
+  static_cast<Character*>(images["king"])->frozen = true;
   // game over text
   images["lose"] = new Text(engine->renderer, FONT_ARCADE, errorHandler,
     0, 0, 200, logo, RED);
+  
 }
 
 /* loads images */
 void LoseState::load() {
   State::load();
-  // make the text transparent
+
+  images["king"]->getDestRect()->w = 128;
+  images["king"]->getDestRect()->h = 200;
   SDL_SetTextureAlphaMod(images["lose"]->getTexture(), 0);
-  // center the text
-  auto center = getCenterForImage(images["lose"]);
-  images["lose"]->setPosition(std::get<0>(center), std::get<1>(center));
+
+  for (it = images.begin(); it != images.end(); it++) {
+    auto center = getCenterForImage(it->second);
+    it->second->setPosition(std::get<0>(center), std::get<1>(center));
+  }
 }
 
 /* updates the screen */
@@ -35,10 +44,14 @@ void LoseState::update(double seconds) {
 
   totalTime += seconds;
 
-  // wrap and fade in scroll
-  a0 = fadeIn("lose", a0, seconds, 3);
-  // after 15.5 sec, transfer to menu
-  if (totalTime > 3) {
+  // death animation
+  if (static_cast<Character*>(images["king"])->isDead()) {
+    a0 = fadeIn("lose", a0, seconds, 3);
+    a1 = fadeOut("king", a1, seconds, 3);
+  }
+
+  // return to menu
+  if (totalTime > 4.5) {
     totalTime = 0;
     Mix_HaltMusic();
     engine->setState("menu");
