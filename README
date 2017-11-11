@@ -15,6 +15,8 @@ Design (Derek)
 - new map
 - edited animations
 
+Level_4_State setup (Tae Jin Kim)
+
 New Enemy (Tae Jin Kim)
 - called mini enemy
 1) appears as a chest
@@ -24,6 +26,9 @@ New Enemy (Tae Jin Kim)
 
 New Hitbox (Billy)
 - only bottom half of character and enemies collide
+
+New Moving Trap (Billy)
+- the spinning blades in level 4 move around in an unpredictable manner
 
 Map Additions (Billy & Derek)
 - Derek created and Billy edited the map additions
