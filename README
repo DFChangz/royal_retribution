@@ -20,6 +20,7 @@ New Enemy (Tae Jin Kim)
 1) appears as a chest
 2) waits for the king to get close
 3) transforms and starts chasing king
+*) made it so that the enemies cary around the chests, cute lol (Billy)
 
 New Hitbox (Billy)
 - only bottom half of character and enemies collide
@@ -31,6 +32,9 @@ Map Additions (Billy & Derek)
 Overall Improvement of Code (Idean)
 - improved collisions (very few bugs now)
 - cleaned up code to improve look and efficiency
+
+Extra
+- losing shows king giving up (Tae Jin Kim)
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
