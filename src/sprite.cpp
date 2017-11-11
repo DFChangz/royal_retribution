@@ -129,14 +129,19 @@ void Sprite::get_texture_size(SDL_Texture *texture, int *width, int *height) {
 /*if the intersection of 2 collidable sprites have more height overlap, y 
 velocity changes direction if more width, x direction changes*/
 void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
-  if(isBlade()){
-    if(img->isSword()){
-      return;
-    }
-    velocityY *=-1; 
-    velocityX *=-1; 
-  }
   if (!resolved) {
+    if(isBlade()){
+      if(img->isSword()){
+        return;
+      }
+      if (intersection->w > intersection->h) {
+        velocityY *=-1; 
+      } else {
+        velocityX *=-1; 
+      }
+    
+      std::cout << "GG\n" << std::endl;
+    }
   /*if (abs(velocityY) > abs(velocityX)) {
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/

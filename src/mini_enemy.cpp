@@ -50,7 +50,8 @@ void Mini_Enemy::update(double seconds) {
     idleAnimation(seconds);
   }
   if (transformed){
-    SDL_SetTextureAlphaMod(pair->getTexture(), 0);
+    pair->setPosition(pos_x, pos_y);
+   // SDL_SetTextureAlphaMod(pair->getTexture(), 0);
   }
 }
 

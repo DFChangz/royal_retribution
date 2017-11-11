@@ -10,7 +10,7 @@ Level_4_State::Level_4_State(Engine* engine, ErrorHandler* errorHandler)
   map = new Map(engine->renderer, errorHandler, LEVEL_4, TILES_TXT,
     &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_2_ADD);
+  map->loadSecondLayout(LEVEL_4_ADD);
   setup();
   load();
 }
@@ -18,7 +18,7 @@ Level_4_State::Level_4_State(Engine* engine, ErrorHandler* errorHandler)
 void Level_4_State::setup() {
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
-    errorHandler, map->width/2 - 25, map->height - 115, false);
+    errorHandler, 670, 853, false);
   // Hole
   images[ele+"hole"] = new Sprite(engine->renderer, BLACK_PIXEL,
     errorHandler, 0, 0, false);
@@ -27,7 +27,7 @@ void Level_4_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 100, 300, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 126, 210, &eventHandler, &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
@@ -40,7 +40,7 @@ void Level_4_State::setup() {
   int num_mini = 0;
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
     std::string s = "";
-    if (num_enemies != 3) {
+    if (num_mini >= 8) {
       s = ppl+"enemy_"+std::to_string(num_enemies);
       images[s] = new Enemy(engine->renderer, ANI_FILENAME, errorHandler,
         16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
@@ -88,23 +88,23 @@ void Level_4_State::setup() {
     WIDTH/2 - 75, 34, false, true);
   images[top+"exp_bar"] = new Sprite(engine->renderer, EXP_BAR, errorHandler,
     WIDTH/2 - 72, 38, false, true);
-  // set key and coin pos
+  // set coin pos
   int currMini = 0;
-  double keyPosX = 0.0;
-  double keyPosY = 0.0;
-  double coinPosX = 0.0;
-  double coinPosY = 0.0;
+  double coinPos1X = 0.0;
+  double coinPos1Y = 0.0;
+  double coinPos2X = 0.0;
+  double coinPos2Y = 0.0;
   Sprite *C1 = nullptr;
   Sprite *C2 = nullptr;
   for(auto tile : map->additions){
     if(tile.image->isChest()){
-      if(keyPosX == 0.0 && keyPosY == 0.0){
-        keyPosX = tile.image->pos_x;
-        keyPosY = tile.image->pos_y;
+      if(coinPos1X == 0.0 && coinPos1Y == 0.0){
+        coinPos1X = tile.image->pos_x;
+        coinPos1Y = tile.image->pos_y;
         C1 = tile.image;
-      } else if (coinPosX == 0.0 && coinPosY == 0.0){
-        coinPosX = tile.image->pos_x;
-        coinPosY = tile.image->pos_y;
+      } else if (coinPos2X == 0.0 && coinPos2Y == 0.0){
+        coinPos2X = tile.image->pos_x;
+        coinPos2Y = tile.image->pos_y;
         C2 = tile.image;
       } else {
         if(currMini < num_mini){
@@ -112,6 +112,7 @@ void Level_4_State::setup() {
             setPosition(tile.image->pos_x, tile.image->pos_y);   
           static_cast<Enemy*>(images[ppl+"enemy_mini_"+std::to_string(currMini)])->
             setPair(tile.image);
+            currMini++;
         }        
       }
     }
@@ -123,14 +124,14 @@ void Level_4_State::setup() {
       tile.image->setCollidable(true);
     }
   }
-  // add key
-  images[add+"key"] = new Pickup(engine->renderer, KEY, errorHandler,
-    32, 32, keyPosX, keyPosY, false, false, keyNum);
-  static_cast<Sprite*>(images[add+"key"])->setPair(C1);
   // add coin
-  images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
-    32, 32, coinPosX, coinPosY, false, false, coinNum);
-  static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
+  images[add+"coin1"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos1X, coinPos1Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin1"])->setPair(C1);
+  // add coin
+  images[add+"coin2"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos2X, coinPos2Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin2"])->setPair(C2);
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door with 'e'. Press 'r' to clear text");
@@ -167,36 +168,35 @@ void Level_4_State::setup() {
 void Level_4_State::load() {
   PlayingState::load(); 
   //sets pickup texture to see thru when in chests
-  SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin1"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin2"]->getTexture(), 0);
 }
 
 void Level_4_State::update(double seconds) {
   PlayingState::update(seconds);
 
   auto character = static_cast<Character*>(images[ppl+"king"]);
-  auto key = static_cast<Pickup*>(images[add+"key"]);
-  if(static_cast<Sprite*>(images[add+"key"])->pair->pair
-    == static_cast<Sprite*>(images[add+"key"])->pair
-    && !key->isPickedUp())
+  auto coin1 = static_cast<Pickup*>(images[add+"coin1"]);
+  if(static_cast<Sprite*>(images[add+"coin1"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin1"])->pair
+    && !coin1->isPickedUp())
   {
 
-    character->pickUp(key);
+    character->pickUp(coin1);
     //subscribe for lines below?
 
-    static_cast<Sprite*>(images[add+"key"])->pair = character;
-
-    activateInstructionText(doorKeyNum);
+    static_cast<Sprite*>(images[add+"coin1"])->pair = character;
+    engine->score += 1000;
     activateInstructionText(chestNum);
   }
-  auto coin = static_cast<Pickup*>(images[add+"coin"]);
-  if(static_cast<Sprite*>(images[add+"coin"])->pair->pair
-    == static_cast<Sprite*>(images[add+"coin"])->pair
-    && !coin->isPickedUp())
+  auto coin2 = static_cast<Pickup*>(images[add+"coin2"]);
+  if(static_cast<Sprite*>(images[add+"coin2"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin2"])->pair
+    && !coin2->isPickedUp())
   {
-    character->pickUp(coin);
+    character->pickUp(coin2);
 
-    static_cast<Sprite*>(images[add+"coin"])->pair = character;
+    static_cast<Sprite*>(images[add+"coin2"])->pair = character;
     engine->score += 1000;
     activateInstructionText(chestNum);
   }
