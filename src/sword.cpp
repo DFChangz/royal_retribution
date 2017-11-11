@@ -107,7 +107,7 @@ void Sword::kill(Image* image) {
   audioHandler->play("kill", 0);
   if (this->king->pair != nullptr) {
     this->king->pair->setCollidable(false);
-    //SDL_SetTextureAlphaMod(this->king->pair->getTexture(), 0);
+    SDL_SetTextureAlphaMod(this->king->pair->getTexture(), 0);
     this->king->pair = nullptr;
     state->deactivateInstructionText();
   }
