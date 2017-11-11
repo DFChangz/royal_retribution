@@ -154,7 +154,6 @@ void Level_4_State::setup() {
     file << std::to_string(engine->score) << std::endl;
     file.close();
     engine->setState("win"); 
-
   }, SDLK_2);
 
   // go to floor 3 w/ '1'
@@ -202,11 +201,10 @@ void Level_4_State::update(double seconds) {
   }
 
   // changes state to Win
-  if (images[ppl+"king"]->pos_x < map->width/2 + 25
-      && images[ppl+"king"]->pos_x + images[ppl+"king"]->getDestRect()->w
-        > map->width/2 - 25
-      && images[ppl+"king"]->pos_y + images[ppl+"king"]->getDestRect()->h
-        > map->height - 115)
+  if (images[ppl+"king"]->pos_x < 720
+      && images[ppl+"king"]->pos_y < 903
+      && images[ppl+"king"]->pos_x+32 > 670
+      && images[ppl+"king"]->pos_y+50 > 853)
   {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);

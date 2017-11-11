@@ -268,7 +268,7 @@ void PlayingState::update(double seconds) {
     }
     else if(Character::currFloor == 4){
       Character::currFloor = 3;
-      engine->setState("level_2");
+      engine->setState("level_3");
     }
   }
 
