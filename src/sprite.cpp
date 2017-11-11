@@ -62,6 +62,27 @@ void Sprite::update(double seconds) {
   double new_y = speedMultiplier * velocityY * seconds + pos_y;
 
   setPosition(new_x, new_y);
+  if(isBlade()){
+    double higherVel = (velocityY == 0)? velocityX : velocityY;
+    blade_timer += seconds;
+    if(blade_timer > 2.0){
+      velocityY = -1 * higherVel;
+      velocityX = 0;
+    }
+    if(blade_timer > 4.0){
+      velocityX = higherVel;
+      velocityY = 0;
+    }
+    if(blade_timer > 6.0){
+      velocityY = higherVel;
+      velocityX = 0;
+    }
+    if(blade_timer > 8.0){
+      velocityX = -1 * higherVel;
+      velocityY = 0;
+      blade_timer = 0;
+    }
+  }
 }
 
 void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {
@@ -134,14 +155,7 @@ void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved
       if(img->isSword()){
         return;
       }
-      if (intersection->w > intersection->h) {
-        velocityY *=-1; 
-      } else {
-        velocityX *=-1; 
-      }
-    
-      std::cout << "GG\n" << std::endl;
-    }
+    } 
   /*if (abs(velocityY) > abs(velocityX)) {
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/

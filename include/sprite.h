@@ -70,6 +70,7 @@ class Sprite : public Image {
     bool chest = false;
     bool hole = false;
     bool blade = false;
+    double blade_timer = 0.0;
 
     void resolveXCollision(Image*, double);
     void resolveYCollision(Image*, double);
