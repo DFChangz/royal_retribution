@@ -19,7 +19,7 @@
 #define DIE_POS           48
 
 #define INVINCIBLE_TIME   3.0
-#define STA_WAITING_TIME  3.0
+#define STA_WAITING_TIME  1.0
 
 #include "audio.h"
 #include "sprite.h"
