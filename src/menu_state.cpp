@@ -64,6 +64,7 @@ void MenuState::load() {
   center = getCenterForImage(images["1QT"]);
   images["1QT"]->setPosition(std::get<0>(center), std::get<1>(center) + 110);
 
+
   // Add mouse movement event listeners to reset link colors to white if they
   // are no longer selected.
   eventHandler.addListener(SDL_MOUSEMOTION, [&] (SDL_Event*) {
@@ -154,7 +155,7 @@ void MenuState::load() {
     SDL_SetTextureColorMod(images["1NG"]->getTexture(), 255, 69, 0);
   });
   images["1NG"]->onClick(&eventHandler, [&] () {
-    Mix_PauseMusic(); 
+    Mix_PauseMusic();
     engine->newGame();
     engine->setState("intro");
   });
@@ -242,3 +243,4 @@ std::string MenuState::translate(int i) {
   }
   return "THIS WIL WORK!";
 }
+

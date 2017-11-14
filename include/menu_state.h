@@ -11,6 +11,7 @@ class MenuState : public State {
       virtual ~MenuState();
 
       virtual void load();
+
     private:
       virtual void setup();
 
@@ -25,6 +26,7 @@ class MenuState : public State {
       void updateBrightnessVolume();
 
       void transition();
+
  
       std::string translate(int i);
 };

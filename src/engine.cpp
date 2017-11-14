@@ -16,6 +16,7 @@
 #include "level_4_state.h"
 #include "highscore_state.h"
 #include "instruction_state.h"
+#include "loading_state.h"
 
 // Starts the game
 int Engine::volume = 100;
@@ -145,6 +146,7 @@ void Engine::setState(std::string state) {
 }
 
 void Engine::createStates() {
+  states["loading"] = new LoadingState(this, &error_handler);
   states["win"] = new WinState(this, &error_handler);
   states["lose"] = new LoseState(this, &error_handler);
   states["menu"] = new MenuState(this, &error_handler);
@@ -173,6 +175,11 @@ void Engine::quit() {
 }
 
 void Engine::newGame() {
+  double interpol_alpha = accumulator/DELTA_TIME;
+
+  static_cast<LoadingState*>(states["loading"])->loadingStart();
+  states["loading"]->render(interpol_alpha);
+
   if (states["playing"] != nullptr) {
     delete states["playing"];
     states["playing"] = nullptr;
@@ -207,13 +214,37 @@ void Engine::newGame() {
   }
   score = 0;
   states["win"] = new WinState(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(255, 189, 27);
+  states["loading"]->render(interpol_alpha);
+
   states["lose"] = new LoseState(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(255, 0, 0);
+  states["loading"]->render(interpol_alpha);
+
   states["intro"] = new IntroState(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(0, 255, 0);
+  states["loading"]->render(interpol_alpha);
+
   states["playing"] = new Level_1_State(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(0, 0, 255);
+  states["loading"]->render(interpol_alpha);
+
   states["level_2"] = new Level_2_State(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(0, 0, 0);
+  states["loading"]->render(interpol_alpha);
+
   states["level_3"] = new Level_3_State(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(255, 255, 255);
+  states["loading"]->render(interpol_alpha);
+
   states["level_4"] = new Level_4_State(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(128, 0, 128);
+  states["loading"]->render(interpol_alpha);
+
   states["instruction"] = new InstructionState(this, &error_handler);
+  static_cast<LoadingState*>(states["loading"])->changeColor(255, 189, 27);
+  states["loading"]->render(interpol_alpha);
+
 
   while(!Character::inventory.empty()){
     Character::inventory.pop_back();
@@ -230,6 +261,8 @@ void Engine::newGame() {
   PlayingState::fallen = 0;
 
   lastTime = SDL_GetTicks();
+  static_cast<LoadingState*>(states["loading"])->loadingEnd();
+  states["loading"]->render(interpol_alpha);
 }
 
 /*void Engine::setNextLevel(std::string level, Image* &sentKing) {
