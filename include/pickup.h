@@ -2,7 +2,7 @@
 #define PICKUP_H
 
 #include "sprite.h"
-enum item_type {keyNum, coinNum, foodNum};
+enum item_type {keyNum, coinNum, foodNum, healthNum};
 
 class Pickup : public Sprite {
   public:
@@ -12,20 +12,26 @@ class Pickup : public Sprite {
     Pickup(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
     int pos_x, int pos_y, bool collidable, bool powerup, int theType);
 
-    bool isPickedUp() { return pickedUp; }
     void pickUp();
-    bool isActivated(){ return activated;}
     void activate();
-    virtual bool isPickup(){ return true; }
+    void eat() { eaten = true; }
     bool isPowerup() { return powerup; }
-    int getType(){ return type; }
+    bool isPickedUp() { return pickedUp; }
+    bool isActivated(){ return activated;}
 
     void onPickUp(int);
+    int getType(){ return type; }
+
     void updateList();
+    virtual void update(double seconds);
+    virtual bool isPickup(){ return true; }
+
     static int inventoryPos;
+
   private:
-    bool pickedUp = false;
+    bool eaten = false;
     bool powerup = false;
+    bool pickedUp = false;
     bool activated = false;
     int type = keyNum;
 };

@@ -1,6 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <stdlib.h>
+
 #include <map>
 #include <vector>
 #include <fstream>
@@ -13,6 +15,7 @@
 #include "event_handler.h"
 #include "collision_detector.h"
 #include "camera.h"
+
 enum instruction {trapNum = 2, chestNum = 3, holeNum = 4, doorKeyNum = 5, foodTextNum = 6};
 
 class State {

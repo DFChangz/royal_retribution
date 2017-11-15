@@ -25,11 +25,18 @@ class PlayingState : public State {
   protected:
     int currentLevel;
     int currentScore;
+
+    void setupFood();
     void update(double);
     virtual void setup();
 
+    int num_food = 0;
     int num_lights = 0;
     int num_enemies = 0;
+
+    bool eat0 = false;
+    bool eat1 = false;
+    bool eat2 = false;
 
     bool skipPan = false;
 

@@ -66,7 +66,6 @@ void PlayingState::setup() {
     0, 34, false, true);
   images[top+"sta_bar"] = new Sprite(engine->renderer, STA_BAR, errorHandler,
     2, 38, false, true);
-
   // Experience
   images[top+"exp_box"] = new Sprite(engine->renderer, BAR_BOX, errorHandler,
     WIDTH/2 - 75, 34, false, true);
@@ -103,11 +102,26 @@ void PlayingState::setup() {
   // add food
   images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
     32, 32, 0, 0, false, true, foodNum);
+  // add food in some enemies
+  while (num_food < 3) {
+    int r = rand() % num_enemies;
+    std::string eStr = ppl+"enemy_"+std::to_string(r);
+    std::string fStr = ppl+"food_"+std::to_string(num_food);
+    if (images[fStr] == nullptr) {
+      images[fStr] = new Pickup(engine->renderer, FOOD, errorHandler, 32, 32,
+        images[eStr]->pos_x, images[eStr]->pos_y, false, false, healthNum);
+      static_cast<Enemy*>(images[eStr])->addFood();
+      static_cast<Sprite*>(images[fStr])->setPair((Sprite*)images[eStr]);
+      num_food++;
+    }
+  }
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "You got a key. It opens a special door with 'e'. Press 'r' to clear text");
   images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
+  images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
@@ -125,6 +139,21 @@ void PlayingState::enter() {
 
   if (images.find(top + "exp_bar") != images.end())
     static_cast<Character*>(images[ppl + "king"])->setExpBar(images[top + "exp_bar"]);
+}
+
+void PlayingState::setupFood() {
+  while (num_food < 3) {
+    int r = rand() % num_enemies;
+    std::string eStr = ppl+"enemy_"+std::to_string(r);
+    std::string fStr = ppl+"food_"+std::to_string(num_food);
+    if (!static_cast<Enemy*>(images[eStr])->hasFood()) {
+      images[fStr] = new Pickup(engine->renderer, FOOD, errorHandler, 32, 32,
+        images[eStr]->pos_x, images[eStr]->pos_y, false, false, healthNum);
+      static_cast<Enemy*>(images[eStr])->addFood();
+      static_cast<Sprite*>(images[fStr])->setPair((Sprite*)images[eStr]);
+      num_food++;
+    }
+  }
 }
 
 void PlayingState::load() {
@@ -272,6 +301,33 @@ void PlayingState::update(double seconds) {
     }
   }
 
+  
+  /********************
+  FOOD
+  *********************/
+  /*for (int i = 0; i < 3; i++) {
+    if ( (i == 0 && eat0) || (i == 1 && eat1) || (i == 2 && eat2) ) continue;
+    std::string fStr = ppl+"food_"+std::to_string(i);
+    if (!static_cast<Enemy*>(static_cast
+        <Sprite*>(images[fStr])->pair)->isDead())
+    {
+      images[fStr]->pos_x = static_cast<Sprite*>(images[fStr])->pair->pos_x;
+      images[fStr]->pos_y = static_cast<Sprite*>(images[fStr])->pair->pos_y;
+    }
+    if (static_cast<Enemy*>(static_cast
+        <Sprite*>(images[fStr])->pair)->isDead())
+    {
+      switch(i) {
+        case 0: eat0 = true; break;
+        case 1: eat1 = true; break;
+        case 2: eat2 = true; break;
+      }
+      static_cast<Sprite*>(images[fStr])->setCollidable(true);
+      SDL_SetTextureAlphaMod(images[fStr]->getTexture(), 255);
+    }
+  }*/
+
+
   /********************
   HEARTS
   *********************/
@@ -347,6 +403,7 @@ void PlayingState::deactivateInstructionText() {
   SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[top+"dkInstruct"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[top+"fInstruct"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[top+"FInstruct"]->getTexture(), 0);
   if(PlayingState::fallen == 1){
     PlayingState::fallen = 2;
     static_cast<Character*>(images[ppl+"king"])->
@@ -358,6 +415,7 @@ void PlayingState::deactivateInstructionText() {
 
 //Health update with extra heart
 void PlayingState::updateHeartsPlus(){
+  static_cast<Character*>(images[ppl+"king"])->maxHearts = 8; 
   SDL_SetTextureAlphaMod(images[top+"heart_4"]->getTexture(), 255);
   switch(static_cast<Character*>(images[ppl+"king"])->hearts) {
     case 8:

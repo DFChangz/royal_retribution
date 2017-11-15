@@ -44,7 +44,6 @@ void Level_1_State::setup() {
       16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
     static_cast<Enemy*>(images[s])->followWhenClose(images[ppl + "king"],
       FOLLOW_RADIUS);
-
     num_enemies++;
   }
   file.close();
@@ -120,6 +119,8 @@ void Level_1_State::setup() {
   images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
     32, 32, foodPosX, foodPosY, false, true, foodNum);
   static_cast<Sprite*>(images[add+"food"])->setPair(C3);
+  // add food in some enemies
+  setupFood();
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door with 'e'. Press 'r' to clear text");
@@ -131,6 +132,8 @@ void Level_1_State::setup() {
     errorHandler, 0, 0, 25, "YOU ARE TRAPPED! Kill an enemy to escape! press 'r' to clear text ");
   images[top+"cInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU OPENED A CHEST! The item is now in your inventory. press 'r' to clear text");
+  images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");

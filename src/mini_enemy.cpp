@@ -47,11 +47,11 @@ void Mini_Enemy::update(double seconds) {
     Sprite::animate(seconds, M_ENEMY_U_MOVING_POS, M_ENEMY_U_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
   } else {
-    //idleAnimation(seconds);
+    idleAnimation(seconds);
   }
   if (transformed){
     pair->setPosition(pos_x, pos_y);
-   // SDL_SetTextureAlphaMod(pair->getTexture(), 0);
+    SDL_SetTextureAlphaMod(pair->getTexture(), 0);
   }
 }
 

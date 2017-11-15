@@ -48,6 +48,7 @@ class Character : public Sprite {
     void updateExp();
 
     static int hearts;
+    static int maxHearts;
     static int currFloor;
     static int highestFloor;
 

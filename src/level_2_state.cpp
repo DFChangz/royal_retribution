@@ -108,11 +108,15 @@ void Level_2_State::setup() {
   images[add+"coin2"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPos2X, coinPos2Y, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin2"])->setPair(C1);
+  // add food in some enemies
+  setupFood();
   //instuctions
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door. Press 'r' to clear text");
   images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
+  images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "YOU FELL DOWN A HOLE! You are now going to the previous floor. Press 'r' to clear text");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,

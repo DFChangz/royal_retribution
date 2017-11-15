@@ -34,6 +34,8 @@ class Enemy : public Sprite {
     void freeze();
     void kill() { dead = true; } 
     bool isDead() { return dead; }
+    void addFood() { food = true; }
+    bool hasFood() { return food; }
     bool isEnemy() { return true; }
 
     std::string dir="right";
@@ -46,6 +48,7 @@ class Enemy : public Sprite {
     Image* shouldFollow = nullptr;
 
     bool dead = false;
+    bool food = false;
     bool frozen = false;
     bool exploded = false;
     bool following = false;

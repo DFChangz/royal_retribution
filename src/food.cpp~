@@ -1,0 +1,43 @@
+/*
+ * food.cpp
+ */
+
+#include "food.h"
+#include "state.h"
+#include "character.h"
+
+// constructor that takes in arguments for the width and height for the rect
+Food::Food(SDL_Renderer *renderer, std::string filename, ErrorHandler
+  *errorHandler, int w, int h, int pos_x, int pos_y, Sprite *king_p,
+  EventHandler *eventHandler, Audio *audioHandler, State *state_p)
+    : Sprite(renderer, filename, errorHandler, w, h, pos_x, pos_y, true),
+    audioHandler(audioHandler) {
+
+  rect.w *= 2;
+  rect.h *= 2;
+
+  king = king_p;
+  state = state_p;
+}
+
+void Food::update(double seconds) {
+
+  pos_x = king->pos_x;
+  pos_y = king->pos_y;
+  
+  Sprite::update(seconds);
+}
+
+void Food::render(Camera* camera, double interpol_alpha) {
+  if (eaten) SDL_SetTextureAlphaMod(this->getTexture(), 0);
+  else SDL_SetTextureAlphaMod(this->getTexture(), 255);
+  Sprite::render(camera, interpol_alpha);
+}
+
+void Food::notifyCollision(Image* image, doubleRect*, bool) {
+  if (image->isCharacter()) eaten = true;
+}
+
+void Food::cleanup() {}
+
+Food::~Food() {}

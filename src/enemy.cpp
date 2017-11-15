@@ -132,13 +132,19 @@ void Enemy::followSprite() {
   else velocityY = 0;
 }
 
-void Enemy::notifyCollision(Image* img, doubleRect* intersection, bool resolved) {
-  if (!img->isSword() && !img->isEnemy()) Sprite::notifyCollision(img,
-                                                  intersection, resolved);
+void Enemy::notifyCollision(Image* img, doubleRect* intersection, bool resolved)
+{
 
-  if(img->isEnemy() || img->isCharacter() || img->isSword()){
+  if(img->isEnemy() || img->isSword()
+     || (img->isPickup() && static_cast<Pickup*>(img)->getType() == healthNum))
+  {
     return;
   }
+
+  if (!img->isSword() && !img->isEnemy())
+    Sprite::notifyCollision(img, intersection, resolved);
+
+  if (img->isCharacter()) return;
 
   if (intersection->w > intersection->h) {
     flipYVelocity = true;

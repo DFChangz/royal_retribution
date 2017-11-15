@@ -1,4 +1,5 @@
 #include "pickup.h"
+#include "enemy.h"
 #include "character.h"
 
 Pickup::Pickup(SDL_Renderer *renderer, std::string filename, ErrorHandler *error_handler,
@@ -14,6 +15,23 @@ Pickup::Pickup(SDL_Renderer *renderer, std::string filename, ErrorHandler *error
   Sprite(renderer, filename, error_handler, pos_x, pos_y, collidable),
   powerup(powerup), type(theType){
 
+}
+
+void Pickup::update(double seconds) {
+  if (type == healthNum) {
+    if (!static_cast<Enemy*>(this->pair)->isDead()) {
+      this->pos_x = this->pair->pos_x;
+      this->pos_y = this->pair->pos_y+25;
+      SDL_SetTextureAlphaMod(this->getTexture(), 0);
+    } else {
+      if (!eaten) {
+        this->setCollidable(true);
+        SDL_SetTextureAlphaMod(this->getTexture(), 255);
+      }
+    }
+  }
+
+  Sprite::update(seconds);
 }
 
 void Pickup::onPickUp(int) {

@@ -169,6 +169,23 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
       }
     }
   }
+  // add a full heart if food is picked up
+  else if (static_cast<Sprite*>(image)->isPickup()
+           && static_cast<Pickup*>(image)->getType() == healthNum)
+  {
+    for (int i = 0; i < 2; i++) {
+      if (hearts < maxHearts) hearts++;
+    }
+    static_cast<Pickup*>(image)->eat();
+    SDL_SetTextureAlphaMod(image->getTexture(), 0);
+    static_cast<Sprite*>(image)->setCollidable(false);
+  }
+  if(static_cast<Sprite*>(image)->isHole()){
+    PlayingState::fallen = 1;
+    falling = true;
+    velocityX = 0;
+    velocityY = 0;
+  }
   if(static_cast<Sprite*>(image)->isHole()){
     PlayingState::fallen = 1;
     falling = true;
@@ -353,6 +370,8 @@ std::vector<Pickup*> Character::inventory;
 std::vector<int>Character::activePowerups;
 
 int Character::hearts = 6;
+
+int Character::maxHearts = 6;
 
 int Character::level = 1;
 
