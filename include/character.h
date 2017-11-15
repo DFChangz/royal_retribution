@@ -91,6 +91,7 @@ class Character : public Sprite {
 
     State* state = nullptr;
 
+    bool done = false;
     bool dead = false;
     bool dying = false;
     bool attacking = false;

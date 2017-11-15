@@ -61,8 +61,10 @@ void Character::update(double seconds) {
 
   Sprite::update(seconds);
 
-  // If attacking, don't move. Hack to get around changing the velocity
-  //irreversibly
+  // if dying, die
+  if (dying) die(seconds);
+
+  // If attacking, don't move.
   if (attacking) {
     pos_x -= velocityX * seconds * speedMultiplier;
     pos_y -= velocityY * seconds * speedMultiplier;
@@ -113,7 +115,9 @@ void Character::update(double seconds) {
 }
 
 void Character::render(Camera* camera, double interpol_alpha) {
-  if (invincibilitySeconds < INVINCIBLE_TIME) {
+  if (dying) {
+    SDL_SetTextureAlphaMod(texture, 255);
+  } else if (invincibilitySeconds < INVINCIBLE_TIME) {
     SDL_SetTextureAlphaMod(texture, 100);
   } else {
     if (!falling && !dead) SDL_SetTextureAlphaMod(texture, 255);
@@ -357,11 +361,14 @@ void Character::pickUp(Pickup* pickup) {
 }
 
 void Character::die(double seconds) {
-  if (!dead) Sprite::animate(seconds, DIE_POS, DIE_POS + RUNNING_FRAMES - 1,
+  frozen = true;
+  if (!done) Sprite::animate(seconds, DIE_POS, DIE_POS + RUNNING_FRAMES - 1,
     CHARACTER_FPS*0.5);
   dyingTimer += seconds;
 
-  if (dyingTimer > RUNNING_FRAMES/(CHARACTER_FPS*0.5))
+  if (dyingTimer > (RUNNING_FRAMES/(CHARACTER_FPS*0.5)))
+    done = true;
+  if (dyingTimer > (RUNNING_FRAMES/(CHARACTER_FPS*0.5)) + 1)
     dead = true;
 }
 

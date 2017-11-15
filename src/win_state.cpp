@@ -27,11 +27,6 @@ void WinState::load() {
   // center the text
   auto center = getCenterForImage(images["win"]);
   images["win"]->setPosition(std::get<0>(center), std::get<1>(center));
-  /* input score into highscore
-  std::ofstream file;
-  file.open(SCORE_FILENAME, std::ios_base::app);
-  file << std::to_string(engine->score) << std::endl;
-  file.close(); */
 }
 
 /* updates the screen */
@@ -40,9 +35,9 @@ void WinState::update(double seconds) {
 
   totalTime += seconds;
 
-  // wrap and fade in scroll
+  // fade in win
   a0 = fadeIn("win", a0, seconds, 3);
-  // after 15.5 sec, transfer to menu
+  // after 3 sec, transfer to highscore
   if (totalTime > 3) {
     Mix_HaltMusic();
     engine->newHighscore();

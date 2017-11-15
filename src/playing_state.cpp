@@ -228,7 +228,9 @@ void PlayingState::load() {
   // automatically lose w/ '0'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    static_cast<Character*>(images[ppl+"king"])->hearts = 0;
-   engine->setState("lose"); }, SDLK_0);
+   if (static_cast<Character*>(images[ppl+"king"])->isDead())
+     engine->setState("lose");
+  }, SDLK_0);
   // pause w/ 'p'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
    if (skipPan) pause(); }, SDLK_p);
@@ -341,7 +343,8 @@ void PlayingState::update(double seconds) {
   *********************/
   // changes state to Lose
   if (static_cast<Character*>(images[ppl+"king"])->hearts <= 0) {
-    engine->setState("lose");
+    if (static_cast<Character*>(images[ppl+"king"])->isDead())
+     engine->setState("lose");
   }
 
   /********************
