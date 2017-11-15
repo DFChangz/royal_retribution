@@ -58,7 +58,7 @@ void CollisionDetector::checkCollision(Image* img1, Image* img2) {
 
     doubleRect intersection;
     if (Util::getIntersection(img1, img2, &intersection)) {
-        img1->notifyCollision(img2, &intersection);
+      img1->notifyCollision(img2, &intersection);
     }
   }
 }
@@ -76,22 +76,20 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
     height = map->height;
   }
 
-  int x = image->pos_x;
-  int y = image->pos_y;
-
   const int GRID_WIDTH = width / BUCKET_COLS;
   const int GRID_HEIGHT = height / BUCKET_ROWS;
 
   // Add image to all potential buckets
-  unsigned int grid_x = x / GRID_WIDTH;
-  unsigned int grid_y = y / GRID_HEIGHT;
-  SDL_Rect grid_rect = {0, 0, GRID_WIDTH, GRID_HEIGHT};
-  SDL_Rect* image_rect = image->getDestRect();
+  doubleRect image_rect = image->getDoubleRect();
+  unsigned int grid_x = image_rect.x / GRID_WIDTH;
+  unsigned int grid_y = image_rect.y / GRID_HEIGHT;
+  doubleRect grid_rect = {0, 0, (double) GRID_WIDTH, (double) GRID_HEIGHT};
+
   for (auto bucket = image->buckets.begin(); bucket != image->buckets.end();
     ) {
-    grid_rect.x = *bucket % BUCKET_COLS * GRID_WIDTH;
-    grid_rect.y = *bucket / BUCKET_ROWS * GRID_HEIGHT;
-    if (!image->isCollidable() || !SDL_HasIntersection(&grid_rect, image_rect)) {
+    grid_rect.x = floor(*bucket % BUCKET_COLS * GRID_WIDTH);
+    grid_rect.y = floor(*bucket / BUCKET_ROWS * GRID_HEIGHT);
+    if (!image->isCollidable() || !Util::isIntersecting(&grid_rect, &image_rect)) {
       auto img_bucket = &(buckets[*bucket]);
       img_bucket->erase(std::find((*img_bucket).begin(), (*img_bucket).end(), image));
       bucket = image->buckets.erase(bucket);
@@ -106,10 +104,10 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
   grid_rect.y = grid_y * GRID_HEIGHT;
 
   for (int i = grid_x; i < BUCKET_COLS &&
-      SDL_HasIntersection(&grid_rect, image_rect); i++) {
+      Util::isIntersecting(&grid_rect, &image_rect); i++) {
 
     for (int j = grid_y; j < BUCKET_ROWS &&
-        SDL_HasIntersection(&grid_rect, image_rect); j++) {
+        Util::isIntersecting(&grid_rect, &image_rect); j++) {
 
       unsigned int index = j * BUCKET_COLS + i;
 
@@ -126,7 +124,6 @@ void CollisionDetector::updateBuckets(Image* image, Map* map) {
     grid_rect.x = (i + 1) * GRID_WIDTH;
     grid_rect.y = grid_y * GRID_HEIGHT;
   }
-
 }
 
 void CollisionDetector::initializeBuckets() {

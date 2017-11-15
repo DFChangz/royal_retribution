@@ -209,7 +209,9 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
       static_cast<Sprite*>(image)->pair = this;
   }
 
-  if (!image->isSword()) Sprite::notifyCollision(image, intersection, resolved);
+  if (!image->isSword())
+    Sprite::notifyCollision(image, intersection, resolved);
+
   //When collision detector detects a collision play the sound effect
 
   if ((image->isEnemy() && (!attacking || collisionDir != dir) && !invincible)
