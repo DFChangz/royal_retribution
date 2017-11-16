@@ -306,10 +306,11 @@ void PlayingState::update(double seconds) {
 
   
   /********************
-  HEARTS
+  HEARTS & LIGHTS
   *********************/
-  // updates Health
+  // updates Health & Lights
   updateHearts();
+  updateLights(seconds);
   State::update(seconds);
 
   
@@ -495,6 +496,13 @@ void PlayingState::updateHearts(){
       static_cast<Sprite*>(images[top+"heart_2"])->setSrcRect(80, 0, 32, 32);
       static_cast<Sprite*>(images[top+"heart_3"])->setSrcRect(80, 0, 32, 32);
      break; 
+  }
+}
+
+void PlayingState::updateLights(double seconds) {
+  for (int i = 0; i < num_lights; i++) {
+    std::string s = add+"light_"+std::to_string(i);
+    static_cast<Sprite*>(images[s])->animate(seconds, 0, 3, 5.0);
   }
 }
 

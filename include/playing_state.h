@@ -16,6 +16,7 @@ class PlayingState : public State {
     void deactivateInstructionText();
     void updateHearts();
     void updateHeartsPlus();
+    void updateLights(double);
 
     static int instrGiven;
     static int fallen;

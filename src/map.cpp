@@ -247,10 +247,6 @@ void Map::createTexture(int id, std::string filename, int start_frame,
 }
 
 void Map::update(double seconds) {
-  for (auto light : lights) {
-    static_cast<Sprite*>(light)->update(seconds);
-    static_cast<Sprite*>(light)->animate(seconds, 0, 3);
-  }
   for (auto tile : tiles) {
     tile.image->update(seconds);
     tile.image->animate(seconds, tile.start_frame,
