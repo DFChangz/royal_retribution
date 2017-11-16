@@ -9,20 +9,15 @@ class LoadingState : public State {
       LoadingState(Engine* engine, ErrorHandler* errorHandler);
 
       virtual ~LoadingState();
-
       virtual void load();
+      void advance(); 
 
-      void loadingStart();
-  
-      void loadingEnd();
-
-      void loadingMove(double x, double y);
- 
-      void changeColor(int r, int g, int b);
     private:
       virtual void setup();
-
       void update(double);
+
+      std::string s;
+      int countdown = 6;
 };
 
 #endif

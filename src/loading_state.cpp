@@ -8,36 +8,42 @@ LoadingState::LoadingState(Engine* engine, ErrorHandler* errorHandler)
 }
 
 void LoadingState::setup(){
-
   images["0BG"] = new Sprite(engine->renderer, BG_FILENAME, errorHandler,
     0, 0, false);
-  images["1Load"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
-    50, 120, "L O A D I N G", ROYAL_GOLD);
+  images["1start"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 140, "STARTING  IN", ROYAL_GOLD);
+  for (int i = 0; i < countdown; i++) {
+    s = "2count_" + std::to_string(i);
+    images[s] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+    0, 0, 200, std::to_string(i), ROYAL_GOLD);
+  }
 }
+
 void LoadingState::load() {
   State::load();
-  auto center = getCenterForImage(images["1Load"]);
-  images["1Load"]->setPosition(std::get<0>(center), std::get<1>(center));
+  for (it = images.find("1start"); it != images.end(); it++) {
+    if (it->first[0] == '2')
+    {
+      SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
+    }
+    auto center = getCenterForImage(it->second);
+    it->second->setPosition(std::get<0>(center), std::get<1>(center));
+  }
 }
 
 void LoadingState::update(double seconds){
-  State::update(seconds);  
+  State::update(seconds);
+  eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
+    engine->quit();}, SDLK_ESCAPE); 
 }
-void LoadingState::loadingStart(){
-  SDL_SetTextureAlphaMod(images["1Load"]->getTexture(), 255);
-  SDL_SetTextureAlphaMod(images["0BG"]->getTexture(), 255);
-}
-void LoadingState::loadingEnd(){
-  auto center = getCenterForImage(images["1Load"]);
-  images["1Load"]->setPosition(std::get<0>(center), std::get<1>(center));
-  SDL_SetTextureAlphaMod(images["1Load"]->getTexture(), 255);
-  SDL_SetTextureColorMod(images["1Load"]->getTexture(), 255, 189, 27);
-}
-void LoadingState::loadingMove(double x, double y){
-  images["1Load"]->setPosition(images["1Load"]->pos_x + x, images["1Load"]->pos_y + y);
-}
-void LoadingState::changeColor(int r, int g, int b){
-  SDL_SetTextureColorMod(images["1Load"]->getTexture(), r, g, b);
 
+void LoadingState::advance(){
+  s = "2count_" + std::to_string(countdown);
+  if (countdown < 6) SDL_SetTextureAlphaMod(images[s]->getTexture(), 0);
+  else SDL_SetTextureAlphaMod(images["1start"]->getTexture(), 0);
+  countdown--;
+  s = "2count_" + std::to_string(countdown);
+  SDL_SetTextureAlphaMod(images[s]->getTexture(), 255);
 }
+
 LoadingState::~LoadingState(){}

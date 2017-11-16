@@ -270,7 +270,7 @@ void Map::update(double seconds) {
       tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 9);
       continue;
     }
-    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
+    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 5.0);
   }
 }
 
