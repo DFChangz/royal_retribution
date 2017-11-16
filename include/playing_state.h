@@ -28,6 +28,8 @@ class PlayingState : public State {
     int currentScore;
 
     void setupFood();
+    void setupInstruct();
+
     void update(double);
     virtual void setup();
 

@@ -4,12 +4,37 @@
 =    Idean, Tae Jin, Billy, Derek    =
 =                                    =
 ######################################
-================
-# Assignment 8 #
-================
+=================
+# Assignment 11 #
+=================
+
+Design (Derek)
+- updated blocks
+- death animations
+- updated lights (added animation)
+
+Loading Screen (Tae Jin Kim)
+
+King/Enemy Death Animations (Tae Jin Kim)
+
+Kill Drops (Tae Jin Kim)
+- some enemies drop food
+- eating food increases health by 1 full heart
+
+Fixed Up Mini Enemies (Billy)
+- were not transforming correctly
+- some enemies weren't at first chests
+
+Fixed Up Sword Swings (Billy)
+- sometimes, enemies won't die
+
+Fixing and Efficiency (Idean)
+- collision bugs
+- working on combining wall tiles (in progress)
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 LEVEL 4
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 Design (Derek)
 - new map

@@ -121,23 +121,8 @@ void Level_1_State::setup() {
   static_cast<Sprite*>(images[add+"food"])->setPair(C3);
   // add food in some enemies
   setupFood();
-  //instuctions
-  images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens a special door with 'e'. Press 'r' to clear text");
-  images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
-  images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU FELL DOWN A HOLE! You are now going to the previous floor. Press 'r' to clear text");
-  images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU ARE TRAPPED! Kill an enemy to escape! press 'r' to clear text ");
-  images[top+"cInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU OPENED A CHEST! The item is now in your inventory. press 'r' to clear text");
-  images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
-  // FPS Counter 
-  images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
-    2, 2, 16, "FPS: ");
-
+  // instuctions
+  setupInstruct();
   // go to floor 2
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     images[ppl+"king"]->pos_x = static_cast<Character*>(images[ppl+"king"])->startingX;

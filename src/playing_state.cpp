@@ -115,19 +115,8 @@ void PlayingState::setup() {
       num_food++;
     }
   }
-  //instuctions
-  images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got a key. It opens a special door with 'e'. Press 'r' to clear text");
-  images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
-  images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
-  images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
-  images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
-  images[top+"cInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text ");
+  // instuctions
+  setupInstruct();
   // FPS Counter 
   images[add+"fps"] = new Text(engine->renderer, FONT_FILENAME,  errorHandler,
     2, 2, 16, "FPS: ");
@@ -154,6 +143,21 @@ void PlayingState::setupFood() {
       num_food++;
     }
   }
+}
+
+void PlayingState::setupInstruct() {
+  images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You got a key. It opens a special door with 'e'. Press 'r' to clear text");
+  images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
+  images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
+  images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
+  images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+  images[top+"cInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
+    errorHandler, 0, 0, 25, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text");
 }
 
 void PlayingState::load() {
