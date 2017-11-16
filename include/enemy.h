@@ -32,7 +32,7 @@ class Enemy : public Sprite {
 
     void thaw();
     void freeze();
-    void kill() { dead = true; } 
+    void kill() { exploding = true; } 
     bool isDead() { return dead; }
     void addFood() { food = true; }
     bool hasFood() { return food; }
@@ -45,12 +45,14 @@ class Enemy : public Sprite {
     void followSprite();
     virtual doubleRect getDoubleRect();
   protected:
+    void die(double);
+
     Image* shouldFollow = nullptr;
 
     bool dead = false;
     bool food = false;
     bool frozen = false;
-    bool exploded = false;
+    bool exploding = false;
     bool following = false;
     bool flipXVelocity = false;
     bool flipYVelocity = false;
@@ -62,7 +64,6 @@ class Enemy : public Sprite {
 
   private:
     void attemptFollow();
-    void idleAnimation(double);
 };
 
 #endif

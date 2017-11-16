@@ -12,18 +12,13 @@ Mini_Enemy::Mini_Enemy(SDL_Renderer *renderer, std::string filename,
 }
 
 void Mini_Enemy::update(double seconds) {
+  if (dead) return;
+  if (this->exploding) die(seconds);
+
   if (flipXVelocity) velocityX *= -1;
   if (flipYVelocity) velocityY *= -1;
   flipXVelocity = false;
   flipYVelocity = false;
-
-  if (this->dead) {
-    velocityY = 0;
-    velocityX = 0;
-    collidable = false;
-    SDL_SetTextureAlphaMod(this->getTexture(), 0);
-    return;
-  }
 
   if (shouldFollow != nullptr)
     attemptFollow(seconds);
@@ -46,9 +41,8 @@ void Mini_Enemy::update(double seconds) {
     dir = "up";
     Sprite::animate(seconds, M_ENEMY_U_MOVING_POS, M_ENEMY_U_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
-  } else {
-    idleAnimation(seconds);
   }
+
   if (transformed){
     pair->setPosition(pos_x, pos_y);
     SDL_SetTextureAlphaMod(pair->getTexture(), 0);
@@ -98,18 +92,4 @@ doubleRect Mini_Enemy::getDoubleRect() {
   x.w = rect.w;
   x.h = rect.h / 2;
   return x;
-}
-
-void Mini_Enemy::idleAnimation(double seconds) {
-  int pos = -1;
-
-  if (transformed) {
-    if (dir == "up") pos = M_ENEMY_U_MOVING_POS;
-    else if (dir == "down") pos = M_ENEMY_D_MOVING_POS;
-    else if (dir == "left") pos = M_ENEMY_L_MOVING_POS;
-    else if (dir == "right") pos = M_ENEMY_R_MOVING_POS;
-    else error_handler->quit(__func__, "direction not found");
-  } else pos = M_ENEMY_TRANSFORM_POS;
-
-  Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);
 }

@@ -103,6 +103,7 @@ void Sword::notifyCollision(Image* image, doubleRect*, bool) {
 }
 
 void Sword::kill(Image* image) {
+  image->setCollidable(false);
   static_cast<Enemy*>(image)->kill();
   audioHandler->play("kill", 0);
   if (this->king->pair != nullptr) {

@@ -61,9 +61,6 @@ void Character::update(double seconds) {
 
   Sprite::update(seconds);
 
-  // if dying, die
-  if (dying) die(seconds);
-
   // If attacking, don't move.
   if (attacking) {
     pos_x -= velocityX * seconds * speedMultiplier;

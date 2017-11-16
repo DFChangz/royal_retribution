@@ -49,26 +49,13 @@ void Enemy::thaw() {
 }
 
 void Enemy::update(double seconds) {
+  if (dead) return;
+  if (this->exploding) die(seconds); 
+
   if (flipXVelocity) velocityX *= -1;
   if (flipYVelocity) velocityY *= -1;
   flipXVelocity = false;
   flipYVelocity = false;
-
-  if (!exploded && this->dead) {
-    velocityY = 0;
-    velocityX = 0;
-    collidable = false;
-
-    Sprite::animate(seconds, ENEMY_DIE_POS, ENEMY_DIE_POS + ENEMY_MOVING_FRAMES
-      - 1, ENEMY_FPS*0.5);
-    explodingTimer += seconds;
-    SDL_SetTextureAlphaMod(this->getTexture(), 255);
-
-    if (explodingTimer > ENEMY_MOVING_FRAMES/(ENEMY_FPS*0.5)) {
-      exploded = true;
-      SDL_SetTextureAlphaMod(this->getTexture(), 0);
-    }
-  }
 
   if (shouldFollow != nullptr)
     attemptFollow();
@@ -91,8 +78,6 @@ void Enemy::update(double seconds) {
     dir = "up";
     Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
-  } else {
-    idleAnimation(seconds);
   }
 }
 
@@ -121,7 +106,7 @@ bool Enemy::checkDistance(Image* sprite, double radius) {
 }
 
 void Enemy::followSprite() {
-  if (frozen) return;
+  if (exploding || frozen) return;
 
   if (getDoubleRect().x + 32 <= shouldFollow->getDoubleRect().x) velocityX = 100;
   else if (getDoubleRect().x >= shouldFollow->getDoubleRect().x + 32) velocityX = -100;
@@ -153,18 +138,6 @@ void Enemy::notifyCollision(Image* img, doubleRect* intersection, bool resolved)
   }
 }
 
-void Enemy::idleAnimation(double seconds) {
-  int pos = -1;
-
-  if (dir == "right") pos = ENEMY_R_MOVING_POS;
-  else if (dir == "left") pos = ENEMY_L_MOVING_POS;
-  else if (dir == "up") pos = ENEMY_UP_MOVING_POS;
-  else if (dir == "down") pos = ENEMY_DOWN_MOVING_POS;
-  else error_handler->quit(__func__, "direction not found");
-
-  Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);
-}
-
 doubleRect Enemy::getDoubleRect() {
   doubleRect x;
   x.x = pos_x;
@@ -172,4 +145,16 @@ doubleRect Enemy::getDoubleRect() {
   x.w = rect.w;
   x.h = rect.h / 2;
   return x;
+}
+
+void Enemy::die(double seconds) {
+  velocityY = 0;
+  velocityX = 0;
+
+  Sprite::animate(seconds, ENEMY_DIE_POS, ENEMY_DIE_POS + ENEMY_MOVING_FRAMES
+    - 1, ENEMY_FPS*1.0);
+  explodingTimer += seconds;
+
+  if (explodingTimer > (ENEMY_MOVING_FRAMES/(ENEMY_FPS*1.0)))
+    dead = true;
 }

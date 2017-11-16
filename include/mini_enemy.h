@@ -27,7 +27,6 @@ class Mini_Enemy : public Enemy {
 
     void transform(double);
     void attemptFollow(double);
-    void idleAnimation(double);
 };
 
 #endif
