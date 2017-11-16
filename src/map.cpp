@@ -142,9 +142,8 @@ void Map::loadSecondLayout(std::string filename) {
       
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
-          140, 140, TILE_DIM * (col-1), TILE_DIM * (row-1), false));
+          140, 140, TILE_DIM * (col-1), TILE_DIM * (row-1), false, false));
       }
-
 
       tile t;
       t.start_frame = texture->start_frame;

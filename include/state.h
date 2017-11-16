@@ -69,10 +69,9 @@ class State {
 
     Camera camera;
 
-    void pause() { paused = true; }
-//    void resume() { paused = false; } 
     void resume(); 
     void pauseUpdate(double);
+    void pause() { paused = true; }
 
     std::string ele = std::to_string(ELE);
     std::string ppl = std::to_string(PPL);

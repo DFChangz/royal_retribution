@@ -78,6 +78,8 @@ void Enemy::update(double seconds) {
     dir = "up";
     Sprite::animate(seconds, ENEMY_UP_MOVING_POS, ENEMY_UP_MOVING_POS
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+  } else {
+    if (!exploding) idleAnimation(seconds);
   }
 }
 
@@ -157,4 +159,16 @@ void Enemy::die(double seconds) {
 
   if (explodingTimer > (ENEMY_MOVING_FRAMES/(ENEMY_FPS*1.0)))
     dead = true;
+}
+
+void Enemy::idleAnimation(double seconds) {
+  int pos = -1;
+
+  if (dir == "right") pos = ENEMY_R_MOVING_POS;
+  else if (dir == "left") pos = ENEMY_L_MOVING_POS;
+  else if (dir == "up") pos = ENEMY_UP_MOVING_POS;
+  else if (dir == "down") pos = ENEMY_DOWN_MOVING_POS;
+  else error_handler->quit(__func__, "direction not found");
+
+  Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);
 }

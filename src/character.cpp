@@ -45,7 +45,11 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 }
 
 void Character::update(double seconds) {
-  if (dying) die(seconds);
+  if (dying) {
+    die(seconds);
+    Sprite::update(seconds);
+    return;
+  }
 
   invincibilitySeconds += seconds;
   attackingTimer += seconds;
@@ -95,7 +99,7 @@ void Character::update(double seconds) {
     }
   }
 
-  if (attacking) {
+  if (attacking && !frozen) {
     if (dir == "up")
       Sprite::animate(seconds, U_ATTACK_POS, U_ATTACK_POS + ATTACK_FRAMES - 1,
         CHARACTER_FPS*2.0);
@@ -300,7 +304,7 @@ void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
     if (!frozen) velocityY = -SPEED_CHAR; }, SDLK_UP);
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    if (!frozen) attacking = true; }, SDLK_SPACE);
+    attacking = true; }, SDLK_SPACE);
 
   //when key is released, velocity set back to 0
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
@@ -320,7 +324,7 @@ void Character::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     if (velocityY < 0) velocityY = 0;}, SDLK_UP);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
-    lastAttack = true; attackingTimer = 0;}, SDLK_SPACE);
+    lastAttack = true; attackingTimer = 0; }, SDLK_SPACE);
   
   // boost control
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
@@ -358,9 +362,6 @@ void Character::pickUp(Pickup* pickup) {
 }
 
 void Character::die(double seconds) {
-  frozen = true;
-  running = false;
-  attacking = false;
   if (!done) Sprite::animate(seconds, DIE_POS, DIE_POS + RUNNING_FRAMES - 1,
     CHARACTER_FPS*0.5);
   dyingTimer += seconds;

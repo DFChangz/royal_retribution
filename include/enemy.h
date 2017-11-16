@@ -64,6 +64,7 @@ class Enemy : public Sprite {
 
   private:
     void attemptFollow();
+    void idleAnimation(double);
 };
 
 #endif
