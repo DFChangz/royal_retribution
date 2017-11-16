@@ -242,8 +242,6 @@ void Engine::newGame() {
   states["loading"]->render(interpol_alpha);
   // instruction
   states["instruction"] = new InstructionState(this, &error_handler);
-  static_cast<LoadingState*>(states["loading"])->advance();
-  states["loading"]->render(interpol_alpha);
   // reset character
   while(!Character::inventory.empty()){
     Character::inventory.pop_back();

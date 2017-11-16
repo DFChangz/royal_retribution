@@ -8,11 +8,9 @@ LoadingState::LoadingState(Engine* engine, ErrorHandler* errorHandler)
 }
 
 void LoadingState::setup(){
-  images["0BG"] = new Sprite(engine->renderer, BG_FILENAME, errorHandler,
-    0, 0, false);
   images["1start"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 140, "STARTING  IN", ROYAL_GOLD);
-  for (int i = 0; i < countdown; i++) {
+  for (int i = 1; i < countdown; i++) {
     s = "2count_" + std::to_string(i);
     images[s] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 200, std::to_string(i), ROYAL_GOLD);
