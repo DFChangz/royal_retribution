@@ -180,8 +180,8 @@ void PlayingState::load() {
   for (int i = 0; i < num_lights; i++) {
     std::string s = add+"light_"+std::to_string(i);
 
-    images[s]->getDestRect()->w = TILE_DIM;
-    images[s]->getDestRect()->h = TILE_DIM;
+    images[s]->getDestRect()->w = 3*TILE_DIM;
+    images[s]->getDestRect()->h = 3*TILE_DIM;
 
     SDL_SetTextureBlendMode(images[s]->getTexture(),SDL_BLENDMODE_ADD);
     if (SDL_SetTextureAlphaMod(images[s]->getTexture(), 80) < 0)
@@ -304,32 +304,6 @@ void PlayingState::update(double seconds) {
   }
 
   
-  /********************
-  FOOD
-  *********************/
-  /*for (int i = 0; i < 3; i++) {
-    if ( (i == 0 && eat0) || (i == 1 && eat1) || (i == 2 && eat2) ) continue;
-    std::string fStr = ppl+"food_"+std::to_string(i);
-    if (!static_cast<Enemy*>(static_cast
-        <Sprite*>(images[fStr])->pair)->isDead())
-    {
-      images[fStr]->pos_x = static_cast<Sprite*>(images[fStr])->pair->pos_x;
-      images[fStr]->pos_y = static_cast<Sprite*>(images[fStr])->pair->pos_y;
-    }
-    if (static_cast<Enemy*>(static_cast
-        <Sprite*>(images[fStr])->pair)->isDead())
-    {
-      switch(i) {
-        case 0: eat0 = true; break;
-        case 1: eat1 = true; break;
-        case 2: eat2 = true; break;
-      }
-      static_cast<Sprite*>(images[fStr])->setCollidable(true);
-      SDL_SetTextureAlphaMod(images[fStr]->getTexture(), 255);
-    }
-  }*/
-
-
   /********************
   HEARTS
   *********************/

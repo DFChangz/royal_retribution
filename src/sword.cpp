@@ -22,6 +22,12 @@ Sword::Sword(SDL_Renderer *renderer, std::string filename, ErrorHandler
 }
 
 void Sword::update(double seconds) {
+  if (static_cast<Character*>(king)->frozen
+      || static_cast<Character*>(king)->hearts == 0)
+  {
+    attacking = false;
+  }
+
   attackingTimer += seconds;
 
   pos_x = king->pos_x - 40;
@@ -117,8 +123,7 @@ void Sword::kill(Image* image) {
 
 void Sword::createListeners(EventHandler *eventHandler) {
   eventHandler->addListener(SDL_KEYDOWN, [&](SDL_Event*) {
-    if (!static_cast<Character*>(king)->frozen)
-      attacking = true;}, SDLK_SPACE);
+    attacking = true;}, SDLK_SPACE);
   eventHandler->addListener(SDL_KEYUP, [&](SDL_Event*) {
     lastAttack = true; attackingTimer = 0;}, SDLK_SPACE);
 }

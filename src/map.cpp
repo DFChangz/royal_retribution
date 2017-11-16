@@ -142,8 +142,7 @@ void Map::loadSecondLayout(std::string filename) {
       
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
-                TILE_DIM * col, TILE_DIM * row,
-                false));
+          140, 140, TILE_DIM * (col-1), TILE_DIM * (row-1), false));
       }
 
 
@@ -249,6 +248,10 @@ void Map::createTexture(int id, std::string filename, int start_frame,
 }
 
 void Map::update(double seconds) {
+  for (auto light : lights) {
+    static_cast<Sprite*>(light)->update(seconds);
+    static_cast<Sprite*>(light)->animate(seconds, 0, 3);
+  }
   for (auto tile : tiles) {
     tile.image->update(seconds);
     tile.image->animate(seconds, tile.start_frame,

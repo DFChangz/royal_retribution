@@ -45,6 +45,8 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 }
 
 void Character::update(double seconds) {
+  if (dying) die(seconds);
+
   invincibilitySeconds += seconds;
   attackingTimer += seconds;
   staSec += seconds;
@@ -88,10 +90,8 @@ void Character::update(double seconds) {
       dir = "up";
       Sprite::animate(seconds, U_RUNNING_POS, U_RUNNING_POS+RUNNING_FRAMES - 1,
         CHARACTER_FPS*speedMultiplier);
-    } else if (dying) {
-      die(seconds);
     } else {
-      idleAnimation(seconds);
+      if (!dying) idleAnimation(seconds);
     }
   }
 
@@ -359,6 +359,8 @@ void Character::pickUp(Pickup* pickup) {
 
 void Character::die(double seconds) {
   frozen = true;
+  running = false;
+  attacking = false;
   if (!done) Sprite::animate(seconds, DIE_POS, DIE_POS + RUNNING_FRAMES - 1,
     CHARACTER_FPS*0.5);
   dyingTimer += seconds;
