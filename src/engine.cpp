@@ -256,6 +256,7 @@ void Engine::newGame() {
   Character::exp = 0;
   Character::level = 1;
   Character::hearts = 6;
+  Character::maxHearts = 6;
   Character::currFloor = 1;
   PlayingState::fallen = 0;
   PlayingState::instrGiven = 1;
