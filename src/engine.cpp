@@ -252,6 +252,7 @@ void Engine::newGame() {
   while(!Character::activePowerups.empty()){
     Character::activePowerups.pop_back();
   }
+  Pickup::inventoryPos = 0;
   Character::exp = 0;
   Character::level = 1;
   Character::hearts = 6;
