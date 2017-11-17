@@ -147,17 +147,17 @@ void PlayingState::setupFood() {
 
 void PlayingState::setupInstruct() {
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got a key. It opens a special door with 'e'. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "YOU FOUND A KEY! It opens SPECIAL DOORS with [e]. Press [r] to clear the text.");
   images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got milk, you now have an extra heart. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "YOU DRANK MILK! You now have an extra heart. Press [r] to clear the text.");
   images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
+    errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a full heart. Press [r] to clear the text.");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You fell down a hole. You are now going to the previous floor. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "YOU FELL INTO A HOLE! You are now being sent to the previous floor. Press [r] to clear the text.");
   images[top+"tInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "YOU ARE TRAPPED, KILL AN ENEMY TO ESCAPE! press 'r' to clear text ");
+    errorHandler, 0, 0, 25, "YOU ARE TRAPPED! Kill an enemy to escape! Press [r] to clear the text.");
   images[top+"cInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You opened a chest the item is now in your inventory in the upper left corner. press 'r' to clear text");
+    errorHandler, 0, 0, 25, "YOU FOUND A COIN! Your score has increased. Press [r] to clear the text.");
 }
 
 void PlayingState::load() {
@@ -209,13 +209,12 @@ void PlayingState::load() {
     } else if (it->first == "3level") {
       auto center = getCenterForImage(it->second); 
       it->second->setPosition(std::get<0>(center), 0);
-    } else if (it->first == "3cInstruct") {
-      auto center = getCenterForImage(it->second);
-      it->second->setPosition(std::get<0>(center), std::get<1>(center)-120);
     } else if (it->first == "3dkInstruct"
+               || it->first == "3cInstruct"
                || it->first == "3hInstruct"
                || it->first == "3tInstruct"
-               || it->first == "3fInstruct")
+               || it->first == "3fInstruct"
+               || it->first == "3FInstruct")
     {
       auto center = getCenterForImage(it->second);
       it->second->setPosition(std::get<0>(center), std::get<1>(center)-80);
@@ -317,7 +316,23 @@ void PlayingState::update(double seconds) {
   updateLights(seconds);
   State::update(seconds);
 
+  /********************
+  FOOD INSTRUCTION
+  *********************/
+  // prints food instruction
+  if (!foodInstructionGiven) {
+    for (int i = 0; i < num_enemies; i++) {
+      std::string s = ppl+"enemy_"+std::to_string(i);
+      if (static_cast<Enemy*>(images[s])->isDead()
+          && static_cast<Enemy*>(images[s])->hasFood())
+      {
+        activateInstructionText(healthTextNum);
+        foodInstructionGiven = true;
+      }
+    }
+  }
   
+ 
   /********************
   DIE
   *********************/
@@ -356,7 +371,6 @@ void PlayingState::activateInstructionText(int instruct){
     images[ele+"hole"]->pos_x = images[ppl+"king"]->pos_x-9;
     images[ele+"hole"]->pos_y = images[ppl+"king"]->pos_y+39;
     SDL_SetTextureAlphaMod(images[top+"hInstruct"]->getTexture(), 255);
-    //PlayingState::instrGiven *= holeNum;
   }
   if(instruct == trapNum && instrGiven % trapNum != 0){ 
     pause();
@@ -364,17 +378,23 @@ void PlayingState::activateInstructionText(int instruct){
     SDL_SetTextureAlphaMod(images[top+"tInstruct"]->getTexture(), 255); 
     PlayingState::instrGiven *= trapNum;
   }
+  if(instruct == healthTextNum && instrGiven % healthTextNum != 0){
+    pause();
 
+    SDL_SetTextureAlphaMod(images[top+"FInstruct"]->getTexture(), 255);
+    PlayingState::instrGiven *= healthTextNum;
+  }
+  if(instruct == foodTextNum){
+    pause();
+
+    SDL_SetTextureAlphaMod(images[top+"fInstruct"]->getTexture(), 255);
+    PlayingState::instrGiven *= foodTextNum;
+  }
   if(instruct == chestNum && instrGiven % chestNum != 0){ 
     pause();
 
     SDL_SetTextureAlphaMod(images[top+"cInstruct"]->getTexture(), 255); 
     PlayingState::instrGiven *= chestNum;
-  }
-  if(instruct == foodTextNum){ 
-    pause();
-
-    SDL_SetTextureAlphaMod(images[top+"fInstruct"]->getTexture(), 255); 
   }
 }
 

@@ -42,6 +42,7 @@ class PlayingState : public State {
     bool eat2 = false;
 
     bool skipPan = false;
+    bool foodInstructionGiven = false;
 
     int a0 = 0;
     int a1 = 255;

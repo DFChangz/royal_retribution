@@ -182,6 +182,7 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
       if (hearts < maxHearts) hearts++;
     }
     static_cast<Pickup*>(image)->eat();
+    static_cast<Pickup*>(image)->activate();
     SDL_SetTextureAlphaMod(image->getTexture(), 0);
     static_cast<Sprite*>(image)->setCollidable(false);
   }

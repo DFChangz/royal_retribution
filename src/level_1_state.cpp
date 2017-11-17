@@ -161,7 +161,6 @@ void Level_1_State::update(double seconds) {
 
     engine->score += 1000;
     Character::hearts = 8;
-    activateInstructionText(chestNum);
     activateInstructionText(foodTextNum);
 
   }
@@ -178,7 +177,6 @@ void Level_1_State::update(double seconds) {
     static_cast<Sprite*>(images[add+"key"])->pair = character;
 
     activateInstructionText(doorKeyNum);
-    activateInstructionText(chestNum);
   }
   //coin chest
   auto coin = static_cast<Pickup*>(images[add+"coin"]);

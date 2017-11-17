@@ -159,7 +159,6 @@ void Level_3_State::update(double seconds) {
     static_cast<Sprite*>(images[add+"key"])->pair = character;
 
     activateInstructionText(doorKeyNum);
-    activateInstructionText(chestNum);
   }
   auto coin = static_cast<Pickup*>(images[add+"coin"]);
   if(static_cast<Sprite*>(images[add+"coin"])->pair->pair

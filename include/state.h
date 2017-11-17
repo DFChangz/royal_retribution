@@ -16,7 +16,7 @@
 #include "collision_detector.h"
 #include "camera.h"
 
-enum instruction {trapNum = 2, chestNum = 3, holeNum = 4, doorKeyNum = 5, foodTextNum = 6};
+enum instruction {trapNum = 2, chestNum = 3, holeNum = 4, doorKeyNum = 5, foodTextNum = 6, healthTextNum = 7};
 
 class State {
   public:
