@@ -14,7 +14,7 @@ Design (Derek)
 - updated lights (added animation)
 - max health increase (milk), heal (food)
 
-Loading Screen (Tae Jin Kim)
+Loading Screen (Tae Jin Kim/Billy)
 King/Enemy Death Animations (Tae Jin Kim)
 
 Kill Drops (Tae Jin Kim)
@@ -35,6 +35,8 @@ Fixed Up Sword Swings (Billy)
 
 Edited Camera (Billy)
 - added interesting lighting
+
+fixed walking through walls bug(Billy)
 
 Fixing and Efficiency (Idean)
 - collision bugs

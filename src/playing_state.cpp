@@ -199,7 +199,7 @@ void PlayingState::load() {
   images[add+"black"]->getDestRect()->h = map->height;
 
   SDL_SetTextureBlendMode(images[add+"black"]
-    ->getTexture(), SDL_BLENDMODE_MOD);
+    ->getTexture(), SDL_BLENDMODE_ADD);
   if (SDL_SetTextureAlphaMod(images[add+"black"]->getTexture(), 150) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
@@ -207,7 +207,7 @@ void PlayingState::load() {
   images[add+"cLight"]->getDestRect()->h = HEIGHT;
 
   SDL_SetTextureBlendMode(images[add+"cLight"]
-    ->getTexture(),SDL_BLENDMODE_ADD);
+    ->getTexture(),SDL_BLENDMODE_MOD);
 
   // center some of the textures
   for (it = images.begin(); it != images.end(); it++) {
