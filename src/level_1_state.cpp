@@ -116,7 +116,7 @@ void Level_1_State::setup() {
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
   // add food
-  images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
+  images[add+"food"] = new Pickup(engine->renderer, MILK, errorHandler,
     32, 32, foodPosX, foodPosY, false, true, foodNum);
   static_cast<Sprite*>(images[add+"food"])->setPair(C3);
   // add food in some enemies

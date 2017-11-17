@@ -100,7 +100,7 @@ void PlayingState::setup() {
     32, 32, coinPosX, coinPosY, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
   // add food
-  images[add+"food"] = new Pickup(engine->renderer, FOOD, errorHandler,
+  images[add+"food"] = new Pickup(engine->renderer, MILK, errorHandler,
     32, 32, 0, 0, false, true, foodNum);
   // add food in some enemies
   while (num_food < 3) {
@@ -149,7 +149,7 @@ void PlayingState::setupInstruct() {
   images[top+"dkInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "You got a key. It opens a special door with 'e'. Press 'r' to clear text");
   images[top+"fInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
-    errorHandler, 0, 0, 25, "You got food, you now have an extra heart. Press 'r' to clear text");
+    errorHandler, 0, 0, 25, "You got milk, you now have an extra heart. Press 'r' to clear text");
   images[top+"FInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
     errorHandler, 0, 0, 25, "THE ENEMY DROPPED FOOD! Pick it up to restore a heart. press 'r' to clear text");
   images[top+"hInstruct"] = new Text(engine->renderer, FONT_ROBOTO,
