@@ -12,14 +12,19 @@ Design (Derek)
 - updated blocks
 - death animations
 - updated lights (added animation)
+- max health increase (milk), heal (food)
 
 Loading Screen (Tae Jin Kim)
-
 King/Enemy Death Animations (Tae Jin Kim)
 
 Kill Drops (Tae Jin Kim)
 - some enemies drop food
 - eating food increases health by 1 full heart
+
+Edited Instructions (Tae Jin Kim)
+- enemy drop has instruction
+- coin has its own instruction
+* open chest instruction removed (redundant)
 
 Fixed Up Mini Enemies (Billy)
 - were not transforming correctly
