@@ -108,9 +108,10 @@ void Level_4_State::setup() {
         C2 = tile.image;
       } else {
         if(currMini < num_mini){
-          static_cast<Enemy*>(images[ppl+"enemy_mini_"+std::to_string(currMini)])->
+          std::string s = ppl+"enemy_mini_"+std::to_string(currMini);
+          static_cast<Enemy*>(images[s])->
             setPosition(tile.image->pos_x, tile.image->pos_y);   
-          static_cast<Enemy*>(images[ppl+"enemy_mini_"+std::to_string(currMini)])->
+          static_cast<Enemy*>(images[s])->
             setPair(tile.image);
             currMini++;
         }        

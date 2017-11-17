@@ -44,8 +44,7 @@ void Mini_Enemy::update(double seconds) {
   }
 
   if (transformed){
-    pair->setPosition(pos_x, pos_y);
-    SDL_SetTextureAlphaMod(pair->getTexture(), 0);
+    pair->setPosition(9000, 0);
   }
 }
 
