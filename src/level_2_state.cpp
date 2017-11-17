@@ -17,6 +17,9 @@ Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
 }
 
 void Level_2_State::setup() {
+  //Camera Light
+  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT, errorHandler,
+    0, 0, false, true);
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 25, map->height - 180, false);

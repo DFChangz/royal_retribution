@@ -62,6 +62,7 @@
 /* Torch Light */
 #define BLACK_PIXEL "assets/black.png"
 #define LIGHTS_FILENAME "assets/lights.png"
+#define CAMERA_LIGHT "assets/light_camera.png"
 #define THRONE_FILENAME "assets/throne.png"
 
 /* Level Elements */

@@ -9,6 +9,9 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
 }
 
 void PlayingState::setup() {
+  //Camera Light
+  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT, errorHandler,
+    0, 0, false, true);
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 16, map->height - 16, false);
@@ -196,10 +199,15 @@ void PlayingState::load() {
   images[add+"black"]->getDestRect()->h = map->height;
 
   SDL_SetTextureBlendMode(images[add+"black"]
-    ->getTexture(), SDL_BLENDMODE_BLEND);
+    ->getTexture(), SDL_BLENDMODE_MOD);
   if (SDL_SetTextureAlphaMod(images[add+"black"]->getTexture(), 150) < 0) {
     errorHandler->quit(__func__, SDL_GetError());
   }
+  images[add+"cLight"]->getDestRect()->w = WIDTH;
+  images[add+"cLight"]->getDestRect()->h = HEIGHT;
+
+  SDL_SetTextureBlendMode(images[add+"cLight"]
+    ->getTexture(),SDL_BLENDMODE_ADD);
 
   // center some of the textures
   for (it = images.begin(); it != images.end(); it++) {
