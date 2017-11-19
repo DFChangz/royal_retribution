@@ -61,12 +61,9 @@ void Engine::setup() {
   if (window == nullptr) {
     error_handler.quit(__func__, SDL_GetError());
   }
-   std::cout << SDL_SetWindowBrightness(window, 0) << std::endl;
-   std::cout << SDL_GetError() << std::endl;
-   std::cout << SDL_GetWindowBrightness(window) << std::endl;
   
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | 
-    SDL_RENDERER_PRESENTVSYNC);
+    SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
   if (renderer == nullptr) {
     error_handler.quit(__func__, SDL_GetError());
   }

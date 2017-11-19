@@ -15,6 +15,8 @@ Map::Map(SDL_Renderer* renderer_p, ErrorHandler* errorHandler_p,
   loadLayout(map_filename);
 }
 
+
+//creates textures based on legend symbols
 void Map::loadTextures(std::string filename) {
   std::ifstream file(filename);
   
@@ -48,6 +50,7 @@ void Map::loadTextures(std::string filename) {
   file.close();
 }
 
+// Creates tiles using textures created above
 void Map::loadLayout(std::string filename) {
   std::ifstream file(filename);
 
@@ -56,37 +59,27 @@ void Map::loadLayout(std::string filename) {
     errorHandler->quit(__func__, error.c_str());
   }
 
+  std::vector<letter> letters;
   std::string line;
+
   int row = 0;
-  while (std::getline(file, line)) {
-    int col = 0;
-
+  int col = 0;
+  while(std::getline(file, line)) {
     std::istringstream iss(line);
-    char sym = -1;
 
-    while(iss >> sym) {
+    char sym = -1;
+    while (iss >> sym) {
       if (sym == -1)
         errorHandler->quit(__func__, "Invalid file contents");
       else if (textureIDs.find(sym) == textureIDs.end())
         errorHandler->quit(__func__, "Texture not found for symbol");
 
-      struct texture* texture = &(textures[textureIDs[sym]]);
 
-      bool collidable = ((texture->options & 1) == 1);
-
-      tile t;
-      t.start_frame = texture->start_frame;
-      t.frame_length = texture->frame_length;
-      t.image = new Sprite(renderer, "", errorHandler, TILE_DIM, TILE_DIM,
-        col * TILE_DIM, row * TILE_DIM, collidable, false);
-
-      if (collidable) {
-        tiles.insert(tiles.begin(), t);
-        tiles[0].image->load(texture->texture);
-      } else {
-        tiles.push_back(t);
-        tiles.back().image->load(texture->texture);
-      }
+      letter l;
+      l.letter = sym;
+      l.row = row;
+      l.col = col;
+      letters.push_back(l);
 
       col++;
     }
@@ -97,11 +90,136 @@ void Map::loadLayout(std::string filename) {
     col = 0;
     row++;
   }
+
+  col = width / TILE_DIM;
+
   height = row * TILE_DIM;
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      if (col * i + j < (int) letters.size()) {
+        letter* l = &(letters[col * i + j]);
+
+        if (!l->grouped) {
+          tile t;
+          t.texture = &(textures[textureIDs[l->letter]]);
+          t.collidable = ((t.texture->options & 1) == 1);
+          t.start_frame = t.texture->start_frame;
+          t.frame_length = t.texture->frame_length;
+
+          int textureWidth;
+          int textureHeight;
+          SDL_QueryTexture(t.texture->texture, NULL, NULL, &textureWidth, &textureHeight);
+          int padding_x = SPRITE_PADDING_AMOUNT_X;
+          int padding_y = SPRITE_PADDING_AMOUNT_Y;
+          int frame_width = TILE_DIM + padding_x;
+          int frame_height = TILE_DIM + padding_y;
+
+          int max_adj_w = 16384 / textureWidth;
+          int max_adj_h = 16384 / (frame_height * (double) t.frame_length / NUM_COLS);
+          int max_adj = max_adj_w < max_adj_h ? max_adj_w : max_adj_h;
+
+          checkDirections(l, letters, col, row);
+
+          if (l->adjRight > max_adj) l->adjRight = max_adj;
+          if (l->adjDown > max_adj) l->adjDown = max_adj;
+
+          if (l->adjRight > l->adjDown) {
+            createSprite(t, l->col * TILE_DIM, l->row * TILE_DIM, l->adjRight * TILE_DIM, TILE_DIM, frame_width, frame_height);
+
+            for (int a = l->col; a < l->col + l->adjRight; a++) {
+              letters[a + l->row * col].grouped = true;
+            }
+          } else {
+            for (int a = l->row; a < l->row + l->adjDown; a++) {
+              letters[a * col + l->col].grouped = true;
+            }
+            createSprite(t, l->col * TILE_DIM, l->row * TILE_DIM, TILE_DIM, l->adjDown * TILE_DIM, frame_width, frame_height);
+          }
+        }
+      }
+    }
+  }
 
   file.close();
 
   addCollidablesToBuckets(&tiles);
+}
+
+//max_cols and max_rows is the number of cols and rows in grid
+void Map::checkDirections(letter* l, std::vector<letter> letters, int max_cols, int max_rows) {
+  for (int i = l->col + 1; i < max_cols; i++) {
+    if (l->letter != letters[max_cols * l->row + i].letter)
+      break;
+
+    l->adjRight++;
+  }
+
+  for (int i = l->row + 1; i < max_rows; i++) {
+    if (l->letter != letters[l->col + i * max_cols].letter)
+      break;
+
+    l->adjDown++;
+  }
+}
+
+void Map::createSprite(tile t, double pos_x, double pos_y, double width, double height, int frame_width, int frame_height) {
+  int textureWidth;
+  SDL_QueryTexture(t.texture->texture, NULL, NULL, &textureWidth, NULL);
+
+  //limit 16384x16384
+  int num_frames_x = t.frame_length > NUM_COLS - 1 ? NUM_COLS : t.frame_length;
+  int texture_width = width / TILE_DIM * textureWidth / NUM_COLS * (num_frames_x);
+  int texture_height = ((t.frame_length - 1) / NUM_COLS + 1) * frame_height * height / TILE_DIM;
+
+
+  SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32,
+    SDL_TEXTUREACCESS_TARGET, texture_width, texture_height);
+
+  if (texture == nullptr) {
+    errorHandler->quit(__func__, SDL_GetError());
+  }
+
+  if (SDL_SetRenderTarget(renderer, texture) < 0) {
+    SDL_DestroyTexture(texture);
+    errorHandler->quit(__func__, SDL_GetError());
+  }
+
+  SDL_RenderClear(renderer);
+  
+  for (int j = t.start_frame; j < t.start_frame + t.frame_length; j++) {
+    SDL_Rect srcRect;
+    srcRect = {j % NUM_COLS * frame_width, j / NUM_COLS * frame_height, TILE_DIM, TILE_DIM};
+
+    // for each tile
+    for (int i = 0; i < (width > height ? width : height) / TILE_DIM; i++){
+      SDL_Rect dest;
+      if (width > height)
+        dest = {(int) ((width + SPRITE_PADDING_AMOUNT_X) * (j - t.start_frame) + TILE_DIM * i), 0, TILE_DIM, TILE_DIM};
+      else
+        dest = {0, (int) ((height + SPRITE_PADDING_AMOUNT_Y) * (j - t.start_frame) + TILE_DIM * i), TILE_DIM, TILE_DIM};
+
+      if (SDL_RenderCopy(renderer, t.texture->texture, &srcRect, &dest) < 0) {
+        SDL_DestroyTexture(texture);
+        errorHandler->quit(__func__, SDL_GetError());
+      }
+    }
+  }
+
+  t.start_frame = 0;
+  
+  SDL_SetRenderTarget(renderer, NULL);
+
+  t.image = new Sprite(renderer, "", errorHandler, width, height,
+    pos_x, pos_y, t.collidable, false);
+
+  if (t.collidable) {
+    tiles.insert(tiles.begin(), t);
+    tiles[0].image->load(texture);
+  } else {
+    tiles.push_back(t);
+    tiles.back().image->load(texture);
+  }
 }
 
 void Map::loadSecondLayout(std::string filename) {
@@ -142,8 +260,10 @@ void Map::loadSecondLayout(std::string filename) {
       
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
-          140, 140, TILE_DIM * (col-1), TILE_DIM * (row-1), false, false));
+                TILE_DIM * col, TILE_DIM * row,
+                false));
       }
+
 
       tile t;
       t.start_frame = texture->start_frame;
@@ -270,7 +390,7 @@ void Map::update(double seconds) {
       tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 9);
       continue;
     }
-    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 5.0);
+    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
   }
 }
 

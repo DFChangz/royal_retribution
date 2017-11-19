@@ -5,11 +5,22 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <SDL.h>
+#include <SDL_image.h>
 #include "sprite.h"
 #include "error_handler.h"
 #include "collision_detector.h"
 
 #define TILE_DIM      32
+
+struct letter {
+  char letter;
+  int row;
+  int col;
+  int adjRight = 1;
+  int adjDown = 1;
+  bool grouped = false;
+};
 
 struct texture {
   SDL_Texture* texture;
@@ -22,6 +33,8 @@ struct texture {
 struct tile {
   int start_frame = 0;
   int frame_length = 0;
+  bool collidable = false;
+  texture* texture = nullptr;
 
   Sprite* image = nullptr;
 };
@@ -60,7 +73,12 @@ class Map {
     std::vector<Image*> lights;
     
   private:
+    void checkDirections(letter*, std::vector<letter> letters,
+      int, int);
+
     void createTexture(int, std::string, int, int, int, char);
+
+    void createSprite(tile, double, double, double, double, int, int);
 
     ErrorHandler* errorHandler;
 
