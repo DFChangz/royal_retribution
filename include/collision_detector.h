@@ -7,8 +7,8 @@
 #include "map.h"
 #include "types.h"
 
-#define BUCKET_ROWS 50
-#define BUCKET_COLS 50
+#define BUCKET_ROWS 30
+#define BUCKET_COLS 30
 
 /*The header file for the collision class that holds a vector of all images
 on screen and checks when they are intersecting in position.*/
