@@ -45,3 +45,13 @@ bool Util::getIntersection(doubleRect* a, doubleRect* b,
   if (intersection->w > 0 && intersection->h > 0) return true;
   return false;
 }
+
+doubleRect Util::toDoubleRect(SDL_Rect a) {
+  doubleRect b;
+  b.x = (double) a.x;
+  b.y = (double) a.y;
+  b.w = (double) a.w;
+  b.h = (double) a.h;
+
+  return b;
+}

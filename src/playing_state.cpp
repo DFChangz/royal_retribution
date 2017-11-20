@@ -534,7 +534,12 @@ void PlayingState::updateHearts(){
 void PlayingState::updateLights(double seconds) {
   for (int i = 0; i < num_lights; i++) {
     std::string s = add+"light_"+std::to_string(i);
-    static_cast<Sprite*>(images[s])->animate(seconds, 0, 3, 5.0);
+    Sprite* light = static_cast<Sprite*>(images[s]);
+    doubleRect lightRect = light->getDoubleRect();
+    doubleRect cameraRect = Util::toDoubleRect(camera.getRect());
+
+    if (Util::isIntersecting(&lightRect, &cameraRect))
+      light->animate(seconds, 0, 3, 5.0);
   }
 }
 

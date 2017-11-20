@@ -10,6 +10,7 @@ class Util {
     static bool isIntersecting(doubleRect*, doubleRect*);
     static bool getIntersection(Image* a, Image* b, doubleRect* intersection);
     static bool isIntersecting(Image* a, Image* b);
+    static doubleRect toDoubleRect(SDL_Rect);
 };
 
 #endif
