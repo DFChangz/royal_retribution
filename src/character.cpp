@@ -23,6 +23,8 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 
   state = state_p;
   createListeners(eventHandler);
+  
+  retrieveInteractables();
 }
 
 //constructor that does not take in width or height for the rect
@@ -113,6 +115,8 @@ void Character::update(double seconds) {
       Sprite::animate(seconds, L_ATTACK_POS, L_ATTACK_POS + ATTACK_FRAMES - 1,
         CHARACTER_FPS*2.0);
   }
+
+  checkInteractables();
 }
 
 void Character::render(Camera* camera, double interpol_alpha) {
@@ -162,18 +166,7 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
     state->activateInstructionText(trapNum);
     return;
   }
-  else if(static_cast<Sprite*>(image)->isDoor() && static_cast<Sprite*>(image)->pair == nullptr){
-    if(interacting){
-      for(Pickup* item : inventory){
-        if( item->getType() == keyNum && !item->isActivated()){
-          SDL_SetTextureAlphaMod(image->getTexture(), 0);
-          static_cast<Sprite*>(image)->setCollidable(false);
-          item->activate();
-          item->updateList();
-        }
-      }
-    }
-  }
+
   // add a full heart if food is picked up
   else if (static_cast<Sprite*>(image)->isPickup()
            && static_cast<Pickup*>(image)->getType() == healthNum)
@@ -209,10 +202,6 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
       collisionDir = "right";
     else
       collisionDir = "left";
-  }
-
-  if(static_cast<Sprite*>(image)->isChest() && interacting == true){
-      static_cast<Sprite*>(image)->pair = this;
   }
 
   if (!image->isSword())
@@ -360,6 +349,52 @@ void Character::pickUp(Pickup* pickup) {
   if (pickup->isPowerup()) {
     activePowerups.push_back(pickup->getType());
   }
+}
+
+void Character::retrieveInteractables(){
+  for(auto tile : state->map->additions){ 
+    if(!tile.image->isCollidable()){
+      break;
+    }
+    if(tile.image->isChest() || tile.image->isDoor()){
+      interactables.push_back(tile.image);
+    } 
+  }
+}
+
+void Character::checkInteractables(){
+  doubleRect spriteRect;
+  doubleRect thisRect;
+  if(!interacting){
+    return;
+  }
+  for(auto sprite : interactables){
+    thisRect = getDoubleRect();
+    spriteRect = sprite->getDoubleRect();
+
+    spriteRect.x -= spriteRect.w / 4;
+    spriteRect.y -= spriteRect.h / 4;
+    spriteRect.w += spriteRect.w / 2;
+    spriteRect.h += spriteRect.h / 2;
+
+    if(Util::isIntersecting(&spriteRect, &thisRect)){
+      if (sprite->isDoor()){
+        for(Pickup* item : inventory){
+          if( item->getType() == keyNum && !item->isActivated()){
+            SDL_SetTextureAlphaMod(sprite->getTexture(), 0);
+            sprite->setCollidable(false);
+            item->activate();
+            item->updateList();
+          }
+        }
+      } else if(sprite->isChest()){
+        sprite->pair = this;
+      }
+
+    }
+
+  } 
+
 }
 
 void Character::die(double seconds) {

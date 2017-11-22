@@ -173,6 +173,9 @@ void Level_3_State::load() {
   PlayingState::load(); 
   //sets pickup texture to see thru when in chests
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin2"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin3"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin4"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
 }
 

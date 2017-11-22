@@ -83,6 +83,9 @@ class Character : public Sprite {
 
     virtual void pickUp(Pickup*);
   private:
+    std::vector<Sprite*> interactables;
+    void checkInteractables();
+    void retrieveInteractables();
     void updateExpBar();
     void updateSta();
     void idleAnimation(double seconds);
