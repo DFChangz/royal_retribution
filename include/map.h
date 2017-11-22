@@ -34,7 +34,7 @@ struct tile {
   int start_frame = 0;
   int frame_length = 0;
   bool collidable = false;
-  texture* texture = nullptr;
+  texture* tileTexture = nullptr;
 
   Sprite* image = nullptr;
 };

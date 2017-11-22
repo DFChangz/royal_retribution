@@ -102,14 +102,14 @@ void Map::loadLayout(std::string filename) {
 
         if (!l->grouped) {
           tile t;
-          t.texture = &(textures[textureIDs[l->letter]]);
-          t.collidable = ((t.texture->options & 1) == 1);
-          t.start_frame = t.texture->start_frame;
-          t.frame_length = t.texture->frame_length;
+          t.tileTexture = &(textures[textureIDs[l->letter]]);
+          t.collidable = ((t.tileTexture->options & 1) == 1);
+          t.start_frame = t.tileTexture->start_frame;
+          t.frame_length = t.tileTexture->frame_length;
 
           int textureWidth;
           int textureHeight;
-          SDL_QueryTexture(t.texture->texture, NULL, NULL, &textureWidth, &textureHeight);
+          SDL_QueryTexture(t.tileTexture->texture, NULL, NULL, &textureWidth, &textureHeight);
           int padding_x = SPRITE_PADDING_AMOUNT_X;
           int padding_y = SPRITE_PADDING_AMOUNT_Y;
           int frame_width = TILE_DIM + padding_x;
@@ -165,7 +165,7 @@ void Map::checkDirections(letter* l, std::vector<letter> letters, int max_cols, 
 
 void Map::createSprite(tile t, double pos_x, double pos_y, double width, double height, int frame_width, int frame_height) {
   int textureWidth;
-  SDL_QueryTexture(t.texture->texture, NULL, NULL, &textureWidth, NULL);
+  SDL_QueryTexture(t.tileTexture->texture, NULL, NULL, &textureWidth, NULL);
 
   //limit 16384x16384
   int num_frames_x = t.frame_length > NUM_COLS - 1 ? NUM_COLS : t.frame_length;
@@ -173,7 +173,7 @@ void Map::createSprite(tile t, double pos_x, double pos_y, double width, double 
   int texture_height = ((t.frame_length - 1) / NUM_COLS + 1) * frame_height * height / TILE_DIM;
 
 
-  SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32,
+  SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB332,
     SDL_TEXTUREACCESS_TARGET, texture_width, texture_height);
 
   if (texture == nullptr) {
@@ -199,7 +199,7 @@ void Map::createSprite(tile t, double pos_x, double pos_y, double width, double 
       else
         dest = {0, (int) ((height + SPRITE_PADDING_AMOUNT_Y) * (j - t.start_frame) + TILE_DIM * i), TILE_DIM, TILE_DIM};
 
-      if (SDL_RenderCopy(renderer, t.texture->texture, &srcRect, &dest) < 0) {
+      if (SDL_RenderCopy(renderer, t.tileTexture->texture, &srcRect, &dest) < 0) {
         SDL_DestroyTexture(texture);
         errorHandler->quit(__func__, SDL_GetError());
       }
