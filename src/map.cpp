@@ -260,8 +260,7 @@ void Map::loadSecondLayout(std::string filename) {
       
       if (torch) {
         lights.push_back(new Sprite(renderer, LIGHTS_FILENAME, errorHandler,
-                TILE_DIM * col, TILE_DIM * row,
-                false));
+            140, 140, TILE_DIM * (col-1), TILE_DIM * (row-1), false, false));
       }
 
 
@@ -390,7 +389,7 @@ void Map::update(double seconds) {
       tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 9);
       continue;
     }
-    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1);
+    tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 5.0);
   }
 }
 
