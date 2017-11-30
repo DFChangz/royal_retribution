@@ -138,7 +138,6 @@ void Level_4_State::setup() {
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
     file.close();
     engine->setState("win"); 
   }, SDLK_2);

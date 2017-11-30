@@ -7,3 +7,5 @@ bin/*
 !bin/.keep
 
 loading_times
+
+data/scores.txt

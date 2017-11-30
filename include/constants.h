@@ -7,7 +7,7 @@
 #define SPEED_CHAR 150
 #define DELTA_TIME 0.0167
 #define WINDOW_TITLE "Royal Retribution"
-#define SCORE_FILENAME "assets/scores.txt"
+#define SCORE_FILENAME "data/scores.txt"
 #define SPRITE_PADDING_AMOUNT_X 28
 #define SPRITE_PADDING_AMOUNT_Y 20
 #define NUM_STATES              8  /* INCLUDE ALL STATES EXCEPT LOADING */
