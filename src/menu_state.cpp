@@ -157,7 +157,8 @@ void MenuState::load() {
   images["1NG"]->onClick(&eventHandler, [&] () {
     Mix_PauseMusic();
     engine->newGame();
-    engine->setState("intro");
+    if (engine->isRunning())
+      engine->setState("intro");
   });
 
   images["1HS"]->onHover(&eventHandler, [&] () {
@@ -195,7 +196,8 @@ void MenuState::transition() {
   if (selectedIndex == 3) {
     Mix_PauseMusic(); 
     engine->newGame();
-    engine->setState("intro");
+    if (engine->isRunning())
+      engine->setState("intro");
   }
   else if (selectedIndex == 4) {
     engine->newHighscore();

@@ -5,3 +5,5 @@ obj/*
 
 bin/*
 !bin/.keep
+
+loading_times

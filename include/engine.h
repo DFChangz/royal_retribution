@@ -53,6 +53,8 @@ class Engine {
     std::map<std::string, State*> states;
     static int volume;
 
+    bool isRunning() { return running; } 
+
   private:
     void setup();
     void loop();

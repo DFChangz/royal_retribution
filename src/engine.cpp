@@ -216,32 +216,48 @@ void Engine::newGame() {
     states["instruction"] = nullptr;
   }
   score = 0;
+
+  LoadingState* loading_state = static_cast<LoadingState*>(states["loading"]);
+  loading_state->start();
   // win
   states["win"] = new WinState(this, &error_handler);
+  loading_state->advance();
   // lose
-  states["lose"] = new LoseState(this, &error_handler);
+  if (running) {
+    states["lose"] = new LoseState(this, &error_handler);
+    loading_state->advance();
+  }
   // intro
-  states["intro"] = new IntroState(this, &error_handler);
-  static_cast<LoadingState*>(states["loading"])->advance();
-  states["loading"]->render(interpol_alpha);
+  if (running) {
+    states["intro"] = new IntroState(this, &error_handler);
+    loading_state->advance();
+  }
   // level_1
-  states["playing"] = new Level_1_State(this, &error_handler);
-  static_cast<LoadingState*>(states["loading"])->advance();
-  states["loading"]->render(interpol_alpha);
+  if (running) {
+    states["playing"] = new Level_1_State(this, &error_handler);
+    loading_state->advance();
+  }
   // level_2
-  states["level_2"] = new Level_2_State(this, &error_handler);
-  static_cast<LoadingState*>(states["loading"])->advance();
-  states["loading"]->render(interpol_alpha);
+  if (running) {
+    states["level_2"] = new Level_2_State(this, &error_handler);
+    loading_state->advance();
+  }
   // level_3
-  states["level_3"] = new Level_3_State(this, &error_handler);
-  static_cast<LoadingState*>(states["loading"])->advance();
-  states["loading"]->render(interpol_alpha);
+  if (running) {
+    states["level_3"] = new Level_3_State(this, &error_handler);
+    loading_state->advance();
+  }
   // level_4
-  states["level_4"] = new Level_4_State(this, &error_handler);
-  static_cast<LoadingState*>(states["loading"])->advance();
-  states["loading"]->render(interpol_alpha);
+  if (running) {
+    states["level_4"] = new Level_4_State(this, &error_handler);
+    loading_state->advance();
+  }
   // instruction
-  states["instruction"] = new InstructionState(this, &error_handler);
+  if (running) {
+    states["instruction"] = new InstructionState(this, &error_handler);
+    loading_state->advance();
+    loading_state->end();
+  }
   // reset character
   while(!Character::inventory.empty()){
     Character::inventory.pop_back();
