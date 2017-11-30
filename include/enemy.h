@@ -49,6 +49,7 @@ class Enemy : public Sprite {
 
     Image* shouldFollow = nullptr;
 
+    bool mini = false;
     bool dead = false;
     bool food = false;
     bool frozen = false;
@@ -62,8 +63,15 @@ class Enemy : public Sprite {
     double tempVY = 150;
     double explodingTimer = 0;
 
+    int movement = 0;
+    double totalTime = 0;
+    double waitingTime = 0;
+
+    bool isMini() { return mini; }
+
   private:
     void attemptFollow();
+    void moveRandomly(double);
     void idleAnimation(double);
 };
 

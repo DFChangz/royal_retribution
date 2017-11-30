@@ -106,7 +106,7 @@ void Level_4_State::setup() {
           16, 25, tile.image->pos_x, tile.image->pos_y, 0, 0);
         static_cast<Enemy*>(images[s])->setPair(tile.image);
         static_cast<Enemy*>(images[s])->followWhenClose(images[ppl + "king"],
-          FOLLOW_RADIUS);
+          FOLLOW_RADIUS + 50);
         num_mini++;
       }
     }

@@ -9,6 +9,8 @@ Mini_Enemy::Mini_Enemy(SDL_Renderer *renderer, std::string filename,
   double velocity_X, double velocity_Y)
     : Enemy(renderer, filename, error_handler, width, height, pos_x, pos_y,
     velocity_X, velocity_Y) {
+
+  mini = true;
 }
 
 void Mini_Enemy::update(double seconds) {
@@ -60,10 +62,10 @@ void Mini_Enemy::transform(double seconds) {
   SDL_SetTextureAlphaMod(this->getTexture(), 255);
   pair->setCollidable(false);
   Sprite::animate(seconds, M_ENEMY_TRANSFORM_POS, M_ENEMY_TRANSFORM_POS
-    + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*1.0);
+    + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*2.0);
   transformingTimer += seconds;
 
-  if (transformingTimer > ENEMY_MOVING_FRAMES/(ENEMY_FPS*1.0))
+  if (transformingTimer > ENEMY_MOVING_FRAMES/(ENEMY_FPS*2.0))
     transformed = true;
 }
 

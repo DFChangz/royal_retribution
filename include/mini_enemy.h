@@ -21,6 +21,8 @@ class Mini_Enemy : public Enemy {
     virtual void update(double seconds);
     virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
 
+    bool isMini() { return true; }
+
   private:
     bool transformed = false;
     double transformingTimer = 0;

@@ -16,8 +16,11 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
     rect.w *= 2;
     rect.h *= 2;
 
-    velocityX = velocity_X;
-    velocityY = velocity_Y;
+    velocityX = 0/*velocity_X*/;
+    velocityY = 0/*velocity_Y*/;
+
+    movement = rand() % 8;
+    waitingTime = 0.5 * (double)(rand() % 4);
 }
 
 //constructor with no width and height arguments
@@ -59,6 +62,9 @@ void Enemy::update(double seconds) {
 
   if (shouldFollow != nullptr)
     attemptFollow();
+
+  if (!frozen && !following && !isMini())
+    moveRandomly(seconds);
 
   Sprite::update(seconds);
 
@@ -171,4 +177,41 @@ void Enemy::idleAnimation(double seconds) {
   else error_handler->quit(__func__, "direction not found");
 
   Sprite::animate(seconds, pos, pos + ENEMY_IDLE_FRAMES - 1);
+}
+
+void Enemy::moveRandomly(double seconds) {
+  totalTime += seconds;
+  
+  if (totalTime > waitingTime) {
+    if (totalTime < waitingTime+1) {
+      switch (movement) {
+      case 0:  velocityX = 50;
+               break;
+      case 1:  velocityY = 50;
+               break;
+      case 2:  velocityX = -50;
+               break;
+      case 3:  velocityY = -50;
+               break;
+      case 4:  velocityX = 50;
+               velocityY = 50;
+               break;
+      case 5:  velocityX = 50;
+               velocityY = -50;
+               break;
+      case 6:  velocityX = -50;
+               velocityY = 50;
+               break;
+      case 7:  velocityX = -50;
+               velocityY = -50;
+               break;
+      } // end switch
+    } else {
+      velocityX = 0;
+      velocityY = 0;
+      totalTime = 0;
+      movement = rand() % 8;
+      waitingTime = 0.5 * (double)(rand() % 4);
+    }
+  }
 }
