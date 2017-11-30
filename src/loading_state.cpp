@@ -91,8 +91,6 @@ void LoadingState::advance() {
   //if (is_saved) width_ratio = ratios[num_states];
   else width_ratio = (double) (NUM_STATES - num_states) / (double) NUM_STATES;
 
-  std::cout << width_ratio << std::endl;
-
   double curr_w = images["1progress"]->getDestRect()->w;
   double total_w = 0.95*images["1progress_outline"]->getDestRect()->w * width_ratio;
 
