@@ -15,6 +15,7 @@
 #include "level_2_state.h"
 #include "level_3_state.h"
 #include "level_4_state.h"
+#include "boss_state.h"
 #include "highscore_state.h"
 #include "instruction_state.h"
 
@@ -157,6 +158,7 @@ void Engine::createStates() {
   states["level_2"] = nullptr;
   states["level_3"] = nullptr;
   states["level_4"] = nullptr;
+  states["boss"] = nullptr;
   states["Highscore"] = nullptr;
   states["instruction"] = nullptr;
 }
@@ -198,6 +200,10 @@ void Engine::newGame() {
   if (states["level_4"] != nullptr) {
     delete states["level_4"];
     states["level_4"] = nullptr;
+  }
+  if (states["boss"] != nullptr) {
+    delete states["boss"];
+    states["boss"] = nullptr;
   }
   if (states["win"] != nullptr) {
     delete states["win"];
@@ -250,6 +256,11 @@ void Engine::newGame() {
   // level_4
   if (running) {
     states["level_4"] = new Level_4_State(this, &error_handler);
+    loading_state->advance();
+  }
+  //boss
+  if (running) {
+    states["boss"] = new BossState(this, &error_handler);
     loading_state->advance();
   }
   // instruction

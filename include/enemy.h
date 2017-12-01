@@ -32,7 +32,7 @@ class Enemy : public Sprite {
 
     void thaw();
     void freeze();
-    void kill() { exploding = true; } 
+    virtual void kill() { exploding = true; } 
     bool isDead() { return dead; }
     void addFood() { food = true; }
     bool hasFood() { return food; }

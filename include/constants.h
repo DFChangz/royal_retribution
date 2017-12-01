@@ -33,6 +33,8 @@
 #define LEVEL_4 "maps/level_4.txt"
 #define LEVEL_4_E "maps/level_4_enemies.txt"
 #define LEVEL_4_ADD "maps/level_4_additions.txt"
+//boss level
+#define FINAL_LEVEL "maps/final_level.txt"
 
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
@@ -44,6 +46,7 @@
 #define KILL_FILENAME "assets/sword.wav"
 #define INTRO_FILENAME "assets/intro.xm"
 #define THEME1_FILENAME "assets/theme1.ogg"
+#define BOSS_THEME_FILENAME "assets/BossFight.ogg"
 #define COLLISION_FILENAME "assets/collision.wav"
 
 /* Sprites */
@@ -53,6 +56,10 @@
 #define SWORD "assets/characters/Sword_anim.png"
 #define ANI_FILENAME "assets/characters/Animations.png"
 #define SQUIRE_FILENAME "assets/characters/Squire_sheet.png"
+#define BIG_HEAD "assets/characters/alien_big_head.png"
+#define BIG_BODY "assets/characters/alien_big_body.png"
+#define BIG_RF "assets/characters/alien_big_Rfist.png"
+#define BIG_LF "assets/characters/alien_big_Lfist.png"
 
 /* Title */
 #define BG_FILENAME "assets/space.png"

@@ -27,6 +27,13 @@ void Audio::load() {
   }
   music["theme"] = theme;
 
+  Mix_Music* boss = Mix_LoadMUS(BOSS_THEME_FILENAME);
+  if (theme == nullptr) {
+    error_handler->quit(__func__, Mix_GetError());
+  }
+
+  music["boss"] = boss;
+
 
   Mix_Chunk* sound = Mix_LoadWAV(COLLISION_FILENAME);
   if (sound == nullptr) {

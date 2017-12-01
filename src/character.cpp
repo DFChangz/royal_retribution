@@ -218,6 +218,12 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
 
     invincibilitySeconds = 0;
     invincible = true;
+    if(static_cast<Sprite*>(image)->isHand()){
+      setPosition(pos_x, 1219);
+      if(Util::isIntersecting(this, image)){
+        setPosition(pos_x, 974);
+      }
+    }
   }
 }
 

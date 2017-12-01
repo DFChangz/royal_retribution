@@ -20,6 +20,7 @@ class Mini_Enemy : public Enemy {
     virtual doubleRect getDoubleRect();
     virtual void update(double seconds);
     virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
+    virtual void kill() { exploding = true; } 
 
     bool isMini() { return true; }
 

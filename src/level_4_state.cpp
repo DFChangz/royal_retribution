@@ -136,10 +136,7 @@ void Level_4_State::setup() {
 
   // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file.close();
-    engine->setState("win"); 
+    engine->setState("boss"); 
   }, SDLK_2);
 
   // go to floor 3 w/ '1'
@@ -192,11 +189,7 @@ void Level_4_State::update(double seconds) {
       && images[ppl+"king"]->pos_x+32 > 670
       && images[ppl+"king"]->pos_y+50 > 853)
   {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
-    file.close();
-    engine->setState("win");
+    engine->setState("boss");
   }
 }
 
