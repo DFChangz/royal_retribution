@@ -1,7 +1,8 @@
 #ifndef MAIN_BOSS_H
 #define MAIN_BOSS_H
 
-#define INVINCIBILITY_TIME 12
+#define INVINCIBILITY_TIME 4
+#define MAIN_BOSS_IDLE     72
 
 #include "boss_enemy.h"
 
@@ -13,14 +14,19 @@ class MainBoss : public Boss_Enemy {
 
     virtual void update(double seconds);
     virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
-    virtual void kill() { hp--; } 
+    virtual void kill(); 
+    void killed(){dead = true;}
     void setClone(bool cl){ clone = cl;}
     bool isClone(){ return clone;}
     std::vector< Sprite*> projectiles;
+    MainBoss* clone1 = nullptr;
+    MainBoss* clone2 = nullptr;
   private:
     bool invincible = false;
     double invincibilityTimer = 0.0;
     bool clone = false;
+    bool positionChosen = false;
+    void choosePositions();
 
 };
 

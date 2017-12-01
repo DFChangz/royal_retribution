@@ -101,26 +101,17 @@ void BigAlien::update(double seconds){
         std::cout << hp << std::endl;
     }
     Boss_Enemy::update(seconds);
-    //if(hp <= 0){dead = true;}
 
 }
-void BigAlien::notifyCollision(Image* img, doubleRect* intersection, bool resolved){
+void BigAlien::notifyCollision(Image* img, doubleRect*, bool){
     if(!img->isCharacter()){ return;}
-    Enemy::notifyCollision(img, intersection, resolved);
 }
-BigAlien::~BigAlien(){
-/*
-    if(head != nullptr){
-        delete head;
-    }
-*/
-}
+BigAlien::~BigAlien(){}
 void BigAlien::render(Camera* camera, double interpol_alpha) {
     if(dead && head != nullptr){
         SDL_SetTextureAlphaMod(head->getTexture(), 0);
         return;
     }
     Sprite::render(camera, interpol_alpha);
-    //head->render(camera, interpol_alpha);
 
 }

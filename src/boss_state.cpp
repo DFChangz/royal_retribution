@@ -4,6 +4,7 @@
 
 #include "boss_state.h"
 #include "big_alien.h"
+#include "main_boss.h"
 
 BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
@@ -33,7 +34,7 @@ void BossState::setup() {
   }
   //Big Alien  
   images[ppl+"bigAlien"] = new BigAlien(engine->renderer, BIG_BODY,
-    errorHandler, 160, 160, 1032, 800, 0, 0, 20);
+    errorHandler, 160, 160, 1032, 800, 0, 0, 5);
   images[ppl+"bigHead"] = new Sprite(engine->renderer, BIG_HEAD, errorHandler,160, 160,
     1032, 670, false);
   images[ppl+"bigLF"] = new Hand(engine->renderer, BIG_LF,
@@ -42,7 +43,19 @@ void BossState::setup() {
     errorHandler, 160, 160, 825, 960, 0, 0);
   static_cast<BigAlien*>(images[ppl+"bigAlien"])->setHands(static_cast<Hand*>(images[ppl+"bigRF"]),static_cast<Hand*>(images[ppl+"bigLF"]));
   static_cast<BigAlien*>(images[ppl+"bigAlien"])->setHead(static_cast<Sprite*>(images[ppl+"bigHead"]));
-
+  //Main bad guy
+  images[ppl+"mainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, 1032, 800, 0, 0, 5);
+  images[ppl+"clone1"] = new MainBoss(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, 1000, 1000, 0, 0, 5);
+  images[ppl+"clone2"] = new MainBoss(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, 1032, 800, 0, 0, 5);
+  static_cast<MainBoss*>(images[ppl+"mainBoss"])->clone1 = static_cast<MainBoss*>(images[ppl+"clone1"]);
+  static_cast<MainBoss*>(images[ppl+"mainBoss"])->clone2 = static_cast<MainBoss*>(images[ppl+"clone2"]);
+  static_cast<MainBoss*>(images[ppl+"clone1"])->setClone(true);
+  static_cast<MainBoss*>(images[ppl+"clone2"])->setClone(true);
+  static_cast<Enemy*>(images[ppl+"mainBoss"])->followWhenClose(images[ppl + "king"],
+    FOLLOW_RADIUS);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, 1094, 1074, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
@@ -106,7 +119,6 @@ void BossState::setup() {
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     std::ofstream file;
     file.open(SCORE_FILENAME, std::ios_base::app);
-    file << std::to_string(engine->score) << std::endl;
     file.close();
     engine->setState("win"); 
   }, SDLK_2);
@@ -161,6 +173,9 @@ void BossState::load() {
     }
   }
   deactivateInstructionText();
+  SDL_SetTextureAlphaMod(images[ppl+"mainBoss"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[ppl+"clone1"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[ppl+"clone2"]->getTexture(), 0);
   camera.setPosition(images[ppl+"bigAlien"]);
 
 }
@@ -173,7 +188,15 @@ void BossState::update(double seconds) {
     musicSwitch = 2;
   }
   PlayingState::update(seconds);
-
+  if(static_cast<Enemy*>(images[ppl+"bigAlien"])->isDead() && thePhase != 1){
+    std::cout << "SWORDS\n";
+    thePhase = static_cast<MainBoss*>(images[ppl+"mainBoss"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"clone1"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"clone2"])->changePhase(); 
+    SDL_SetTextureAlphaMod(images[ppl+"mainBoss"]->getTexture(), 255);
+    SDL_SetTextureAlphaMod(images[ppl+"clone1"]->getTexture(), 255);
+    SDL_SetTextureAlphaMod(images[ppl+"clone2"]->getTexture(), 255);
+  }
 
 }
 

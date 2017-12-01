@@ -22,4 +22,4 @@ void Boss_Enemy::update(double){
   if (dead){return;}
   if (hp <= 0){ dead = true;} 
 }
-void Boss_Enemy::notifyCollision(Image*, doubleRect*, bool resolved){}
+void Boss_Enemy::notifyCollision(Image*, doubleRect*, bool){}

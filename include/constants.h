@@ -10,7 +10,7 @@
 #define SCORE_FILENAME "data/scores.txt"
 #define SPRITE_PADDING_AMOUNT_X 28
 #define SPRITE_PADDING_AMOUNT_Y 20
-#define NUM_STATES              8  /* INCLUDE ALL STATES EXCEPT LOADING */
+#define NUM_STATES              9  /* INCLUDE ALL STATES EXCEPT LOADING */
 
 /* Maps */
 #define TILES_IMG "assets/blocks.png"

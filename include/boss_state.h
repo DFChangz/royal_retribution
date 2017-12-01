@@ -12,6 +12,7 @@ class BossState : public PlayingState {
   private:
     void update(double);
     virtual void setup();
+    int thePhase = 0;
 };
 
 #endif

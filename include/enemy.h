@@ -44,8 +44,11 @@ class Enemy : public Sprite {
     bool checkDistance(Image* sprite, double radius);
     void followSprite();
     virtual doubleRect getDoubleRect();
+    bool attacked(){return wasAttacked;}
+    void nullAttacked(){wasAttacked = false;}
   protected:
     void die(double);
+    void attemptFollow();
 
     Image* shouldFollow = nullptr;
 
@@ -68,9 +71,9 @@ class Enemy : public Sprite {
     double waitingTime = 0;
 
     bool isMini() { return mini; }
+    bool wasAttacked = false;
 
   private:
-    void attemptFollow();
     void moveRandomly(double);
     void idleAnimation(double);
 };

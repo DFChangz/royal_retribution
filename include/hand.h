@@ -17,11 +17,8 @@ class Hand : public Enemy {
     virtual bool isHand() { return true; }
    
     void killed(){dead = true;}
-    bool attacked(){return wasAttacked;}
-    void nullAttacked(){wasAttacked = false;}
 
   private:
-    bool wasAttacked = false;
     bool inAir = false;
     double groundTime = 0.0;
 };
