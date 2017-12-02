@@ -93,6 +93,8 @@ void MainBoss::kill(){
         invincible = true;
     }
     wasAttacked = true;
+    flipYVelocity = true;
+    flipXVelocity = true;
 } 
 
 void MainBoss::choosePositions(){

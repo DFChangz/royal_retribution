@@ -30,12 +30,12 @@ bool BigAlien::setHead(Sprite* h){
 }
 
 doubleRect BigAlien::getDoubleRect(){
-  doubleRect x;
-  x.x = pos_x;
-  x.y = head->pos_y;
-  x.w = rect.w;
-  x.h = rect.h + head->getDoubleRect().h;
-  return x;
+    doubleRect x;
+    x.x = pos_x;
+    x.y = pos_y;
+    x.w = rect.w;
+    x.h = rect.h;
+    return x;
 }
 
 void BigAlien::update(double seconds){

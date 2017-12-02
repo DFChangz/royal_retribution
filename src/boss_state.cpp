@@ -183,7 +183,6 @@ void BossState::update(double seconds) {
     fade = fadeOut(ppl+"bigHead", fade, seconds, 1.0);
   // if Big Alien dies
   if(static_cast<Enemy*>(images[ppl+"bigAlien"])->isDead() && thePhase != 1){
-    std::cout << "SWORDS\n";
     thePhase = static_cast<MainBoss*>(images[ppl+"mainBoss"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"clone1"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"clone2"])->changePhase(); 
