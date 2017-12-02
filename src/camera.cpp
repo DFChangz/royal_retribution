@@ -35,8 +35,13 @@ bool Camera::pan(Image* to, double seconds) {
   // edit velocity
   switch (counter) {
     case 1:
-      pos_y -= 500 * seconds;
-      if (pos_y <= dest_y) counter++;
+      if (pos_y > dest_y) {
+        pos_y -= 500 * seconds;
+        if (pos_y <= dest_y) counter++;
+      } else {
+        pos_y += 500 * seconds;
+        if (pos_y >= dest_y) counter++;
+      }
       break;
     case 2:
       if (pos_x > dest_x) left = true;

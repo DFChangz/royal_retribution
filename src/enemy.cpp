@@ -16,8 +16,8 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
     rect.w *= 2;
     rect.h *= 2;
 
-    velocityX = 0/*velocity_X*/;
-    velocityY = 0/*velocity_Y*/;
+    velocityX = velocity_X;
+    velocityY = velocity_Y;
 
     movement = rand() % 8;
     waitingTime = 0.5 * (double)(rand() % 4);
@@ -214,4 +214,16 @@ void Enemy::moveRandomly(double seconds) {
       waitingTime = 0.5 * (double)(rand() % 4);
     }
   }
+}
+
+/* fades out a texture */
+int Enemy::fadeOut(int a, double seconds, double mult) {
+  newA = (double)a - speed * seconds * mult;
+  if (newA > 0) {
+    a = (int)newA;
+    SDL_SetTextureAlphaMod(this->getTexture(), a);
+  } else {
+    SDL_SetTextureAlphaMod(this->getTexture(), 0);
+  }
+  return a;
 }

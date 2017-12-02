@@ -16,6 +16,8 @@ BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
 
   setup();
   load();
+
+  //skipPan = true;
 }
 
 void BossState::setup() {
@@ -35,7 +37,7 @@ void BossState::setup() {
   else
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
       errorHandler, 16, 25, 0, 0, &eventHandler, &audioHandler, this);
-  images[ppl+"king"]->setPosition(map->width/2 - 16, map->height/2 + 10);
+  images[ppl+"king"]->setPosition(map->width/2 - 16, map->height/2 + 140);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, map->width/2, map->height/2, static_cast<Sprite*>
@@ -43,17 +45,16 @@ void BossState::setup() {
 
   // Big Alien
   images[ppl+"bigAlien"] = new BigAlien(engine->renderer, BIG_BODY,
-    errorHandler, 200, 160, map->width/2 - 100, map->height/2 - 385, 8,
-    static_cast<Sprite*>(images[ppl+"king"]));
+    errorHandler, 200, 160, map->width/2 - 100, map->height/2 - 385, 8);
   // head
   images[ppl+"bigHead"] = new Sprite(engine->renderer, BIG_HEAD,
     errorHandler, 200, 200, map->width/2 - 100, map->height/2 - 505, false);
   // left hand
   images[ppl+"bigLF"] = new Hand(engine->renderer, BIG_LF,
-    errorHandler, 160, 160, map->width/2 + 100, map->height/2 - 385, 0, 0, 4);
+    errorHandler, 160, 160, map->width/2 + 100, map->height/2 - 385, 0, 0);
   // right hand
   images[ppl+"bigRF"] = new Hand(engine->renderer, BIG_RF,
-    errorHandler, 160, 160, map->width/2 - 260, map->height/2 - 385, 0, 0, 4);
+    errorHandler, 160, 160, map->width/2 - 260, map->height/2 - 385, 0, 0);
   // set body parts
   static_cast<BigAlien*>(images[ppl+"bigAlien"])
     ->setHands(static_cast<Hand*>(images[ppl+"bigRF"]),
@@ -63,11 +64,11 @@ void BossState::setup() {
 
   // Main Boss
   images[ppl+"mainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 - 16, map->height/2+50, 0, 0, 5);
+    errorHandler, 16, 25, 1032, 800, 0, 0, 5);
   images[ppl+"clone1"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 - 66, map->height/2+50, 0, 0, 5);
+    errorHandler, 16, 25, 1000, 1000, 0, 0, 5);
   images[ppl+"clone2"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 + 46, map->height/2+50, 0, 0, 5);
+    errorHandler, 16, 25, 1032, 800, 0, 0, 5);
   static_cast<MainBoss*>(images[ppl+"mainBoss"])
     ->clone1 = static_cast<MainBoss*>(images[ppl+"clone1"]);
   static_cast<MainBoss*>(images[ppl+"mainBoss"])
@@ -176,12 +177,9 @@ void BossState::update(double seconds) {
     audioHandler.play("boss");
     musicSwitch = 2;
   }
+  std::cout << "bef\n";
   PlayingState::update(seconds);
-
-  // fade out the head with the body
-  if (static_cast<BigAlien*>(images[ppl+"bigAlien"])->isDying())
-    fade = fadeOut(ppl+"bigHead", fade, seconds, 1.0);
-  // if Big Alien dies
+  std::cout << "aft\n";
   if(static_cast<Enemy*>(images[ppl+"bigAlien"])->isDead() && thePhase != 1){
     std::cout << "SWORDS\n";
     thePhase = static_cast<MainBoss*>(images[ppl+"mainBoss"])->changePhase(); 

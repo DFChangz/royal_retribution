@@ -13,6 +13,7 @@ class BossState : public PlayingState {
     void update(double);
     virtual void setup();
     int thePhase = 0;
+    int fade = 255;
 };
 
 #endif

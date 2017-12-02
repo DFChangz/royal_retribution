@@ -44,7 +44,7 @@ void Level_2_State::setup() {
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
     std::string s = ppl+"enemy_"+std::to_string(num_enemies);
     images[s] = new Enemy(engine->renderer, ANI_FILENAME, errorHandler,
-      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
+      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 0);
     static_cast<Enemy*>(images[s])->followWhenClose(images[ppl + "king"],
       FOLLOW_RADIUS);
     num_enemies++;

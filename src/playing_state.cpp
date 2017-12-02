@@ -10,8 +10,8 @@ PlayingState::PlayingState(Engine* engine, ErrorHandler* errorHandler)
 
 void PlayingState::setup() {
   //Camera Light
-  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT, errorHandler,
-    0, 0, false, true);
+  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT,
+    errorHandler, 0, 0, false, true);
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 16, map->height - 16, false);
@@ -37,7 +37,7 @@ void PlayingState::setup() {
   while ((file >> y) && y != -1 && (file >> x) && x != -1) {
     std::string s = ppl+"enemy_"+std::to_string(num_enemies);
     images[s] = new Enemy(engine->renderer, ANI_FILENAME, errorHandler,
-      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
+      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 0);
     num_enemies++;
   }
   file.close();

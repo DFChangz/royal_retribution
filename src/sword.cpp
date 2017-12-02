@@ -4,6 +4,7 @@
 
 #include "sword.h"
 #include "state.h"
+#include "hand.h"
 #include "character.h"
 
 // constructor that takes in arguments for the width and height for the rect
@@ -122,6 +123,13 @@ void Sword::notifyCollision(Image* image, doubleRect* dRect, bool) {
 }
 
 void Sword::kill(Image* image) {
+  if (static_cast<Sprite*>(image)->isHand()) {
+    if (static_cast<Hand*>(image)->onGround()) {
+      audioHandler->play("kill", 0);
+      static_cast<Hand*>(image)->kill();
+    }
+    return;
+  }
   image->setCollidable(false);
   static_cast<Enemy*>(image)->kill();
   audioHandler->play("kill", 0);

@@ -50,6 +50,8 @@ class Enemy : public Sprite {
     void die(double);
     void attemptFollow();
 
+    int fadeOut(int, double, double);
+
     Image* shouldFollow = nullptr;
 
     bool mini = false;
@@ -72,6 +74,9 @@ class Enemy : public Sprite {
 
     bool isMini() { return mini; }
     bool wasAttacked = false;
+
+    double newA = 0;
+    double speed = 50;
 
   private:
     void moveRandomly(double);

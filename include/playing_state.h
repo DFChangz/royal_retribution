@@ -29,6 +29,7 @@ class PlayingState : public State {
 
     void setupFood();
     void setupInstruct();
+    void loadStaAndExp();
 
     void update(double);
     virtual void setup();
