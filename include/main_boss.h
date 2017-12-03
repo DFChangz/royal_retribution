@@ -5,12 +5,13 @@
 #define MAIN_BOSS_IDLE     72
 
 #include "boss_enemy.h"
+#include "map.h"
 
 class MainBoss : public Boss_Enemy {
   public:
     MainBoss(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
       int width, int height, int pos_x, int pos_y, double velocityX,
-      double velocityY, int hp);
+      double velocityY, int hp, Map*);
 
     virtual void update(double seconds);
     virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
@@ -27,6 +28,8 @@ class MainBoss : public Boss_Enemy {
     bool clone = false;
     bool positionChosen = false;
     void choosePositions();
+    Map* map;
+    bool chase = false;
 
 };
 

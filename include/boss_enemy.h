@@ -14,6 +14,7 @@ class Boss_Enemy : public Enemy {
     virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
     virtual void kill() { hp--; } 
     int changePhase();
+    int getHp(){ return hp;}
   protected:
     int hp = 50;
     int phase = 0;

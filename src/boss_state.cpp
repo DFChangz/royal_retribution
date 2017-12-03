@@ -42,7 +42,7 @@ void BossState::setup() {
     (images[ppl+"king"]), &eventHandler, &audioHandler, this);
 
   // Big Alien
-  images[ppl+"bigAlien"] = new BigAlien(engine->renderer, BIG_BODY,
+  images[ppl+"eBigAlien"] = new BigAlien(engine->renderer, BIG_BODY,
     errorHandler, 200, 160, map->width/2 - 100, map->height/2 - 385, 8,
     static_cast<Sprite*>(images[ppl+"king"]));
   // head
@@ -50,33 +50,33 @@ void BossState::setup() {
     errorHandler, 200, 200, map->width/2 - 100, map->height/2 - 505, false);
   // left hand
   images[ppl+"bigLF"] = new Hand(engine->renderer, BIG_LF,
-    errorHandler, 160, 160, map->width/2 + 100, map->height/2 - 385, 0, 0, 4);
+    errorHandler, 160, 160, map->width/2 + 100, map->height/2 - 385, 0, 0, 5);
   // right hand
   images[ppl+"bigRF"] = new Hand(engine->renderer, BIG_RF,
-    errorHandler, 160, 160, map->width/2 - 260, map->height/2 - 385, 0, 0, 4);
+    errorHandler, 160, 160, map->width/2 - 260, map->height/2 - 385, 0, 0, 5);
   // set body parts
-  static_cast<BigAlien*>(images[ppl+"bigAlien"])
+  static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setHands(static_cast<Hand*>(images[ppl+"bigRF"]),
       static_cast<Hand*>(images[ppl+"bigLF"]));
-  static_cast<BigAlien*>(images[ppl+"bigAlien"])
+  static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setHead(static_cast<Sprite*>(images[ppl+"bigHead"]));
 
   // Main Boss
-  images[ppl+"mainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 - 16, map->height/2+50, 0, 0, 5);
+  images[ppl+"eMainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, map->width/2 - 16, map->height/2 + 70, 0, 0, 5, map);
   images[ppl+"clone1"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 - 66, map->height/2+50, 0, 0, 5);
+    errorHandler, 16, 25, map->width/2 - 66, map->height/2 + 70, 0, 0, 5, map);
   images[ppl+"clone2"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 + 46, map->height/2+50, 0, 0, 5);
-  static_cast<MainBoss*>(images[ppl+"mainBoss"])
+    errorHandler, 16, 25, map->width/2 + 46, map->height/2 + 70, 0, 0, 5, map);
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])
     ->clone1 = static_cast<MainBoss*>(images[ppl+"clone1"]);
-  static_cast<MainBoss*>(images[ppl+"mainBoss"])
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])
     ->clone2 = static_cast<MainBoss*>(images[ppl+"clone2"]);
   static_cast<MainBoss*>(images[ppl+"clone1"])
     ->setClone(true);
   static_cast<MainBoss*>(images[ppl+"clone2"])
     ->setClone(true);
-  static_cast<Enemy*>(images[ppl+"mainBoss"])
+  static_cast<Enemy*>(images[ppl+"eMainBoss"])
     ->followWhenClose(images[ppl + "king"], FOLLOW_RADIUS);
 
   // Enemies
@@ -154,7 +154,7 @@ void BossState::load() {
   // bosses
   SDL_SetTextureAlphaMod(images[ppl+"clone1"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"clone2"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[ppl+"mainBoss"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 0);
   camera.setPosition(images[ppl+"bigHead"]);
   // shading
   images[add+"black"]->getDestRect()->w = map->width;
@@ -168,6 +168,14 @@ void BossState::load() {
   images[add+"cLight"]->getDestRect()->h = HEIGHT;
   SDL_SetTextureBlendMode(images[add+"cLight"]
     ->getTexture(),SDL_BLENDMODE_MOD);
+  
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    if (skipPan) pause(); }, SDLK_p);
+  //Delete instruction text / resume by pressing 'r'
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    if (isPaused()) resume();
+    deactivateInstructionText(); 
+  }, SDLK_r);
 }
 
 void BossState::update(double seconds) {
@@ -177,18 +185,32 @@ void BossState::update(double seconds) {
     musicSwitch = 2;
   }
   PlayingState::update(seconds);
-
   // fade out the head with the body
-  if (static_cast<BigAlien*>(images[ppl+"bigAlien"])->isDying())
+  if (static_cast<BigAlien*>(images[ppl+"eBigAlien"])->isDying())
     fade = fadeOut(ppl+"bigHead", fade, seconds, 1.0);
   // if Big Alien dies
-  if(static_cast<Enemy*>(images[ppl+"bigAlien"])->isDead() && thePhase != 1){
-    thePhase = static_cast<MainBoss*>(images[ppl+"mainBoss"])->changePhase(); 
+  if(static_cast<Enemy*>(images[ppl+"eBigAlien"])->isDead() && thePhase != 1){
+    thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"clone1"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"clone2"])->changePhase(); 
-    SDL_SetTextureAlphaMod(images[ppl+"mainBoss"]->getTexture(), 255);
+    SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"clone1"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"clone2"]->getTexture(), 255);
+  }
+  if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 1){
+    thePhase++;
+  }
+  if(thePhase == 2){
+    static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"clone1"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"clone2"])->changePhase();
+  }   
+  if(static_cast<Enemy*>(images[ppl+"eMainBoss"])->isDead()){
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file.close();
+    engine->setState("win"); 
+    
   }
 }
 

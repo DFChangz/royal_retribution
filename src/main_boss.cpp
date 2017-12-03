@@ -2,14 +2,16 @@
 
 MainBoss::MainBoss(SDL_Renderer *renderer, std::string filename, ErrorHandler *error_handler,
     int width, int height, int pos_x, int pos_y, double velocity_x,
-    double velocity_y, int health)
+    double velocity_y, int health, Map* map_p)
     : Boss_Enemy(renderer, filename, error_handler, width, height, pos_x,
     pos_y, velocity_x, velocity_y, health) {
     tempVX = velocity_x;
     tempVY = velocity_y;
+    map = map_p;
 }
 
 void MainBoss::update(double seconds){
+
     if (dead){
         if(!clone){
             clone1->killed();
@@ -20,16 +22,49 @@ void MainBoss::update(double seconds){
 
     if(clone){invincible = true;}
 
-    if(phase == 2){
-    if (shouldFollow != nullptr)
-        attemptFollow();
+    if(frozen){
+        velocityX = 0;
+        velocityY = 0;
         Sprite::update(seconds);
+    }
+    if(phase >= 2){
+        speedMultiplier = 1;
+        if(clone){
+            collidable = false;
+            setPosition(0, 0);
+            
+        } else {
+            if (shouldFollow != nullptr){
+                if(!chase){ 
+                    setPosition(map->width/2 ,map->height/2 - 200);
+                    chase = true;
+                }
+                invincibilityTimer += seconds;
+                if(invincibilityTimer < INVINCIBILITY_TIME){
+                    invincible = true; 
+                    SDL_SetTextureColorMod(getTexture(), 255, 0, 0);
+                    attemptFollow();
+                } else if(invincibilityTimer > INVINCIBILITY_TIME * 1.5){
+                    invincibilityTimer = 0;
+                } else {
+                    invincible = false;
+                    SDL_SetTextureColorMod(getTexture(), 0, 255, 0);
+                    velocityX = 0;
+                    velocityY = 0;
+                }
+
+            }
+            velocityY *= speedMultiplier;
+            velocityX *= speedMultiplier;
+            Sprite::update(seconds);
+        }
+      
     } else if(phase == 1){ 
         velocityX = 0;
         velocityY = 0;
         if(!clone){
             if(!positionChosen){choosePositions();}
-            if(wasAttacked){
+            if(wasAttacked && !chase){
                 invincible = true;
                 SDL_SetTextureAlphaMod(getTexture(), 100);
                 SDL_SetTextureAlphaMod(clone1->getTexture(), 100);
@@ -48,16 +83,14 @@ void MainBoss::update(double seconds){
                     positionChosen = false;
                 }
             } else if(clone1->attacked() || clone2->attacked()){
-
-                std::cout << hp<<std::endl;
                 SDL_SetTextureAlphaMod(clone1->getTexture(), 0);
                 SDL_SetTextureAlphaMod(clone2->getTexture(), 0);
                 clone1->setPosition(500, 500);
                 clone2->setPosition(500, 500);
                 followSprite();
-                speedMultiplier = 5;
-                Sprite::update(seconds);
+                speedMultiplier = 2.5;
                 invincible = true;
+                chase = true;
 
                 if(flipXVelocity || flipYVelocity){
                     positionChosen = false;
@@ -68,6 +101,8 @@ void MainBoss::update(double seconds){
                     flipXVelocity = false;
                     flipYVelocity = false;
                     invincible = false;
+                    wasAttacked = false;
+                    chase = false;
                 }
                
             }
@@ -76,11 +111,13 @@ void MainBoss::update(double seconds){
     Sprite::animate(seconds, MAIN_BOSS_IDLE, MAIN_BOSS_IDLE
       + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
     Boss_Enemy::update(seconds);
+    Sprite::update(seconds);
 
 
 }
 void MainBoss::notifyCollision(Image* img, doubleRect* intersection, bool){
     if(!img->isCharacter()){ return;}
+    chase = false;
     if (intersection->w > intersection->h) {
         flipYVelocity = true;
     } else {
@@ -103,24 +140,25 @@ void MainBoss::choosePositions(){
 
     switch(randNum){
         case 2:
-            setPosition(1094,1074);
-            clone1->setPosition(1094, 1219);
-            clone2->setPosition(1094, 974);
+            setPosition(map->width/2 ,map->height/2 - 200);
+            clone1->setPosition(map->width/2 + 150,map->height/2 - 200);
+            clone2->setPosition(map->width/2 - 150,map->height/2 - 200);
             positionChosen = true;
             break;
         case 1:
-            clone1->setPosition(1094,1074);
-            setPosition(1094, 1219);
-            clone2->setPosition(1094, 974);
+            clone1->setPosition(map->width/2 ,map->height/2 - 200);
+            setPosition(map->width/2 + 150,map->height/2 - 200);
+            clone2->setPosition(map->width/2 - 150,map->height/2 - 200);
             positionChosen = true;
             break;
         case 0:
-            clone2->setPosition(1094,1074);
-            clone1->setPosition(1094, 1219);
-            setPosition(1094, 974);
+            clone2->setPosition(map->width/2 ,map->height/2 - 200);
+            clone1->setPosition(map->width/2 + 150,map->height/2 - 200);
+            setPosition(map->width/2 - 150,map->height/2 - 200);
             positionChosen = true;
             break;
         default:
+            //random numbers, shouldn't get here
             setPosition(800,1074);
             clone1->setPosition(800, 1219);
             clone2->setPosition(800, 974);
