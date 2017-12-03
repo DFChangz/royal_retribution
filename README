@@ -14,6 +14,9 @@ Design (Derek)
 - created main boss enemy
 
 New Loading Screen (Idean)
+  - Animated and indicative of progress
+Updated High Score System (Idean)
+  - Less buggy, doesn't require a file to already exist
 
 Enemy Movement (Tae Jin Kim)
 - the enemies now move randomly
