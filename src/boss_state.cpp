@@ -46,7 +46,7 @@ void BossState::setup() {
     errorHandler, 200, 160, map->width/2 - 100, map->height/2 - 385, 8,
     static_cast<Sprite*>(images[ppl+"king"]));
   // head
-  images[ppl+"bigHead"] = new Sprite(engine->renderer, BIG_HEAD,
+  images[ppl+"zbigHead"] = new Sprite(engine->renderer, BIG_HEAD,
     errorHandler, 200, 200, map->width/2 - 100, map->height/2 - 505, false);
   // left hand
   images[ppl+"bigLF"] = new Hand(engine->renderer, BIG_LF,
@@ -59,7 +59,7 @@ void BossState::setup() {
     ->setHands(static_cast<Hand*>(images[ppl+"bigRF"]),
       static_cast<Hand*>(images[ppl+"bigLF"]));
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
-    ->setHead(static_cast<Sprite*>(images[ppl+"bigHead"]));
+    ->setHead(static_cast<Sprite*>(images[ppl+"zbigHead"]));
 
   // Main Boss
   images[ppl+"eMainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
@@ -155,7 +155,7 @@ void BossState::load() {
   SDL_SetTextureAlphaMod(images[ppl+"clone1"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"clone2"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 0);
-  camera.setPosition(images[ppl+"bigHead"]);
+  camera.setPosition(images[ppl+"zbigHead"]);
   // shading
   images[add+"black"]->getDestRect()->w = map->width;
   images[add+"black"]->getDestRect()->h = map->height;
@@ -187,7 +187,7 @@ void BossState::update(double seconds) {
   PlayingState::update(seconds);
   // fade out the head with the body
   if (static_cast<BigAlien*>(images[ppl+"eBigAlien"])->isDying())
-    fade = fadeOut(ppl+"bigHead", fade, seconds, 1.0);
+    fade = fadeOut(ppl+"zbigHead", fade, seconds, 1.0);
   // if Big Alien dies
   if(static_cast<Enemy*>(images[ppl+"eBigAlien"])->isDead() && thePhase != 1){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 

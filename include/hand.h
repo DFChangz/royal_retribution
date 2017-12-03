@@ -1,7 +1,7 @@
 #ifndef HANDS_H
 #define HANDS_H
 
-#define STATIONARY_TIME	0.5
+#define STATIONARY_TIME	1.0
 #include "enemy.h"
 #include <math.h>
 

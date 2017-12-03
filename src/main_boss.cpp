@@ -41,7 +41,7 @@ void MainBoss::update(double seconds){
                 }
                 invincibilityTimer += seconds;
                 if(invincibilityTimer < INVINCIBILITY_TIME){
-                    invincible = true; 
+                    invincible = true;
                     SDL_SetTextureColorMod(getTexture(), 255, 0, 0);
                     attemptFollow();
                 } else if(invincibilityTimer > INVINCIBILITY_TIME * 1.5){
@@ -69,11 +69,13 @@ void MainBoss::update(double seconds){
                 SDL_SetTextureAlphaMod(getTexture(), 100);
                 SDL_SetTextureAlphaMod(clone1->getTexture(), 100);
                 SDL_SetTextureAlphaMod(clone2->getTexture(), 100);
+                collidable = false;
                 invincibilityTimer += seconds;
                 if(invincibilityTimer > INVINCIBILITY_TIME){
                     SDL_SetTextureAlphaMod(getTexture(), 255);
                     SDL_SetTextureAlphaMod(clone1->getTexture(), 255);
                     SDL_SetTextureAlphaMod(clone2->getTexture(), 255);
+                    collidable = true;
                     positionChosen = false;
                     wasAttacked = false;
                     clone1->nullAttacked();

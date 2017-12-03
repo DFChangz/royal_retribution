@@ -19,6 +19,7 @@ class MainBoss : public Boss_Enemy {
     void killed(){dead = true;}
     void setClone(bool cl){ clone = cl;}
     bool isClone(){ return clone;}
+    virtual bool isMainBoss() { return true; }
     std::vector< Sprite*> projectiles;
     MainBoss* clone1 = nullptr;
     MainBoss* clone2 = nullptr;

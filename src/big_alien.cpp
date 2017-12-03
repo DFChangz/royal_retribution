@@ -112,7 +112,7 @@ void BigAlien::notifyCollision(Image* img, doubleRect*, bool) {
 }
 
 void BigAlien::render(Camera* camera, double interpol_alpha) {
-  if (!fade) return;
+  if (dead) return;
   Sprite::render(camera, interpol_alpha);
 }
 
