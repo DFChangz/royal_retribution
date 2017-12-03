@@ -24,8 +24,8 @@ doubleRect Hand::getDoubleRect(){
 }
 
 void Hand::update(double seconds){
-  if (!fade) return;
-
+  if (!fade || frozen) return;
+  
   if (isDead()) {
     goBack();
     fade = fadeOut(fade, seconds, 1.0);
