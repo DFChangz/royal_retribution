@@ -18,15 +18,30 @@ New Loading Screen (Idean)
 Enemy Movement (Tae Jin Kim)
 - the enemies now move randomly
 
-Big Boss (Tae Jin Kim)
+Big Boss (Tae Jin Kim/ Billy)
 - setup how the big boss acts
-- uses two big hands (each have 4 HP)
+- uses two big hands (each have 5 HP)
   ~ it smashes the ground at intervals (your old location)
   ~ you can only damage the hand while it is on the ground
   ~ the hands are very powerful (bring hit by one -> lose full heart)
 
 Main Boss (Billy)
 - after the big boss dies, the main boss appears
+~Phase 1
+- he summons 3 clones
+- they stand still and you have to attack 1.
+- if you attack the correct 1 he takes damage and they all turn transparent to 
+  let you know it was the correct one.
+- it then is invincible while they switch positions.
+- if you attack the wrong one the real one chases you and the clones disappear
+- you can either hit him while he comes at you and then he resets
+- If you don't hit him you take damage then he resets.
+- when he has one hp left he goes to phase 2
+~Phase2 
+- he turns red and starts chasing you.
+- he is invincible during that time.
+- after 4 seconds he will turn green and stop for 2 seconds.
+- hit him while he is green to kill him.
 
 Other (Idean)
 - all walls are combined into one -> increases efficiency
