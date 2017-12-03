@@ -5,8 +5,33 @@
 =                                    =
 ######################################
 =================
-# Assignment 11 #
+# Assignment 12 #
 =================
+
+Design (Derek)
+- updated blocks
+- created big boss enemy
+- created main boss enemy
+
+New Loading Screen (Idean)
+
+Enemy Movement (Tae Jin Kim)
+- the enemies now move randomly
+
+Big Boss (Tae Jin Kim)
+- setup how the big boss acts
+- uses two big hands (each have 4 HP)
+  ~ it smashes the ground at intervals (your old location)
+  ~ you can only damage the hand while it is on the ground
+  ~ the hands are very powerful (bring hit by one -> lose full heart)
+
+Main Boss (Billy)
+- after the big boss dies, the main boss appears
+
+Other (Idean)
+- all walls are combined into one -> increases efficiency
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 Design (Derek)
 - updated blocks
