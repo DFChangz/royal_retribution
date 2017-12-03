@@ -49,6 +49,7 @@ void BigAlien::update(double seconds){
     leftHand->velocityX = 0;
     rightHand->velocityY = 0;
     rightHand->velocityX = 0;
+    Sprite::update(seconds);
     return;
   }
   // if any/both hand(s) are dead
@@ -73,6 +74,7 @@ void BigAlien::update(double seconds){
   } else {
     attackWith(rightHand, seconds);
   }
+    Sprite::update(seconds);
 
 }
 

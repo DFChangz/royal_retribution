@@ -64,17 +64,17 @@ void BossState::setup() {
   // Main Boss
   images[ppl+"eMainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
     errorHandler, 16, 25, map->width/2 - 16, map->height/2 + 70, 0, 0, 5, map);
-  images[ppl+"clone1"] = new MainBoss(engine->renderer, ANI_FILENAME,
+  images[ppl+"eclone1"] = new MainBoss(engine->renderer, ANI_FILENAME,
     errorHandler, 16, 25, map->width/2 - 66, map->height/2 + 70, 0, 0, 5, map);
-  images[ppl+"clone2"] = new MainBoss(engine->renderer, ANI_FILENAME,
+  images[ppl+"eclone2"] = new MainBoss(engine->renderer, ANI_FILENAME,
     errorHandler, 16, 25, map->width/2 + 46, map->height/2 + 70, 0, 0, 5, map);
   static_cast<MainBoss*>(images[ppl+"eMainBoss"])
-    ->clone1 = static_cast<MainBoss*>(images[ppl+"clone1"]);
+    ->clone1 = static_cast<MainBoss*>(images[ppl+"eclone1"]);
   static_cast<MainBoss*>(images[ppl+"eMainBoss"])
-    ->clone2 = static_cast<MainBoss*>(images[ppl+"clone2"]);
-  static_cast<MainBoss*>(images[ppl+"clone1"])
+    ->clone2 = static_cast<MainBoss*>(images[ppl+"eclone2"]);
+  static_cast<MainBoss*>(images[ppl+"eclone1"])
     ->setClone(true);
-  static_cast<MainBoss*>(images[ppl+"clone2"])
+  static_cast<MainBoss*>(images[ppl+"eclone2"])
     ->setClone(true);
   static_cast<Enemy*>(images[ppl+"eMainBoss"])
     ->followWhenClose(images[ppl + "king"], FOLLOW_RADIUS);
@@ -152,8 +152,8 @@ void BossState::load() {
   images[top+"exp_bar"]->getDestRect()->h = 24;
   images[top+"exp_bar"]->getDestRect()->w = 148;
   // bosses
-  SDL_SetTextureAlphaMod(images[ppl+"clone1"]->getTexture(), 0);
-  SDL_SetTextureAlphaMod(images[ppl+"clone2"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 0);
   camera.setPosition(images[ppl+"bigHead"]);
   // shading
@@ -174,7 +174,6 @@ void BossState::load() {
   //Delete instruction text / resume by pressing 'r'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     if (isPaused()) resume();
-    deactivateInstructionText(); 
   }, SDLK_r);
 }
 
@@ -191,19 +190,19 @@ void BossState::update(double seconds) {
   // if Big Alien dies
   if(static_cast<Enemy*>(images[ppl+"eBigAlien"])->isDead() && thePhase != 1){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
-    static_cast<MainBoss*>(images[ppl+"clone1"])->changePhase(); 
-    static_cast<MainBoss*>(images[ppl+"clone2"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"eclone1"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"eclone2"])->changePhase(); 
     SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 255);
-    SDL_SetTextureAlphaMod(images[ppl+"clone1"]->getTexture(), 255);
-    SDL_SetTextureAlphaMod(images[ppl+"clone2"]->getTexture(), 255);
+    SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 255);
+    SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 255);
   }
   if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 1){
     thePhase++;
   }
   if(thePhase == 2){
     static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
-    static_cast<MainBoss*>(images[ppl+"clone1"])->changePhase(); 
-    static_cast<MainBoss*>(images[ppl+"clone2"])->changePhase();
+    static_cast<MainBoss*>(images[ppl+"eclone1"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"eclone2"])->changePhase();
   }   
   if(static_cast<Enemy*>(images[ppl+"eMainBoss"])->isDead()){
     std::ofstream file;

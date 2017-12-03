@@ -26,6 +26,7 @@ void MainBoss::update(double seconds){
         velocityX = 0;
         velocityY = 0;
         Sprite::update(seconds);
+        return;
     }
     if(phase >= 2){
         speedMultiplier = 1;
