@@ -180,10 +180,11 @@ void Enemy::idleAnimation(double seconds) {
 }
 
 void Enemy::moveRandomly(double seconds) {
+  if (totalTime == 0) choosingDirection = true;
   totalTime += seconds;
   
   if (totalTime > waitingTime) {
-    if (totalTime < waitingTime+1) {
+    if (choosingDirection) {
       switch (movement) {
       case 0:  velocityX = 50;
                break;
@@ -206,7 +207,9 @@ void Enemy::moveRandomly(double seconds) {
                velocityY = -50;
                break;
       } // end switch
-    } else {
+      choosingDirection = false;
+    }
+    if (totalTime > waitingTime+1) {
       velocityX = 0;
       velocityY = 0;
       totalTime = 0;

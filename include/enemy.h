@@ -62,6 +62,7 @@ class Enemy : public Sprite {
     bool following = false;
     bool flipXVelocity = false;
     bool flipYVelocity = false;
+    bool choosingDirection = false;
 
     double radiusFollow;
     double tempVX = 150;
