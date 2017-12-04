@@ -19,4 +19,4 @@ $(OBJS_DIR)/%.o: src/%.cpp
 
 .PHONY: clean
 clean:
-	rm -rf $(BIN_DIR)/* $(OBJS_DIR)/*
+	rm -rf $(BIN_DIR)/* $(OBJS_DIR)/* loading_times
