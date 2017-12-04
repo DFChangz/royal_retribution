@@ -387,6 +387,7 @@ void Map::update(double seconds) {
     }
     if(tile.image->isBlade()){
       tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 9);
+      tile.image->stopped = paused;
       continue;
     }
     tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 5.0);

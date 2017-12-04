@@ -49,6 +49,7 @@ class Sprite : public Image {
     char pairing = -1;
     void setPair(Sprite *pair_p){ pair = pair_p;}
     Sprite* pair = nullptr;
+    bool stopped = false;
     
     virtual doubleRect getDoubleRect();
   protected:
@@ -71,6 +72,7 @@ class Sprite : public Image {
     bool hole = false;
     bool blade = false;
     double blade_timer = 0.0;
+    double higherVel = 0.0;
 
     void resolveXCollision(Image*, double);
     void resolveYCollision(Image*, double);

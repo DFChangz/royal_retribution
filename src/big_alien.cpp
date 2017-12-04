@@ -45,13 +45,17 @@ void BigAlien::update(double seconds){
   }
   if (frozen){
 
-    leftHand->velocityY = 0;
+ /*   leftHand->velocityY = 0;
     leftHand->velocityX = 0;
     rightHand->velocityY = 0;
     rightHand->velocityX = 0;
-    Sprite::update(seconds);
+*/    Sprite::update(seconds);
+    leftHand->freeze();
+    rightHand->freeze();
     return;
   }
+    leftHand->thaw();
+    rightHand->thaw();
   // if any/both hand(s) are dead
   if (left && static_cast<Hand*>(leftHand)->isDead()) {
     timePassed = 0.0;

@@ -62,6 +62,7 @@ void State::update(double seconds) {
 }
 
 void State::pauseUpdate(double seconds) {
+  map->paused = true;
   // freeze character and enemy
   for (it = images.begin(); it != images.end(); it++) {
     if (it->first[0] == '1') {
@@ -78,6 +79,7 @@ void State::pauseUpdate(double seconds) {
   // resume w/ 'r'
   eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
   paused = false;
+  map->paused = false;
   //  resume(); 
   for (it = images.begin(); it != images.end(); it++) {
     if (it->first[0] == '1') {
@@ -93,6 +95,7 @@ void State::pauseUpdate(double seconds) {
 //void State::resume(){ paused = false; }
 void State::resume(){
   paused = false;
+  map->paused = false;
   for (it = images.begin(); it != images.end(); it++) {
     if (it->first[0] == '1') {
       if (it->first[1] == 'e')

@@ -35,80 +35,14 @@ void MainBoss::update(double seconds){
             setPosition(0, 0);
             
         } else {
-            if (shouldFollow != nullptr){
-                if(!chase){ 
-                    setPosition(map->width/2 ,map->height/2 - 200);
-                    chase = true;
-                }
-                invincibilityTimer += seconds;
-                if(invincibilityTimer < INVINCIBILITY_TIME){
-                    invincible = true;
-                    SDL_SetTextureColorMod(getTexture(), 255, 0, 0);
-                    attemptFollow();
-                } else if(invincibilityTimer > INVINCIBILITY_TIME * 1.5){
-                    invincibilityTimer = 0;
-                } else {
-                    invincible = false;
-                    SDL_SetTextureColorMod(getTexture(), 0, 255, 0);
-                    velocityX = 0;
-                    velocityY = 0;
-                }
-
-            }
-            velocityY *= speedMultiplier;
-            velocityX *= speedMultiplier;
-            Sprite::update(seconds);
+            secondPhase(seconds);
         }
       
     } else if(phase == 1){ 
         velocityX = 0;
         velocityY = 0;
         if(!clone){
-            if(!positionChosen){choosePositions();}
-            if(wasAttacked && !chase){
-                invincible = true;
-                SDL_SetTextureAlphaMod(getTexture(), 100);
-                SDL_SetTextureAlphaMod(clone1->getTexture(), 100);
-                SDL_SetTextureAlphaMod(clone2->getTexture(), 100);
-                collidable = false;
-                invincibilityTimer += seconds;
-                if(invincibilityTimer > INVINCIBILITY_TIME){
-                    SDL_SetTextureAlphaMod(getTexture(), 255);
-                    SDL_SetTextureAlphaMod(clone1->getTexture(), 255);
-                    SDL_SetTextureAlphaMod(clone2->getTexture(), 255);
-                    collidable = true;
-                    positionChosen = false;
-                    wasAttacked = false;
-                    clone1->nullAttacked();
-                    clone2->nullAttacked();
-                    invincibilityTimer = 0;
-                    invincible = false;
-                    positionChosen = false;
-                }
-            } else if(clone1->attacked() || clone2->attacked()){
-                SDL_SetTextureAlphaMod(clone1->getTexture(), 0);
-                SDL_SetTextureAlphaMod(clone2->getTexture(), 0);
-                clone1->setPosition(500, 500);
-                clone2->setPosition(500, 500);
-                followSprite();
-                speedMultiplier = 2.5;
-                invincible = true;
-                chase = true;
-
-                if(flipXVelocity || flipYVelocity){
-                    positionChosen = false;
-                    SDL_SetTextureAlphaMod(clone1->getTexture(), 255);
-                    SDL_SetTextureAlphaMod(clone2->getTexture(), 255);
-                    clone1->nullAttacked();
-                    clone2->nullAttacked();
-                    flipXVelocity = false;
-                    flipYVelocity = false;
-                    invincible = false;
-                    wasAttacked = false;
-                    chase = false;
-                }
-               
-            }
+            firstPhase(seconds); 
         }
     }
     Sprite::animate(seconds, MAIN_BOSS_IDLE, MAIN_BOSS_IDLE
@@ -144,20 +78,20 @@ void MainBoss::choosePositions(){
     switch(randNum){
         case 2:
             setPosition(map->width/2 ,map->height/2 - 200);
-            clone1->setPosition(map->width/2 + 150,map->height/2 - 200);
-            clone2->setPosition(map->width/2 - 150,map->height/2 - 200);
+            clone1->setPosition(map->width/2 + 275,map->height/2 - 200);
+            clone2->setPosition(map->width/2 - 275,map->height/2 - 200);
             positionChosen = true;
             break;
         case 1:
             clone1->setPosition(map->width/2 ,map->height/2 - 200);
-            setPosition(map->width/2 + 150,map->height/2 - 200);
-            clone2->setPosition(map->width/2 - 150,map->height/2 - 200);
+            setPosition(map->width/2 + 275,map->height/2 - 200);
+            clone2->setPosition(map->width/2 - 275,map->height/2 - 200);
             positionChosen = true;
             break;
         case 0:
             clone2->setPosition(map->width/2 ,map->height/2 - 200);
-            clone1->setPosition(map->width/2 + 150,map->height/2 - 200);
-            setPosition(map->width/2 - 150,map->height/2 - 200);
+            clone1->setPosition(map->width/2 + 275,map->height/2 - 200);
+            setPosition(map->width/2 - 275,map->height/2 - 200);
             positionChosen = true;
             break;
         default:
@@ -168,4 +102,81 @@ void MainBoss::choosePositions(){
             positionChosen = true;
             break;
     }
+}
+void MainBoss::firstPhase(double seconds){
+    if(!positionChosen){choosePositions();}
+    if(wasAttacked && !chase){
+        invincible = true;
+        SDL_SetTextureAlphaMod(getTexture(), 100);
+        SDL_SetTextureAlphaMod(clone1->getTexture(), 100);
+        SDL_SetTextureAlphaMod(clone2->getTexture(), 100);
+        collidable = false;
+        clone1->setCollidable(false);
+        clone2->setCollidable(false);
+        invincibilityTimer += seconds;
+        if(invincibilityTimer > INVINCIBILITY_TIME){
+            SDL_SetTextureAlphaMod(getTexture(), 255);
+            SDL_SetTextureAlphaMod(clone1->getTexture(), 255);
+            SDL_SetTextureAlphaMod(clone2->getTexture(), 255);
+            collidable = true;
+            clone1->setCollidable(true);
+            clone1->setCollidable(true);
+            positionChosen = false;
+            wasAttacked = false;
+            clone1->nullAttacked();
+            clone2->nullAttacked();
+            invincibilityTimer = 0;
+            invincible = false;
+            positionChosen = false;
+        }
+    } else if(clone1->attacked() || clone2->attacked()){
+         SDL_SetTextureAlphaMod(clone1->getTexture(), 0);
+         SDL_SetTextureAlphaMod(clone2->getTexture(), 0);
+         clone1->setPosition(500, 500);
+         clone2->setPosition(500, 500);
+         followSprite();
+         speedMultiplier = 3.5;
+         invincible = true;
+         chase = true;
+
+        if(flipXVelocity || flipYVelocity){
+            positionChosen = false;
+            SDL_SetTextureAlphaMod(clone1->getTexture(), 255);
+            SDL_SetTextureAlphaMod(clone2->getTexture(), 255);
+            clone1->nullAttacked();
+            clone2->nullAttacked();
+            flipXVelocity = false;
+            flipYVelocity = false;
+            invincible = false;
+            wasAttacked = false;
+            chase = false;
+        }
+            
+    }
+
+}
+void MainBoss::secondPhase(double seconds){
+    if (shouldFollow != nullptr){
+        if(!chase){ 
+            setPosition(map->width/2 ,map->height/2 - 200);
+            chase = true;
+        }
+        invincibilityTimer += seconds;
+        if(invincibilityTimer < INVINCIBILITY_TIME){
+            invincible = true;
+            SDL_SetTextureColorMod(getTexture(), 255, 0, 0);
+            attemptFollow();
+        } else if(invincibilityTimer > INVINCIBILITY_TIME * 1.5){
+            invincibilityTimer = 0;
+        } else {
+            invincible = false;
+            SDL_SetTextureColorMod(getTexture(), 0, 255, 0);
+            velocityX = 0;
+            velocityY = 0;
+        }
+
+    }
+    velocityY *= speedMultiplier;
+    velocityX *= speedMultiplier;
+    Sprite::update(seconds);
 }

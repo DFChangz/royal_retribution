@@ -62,8 +62,16 @@ void Sprite::update(double seconds) {
   double new_y = speedMultiplier * velocityY * seconds + pos_y;
 
   setPosition(new_x, new_y);
+  //Blades special movement pattern
   if(isBlade()){
-    double higherVel = (velocityY == 0)? velocityX : velocityY;
+    if(higherVel == 0){ 
+      higherVel = (velocityY == 0)? velocityX : velocityY;
+    }
+    if(stopped){
+      velocityY = 0;
+      velocityX = 0;
+      return;
+    }
     blade_timer += seconds;
     if(blade_timer > 8.0){
       velocityX = -1 * higherVel;
@@ -181,8 +189,10 @@ void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved
   if(blade){
     if (intersection->w > intersection->h) {
       velocityY *= -1;
+      setPosition(pos_x, pos_y);
     } else {
       velocityX *= -1;
+      setPosition(pos_x, pos_y);
     }
   }
 }

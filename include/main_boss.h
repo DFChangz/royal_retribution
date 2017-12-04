@@ -31,6 +31,8 @@ class MainBoss : public Boss_Enemy {
     void choosePositions();
     Map* map;
     bool chase = false;
+    void firstPhase(double);
+    void secondPhase(double);
 
 };
 

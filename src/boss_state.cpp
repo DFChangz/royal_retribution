@@ -78,6 +78,8 @@ void BossState::setup() {
     ->setClone(true);
   static_cast<Enemy*>(images[ppl+"eMainBoss"])
     ->followWhenClose(images[ppl + "king"], FOLLOW_RADIUS);
+  static_cast<Enemy*>(images[ppl+"eMainBoss"])->followWhenClose(images[ppl + "king"],
+      400);
 
   // Enemies
   /*std::ifstream file(LEVEL_1_E);

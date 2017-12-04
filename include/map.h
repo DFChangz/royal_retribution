@@ -71,7 +71,9 @@ class Map {
     int height = 0;
 
     std::vector<Image*> lights;
-    
+ 
+    bool paused = false;
+
   private:
     void checkDirections(letter*, std::vector<letter> letters,
       int, int);
