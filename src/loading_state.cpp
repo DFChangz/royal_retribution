@@ -42,8 +42,7 @@ void LoadingState::load() {
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
     engine->quit();}, SDLK_ESCAPE); 
 
-  std::string filename = "loading_times";
-  std::ifstream f(filename.c_str());
+  std::ifstream f(LOADTIME_FILENAME);
   if (f.good()) {
     is_saved = true;
     
@@ -53,7 +52,7 @@ void LoadingState::load() {
     }
     f.close();
   } else {
-    of.open(filename.c_str());
+    of.open(LOADTIME_FILENAME);
     if (!of.is_open())
       errorHandler->quit(__func__, "Could not open output file for loading!");
   }

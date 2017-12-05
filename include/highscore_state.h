@@ -16,6 +16,7 @@ class HighscoreState : public State {
     void load();
     void setup();
 
+    static void saveScore(int);
   private:
     int total = 0;
     std::string line;

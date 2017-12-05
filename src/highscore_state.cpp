@@ -16,13 +16,13 @@ void HighscoreState::setup() {
     0, 0, 40, "HighScore");
   // read file
   file.open(SCORE_FILENAME);
-  if (file.is_open()) {
-    while (std::getline(file, line)) {
+  if (file.is_open() && std::getline(file, line)) {
+    do {
       scores.push_back(stoi(line));
 
       if (total < MAX_TOTAL)
         total++;
-    }
+    } while (std::getline(file, line));
     file.close();
 
     // order scores
@@ -78,3 +78,10 @@ void HighscoreState::update(double seconds) {
 } 
 
 HighscoreState::~HighscoreState(){}
+
+void HighscoreState::saveScore(int score) {
+  std::ofstream file;
+  file.open(SCORE_FILENAME, std::ios_base::app);
+  file << std::to_string(score) << std::endl;
+  file.close();
+}

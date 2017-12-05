@@ -5,6 +5,7 @@
 #include "boss_state.h"
 #include "big_alien.h"
 #include "main_boss.h"
+#include "highscore_state.h"
 
 BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
@@ -127,9 +128,7 @@ void BossState::setup() {
 
   // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file.close();
+    HighscoreState::saveScore(engine->score);
     engine->setState("win"); 
   }, SDLK_2);
 
@@ -207,11 +206,8 @@ void BossState::update(double seconds) {
     static_cast<MainBoss*>(images[ppl+"eclone2"])->changePhase();
   }   
   if(static_cast<Enemy*>(images[ppl+"eMainBoss"])->isDead()){
-    std::ofstream file;
-    file.open(SCORE_FILENAME, std::ios_base::app);
-    file.close();
+    HighscoreState::saveScore(engine->score);
     engine->setState("win"); 
-    
   }
 }
 
