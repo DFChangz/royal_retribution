@@ -41,7 +41,6 @@ class BigAlien : public Boss_Enemy {
     bool dying = false;
     bool settingUp = false;
     bool attacking = false;
-    bool returning = false;
 };
 
 #endif
