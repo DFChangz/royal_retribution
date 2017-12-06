@@ -9,7 +9,7 @@ InstructionState::InstructionState(Engine* engine, ErrorHandler* errorHandler)
   : State(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_1, TILES_TXT,
-    &collisionDetector);
+    &collisionDetector, &camera);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_1_ADD);
   setup();

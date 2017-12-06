@@ -11,7 +11,7 @@ BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, FINAL_LEVEL, TILES_TXT,
-    &collisionDetector);
+    &collisionDetector, &camera);
 //  map->loadSecondTextures(TILES_ADD);
 //  map->loadSecondLayout(LEVEL_1_ADD);
 

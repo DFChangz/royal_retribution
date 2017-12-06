@@ -8,7 +8,7 @@ Level_3_State::Level_3_State(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_3, TILES_TXT,
-    &collisionDetector);
+    &collisionDetector, &camera);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_3_ADD);
   setup();
