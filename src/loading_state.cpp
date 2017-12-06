@@ -50,6 +50,14 @@ void LoadingState::load() {
     while (f >> ratio) {
       ratios.push_back(ratio);
     }
+
+    if (ratios.size() != NUM_STATES) {
+      is_saved = false;
+      of.open(LOADTIME_FILENAME);
+      if (!of.is_open())
+        errorHandler->quit(__func__, "Could not open output file for loading!");
+    }
+
     f.close();
   } else {
     of.open(LOADTIME_FILENAME);
@@ -114,7 +122,8 @@ void LoadingState::advance() {
     while (accumulator >= DELTA_TIME && curr_w < total_w) {
       curr_w += (double) vel_to_target * DELTA_TIME * 1000.0;
       update(0);
-      if (!engine->isRunning()) return;
+      if (!engine->isRunning())
+        return;
 
       accumulator -= DELTA_TIME;
 
