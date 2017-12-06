@@ -166,6 +166,9 @@ void PlayingState::setupInstruct() {
 void PlayingState::load() {
   State::load();
 
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    skipPan = true; }, SDLK_m);
+
   // set size of stairs & stam & exp
   images[ele+"stairs"]->getDestRect()->h = 50;
   images[ele+"stairs"]->getDestRect()->w = 50;
@@ -354,15 +357,16 @@ void PlayingState::update(double seconds) {
   /********************
   CAMERA PAN
   *********************/
-  if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
-    static_cast<Character*>(images[ppl+"king"])->frozen = true;
-    eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-      skipPan = true; }, SDLK_m);
-  } else {
-    SDL_SetTextureAlphaMod(images[top+"skip"]->getTexture(), 0);
-    static_cast<Character*>(images[ppl+"king"])->frozen = false;
-    camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
-    skipPan = true;
+  timeSinceStart += seconds;
+  if (timeSinceStart > PAN_DELAY_SECONDS || skipPan) {
+    if (!skipPan && !camera.pan(images[ppl+"king"], seconds)) {
+      static_cast<Character*>(images[ppl+"king"])->frozen = true;
+    } else {
+      SDL_SetTextureAlphaMod(images[top+"skip"]->getTexture(), 0);
+      static_cast<Character*>(images[ppl+"king"])->frozen = false;
+      camera.setCharacter(static_cast<Character*>(images[ppl+"king"]));
+      skipPan = true;
+    }
   }
 }
 

@@ -49,6 +49,8 @@ class PlayingState : public State {
     int a1 = 255;
     int musicSwitch = 1;
 
+    double timeSinceStart = 0;
+
     virtual void cleanup();
 };
 
