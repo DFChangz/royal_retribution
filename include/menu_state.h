@@ -17,7 +17,7 @@ class MenuState : public State {
 
       void update(double);
 
-      unsigned int brightness = 100;
+//      unsigned int brightness = 100;
 
       std::tuple<int, int> getCenterForImage(Image*);
 

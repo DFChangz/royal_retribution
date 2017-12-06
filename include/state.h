@@ -78,11 +78,13 @@ class State {
     std::string add = std::to_string(ADD);
     std::string top = std::to_string(TOP);
 
+    static unsigned int brightness;
 
   private:
     unsigned int lastRender = 0;
 
     bool paused = false;
+
 };
 
 #endif
