@@ -59,7 +59,7 @@ void State::update(double seconds) {
   }
   camera.updatePosition();
   audioHandler.setVolume(engine->volume);
-  SDL_SetWindowBrightness(engine->window, brightness);
+  SDL_SetWindowBrightness(engine->window, brightness/100);
 //  std::cout<<SDL_GetError()<<"\n"; 
 }
 
@@ -179,4 +179,4 @@ State::~State() {
   cleanup();
 }
 
-unsigned int State::brightness = 100;
+float State::brightness = 100;
