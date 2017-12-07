@@ -1,9 +1,9 @@
 #ifndef INSTRUCTION_STATE_H
 #define INSTRUCTION_STATE_H
 
-#include "state.h"
+#include "playing_state.h"
 
-class InstructionState : public State {
+class InstructionState : public PlayingState {
   public:
     InstructionState(Engine* engine, ErrorHandler* errorHandler);
 

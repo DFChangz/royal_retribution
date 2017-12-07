@@ -6,73 +6,87 @@
 #include "intro_state.h"
 
 IntroState::IntroState(Engine* engine, ErrorHandler* errorHandler)
-  : State(engine, errorHandler) {
+  : PlayingState(engine, errorHandler) {
 
-  map = new Map(engine->renderer, errorHandler, LEVEL_1, TILES_TXT,
+  map = new Map(engine->renderer, errorHandler, INTRO, TILES_TXT,
     &collisionDetector);
   map->loadSecondTextures(TILES_ADD);
-  map->loadSecondLayout(LEVEL_1_ADD);
+  map->loadSecondLayout(INTRO_ADD);
+
+  isScene = true;
 
   setup();
   load();
+
 }
 
 /* setup images */
 void IntroState::setup() {
+  //Camera Light
+  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT,
+    errorHandler, 0, 0, false, true);
+  // Lights
+  num_lights = map->pushLights(images);
+  // Black
+  images[add+"black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler,
+    0, 0, false);
+
   // throne
-  images["0throne"] = new Sprite(engine->renderer, THRONE_FILENAME,
+  images[ele+"throne"] = new Sprite(engine->renderer, THRONE_FILENAME,
      errorHandler, 1854, 2160, false);
   // king 
-  images["1king"] = new Character(engine->renderer, ANI_FILENAME, errorHandler,
-    16, 25, 1902, 2209, &eventHandler, &audioHandler, this);
+  images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, 1902, 2209, &eventHandler, &audioHandler, this);
   // squire
-  images["1squire"] = new Squire(engine->renderer, SQUIRE_FILENAME,
+  images[ppl+"squire"] = new Squire(engine->renderer, SQUIRE_FILENAME,
     errorHandler, 16, 25, 1902, 2677, 0, 0);
-  camera.setCharacter(static_cast<Character*>(images["1squire"]));
+  camera.setCharacter(static_cast<Character*>(images[ppl+"squire"]));
   // text
-  images["2c0"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c0"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, s1);
-  images["2c1"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c1"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k1);
-  images["2c2"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c2"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, s2);
-  images["2c3"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c3"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k2);
-  images["2c4"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c4"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, s3);
-  images["2c5"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c5"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k3);
-  images["2c6"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c6"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k4);
-  images["2c7"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
+  images[top+"c7"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 40, s4, ROYAL_GOLD);
-  images["2skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
+  images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 25, skip);
 }
 
 /* loads images */
 void IntroState::load() {
-  State::load();
+  PlayingState::load();
   // set up throne
-  images["0throne"]->getDestRect()->w *= 2;
-  images["0throne"]->getDestRect()->h *= 2;
+  images[ele+"throne"]->getDestRect()->w *= 2;
+  images[ele+"throne"]->getDestRect()->h *= 2;
   // squre faces left and king is frozen
-  static_cast<Squire*>(images["1squire"])->dir = "left";
-  static_cast<Character*>(images["1king"])->frozen = true;
+  static_cast<Squire*>(images[ppl+"squire"])->dir = "left";
+  static_cast<Character*>(images[ppl+"king"])->frozen = true;
   // make convo textures transparent
-  for (it = images.find("2c0"); it != images.end(); it++) {
-    if (it->first != "2skip")
-    SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
+  for (it = images.find(top+"c0"); it != images.end(); it++) {
+    if (it->first != top+"skip")
+      SDL_SetTextureAlphaMod(it->second->getTexture(), 0);
   }
   // position all the text
-  for (it = images.find("2c0"); it != images.end(); it++) {
+  for (it = images.find(top+"c0"); it != images.end(); it++) {
     auto center = getCenterForImage(it->second);
     it->second->setPosition(std::get<0>(center), std::get<1>(center));
-    if (it->first == "2skip") {
+    if (it->first == top+"skip") {
       it->second->pos_y = 0;
-    } else if (it->first == "2c7") {
+    } else if (it->first == top+"c7") {
       it->second->pos_y += 280;
-    } else if (it->first == "2c0" || it->first == "2c2" || it->first == "2c4") {
+    } else if (it->first == top+"c0"
+               || it->first == top+"c2"
+               || it->first == top+"c4") {
       it->second->pos_y -= 50;
     } else {
       it->second->pos_y -= 285;
@@ -82,39 +96,39 @@ void IntroState::load() {
 
 /* updates the screen */
 void IntroState::update(double seconds) {
-  State::update(seconds);
+  PlayingState::update(seconds);
   // skip intro
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
     engine->setState("instruction");}, SDLK_1);
 
-  std::string s = "2c" + std::to_string(counter);
-  std::string prev = "2c" + std::to_string(counter-1);
+  std::string s = top + "c" + std::to_string(counter);
+  std::string prev = top + "c" + std::to_string(counter-1);
 
   switch(event) {
     // squire walks in
     case 0:
-      if (images["1squire"]->pos_x > 1265) {
-        images["1squire"]->velocityX = -300;
+      if (images[ppl+"squire"]->pos_x > 1265) {
+        images[ppl+"squire"]->velocityX = -300;
       } else {
-        images["1squire"]->velocityX = 0;
+        images[ppl+"squire"]->velocityX = 0;
         event++;
       }
       break;
     case 1:
-      if (images["1squire"]->pos_y > 2405) {
-        images["1squire"]->velocityY = -300;
+      if (images[ppl+"squire"]->pos_y > 2405) {
+        images[ppl+"squire"]->velocityY = -300;
       } else {
-        images["1squire"]->velocityY = 0;
+        images[ppl+"squire"]->velocityY = 0;
         event++;
       }
       break;
     case 2:
-      if (images["1squire"]->pos_x < 1902) {
-        images["1squire"]->velocityX = 300;
+      if (images[ppl+"squire"]->pos_x < 1902) {
+        images[ppl+"squire"]->velocityX = 300;
       } else {
         event++;
-        images["1squire"]->velocityX = 0;
-        static_cast<Squire*>(images["1squire"])->dir = "up";
+        images[ppl+"squire"]->velocityX = 0;
+        static_cast<Squire*>(images[ppl+"squire"])->dir = "up";
       }
       break;
   }
@@ -126,9 +140,9 @@ void IntroState::update(double seconds) {
         SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
       }
       if (counter >= 5) {
-        if (images["1king"]->pos_y < 2287) {
-          images["1king"]->velocityY = 100;
-        } else  images["1king"]->velocityY = 0;
+        if (images[ppl+"king"]->pos_y < 2287) {
+          images[ppl+"king"]->velocityY = 100;
+        } else  images[ppl+"king"]->velocityY = 0;
       }
       // increments to the next text
       eventHandler.addListener(SDL_KEYDOWN, [&](SDL_Event*) {
@@ -137,18 +151,18 @@ void IntroState::update(double seconds) {
     } else {
       SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
       // edit king movement
-      images["1king"]->velocityX = 150;
-      if (images["1king"]->pos_y > 2287) images["1king"]->velocityY = 0;
+      images[ppl+"king"]->velocityX = 150;
+      if (images[ppl+"king"]->pos_y > 2287) images[ppl+"king"]->velocityY = 0;
       // edit squire movement
-      if (images["1king"]->pos_x > 1910 && !end) {
-        static_cast<Squire*>(images["1squire"])->dir = "right";
+      if (images[ppl+"king"]->pos_x > 1910 && !end) {
+        static_cast<Squire*>(images[ppl+"squire"])->dir = "right";
         end = true;
       }
-      if (images["1king"]->pos_x > 2550) {
-        a = fadeIn("2c7", a, seconds, 2);
-        static_cast<Squire*>(images["1squire"])->dir = "down";
+      if (images[ppl+"king"]->pos_x > 2550) {
+        a = fadeIn(top+"c7", a, seconds, 2);
+        static_cast<Squire*>(images[ppl+"squire"])->dir = "down";
         eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-        static_cast<Character*>(images["1king"])->frozen = false;
+        static_cast<Character*>(images[ppl+"king"])->frozen = false;
           engine->setState("instruction");}, SDLK_n);
       }
     }

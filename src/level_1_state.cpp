@@ -18,8 +18,8 @@ Level_1_State::Level_1_State(Engine* engine, ErrorHandler* errorHandler)
 
 void Level_1_State::setup() {
   //Camera Light
-  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT, errorHandler,
-    0,0, false, true);
+  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT,
+    errorHandler, 0, 0, false, true);
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 25, map->height - 115, false);
@@ -31,12 +31,13 @@ void Level_1_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 125, 118, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, map->width/2 - 16, 440, &eventHandler,
+      &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 0, 0, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
-    &audioHandler, this);
+    56, 56, map->width/2, 400, static_cast<Sprite*>(images[ppl+"king"]),
+    &eventHandler, &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_1_E);
   int x = -1;

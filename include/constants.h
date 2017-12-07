@@ -18,6 +18,12 @@
 #define TILES_TXT "maps/level_legend.txt"
 #define TILES_ADD "maps/level_additions_legend.txt"
 #define FOLLOW_RADIUS 100
+// Intro
+#define INTRO "maps/intro.txt"
+#define INTRO_ADD "maps/intro_additions.txt"
+// Tutorial
+#define TUTORIAL "maps/tutorial.txt"
+#define TUTORIAL_ADD "maps/tutorial_additions.txt"
 // level 1
 #define LEVEL_1 "maps/level_1.txt"
 #define LEVEL_1_E "maps/level_1_enemies.txt"

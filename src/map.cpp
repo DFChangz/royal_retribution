@@ -71,8 +71,10 @@ void Map::loadLayout(std::string filename) {
     while (iss >> sym) {
       if (sym == -1)
         errorHandler->quit(__func__, "Invalid file contents");
-      else if (textureIDs.find(sym) == textureIDs.end())
+      else if (textureIDs.find(sym) == textureIDs.end()) {
+        std::cout << "sym not found: " << sym << "\n";
         errorHandler->quit(__func__, "Texture not found for symbol");
+      }
 
 
       letter l;
@@ -241,9 +243,10 @@ void Map::loadSecondLayout(std::string filename) {
     while(iss >> sym) {
       if (sym == -1)
         errorHandler->quit(__func__, "Invalid file contents");
-      else if (textureExtraIDs.find(sym) == textureExtraIDs.end())
+      else if (textureExtraIDs.find(sym) == textureExtraIDs.end()) {
+        std::cout << "sym not found: " << sym << "\n";
         errorHandler->quit(__func__, "Texture not found for symbol");
-      else if (sym == '-'){
+      }else if (sym == '-'){
         col++;
         continue;
       }

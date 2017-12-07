@@ -22,9 +22,9 @@ bool BigAlien::setHands(Hand *rh, Hand *lh){
   return true;
 }
 
-bool BigAlien::setHead(Sprite* h){
-  head = h;
-  if(head == nullptr) return false;
+bool BigAlien::setBody(Sprite* b){
+  body = b;
+  if(body == nullptr) return false;
 
   return true;
 }
@@ -44,18 +44,9 @@ void BigAlien::update(double seconds){
     return;
   }
   if (frozen){
-
- /*   leftHand->velocityY = 0;
-    leftHand->velocityX = 0;
-    rightHand->velocityY = 0;
-    rightHand->velocityX = 0;
-*/    Sprite::update(seconds);
-    leftHand->freeze();
-    rightHand->freeze();
+    Sprite::update(seconds);
     return;
   }
-    leftHand->thaw();
-    rightHand->thaw();
   // if any/both hand(s) are dead
   if (left && static_cast<Hand*>(leftHand)->isDead()) {
     timePassed = 0.0;
@@ -72,14 +63,18 @@ void BigAlien::update(double seconds){
     
     return;
   }
+
   // determine which hand to attack with
   if (left) {
     attackWith(leftHand, seconds);
   } else {
     attackWith(rightHand, seconds);
   }
-    Sprite::update(seconds);
 
+  Sprite::update(seconds);
+
+  Sprite::animate(seconds, BIG_ENEMY_ANIM_POS, BIG_ENEMY_ANIM_POS
+    + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
 }
 
 void BigAlien::attackWith(Hand* hand, double seconds) {

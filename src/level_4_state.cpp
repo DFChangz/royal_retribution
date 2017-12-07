@@ -17,8 +17,8 @@ Level_4_State::Level_4_State(Engine* engine, ErrorHandler* errorHandler)
 
 void Level_4_State::setup() {
   //Camera Light
-  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT, errorHandler,
-    0, 0, false, true);
+  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT,
+    errorHandler, 0, 0, false, true);
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, 670, 853, false);
@@ -30,11 +30,11 @@ void Level_4_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 126, 210, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 2800, 2343, &eventHandler, &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 100, 300, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
+    56, 56, 1800, 2400, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
     &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_4_E);
@@ -155,6 +155,7 @@ void Level_4_State::load() {
 }
 
 void Level_4_State::update(double seconds) {
+  std::cout << "l4\n";
   PlayingState::update(seconds);
 
   auto character = static_cast<Character*>(images[ppl+"king"]);

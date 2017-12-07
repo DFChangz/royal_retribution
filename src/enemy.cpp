@@ -35,8 +35,6 @@ Enemy::Enemy(SDL_Renderer *renderer, std::string filename,
 
 void Enemy::freeze() {
   if (!frozen) {
-    tempVX = velocityX;
-    tempVY = velocityY;
     velocityX = 0;
     velocityY = 0;
     frozen = true;
@@ -44,10 +42,6 @@ void Enemy::freeze() {
 }
 
 void Enemy::thaw() {
-  if (frozen) {
-    velocityX = tempVX;
-    velocityY = tempVY;
-  }
   frozen = false;
 }
 
@@ -181,6 +175,7 @@ void Enemy::idleAnimation(double seconds) {
 
 void Enemy::moveRandomly(double seconds) {
   if (totalTime == 0) choosingDirection = true;
+
   totalTime += seconds;
   
   if (totalTime > waitingTime) {

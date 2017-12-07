@@ -1,16 +1,14 @@
 #ifndef INTRO_STATE_H
 #define INTRO_STATE_H
 
-#include "state.h"
+#include "playing_state.h"
 
-class IntroState : public State {
+class IntroState : public PlayingState {
   public:
     IntroState(Engine* engine, ErrorHandler* errorHandler);
 
-    virtual ~IntroState();
     virtual void load();
-
-    double timer = 1;
+    virtual ~IntroState();
   private:
     virtual void setup();
     virtual void update(double seconds);

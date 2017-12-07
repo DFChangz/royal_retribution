@@ -1,11 +1,10 @@
 #ifndef BIG_ALIEN_H
 #define BIG_ALIEN_H
 
-#define WAIT_TIME 5.0
+#define BIG_ENEMY_ANIM_POS 0
 
 #include "boss_enemy.h"
 #include "hand.h"
-
 
 class BigAlien : public Boss_Enemy {
   public:
@@ -19,7 +18,7 @@ class BigAlien : public Boss_Enemy {
     virtual void kill() { return; } 
     virtual void render(Camera*, double interpol_alpha = 1);
 
-    bool setHead(Sprite*);
+    bool setBody(Sprite*);
     bool setHands(Hand*, Hand*);
     std::vector< Enemy*> minions;
     bool isDying() { return dying; }
@@ -28,7 +27,7 @@ class BigAlien : public Boss_Enemy {
     void attackWith(Hand* hand, double seconds);
 
     Sprite *king = nullptr;
-    Sprite *head = nullptr;
+    Sprite *body = nullptr;
     Hand *leftHand = nullptr;
     Hand *rightHand = nullptr;
 

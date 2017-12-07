@@ -24,6 +24,8 @@ class PlayingState : public State {
 
     virtual void enter();
   protected:
+    bool isScene = false;
+
     int currentLevel;
     int currentScore;
 

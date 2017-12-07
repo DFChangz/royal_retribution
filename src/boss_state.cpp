@@ -5,27 +5,20 @@
 #include "boss_state.h"
 #include "big_alien.h"
 #include "main_boss.h"
-#include "highscore_state.h"
 
 BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, FINAL_LEVEL, TILES_TXT,
     &collisionDetector);
-//  map->loadSecondTextures(TILES_ADD);
-//  map->loadSecondLayout(LEVEL_1_ADD);
+  //map->loadSecondTextures(TILES_ADD);
+  //map->loadSecondLayout(LEVEL_1_ADD);
 
   setup();
   load();
 }
 
 void BossState::setup() {
-  //Camera Light
-  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT,
-    errorHandler, 0, 0, false, true);
-  // Black
-  images[add+"black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler,
-    0, 0, false);
   // Skip Pan Test
   images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH/2-170, HEIGHT-35, 30, "Press [m] to Skip Pan", ROYAL_GOLD);
@@ -43,24 +36,24 @@ void BossState::setup() {
     (images[ppl+"king"]), &eventHandler, &audioHandler, this);
 
   // Big Alien
-  images[ppl+"eBigAlien"] = new BigAlien(engine->renderer, BIG_BODY,
-    errorHandler, 200, 160, map->width/2 - 100, map->height/2 - 385, 8,
+  images[ppl+"eBigAlien"] = new BigAlien(engine->renderer, BIG_HEAD,
+    errorHandler, 160, 164, map->width/2 - 150, map->height/2 - 505, 8,
     static_cast<Sprite*>(images[ppl+"king"]));
-  // head
-  images[ppl+"zBigHead"] = new Sprite(engine->renderer, BIG_HEAD,
-    errorHandler, 200, 200, map->width/2 - 100, map->height/2 - 505, false);
+  // body
+  images[ppl+"BigBody"] = new Sprite(engine->renderer, BIG_BODY,
+    errorHandler, 200, 80, map->width/2 - 100, map->height/2 - 305, false);
   // left hand
-  images[ppl+"zBigLF"] = new Hand(engine->renderer, BIG_LF,
-    errorHandler, 160, 160, map->width/2 + 100, map->height/2 - 385, 0, 0, 5);
+  images[ppl+"eBigLF"] = new Hand(engine->renderer, BIG_LF,
+    errorHandler, 160, 160, map->width/2 + 100, map->height/2 - 300, 0, 0, 5);
   // right hand
-  images[ppl+"zBigRF"] = new Hand(engine->renderer, BIG_RF,
-    errorHandler, 160, 160, map->width/2 - 260, map->height/2 - 385, 0, 0, 5);
+  images[ppl+"eBigRF"] = new Hand(engine->renderer, BIG_RF,
+    errorHandler, 160, 160, map->width/2 - 260, map->height/2 - 300, 0, 0, 5);
   // set body parts
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
-    ->setHands(static_cast<Hand*>(images[ppl+"zBigRF"]),
-      static_cast<Hand*>(images[ppl+"zBigLF"]));
+    ->setHands(static_cast<Hand*>(images[ppl+"eBigLF"]),
+      static_cast<Hand*>(images[ppl+"eBigLF"]));
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
-    ->setHead(static_cast<Sprite*>(images[ppl+"zBigHead"]));
+    ->setBody(static_cast<Sprite*>(images[ppl+"BigBody"]));
 
   // Main Boss
   images[ppl+"eMainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
@@ -79,7 +72,8 @@ void BossState::setup() {
     ->setClone(true);
   static_cast<Enemy*>(images[ppl+"eMainBoss"])
     ->followWhenClose(images[ppl + "king"], FOLLOW_RADIUS);
-  static_cast<Enemy*>(images[ppl+"eMainBoss"])->followWhenClose(images[ppl + "king"],
+  static_cast<Enemy*>(images[ppl+"eMainBoss"])
+    ->followWhenClose(images[ppl + "king"],
       400);
 
   // Enemies
@@ -128,7 +122,9 @@ void BossState::setup() {
 
   // automatically win w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    HighscoreState::saveScore(engine->score);
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file.close();
     engine->setState("win"); 
   }, SDLK_2);
 
@@ -153,29 +149,12 @@ void BossState::load() {
   images[top+"exp_bar"]->getDestRect()->h = 24;
   images[top+"exp_bar"]->getDestRect()->w = 148;
   // bosses
+  camera.setPosition(images[ppl+"BigBody"]);
+  images[ppl+"eBigAlien"]->getDestRect()->h = 300;
+  images[ppl+"eBigAlien"]->getDestRect()->w = 300;
   SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 0);
-  camera.setPosition(images[ppl+"zBigHead"]);
-  // shading
-  images[add+"black"]->getDestRect()->w = map->width;
-  images[add+"black"]->getDestRect()->h = map->height;
-  SDL_SetTextureBlendMode(images[add+"black"]
-    ->getTexture(), SDL_BLENDMODE_ADD);
-  if (SDL_SetTextureAlphaMod(images[add+"black"]->getTexture(), 150) < 0) {
-    errorHandler->quit(__func__, SDL_GetError());
-  }
-  images[add+"cLight"]->getDestRect()->w = WIDTH;
-  images[add+"cLight"]->getDestRect()->h = HEIGHT;
-  SDL_SetTextureBlendMode(images[add+"cLight"]
-    ->getTexture(),SDL_BLENDMODE_MOD);
-  
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    if (skipPan) pause(); }, SDLK_p);
-  //Delete instruction text / resume by pressing 'r'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    if (isPaused()) resume();
-  }, SDLK_r);
 }
 
 void BossState::update(double seconds) {
@@ -184,10 +163,13 @@ void BossState::update(double seconds) {
     audioHandler.play("boss");
     musicSwitch = 2;
   }
+  std::cout << "0\n";
   PlayingState::update(seconds);
+  std::cout << "1\n";
   // fade out the head with the body
   if (static_cast<BigAlien*>(images[ppl+"eBigAlien"])->isDying())
-    fade = fadeOut(ppl+"zBigHead", fade, seconds, 1.0);
+    fade = fadeOut(ppl+"BigBody", fade, seconds, 1.0);
+  std::cout << "2\n";
   // if Big Alien dies
   if(static_cast<Enemy*>(images[ppl+"eBigAlien"])->isDead() && thePhase != 1){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
@@ -206,9 +188,12 @@ void BossState::update(double seconds) {
     static_cast<MainBoss*>(images[ppl+"eclone2"])->changePhase();
   }   
   if(static_cast<Enemy*>(images[ppl+"eMainBoss"])->isDead()){
-    HighscoreState::saveScore(engine->score);
+    std::ofstream file;
+    file.open(SCORE_FILENAME, std::ios_base::app);
+    file.close();
     engine->setState("win"); 
   }
+  std::cout << "2\n";
 }
 
 BossState::~BossState() {}

@@ -45,7 +45,7 @@ void PlayingState::setup() {
   num_lights = map->pushLights(images);
   // Black
   images[add+"black"] = new Sprite(engine->renderer, BLACK_PIXEL, errorHandler,
-    0, 0, false);
+    0, 0, false, true);
   // Skip Pan Test
   images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH/2-170, HEIGHT-35, 30, "Press [m] to Skip Pan", ROYAL_GOLD);
@@ -166,24 +166,6 @@ void PlayingState::setupInstruct() {
 void PlayingState::load() {
   State::load();
 
-  // set size of stairs & stam & exp
-  images[ele+"stairs"]->getDestRect()->h = 50;
-  images[ele+"stairs"]->getDestRect()->w = 50;
-  images[top+"sta_box"]->getDestRect()->h = 32;
-  images[top+"sta_box"]->getDestRect()->w = 150;
-  images[top+"sta_bar"]->getDestRect()->h = 24;
-  images[top+"sta_bar"]->getDestRect()->w = 146;
-  images[top+"exp_box"]->getDestRect()->h = 32;
-  images[top+"exp_box"]->getDestRect()->w = 150;
-  images[top+"exp_bar"]->getDestRect()->h = 24;
-  images[top+"exp_bar"]->getDestRect()->w = 148;
-
-  // setup hole
-  images[ele+"hole"]->getDestRect()->h = 22;
-  images[ele+"hole"]->getDestRect()->w = 50;
-  SDL_SetTextureBlendMode(images[ele+"hole"]->getTexture(),SDL_BLENDMODE_BLEND);
-  SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
-
   for (int i = 0; i < num_lights; i++) {
     std::string s = add+"light_"+std::to_string(i);
 
@@ -208,6 +190,26 @@ void PlayingState::load() {
 
   SDL_SetTextureBlendMode(images[add+"cLight"]
     ->getTexture(),SDL_BLENDMODE_MOD);
+
+  if (isScene) return;
+
+  // set size of stairs & stam & exp
+  images[ele+"stairs"]->getDestRect()->h = 50;
+  images[ele+"stairs"]->getDestRect()->w = 50;
+  images[top+"sta_box"]->getDestRect()->h = 32;
+  images[top+"sta_box"]->getDestRect()->w = 150;
+  images[top+"sta_bar"]->getDestRect()->h = 24;
+  images[top+"sta_bar"]->getDestRect()->w = 146;
+  images[top+"exp_box"]->getDestRect()->h = 32;
+  images[top+"exp_box"]->getDestRect()->w = 150;
+  images[top+"exp_bar"]->getDestRect()->h = 24;
+  images[top+"exp_bar"]->getDestRect()->w = 148;
+
+  // setup hole
+  images[ele+"hole"]->getDestRect()->h = 22;
+  images[ele+"hole"]->getDestRect()->w = 50;
+  SDL_SetTextureBlendMode(images[ele+"hole"]->getTexture(),SDL_BLENDMODE_BLEND);
+  SDL_SetTextureAlphaMod(images[ele+"hole"]->getTexture(), 0);
 
   // center some of the textures
   for (it = images.begin(); it != images.end(); it++) {
@@ -254,6 +256,12 @@ void PlayingState::load() {
 }
 
 void PlayingState::update(double seconds) {
+  if (isScene) {
+    updateLights(seconds);
+    State::update(seconds);
+    return;
+  }
+
   timer += seconds;
 
   int kingLevel = static_cast<Character*>(images[ppl+"king"])->level;
@@ -315,7 +323,7 @@ void PlayingState::update(double seconds) {
     }
   }
 
-  
+
   /********************
   HEARTS & LIGHTS
   *********************/
@@ -323,6 +331,7 @@ void PlayingState::update(double seconds) {
   updateHearts();
   updateLights(seconds);
   State::update(seconds);
+
 
   /********************
   FOOD INSTRUCTION

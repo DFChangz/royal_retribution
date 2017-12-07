@@ -180,6 +180,7 @@ void Level_3_State::load() {
 }
 
 void Level_3_State::update(double seconds) {
+  std::cout << "l3\n";
   PlayingState::update(seconds);
 
   auto character = static_cast<Character*>(images[ppl+"king"]);

@@ -5,8 +5,8 @@ MainBoss::MainBoss(SDL_Renderer *renderer, std::string filename, ErrorHandler *e
     double velocity_y, int health, Map* map_p)
     : Boss_Enemy(renderer, filename, error_handler, width, height, pos_x,
     pos_y, velocity_x, velocity_y, health) {
-    tempVX = velocity_x;
-    tempVY = velocity_y;
+    //tempVX = velocity_x;
+    //tempVY = velocity_y;
     map = map_p;
 }
 

@@ -47,6 +47,9 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 }
 
 void Character::update(double seconds) {
+  std::cout << "x: " << pos_x << "\n";
+  std::cout << "y: " << pos_y << "\n";
+
   if (dying) {
     die(seconds);
     Sprite::update(seconds);
