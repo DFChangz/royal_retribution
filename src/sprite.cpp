@@ -58,11 +58,6 @@ void Sprite::load(SDL_Texture *texture_p) {
 void Sprite::update(double seconds) {
   //prevRect = rect;
   prevRect = {(int) pos_x, (int) pos_y, rect.w, rect.h};
-  double new_x = speedMultiplier * velocityX * seconds + pos_x;
-  double new_y = speedMultiplier * velocityY * seconds + pos_y;
-
-  setPosition(new_x, new_y);
-  //Blades special movement pattern
   if(isBlade()){
     if(higherVel == 0){ 
       higherVel = (velocityY == 0)? velocityX : velocityY;
@@ -91,6 +86,11 @@ void Sprite::update(double seconds) {
       velocityX = 0;
     }
   }
+  double new_x = speedMultiplier * velocityX * seconds + pos_x;
+  double new_y = speedMultiplier * velocityY * seconds + pos_y;
+
+  setPosition(new_x, new_y);
+  //Blades special movement pattern
 }
 
 void Sprite::animate(double seconds, int start_frame, int end_frame, int fps) {

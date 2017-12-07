@@ -8,7 +8,7 @@ Level_3_State::Level_3_State(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_3, TILES_TXT,
-    &collisionDetector);
+    &collisionDetector, &camera);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_3_ADD);
   setup();
@@ -17,8 +17,8 @@ Level_3_State::Level_3_State(Engine* engine, ErrorHandler* errorHandler)
 
 void Level_3_State::setup() {
   //Camera Light
-  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT, errorHandler,
-    0, 0, false, true);
+  images[add+"cLight"] = new Sprite(engine->renderer, CAMERA_LIGHT,
+    errorHandler, 0, 0, false, true);
   // Stairs 
   images[ele+"stairs"] = new Sprite(engine->renderer, STAIRS_FILENAME,
     errorHandler, map->width/2 - 25, map->height - 115, false);
@@ -30,11 +30,11 @@ void Level_3_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 3704, 1453, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, 3696, 1453, &eventHandler, &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 3600, 1400, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
+    56, 56, 3700, 1400, static_cast<Sprite*>(images[ppl+"king"]), &eventHandler,
     &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_3_E);
@@ -180,7 +180,6 @@ void Level_3_State::load() {
 }
 
 void Level_3_State::update(double seconds) {
-  std::cout << "l3\n";
   PlayingState::update(seconds);
 
   auto character = static_cast<Character*>(images[ppl+"king"]);

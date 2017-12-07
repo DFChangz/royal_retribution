@@ -9,7 +9,7 @@ IntroState::IntroState(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, INTRO, TILES_TXT,
-    &collisionDetector);
+    &collisionDetector, &camera);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(INTRO_ADD);
 

@@ -62,7 +62,7 @@ void Engine::setup() {
   if (window == nullptr) {
     error_handler.quit(__func__, SDL_GetError());
   }
-  
+  SDL_SetWindowBrightness(window, 1); 
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | 
     SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
   if (renderer == nullptr) {

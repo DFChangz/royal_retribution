@@ -43,10 +43,13 @@ void BigAlien::update(double seconds){
     dead = true;
     return;
   }
-  if (frozen){
+  if (frozen) {
     Sprite::update(seconds);
+    Sprite::animate(seconds, BIG_ENEMY_ANIM_POS, BIG_ENEMY_ANIM_POS
+      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
     return;
   }
+
   // if any/both hand(s) are dead
   if (left && static_cast<Hand*>(leftHand)->isDead()) {
     timePassed = 0.0;

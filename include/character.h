@@ -28,6 +28,7 @@
 #include "camera.h"
 #include "pickup.h"
 #include "types.h"
+#include "hand.h"
 
 /*class for the player character that inherits from sprite will be 
 responsible for player movement events and holds certain sfx along with

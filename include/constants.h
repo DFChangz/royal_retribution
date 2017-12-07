@@ -12,6 +12,7 @@
 #define SPRITE_PADDING_AMOUNT_Y 20
 #define NUM_STATES              9  /* INCLUDE ALL STATES EXCEPT LOADING */
 #define LOADTIME_FILENAME "data/loading_times"
+#define PAN_DELAY_SECONDS     3
 
 /* Maps */
 #define TILES_IMG "assets/blocks.png"

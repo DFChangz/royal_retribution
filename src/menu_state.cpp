@@ -219,11 +219,13 @@ std::tuple<int, int> MenuState::getCenterForImage(Image* image) {
 }
 
 void MenuState::updateBrightnessVolume() {
+  int bright;
   delete images["1Bnum"];
   delete images["1Vnum"];
   
+  bright = (int)brightness;
   images["1Bnum"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-    350, 500, 40, std::to_string(brightness) + "%");
+    350, 500, 40, std::to_string(bright) + "%");
   images["1Bnum"]->load();
 
   images["1Vnum"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,

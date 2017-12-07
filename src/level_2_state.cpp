@@ -8,7 +8,7 @@ Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, LEVEL_2, TILES_TXT,
-    &collisionDetector);
+    &collisionDetector, &camera);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_2_ADD);
 
@@ -31,12 +31,12 @@ void Level_2_State::setup() {
     images[ppl+"king"] = king;
   } else {
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, map->width/2 - 16, 200, &eventHandler,
+      errorHandler, 16, 25, map->width/2 - 16, 220, &eventHandler,
       &audioHandler, this);
   }
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, map->width/2 - 16, 0, static_cast<Sprite*>(images[ppl+"king"]),
+    56, 56, map->width/2 - 16, 200, static_cast<Sprite*>(images[ppl+"king"]),
     &eventHandler, &audioHandler, this);
   // Enemies
   std::ifstream file(LEVEL_2_E);

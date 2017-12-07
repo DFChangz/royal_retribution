@@ -2,13 +2,15 @@
 
 Map::Map(SDL_Renderer* renderer_p, ErrorHandler* errorHandler_p,
         std::string map_filename, std::string textures_filename,
-        CollisionDetector* collision_detector_p) {
+        CollisionDetector* collision_detector_p, Camera *cam) {
 
   collisionDetector = collision_detector_p;
 
   errorHandler = errorHandler_p;
 
   renderer = renderer_p;
+
+  camera = cam;
 
   loadTextures(textures_filename);
 
@@ -72,7 +74,7 @@ void Map::loadLayout(std::string filename) {
       if (sym == -1)
         errorHandler->quit(__func__, "Invalid file contents");
       else if (textureIDs.find(sym) == textureIDs.end()) {
-        std::cout << "sym not found: " << sym << "\n";
+        std::cerr << "sym not found: " << sym << "\n";
         errorHandler->quit(__func__, "Texture not found for symbol");
       }
 
@@ -244,7 +246,7 @@ void Map::loadSecondLayout(std::string filename) {
       if (sym == -1)
         errorHandler->quit(__func__, "Invalid file contents");
       else if (textureExtraIDs.find(sym) == textureExtraIDs.end()) {
-        std::cout << "sym not found: " << sym << "\n";
+        std::cerr << "sym not found: " << sym << "\n";
         errorHandler->quit(__func__, "Texture not found for symbol");
       }else if (sym == '-'){
         col++;
@@ -389,6 +391,13 @@ void Map::update(double seconds) {
       }
     }
     if(tile.image->isBlade()){
+      SDL_Rect cameraRect = camera->getRect();
+      SDL_Rect imageRect = {(int) tile.image->pos_x, (int) tile.image->pos_y,
+      tile.image->getDestRect()->w, tile.image->getDestRect()->h};
+
+      if (!SDL_HasIntersection(&imageRect, &cameraRect)){
+        continue;
+      }
       tile.image->animate(seconds, tile.start_frame, tile.frame_length + tile.start_frame - 1, 9);
       tile.image->stopped = paused;
       continue;

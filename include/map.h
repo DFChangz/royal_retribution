@@ -10,6 +10,7 @@
 #include "sprite.h"
 #include "error_handler.h"
 #include "collision_detector.h"
+#include "camera.h"
 
 #define TILE_DIM      32
 
@@ -43,7 +44,7 @@ class CollisionDetector;
 class Map {
   public:
     Map(SDL_Renderer* renderer, ErrorHandler*, std::string, std::string,
-      CollisionDetector*);
+      CollisionDetector*, Camera *);
     ~Map();
 
     std::vector<tile> tiles;
@@ -89,6 +90,8 @@ class Map {
     CollisionDetector* collisionDetector;
 
     void addCollidablesToBuckets(std::vector<tile>*);
+
+    Camera *camera;
 };
 
 #endif

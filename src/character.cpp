@@ -47,9 +47,6 @@ Character::Character(SDL_Renderer *renderer, std::string filename,
 }
 
 void Character::update(double seconds) {
-  std::cout << "x: " << pos_x << "\n";
-  std::cout << "y: " << pos_y << "\n";
-
   if (dying) {
     die(seconds);
     Sprite::update(seconds);
@@ -217,17 +214,16 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
 
     audioHandler->play("collision", 0);
 
-    hearts--;
+    if (static_cast<Sprite*>(image)->isHand()) {
+      if (!static_cast<Hand*>(image)->onGround()) {
+        hearts -= 2;
+      }
+    } else {
+      hearts--;
+    }
 
     invincibilitySeconds = 0;
     invincible = true;
-    if(static_cast<Sprite*>(image)->isHand()){
-      hearts--;
-      //setPosition(pos_x, 1219);
-      if(Util::isIntersecting(this, image)){
-        //setPosition(pos_x, 974);
-      }
-    }
   }
 }
 

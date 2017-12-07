@@ -10,9 +10,9 @@ BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
   : PlayingState(engine, errorHandler) {
 
   map = new Map(engine->renderer, errorHandler, FINAL_LEVEL, TILES_TXT,
-    &collisionDetector);
-  //map->loadSecondTextures(TILES_ADD);
-  //map->loadSecondLayout(LEVEL_1_ADD);
+    &collisionDetector, &camera);
+//  map->loadSecondTextures(TILES_ADD);
+//  map->loadSecondLayout(LEVEL_1_ADD);
 
   setup();
   load();
@@ -28,26 +28,25 @@ void BossState::setup() {
     images[ppl+"king"] = king;
   else
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 0, 0, &eventHandler, &audioHandler, this);
-  images[ppl+"king"]->setPosition(map->width/2 - 16, map->height/2 + 10);
+      errorHandler, 16, 25, 898, 1460, &eventHandler, &audioHandler, this);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, map->width/2, map->height/2, static_cast<Sprite*>
-    (images[ppl+"king"]), &eventHandler, &audioHandler, this);
+    56, 56, 900, 1400, static_cast<Sprite*>(images[ppl+"king"]),
+    &eventHandler, &audioHandler, this);
 
   // Big Alien
   images[ppl+"eBigAlien"] = new BigAlien(engine->renderer, BIG_HEAD,
-    errorHandler, 160, 164, map->width/2 - 150, map->height/2 - 505, 8,
+    errorHandler, 160, 164, map->width/2 - 150, map->height/2 - 520, 8,
     static_cast<Sprite*>(images[ppl+"king"]));
   // body
   images[ppl+"BigBody"] = new Sprite(engine->renderer, BIG_BODY,
     errorHandler, 200, 80, map->width/2 - 100, map->height/2 - 305, false);
   // left hand
   images[ppl+"eBigLF"] = new Hand(engine->renderer, BIG_LF,
-    errorHandler, 160, 160, map->width/2 + 100, map->height/2 - 300, 0, 0, 5);
+    errorHandler, 200, 200, map->width/2 + 100, map->height/2 - 340, 0, 0, 5);
   // right hand
   images[ppl+"eBigRF"] = new Hand(engine->renderer, BIG_RF,
-    errorHandler, 160, 160, map->width/2 - 260, map->height/2 - 300, 0, 0, 5);
+    errorHandler, 200, 200, map->width/2 - 300, map->height/2 - 340, 0, 0, 5);
   // set body parts
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setHands(static_cast<Hand*>(images[ppl+"eBigLF"]),
@@ -163,13 +162,20 @@ void BossState::update(double seconds) {
     audioHandler.play("boss");
     musicSwitch = 2;
   }
-  std::cout << "0\n";
+  if (!skipPan) {
+    static_cast<Enemy*>(images[ppl+"eBigAlien"])->freeze();
+  } else {
+    static_cast<Enemy*>(images[ppl+"eBigAlien"])->thaw();
+  }
+
   PlayingState::update(seconds);
-  std::cout << "1\n";
+
+  //std::cout << "x: " << images[ppl+"king"]->pos_x << "\n";
+  //std::cout << "y: " << images[ppl+"king"]->pos_y << "\n";
+
   // fade out the head with the body
   if (static_cast<BigAlien*>(images[ppl+"eBigAlien"])->isDying())
     fade = fadeOut(ppl+"BigBody", fade, seconds, 1.0);
-  std::cout << "2\n";
   // if Big Alien dies
   if(static_cast<Enemy*>(images[ppl+"eBigAlien"])->isDead() && thePhase != 1){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
@@ -193,7 +199,6 @@ void BossState::update(double seconds) {
     file.close();
     engine->setState("win"); 
   }
-  std::cout << "2\n";
 }
 
 BossState::~BossState() {}
