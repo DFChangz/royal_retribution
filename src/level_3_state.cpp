@@ -11,6 +11,9 @@ Level_3_State::Level_3_State(Engine* engine, ErrorHandler* errorHandler)
     &collisionDetector, &camera);
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_3_ADD);
+
+  isScene = false;
+
   setup();
   load();
 }

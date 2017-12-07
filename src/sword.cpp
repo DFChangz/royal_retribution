@@ -78,29 +78,29 @@ void Sword::notifyCollision(Image* image, doubleRect* dRect, bool) {
   if (attacking && image->isHand()) {
     //check ul
     if (dRect->x+160 > pos_x+20 && dRect->x < pos_x+56
-        && dRect->y+160 > pos_y+20 && dRect->y < pos_y+56) { ul = true; }
+        && image->pos_y+160 > pos_y+20 && image->pos_y < pos_y+56) ul = true;
     // check ur
     if (dRect->x+160 > pos_x+56 && dRect->x < pos_x+92
-        && dRect->y+160 > pos_y+20 && dRect->y < pos_y+56) { ur = true; }
+        && image->pos_y+160 > pos_y+20 && image->pos_y < pos_y+56) ur = true;
     // check dl
     if (dRect->x+160 > pos_x+20 && dRect->x < pos_x+56
-        && dRect->y+160 > pos_y+56 && dRect->y < pos_y+92) { dl = true; }
+        && image->pos_y+160 > pos_y+56 && image->pos_y < pos_y+92) dl = true;
     // check dr
     if (dRect->x+160 > pos_x+56 && dRect->x < pos_x+92
-        && dRect->y+160 > pos_y+56 && dRect->y < pos_y+92) { dr = true; }
+        && image->pos_y+160 > pos_y+56 && image->pos_y < pos_y+92) dr = true;
   } else if (attacking && image->isEnemy()) {
     //check ul
     if (dRect->x+32 > pos_x+20 && dRect->x < pos_x+56
-        && dRect->y+50 > pos_y+20 && dRect->y < pos_y+56) { ul = true; }
+        && image->pos_y+50 > pos_y+20 && image->pos_y < pos_y+56) ul = true;
     // check ur
     if (dRect->x+32 > pos_x+56 && dRect->x < pos_x+92
-        && dRect->y+50 > pos_y+20 && dRect->y < pos_y+56) { ur = true; }
+        && image->pos_y+50 > pos_y+20 && image->pos_y < pos_y+56) ur = true;
     // check dl
     if (dRect->x+32 > pos_x+20 && dRect->x < pos_x+56
-        && dRect->y+50 > pos_y+56 && dRect->y < pos_y+92) { dl = true; }
+        && image->pos_y+50 > pos_y+56 && image->pos_y < pos_y+92) dl = true;
     // check dr
     if (dRect->x+32 > pos_x+56 && dRect->x < pos_x+92
-        && dRect->y+50 > pos_y+56 && dRect->y < pos_y+92) { dr = true; }
+        && image->pos_y+50 > pos_y+56 && image->pos_y < pos_y+92) dr = true;
   }
   // enemies die when attacked
   if (attacking && image->isEnemy() && !static_cast<Enemy*>(image)->isDead()) {

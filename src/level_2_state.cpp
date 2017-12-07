@@ -12,6 +12,8 @@ Level_2_State::Level_2_State(Engine* engine, ErrorHandler* errorHandler)
   map->loadSecondTextures(TILES_ADD);
   map->loadSecondLayout(LEVEL_2_ADD);
 
+  isScene = false;
+
   setup();
   load();
 }
