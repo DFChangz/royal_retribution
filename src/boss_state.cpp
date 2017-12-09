@@ -4,6 +4,7 @@
 
 #include "boss_state.h"
 #include "big_alien.h"
+#include "projectile.h"
 #include "main_boss.h"
 
 BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
@@ -76,7 +77,18 @@ void BossState::setup() {
   static_cast<Enemy*>(images[ppl+"eMainBoss"])
     ->followWhenClose(images[ppl + "king"],
       400);
-
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])
+    ->target = static_cast<Sprite*>(images[ppl + "king"]);
+  //projectile
+  images[ppl+"fireball0"] = new Projectile(engine->renderer, TILES_IMG,
+    errorHandler, 32, 32, map->width/2 - 16, map->height/2 + 70, 1000, 3, true,static_cast<Sprite*>(images[ppl + "eMainBoss"]));
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])->fireballs[0] = static_cast<Projectile*>(images[ppl + "fireball0"]);
+  images[ppl+"fireball1"] = new Projectile(engine->renderer, TILES_IMG,
+    errorHandler, 32, 32, map->width/2 - 16, map->height/2 + 70, 1000, 3, true,static_cast<Sprite*>(images[ppl + "eMainBoss"]));
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])->fireballs[1] = static_cast<Projectile*>(images[ppl + "fireball1"]);
+  images[ppl+"fireball2"] = new Projectile(engine->renderer, TILES_IMG,
+    errorHandler, 32, 32, map->width/2 - 16, map->height/2 + 70, 1000, 3, true,static_cast<Sprite*>(images[ppl + "eMainBoss"]));
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])->fireballs[2] = static_cast<Projectile*>(images[ppl + "fireball2"]);
   // Enemies
   /*std::ifstream file(LEVEL_1_E);
   int x = -1;

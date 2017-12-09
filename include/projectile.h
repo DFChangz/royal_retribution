@@ -1,12 +1,14 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
+#define FIREBALL_START 88
+
 #include "sprite.h"
 
 class Projectile : public Sprite {
   public:
     Projectile(SDL_Renderer *renderer, std::string, ErrorHandler *error_handler,
-      int width, int height, int pos_x, int pos_y, double radius, bool enem, 
+      int width, int height, int pos_x, int pos_y, double radius, double wt,bool enem, 
       Sprite *owner = nullptr);
 
     void goTo(Sprite *dest);
@@ -16,6 +18,7 @@ class Projectile : public Sprite {
     virtual void update(double seconds);
     virtual void notifyCollision(Image*, doubleRect* intersection, bool resolved = false);
     virtual bool isEnemy(){ return enemy;}
+    bool doneWaiting(){ return !waiting;}
     
     bool frozen = false;
   private:
@@ -28,7 +31,10 @@ class Projectile : public Sprite {
     Sprite *thrower;
     bool thrown = false;
     double dissipateRadius;
-     bool enemy = true;
+    bool enemy = true;
+    bool waiting = false;
+    double waitTime = 0.0;
+    double timeStill = 0.0;    
 
 };
 

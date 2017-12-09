@@ -36,7 +36,9 @@ void Hand::update(double seconds){
     return;
   }
 
-  if (onGround()) waitingTime += seconds;
+  if (onGround()){ 
+    waitingTime += seconds;
+  }
   if (returned()) {
     waitingTime = 0;
     collidable = true;

@@ -3,6 +3,7 @@
  */
 
 #include "character.h"
+#include "hand.h"
 #include "state.h"
 #include "playing_state.h"
 //Definitions for the character class that inherits from Sprite

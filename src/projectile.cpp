@@ -2,13 +2,13 @@
 
 
 Projectile::Projectile(SDL_Renderer *renderer, std::string filename, ErrorHandler *error_handler,
-  int width, int height, int pos_x, int pos_y, double radius, bool enem, Sprite *owner)
+  int width, int height, int pos_x, int pos_y, double radius,double wt, bool enem, Sprite *owner)
     :Sprite(renderer, filename, error_handler, width, height, pos_x, pos_y, true) {
 
   dissipateRadius = radius;
   thrower = owner;
   enemy = enem;
-
+  waitTime = wt;
 }
 
 void Projectile::goTo(Sprite* dest){
@@ -43,18 +43,26 @@ void Projectile::goTo(double x, double y){
     throwPosY = -1*rect.h;
   } else {
     velocityY = 0.0;
-    throwPosY =0.0;
+    throwPosY = 0.0;
   }
   if(velocityY != 0.0 || velocityX != 0.0){
     throwThis();
+  } else{
+    waiting = true;
+    if(timeStill > waitTime){
+      waiting = false;
+    }
+    thrown = false;
   }
 
 }
 
 void Projectile::throwThis(){
-  thrown = true;
-  setPosition(thrower->getDoubleRect().x + throwPosX, thrower->getDoubleRect().y
-    + throwPosY);
+  if(thrown == false && !waiting){
+    thrown = true;
+    setPosition(thrower->getDoubleRect().x, thrower->getDoubleRect().y);
+    timeStill = 0.0;
+  }
 }
 
 void Projectile::update(double seconds){
@@ -62,22 +70,33 @@ void Projectile::update(double seconds){
   double dis;
   if(!frozen){
 
-    velocityY = tempY;
-    velocityX = tempX;
+    //velocityY = tempY;
+    //velocityX = tempX;
+    //std::cout<<velocityY <<"\t"<<velocityX<<"\n";
 
   } else {
-    tempX = velocityX;
-    tempY = velocityY;
-    velocityY = 0;
-    velocityX = 0;
+    //tempX = velocityX;
+    //tempY = velocityY;
+    //velocityY = 0;
+    //velocityX = 0;
   }
+  Sprite::update(seconds);
   if(thrown == false){
-    setPosition(thrower->getDoubleRect().x, thrower->getDoubleRect().y);
+    if(waiting == true){
+      if(timeStill > waitTime){
+        waiting = false;
+      }
+      timeStill += seconds;
+      collidable = true;
+    }else {
+      setPosition(thrower->getDoubleRect().x, thrower->getDoubleRect().y);
+      collidable = false;
+      SDL_SetTextureAlphaMod(getTexture(), 0);
+    }
     velocityY = 0;
     velocityX = 0;
-    collidable = false;
-    SDL_SetTextureAlphaMod(getTexture(), 0);
   } else {
+    timeStill = 0.0;
     collidable = true;
     SDL_SetTextureAlphaMod(getTexture(), 255);
     
@@ -85,17 +104,18 @@ void Projectile::update(double seconds){
 
   dis = sqrt(pow(getDoubleRect().x-thrower->getDoubleRect().x,2) +
     pow(getDoubleRect().y - thrower->getDoubleRect().y,2));
-  if(dis < dissipateRadius){
+  if(dis > dissipateRadius){
     thrown = false;
+    waiting = true;
   }
-   
-  Sprite::update(seconds);
+  Sprite::animate(seconds, FIREBALL_START, FIREBALL_START + 3, 4);   
 
 }
 
 void Projectile::notifyCollision(Image* img, doubleRect* intersection, bool resolved){
-
+  if(img == thrower || img->isSword()) return;
   thrown = false;
+  waiting = false;
   Sprite::notifyCollision(img, intersection, resolved);
 
 }
