@@ -40,6 +40,7 @@ void Hand::update(double seconds){
     waitingTime += seconds;
   }
   if (returned()) {
+    SDL_SetTextureAlphaMod(getTexture(), 255);
     waitingTime = 0;
     collidable = true;
     reachOrigX = false;
@@ -54,6 +55,7 @@ void Hand::update(double seconds){
 
 void Hand::kill() {
   hp--;
+  SDL_SetTextureAlphaMod(getTexture(), 100);
   collidable = false;
   waitingTime = 14.0;
 }

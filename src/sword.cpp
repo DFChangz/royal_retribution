@@ -5,6 +5,7 @@
 #include "sword.h"
 #include "state.h"
 #include "hand.h"
+#include "projectile.h"
 #include "character.h"
 
 // constructor that takes in arguments for the width and height for the rect
@@ -129,6 +130,12 @@ void Sword::kill(Image* image) {
       static_cast<Hand*>(image)->kill();
     }
     return;
+  }
+  if (image->isProjectile()) {
+      audioHandler->play("kill", 0);
+      static_cast<Projectile*>(image)->kill();
+      return;
+
   }
   image->setCollidable(false);
   static_cast<Enemy*>(image)->kill();

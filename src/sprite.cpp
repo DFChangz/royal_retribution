@@ -62,13 +62,12 @@ void Sprite::update(double seconds) {
     if(higherVel == 0){ 
       higherVel = (velocityY == 0)? velocityX : velocityY;
     }
+    blade_timer += seconds;
     if(stopped){
       velocityY = 0;
       velocityX = 0;
-      return;
-    }
-    blade_timer += seconds;
-    if(blade_timer > 8.0){
+      blade_timer -= seconds;
+    } else if(blade_timer > 8.0){
       velocityX = -1 * higherVel;
       velocityY = 0;
       blade_timer = 0;

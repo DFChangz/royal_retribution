@@ -18,7 +18,10 @@ class Projectile : public Sprite {
     virtual void update(double seconds);
     virtual void notifyCollision(Image*, doubleRect* intersection, bool resolved = false);
     virtual bool isEnemy(){ return enemy;}
+    virtual bool isProjectile() { return true; }
     bool doneWaiting(){ return !waiting;}
+    void kill() { overridden = true; }
+    bool getOverridden() { return overridden;} 
     
     bool frozen = false;
   private:
@@ -30,6 +33,7 @@ class Projectile : public Sprite {
     double throwPosY = 0.0;
     Sprite *thrower;
     bool thrown = false;
+    bool overridden = false;
     double dissipateRadius;
     bool enemy = true;
     bool waiting = false;

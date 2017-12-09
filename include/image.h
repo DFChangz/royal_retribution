@@ -40,6 +40,7 @@ class Image {
     virtual bool isEnemy() { return false; }
     virtual bool isCharacter() { return false; }
     virtual bool isHand() { return false; }
+    virtual bool isProjectile() { return false; }
     virtual bool isMainBoss() { return false; }
 
     virtual void setPosition(double x, double y);

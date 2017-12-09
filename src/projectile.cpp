@@ -101,6 +101,12 @@ void Projectile::update(double seconds){
     SDL_SetTextureAlphaMod(getTexture(), 255);
     
   }
+  if(overridden){
+    overridden = false;
+    thrown = false;
+    waiting = false;
+    //timeStill = 0.0;
+  }
 
   dis = sqrt(pow(getDoubleRect().x-thrower->getDoubleRect().x,2) +
     pow(getDoubleRect().y - thrower->getDoubleRect().y,2));

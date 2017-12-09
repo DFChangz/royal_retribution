@@ -47,7 +47,7 @@ class Enemy : public Sprite {
     bool attacked(){return wasAttacked;}
     void nullAttacked(){wasAttacked = false;}
   protected:
-    void die(double);
+    virtual void die(double);
     void attemptFollow();
 
     int fadeOut(int, double, double);

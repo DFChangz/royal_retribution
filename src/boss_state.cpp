@@ -53,17 +53,17 @@ void BossState::setup() {
   // set body parts
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setHands(static_cast<Hand*>(images[ppl+"eBigLF"]),
-      static_cast<Hand*>(images[ppl+"eBigLF"]));
+      static_cast<Hand*>(images[ppl+"eBigRF"]));
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setBody(static_cast<Sprite*>(images[ppl+"BigBody"]));
 
   // Main Boss
   images[ppl+"eMainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 - 16, map->height/2 + 70, 0, 0, 5, map);
+    errorHandler, 16, 25, map->width/2 - 16, map->height/2 + 70, 0, 0, 9, map);
   images[ppl+"eclone1"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 - 66, map->height/2 + 70, 0, 0, 5, map);
+    errorHandler, 16, 25, map->width/2 - 36, map->height/2 + 70, 0, 0, 9, map);
   images[ppl+"eclone2"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 + 46, map->height/2 + 70, 0, 0, 5, map);
+    errorHandler, 16, 25, map->width/2 + 36, map->height/2 + 70, 0, 0, 9, map);
   static_cast<MainBoss*>(images[ppl+"eMainBoss"])
     ->clone1 = static_cast<MainBoss*>(images[ppl+"eclone1"]);
   static_cast<MainBoss*>(images[ppl+"eMainBoss"])
@@ -191,7 +191,7 @@ void BossState::update(double seconds) {
   if (static_cast<BigAlien*>(images[ppl+"eBigAlien"])->isDying())
     fade = fadeOut(ppl+"BigBody", fade, seconds, 1.0);
   // if Big Alien dies
-  if(static_cast<Enemy*>(images[ppl+"eBigAlien"])->isDead() && thePhase != 1){
+  if(static_cast<Enemy*>(images[ppl+"eBigAlien"])->isDead() && thePhase < 1){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"eclone1"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"eclone2"])->changePhase(); 
@@ -199,10 +199,16 @@ void BossState::update(double seconds) {
     SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 255);
   }
-  if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 1){
+  if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 6 && thePhase < 2){
+    thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"eclone1"])->changePhase(); 
+    static_cast<MainBoss*>(images[ppl+"eclone2"])->changePhase(); 
+  
+  }
+  if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 2){
     thePhase++;
   }
-  if(thePhase == 2){
+  if(thePhase == 3){
     static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"eclone1"])->changePhase(); 
     static_cast<MainBoss*>(images[ppl+"eclone2"])->changePhase();

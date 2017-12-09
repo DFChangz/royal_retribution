@@ -31,7 +31,13 @@ class MainBoss : public Boss_Enemy {
     MainBoss* clone2 = nullptr;
     Sprite* target = nullptr;
     Projectile* fireballs[3] = {nullptr, nullptr, nullptr};
+  protected: 
+    virtual void die(double);
   private:
+    void gettingAngry(double);
+    
+    bool angry = false;
+    double angryTimer = 0.0;
     bool invincible = false;
     double invincibilityTimer = 0.0;
     bool clone = false;
@@ -41,6 +47,7 @@ class MainBoss : public Boss_Enemy {
     bool chase = false;
     void firstPhase(double);
     void secondPhase(double);
+    void thirdPhase(double);
     double targetX  = 0.0;
     double targetY  = 0.0;
     double targetX2  = 0.0;
