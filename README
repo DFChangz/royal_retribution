@@ -17,6 +17,12 @@ New Loading Screen (Idean)
   - Animated and indicative of progress
 Updated High Score System (Idean)
   - Less buggy, doesn't require a file to already exist
+Fixed bugs in Loading and High Score from last week (Idean)
+  - Cleaned code and fixed several bugs remaining.
+Recording Key Strokes (Idean)
+  - Began working on recording key strokes for later playback.
+Menu Screen Upgrade (Idean)
+  - Worked on an animated background for menu screen.
 
 Enemy Movement (Tae Jin Kim)
 - the enemies now move randomly
