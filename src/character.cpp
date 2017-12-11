@@ -215,14 +215,22 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
 
     audioHandler->play("collision", 0);
 
-    if (!static_cast<Sprite*>(image)->isHand() || !static_cast<Hand*>(image)->onGround()) {
-      hearts--;
-      if (static_cast<Sprite*>(image)->isHand()){ hearts--; }
+    if (static_cast<Sprite*>(image)->isHand()) {
+      if (!static_cast<Hand*>(image)->onGround()) {
+        audioHandler->play("collision", 0);
+        invincibilitySeconds = 0;
+        invincible = true;
+        hearts-=2;
+        pos_x = 1091;
+        pos_y = 1326;
+      }
+    } else {
+      audioHandler->play("collision", 0);
       invincibilitySeconds = 0;
       invincible = true;
-    } 
-
-  }
+      hearts--;
+    }
+  } 
 }
 
 void Character::updateSta() {

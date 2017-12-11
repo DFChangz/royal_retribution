@@ -47,10 +47,10 @@ void BossState::setup() {
     errorHandler, 200, 80, map->width/2 - 100, map->height/2 - 305, false);
   // left hand
   images[ppl+"eBigLF"] = new Hand(engine->renderer, BIG_LF,
-    errorHandler, 200, 200, map->width/2 + 100, map->height/2 - 340, 0, 0, 5);
+    errorHandler, 200, 200, map->width/2 + 100, map->height/2 - 340, 0, 0, 4);
   // right hand
   images[ppl+"eBigRF"] = new Hand(engine->renderer, BIG_RF,
-    errorHandler, 200, 200, map->width/2 - 300, map->height/2 - 340, 0, 0, 5);
+    errorHandler, 200, 200, map->width/2 - 300, map->height/2 - 340, 0, 0, 4);
   // set body parts
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setHands(static_cast<Hand*>(images[ppl+"eBigLF"]),
@@ -182,9 +182,6 @@ void BossState::update(double seconds) {
   }
 
   PlayingState::update(seconds);
-
-  //std::cout << "x: " << images[ppl+"king"]->pos_x << "\n";
-  //std::cout << "y: " << images[ppl+"king"]->pos_y << "\n";
 
   // fade out the head with the body
   if (static_cast<BigAlien*>(images[ppl+"eBigAlien"])->isDying())
