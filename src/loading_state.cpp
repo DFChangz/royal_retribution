@@ -30,14 +30,16 @@ void LoadingState::load() {
   images["1progress"]->getDestRect()->w = 0;
 
   auto center = getCenterForImage(images["1start"]);
-  images["1start"]->setPosition(std::get<0>(center), std::get<1>(center) - 200);
+  images["1start"]->setPosition(std::get<0>(center),
+                                std::get<1>(center)-50);
 
   center = getCenterForImage(images["1progress_outline"]);
-  images["1progress_outline"]->setPosition(std::get<0>(center), std::get<1>(center));
+  images["1progress_outline"]->setPosition(std::get<0>(center),
+                                           std::get<1>(center)+50);
 
   int offset_x = 5 * (double) w / (double) orig_w;
   images["1progress"]->setPosition(std::get<0>(center) + offset_x,
-    std::get<1>(center));
+                                   std::get<1>(center) + 50);
 
   eventHandler.addListener(SDL_KEYUP, [&] (SDL_Event*) {
     engine->quit();}, SDLK_ESCAPE); 
