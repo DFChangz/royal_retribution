@@ -91,6 +91,7 @@ void BigAlien::attackWith(Hand* hand, double seconds) {
     // prepare attack
     if (settingUp) {
       attacking = true;
+      settingUp = false;
       targetX = king->pos_x + 16;
       targetY = king->pos_y + 25;
     }
@@ -98,7 +99,6 @@ void BigAlien::attackWith(Hand* hand, double seconds) {
 
   // start attack
   if (attacking) {
-    settingUp = false;
     static_cast<Hand*>(hand)->goTo(targetX, targetY);
     if (static_cast<Hand*>(hand)->onGround()) attacking = false;
   }

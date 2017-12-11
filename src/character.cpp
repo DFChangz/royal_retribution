@@ -221,8 +221,7 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
         invincibilitySeconds = 0;
         invincible = true;
         hearts-=2;
-        pos_x = 1091;
-        pos_y = 1326;
+        static_cast<Hand*>(image)->makeGoBack();
       }
     } else {
       audioHandler->play("collision", 0);

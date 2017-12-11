@@ -56,7 +56,12 @@ void Hand::update(double seconds){
 void Hand::kill() {
   hp--;
   SDL_SetTextureAlphaMod(getTexture(), 100);
+  makeGoBack();
+}
+
+void Hand::makeGoBack() {
   collidable = false;
+  // just greater than STAIONARY_TIME
   waitingTime = 14.0;
 }
 
