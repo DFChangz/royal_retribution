@@ -51,6 +51,12 @@ void BossState::setup() {
   // right hand
   images[ppl+"eBigRF"] = new Hand(engine->renderer, BIG_RF,
     errorHandler, 200, 200, map->width/2 - 300, map->height/2 - 340, 0, 0, 4);
+  //Laser beam
+  images[ppl+"zBigBeam"] = new Sprite(engine->renderer, BIG_BEAM,
+    errorHandler, 72, 340, map->width/2 - 100, map->height/2 - 305, true);
+  static_cast<Sprite*>(images[ppl+"zBigBeam"])->setLaser(true);
+  static_cast<BigAlien*>(images[ppl+"eBigAlien"])
+    ->setBeam(static_cast<Sprite*>(images[ppl+"zBigBeam"])); 
   // set body parts
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setHands(static_cast<Hand*>(images[ppl+"eBigLF"]),
@@ -167,6 +173,7 @@ void BossState::load() {
   SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[ppl+"zBigBeam"]->getTexture(), 0);
 }
 
 void BossState::update(double seconds) {

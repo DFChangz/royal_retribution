@@ -163,6 +163,12 @@ void Sprite::notifyCollision(Image* img, doubleRect* intersection, bool resolved
         return;
       }
     } 
+  if(isLaser()){
+    if(img->isCharacter()){
+      collidable = false;
+    }
+    return;
+  }
   /*if (abs(velocityY) > abs(velocityX)) {
     resolveYCollision(img, intersection->h);
   } else if (abs(velocityY) == abs(velocityX)) {*/

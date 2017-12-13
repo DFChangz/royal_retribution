@@ -2,6 +2,8 @@
 #define BIG_ALIEN_H
 
 #define BIG_ENEMY_ANIM_POS 0
+#define BIG_ENEMY_BEAM_POS 4
+#define BEAM_FRAMES 8
 
 #include "boss_enemy.h"
 #include "hand.h"
@@ -17,9 +19,12 @@ class BigAlien : public Boss_Enemy {
     virtual void notifyCollision(Image*, doubleRect*, bool resolved = false);
     virtual void kill() { return; } 
     virtual void render(Camera*, double interpol_alpha = 1);
+    
 
     bool setBody(Sprite*);
     bool setHands(Hand*, Hand*);
+    void setBeam(Sprite* theBeam){beam = theBeam;} 
+    void beamFiring(double seconds);
     std::vector< Enemy*> minions;
     bool isDying() { return dying; }
 
@@ -27,6 +32,7 @@ class BigAlien : public Boss_Enemy {
     void attackWith(Hand* hand, double seconds);
 
     Sprite *king = nullptr;
+    Sprite *beam = nullptr;
     Sprite *body = nullptr;
     Hand *leftHand = nullptr;
     Hand *rightHand = nullptr;
