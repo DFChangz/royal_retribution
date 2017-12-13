@@ -96,11 +96,20 @@ void Level_3_State::setup() {
   double coinPos3Y = 0.0;
   double coinPos4X = 0.0;
   double coinPos4Y = 0.0;
+  double coinPos5X = 0.0;
+  double coinPos5Y = 0.0;
+  double coinPos6X = 0.0;
+  double coinPos6Y = 0.0;
+  double coinPos7X = 0.0;
+  double coinPos7Y = 0.0;
   Sprite *C1 = nullptr;
   Sprite *C2 = nullptr;
   Sprite *C3 = nullptr;
   Sprite *C4 = nullptr;
   Sprite *C5 = nullptr;
+  Sprite *C6 = nullptr;
+  Sprite *C7 = nullptr;
+  Sprite *C8 = nullptr;
   for(auto tile : map->additions){
     if(tile.image->isChest()){
       if(coinPos2X == 0.0 && coinPos2Y == 0.0){
@@ -119,10 +128,22 @@ void Level_3_State::setup() {
         coinPos4X = tile.image->pos_x;
         coinPos4Y = tile.image->pos_y;
         C4 = tile.image;
+      } else if(coinPos5X == 0.0 && coinPos5Y == 0.0){
+        coinPos5X = tile.image->pos_x;
+        coinPos5Y = tile.image->pos_y;
+        C5 = tile.image;
+      } else if(coinPos6X == 0.0 && coinPos6Y == 0.0){
+        coinPos6X = tile.image->pos_x;
+        coinPos6Y = tile.image->pos_y;
+        C6 = tile.image;
+      } else if(coinPos7X == 0.0 && coinPos7Y == 0.0){
+        coinPos7X = tile.image->pos_x;
+        coinPos7Y = tile.image->pos_y;
+        C7 = tile.image;
       } else {
         coinPosX = tile.image->pos_x;
         coinPosY = tile.image->pos_y;
-        C5 = tile.image;
+        C8 = tile.image;
       }
     }
   }
@@ -133,7 +154,7 @@ void Level_3_State::setup() {
   // add coins
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPosX, coinPosY, false, false, coinNum);
-  static_cast<Sprite*>(images[add+"coin"])->setPair(C5);
+  static_cast<Sprite*>(images[add+"coin"])->setPair(C8);
   images[add+"coin2"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPos2X, coinPos2Y, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin2"])->setPair(C1);
@@ -143,6 +164,15 @@ void Level_3_State::setup() {
   images[add+"coin4"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPos4X, coinPos4Y, false, false, coinNum);
   static_cast<Sprite*>(images[add+"coin4"])->setPair(C4);
+  images[add+"coin5"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos5X, coinPos5Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin5"])->setPair(C5);
+  images[add+"coin6"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos6X, coinPos6Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin6"])->setPair(C6);
+  images[add+"coin7"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos7X, coinPos7Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin7"])->setPair(C7);
   // add food in some enemies
   setupFood();
   // instuctions
@@ -179,6 +209,9 @@ void Level_3_State::load() {
   SDL_SetTextureAlphaMod(images[add+"coin2"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin3"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin4"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin5"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin6"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin7"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"key"]->getTexture(), 0);
 }
 
@@ -240,6 +273,39 @@ void Level_3_State::update(double seconds) {
     character->pickUp(coin4);
 
     static_cast<Sprite*>(images[add+"coin4"])->pair = character;
+    engine->score += 1000;
+    activateInstructionText(chestNum);
+  }
+  auto coin5 = static_cast<Pickup*>(images[add+"coin5"]);
+  if(static_cast<Sprite*>(images[add+"coin5"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin5"])->pair
+    && !coin5->isPickedUp())
+  {
+    character->pickUp(coin5);
+
+    static_cast<Sprite*>(images[add+"coin5"])->pair = character;
+    engine->score += 1000;
+    activateInstructionText(chestNum);
+  }
+  auto coin6 = static_cast<Pickup*>(images[add+"coin6"]);
+  if(static_cast<Sprite*>(images[add+"coin6"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin6"])->pair
+    && !coin6->isPickedUp())
+  {
+    character->pickUp(coin6);
+
+    static_cast<Sprite*>(images[add+"coin6"])->pair = character;
+    engine->score += 1000;
+    activateInstructionText(chestNum);
+  }
+  auto coin7 = static_cast<Pickup*>(images[add+"coin7"]);
+  if(static_cast<Sprite*>(images[add+"coin7"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin7"])->pair
+    && !coin7->isPickedUp())
+  {
+    character->pickUp(coin7);
+
+    static_cast<Sprite*>(images[add+"coin7"])->pair = character;
     engine->score += 1000;
     activateInstructionText(chestNum);
   }
