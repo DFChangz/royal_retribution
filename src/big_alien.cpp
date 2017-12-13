@@ -42,7 +42,7 @@ void BigAlien::update(double seconds){
   if (!fade) {
     dead = true;
     beam->setCollidable(false);
-    beam->setPosition(0,0);
+    //beam->setPosition(0,0);
     SDL_SetTextureAlphaMod(getTexture(), 0);
     return;
   }
@@ -160,7 +160,7 @@ void BigAlien::beamFiring(double seconds){
     if (timePassed > (BEAM_FRAMES/(ENEMY_FPS*speedMultiplier))){
       beam->setCollidable(false);
       SDL_SetTextureAlphaMod(beam->getTexture(), 0);
-      beam->setPosition(0,0);
+      //beam->setPosition(0,0);
       timePassed = 0.0;
       hp--;
     }
