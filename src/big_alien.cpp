@@ -42,7 +42,6 @@ void BigAlien::update(double seconds){
   if (!fade) {
     dead = true;
     beam->setCollidable(false);
-    //beam->setPosition(0,0);
     SDL_SetTextureAlphaMod(getTexture(), 0);
     return;
   }
@@ -69,6 +68,7 @@ void BigAlien::update(double seconds){
 
   if(phase == 0){
     beam->setCollidable(false);
+    beam->setPosition(pos_x + getDoubleRect().w/2 - 36, pos_y + getDoubleRect().h);
     SDL_SetTextureAlphaMod(beam->getTexture(), 0);
     // if any/both hand(s) are dead
     if (left && static_cast<Hand*>(leftHand)->isDead()) {
@@ -160,7 +160,6 @@ void BigAlien::beamFiring(double seconds){
     if (timePassed > (BEAM_FRAMES/(ENEMY_FPS*speedMultiplier))){
       beam->setCollidable(false);
       SDL_SetTextureAlphaMod(beam->getTexture(), 0);
-      //beam->setPosition(0,0);
       timePassed = 0.0;
       hp--;
     }

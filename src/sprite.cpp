@@ -49,7 +49,7 @@ void Sprite::load(SDL_Texture *texture_p) {
     get_texture_size(texture, &(rect.w), &(rect.h));
   }
   
-  if(door && !collidable){
+  if((door && !collidable) || laser){
     SDL_SetTextureAlphaMod(this->getTexture(), 0);  
   }
 }
