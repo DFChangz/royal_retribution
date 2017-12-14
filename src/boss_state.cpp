@@ -4,7 +4,6 @@
 
 #include "boss_state.h"
 #include "big_alien.h"
-#include "projectile.h"
 #include "main_boss.h"
 #include "highscore_state.h"
 

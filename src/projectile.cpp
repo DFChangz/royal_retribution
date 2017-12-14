@@ -25,6 +25,13 @@ void Projectile::goTo(double x, double y){
   double xProp = pow(getDoubleRect().x-x,2)/dis;
   double yProp = pow(getDoubleRect().y-y,2)/dis;
 
+  if(frozen){
+
+    velocityX = 0;
+    velocityY = 0;
+    return;
+  }  
+
   if (getDoubleRect().x < x-5){
     velocityX = xProp*300;
     throwPosX = rect.w;
@@ -86,7 +93,8 @@ void Projectile::update(double seconds){
       if(timeStill > waitTime){
         waiting = false;
       }
-      timeStill += seconds;
+      
+      if(!frozen){timeStill += seconds;}
       collidable = true;
     }else {
       setPosition(thrower->getDoubleRect().x, thrower->getDoubleRect().y);

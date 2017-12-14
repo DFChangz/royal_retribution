@@ -24,6 +24,9 @@ void MainBoss::update(double seconds){
 
     if(clone){invincible = true;}
 
+    fireballs[0]->frozen = frozen;
+    fireballs[1]->frozen = frozen;
+    fireballs[2]->frozen = frozen;
     if(frozen){
         velocityX = 0;
         velocityY = 0;

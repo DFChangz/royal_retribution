@@ -53,6 +53,15 @@ void Level_1_State::setup() {
     num_enemies++;
   }
   file.close();
+  images[ppl+"enemy_fire"] = new Fire_Enemy(engine->renderer, ANI_FILENAME, errorHandler,
+    16, 25, map->width/2, 400);
+  images[ppl+"fireball0"] = new Projectile(engine->renderer, TILES_IMG,
+    errorHandler, 32, 32, map->width/2, 400, 500, 3, true,static_cast<Sprite*>(images[ppl + "enemy_fire"]));
+  static_cast<Fire_Enemy*>(images[ppl+"enemy_fire"])->setFireball(
+    static_cast<Projectile*>(images[ppl+"fireball0"]));
+  static_cast<Enemy*>(images[ppl+"enemy_fire"])->followWhenClose(images[ppl + "king"],
+    FOLLOW_RADIUS);
+
   // Lights
   num_lights = map->pushLights(images);
   // Black
