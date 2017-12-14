@@ -119,9 +119,9 @@ void Projectile::update(double seconds){
 }
 
 void Projectile::notifyCollision(Image* img, doubleRect* intersection, bool resolved){
-  if(img == thrower || img->isSword()) return;
-  thrown = false;
-  waiting = false;
-  Sprite::notifyCollision(img, intersection, resolved);
+  if(img == thrower || img->isSword() || img->isEnemy() == enemy) return;
+    thrown = false;
+    waiting = false;
+    Sprite::notifyCollision(img, intersection, resolved);
 
 }

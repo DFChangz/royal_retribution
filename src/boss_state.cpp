@@ -202,7 +202,9 @@ void BossState::update(double seconds) {
     SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 255);
     delete images[ppl+"zBigBeam"];
-    images[ppl+"zBigBeam"] = nullptr;
+    images[ppl+"zBigBeam"] = new Sprite(engine->renderer, BIG_BEAM,
+    errorHandler, 1, 1, map->width/2 - 100, map->height - 260, true);
+    //images[ppl+"zBigBeam"] = nullptr;
   }
   if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 6 && thePhase < 2){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 
