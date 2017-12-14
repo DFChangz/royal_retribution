@@ -40,7 +40,7 @@ void BossState::setup() {
 
   // Big Alien
   images[ppl+"eBigAlien"] = new BigAlien(engine->renderer, BIG_HEAD,
-    errorHandler, 160, 164, map->width/2 - 150, map->height/2 - 520, 8,
+    errorHandler, 160, 164, map->width/2 - 150, map->height/2 - 520, 3,
     static_cast<Sprite*>(images[ppl+"king"]));
   // body
   images[ppl+"BigBody"] = new Sprite(engine->renderer, BIG_BODY,
@@ -53,7 +53,7 @@ void BossState::setup() {
     errorHandler, 200, 200, map->width/2 - 300, map->height/2 - 340, 0, 0, 4);
   //Laser beam
   images[ppl+"zBigBeam"] = new Sprite(engine->renderer, BIG_BEAM,
-    errorHandler, 72, 340, map->width/2 - 100, map->height/2 - 305, true);
+    errorHandler, 72, 150, map->width/2 - 100, map->height - 260, true);
   static_cast<Sprite*>(images[ppl+"zBigBeam"])->setLaser(true);
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setBeam(static_cast<Sprite*>(images[ppl+"zBigBeam"])); 
@@ -201,6 +201,8 @@ void BossState::update(double seconds) {
     SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 255);
+    delete images[ppl+"zBigBeam"];
+    images[ppl+"zBigBeam"] = nullptr;
   }
   if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 6 && thePhase < 2){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 

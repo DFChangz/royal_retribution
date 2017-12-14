@@ -40,6 +40,9 @@ void State::update(double seconds) {
 
   for (it = images.begin(); it != images.end(); it++) {
     SDL_Rect cameraRect = camera.getRect();
+    if (it->second == nullptr){
+      continue;
+    }
 
     if (it->second->getDestRect()) {
       SDL_Rect imageRect = {(int) it->second->pos_x, (int) it->second->pos_y,
