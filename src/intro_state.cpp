@@ -109,7 +109,7 @@ void IntroState::update(double seconds) {
     // squire walks in
     case 0:
       if (images[ppl+"squire"]->pos_x > 1265) {
-        images[ppl+"squire"]->velocityX = -300;
+        images[ppl+"squire"]->velocityX = -250;
       } else {
         images[ppl+"squire"]->velocityX = 0;
         event++;
@@ -117,7 +117,7 @@ void IntroState::update(double seconds) {
       break;
     case 1:
       if (images[ppl+"squire"]->pos_y > 2405) {
-        images[ppl+"squire"]->velocityY = -300;
+        images[ppl+"squire"]->velocityY = -250;
       } else {
         images[ppl+"squire"]->velocityY = 0;
         event++;
@@ -125,7 +125,7 @@ void IntroState::update(double seconds) {
       break;
     case 2:
       if (images[ppl+"squire"]->pos_x < 1902) {
-        images[ppl+"squire"]->velocityX = 300;
+        images[ppl+"squire"]->velocityX = 250;
       } else {
         event++;
         images[ppl+"squire"]->velocityX = 0;

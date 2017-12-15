@@ -1,5 +1,5 @@
 /*
- * playing_state.cpp
+ * boss_scene.cpp
  */
 
 #include "boss_scene.h"
@@ -53,7 +53,19 @@ void BossScene::setup() {
 
   // Main Boss
   images[ppl+"eMainBoss"] = new MainBoss(engine->renderer, ANI_FILENAME,
-    errorHandler, 16, 25, map->width/2 - 16, map->height/2 -50, 0, 0, 9, map);
+    errorHandler, 16, 25, map->width/2 - 16, map->height/2-200, 0, 0, 9, map);
+  images[ppl+"eclone1"] = new MainBoss(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, 0, 0, 0, 0, 9, map);
+  images[ppl+"eclone2"] = new MainBoss(engine->renderer, ANI_FILENAME,
+    errorHandler, 16, 25, 0, 0, 0, 0, 9, map);
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])
+    ->clone1 = static_cast<MainBoss*>(images[ppl+"eclone1"]);
+  static_cast<MainBoss*>(images[ppl+"eMainBoss"])
+    ->clone2 = static_cast<MainBoss*>(images[ppl+"eclone2"]);
+  static_cast<MainBoss*>(images[ppl+"eclone1"])
+    ->setClone(true);
+  static_cast<MainBoss*>(images[ppl+"eclone2"])
+    ->setClone(true);
 
   // text
   images[top+"c0"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
@@ -67,7 +79,7 @@ void BossScene::setup() {
   images[top+"c4"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
     0, 0, 25, k2);
   images[top+"c5"] = new Text(engine->renderer, FONT_ROBOTO, errorHandler,
-    0, 0, 25, e4);
+    0, 0, 50, e4, RED);
   images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 25, skip); 
 
@@ -79,8 +91,12 @@ void BossScene::setup() {
 
 void BossScene::load() {
   State::load();
+  // freeze
+  static_cast<Enemy*>(images[ppl+"eBigAlien"])->freeze();
+  static_cast<Enemy*>(images[ppl+"eMainBoss"])->freeze();
+  static_cast<Character*>(images[ppl+"king"])->frozen = true;
+
   // bosses
-  camera.setPosition(images[ppl+"king"]);
   images[ppl+"eBigAlien"]->getDestRect()->h = 300;
   images[ppl+"eBigAlien"]->getDestRect()->w = 300;
   SDL_SetTextureAlphaMod(images[ppl+"eBigLF"]->getTexture(), 0);
@@ -98,9 +114,9 @@ void BossScene::load() {
       it->second->pos_y = 0;
     } else if (it->first == top+"c1"
                || it->first == top+"c4") {
-      it->second->pos_y += 50;
-    } else {
       it->second->pos_y -= 50;
+    } else {
+      it->second->pos_y -= 220;
     }
   }
 }
@@ -120,43 +136,39 @@ void BossScene::update(double seconds) {
     // king walks in
     case 0:
       if (images[ppl+"king"]->pos_x < map->width/2-16) {
-        images[ppl+"king"]->velocityX = 300;
+        images[ppl+"king"]->velocityX = 100;
       } else {
         images[ppl+"king"]->velocityX = 0;
         event++;
       }
       break;
     case 1:
-      if (images[ppl+"king"]->pos_y > map->height/2+100) {
-        images[ppl+"king"]->velocityY -= 300;
+      if (images[ppl+"king"]->pos_y > map->height/2-25) {
+        images[ppl+"king"]->velocityY = -100;
       } else {
         images[ppl+"king"]->velocityY = 0;
         event++;
       }
       break;
   }
-  std::cout << "done\n";
 
   // text displayed with [n]
   if (event == 2) {
-    std::cout << "start\n";
     SDL_SetTextureAlphaMod(images[s]->getTexture(), 255);
-    std::cout << "next\n";
     if (counter > 0) {
       SDL_SetTextureAlphaMod(images[prev]->getTexture(), 0);
-      std::cout << "del\n";
     }
     if (counter >= 4) {
       a0 = fadeIn(ppl+"eBigLF", a0, seconds, 2);
-      a1 = fadeIn(ppl+"eBig.RF", a1, seconds, 2);
+      a1 = fadeIn(ppl+"eBigRF", a1, seconds, 2);
       a2 = fadeIn(ppl+"BigBody", a2, seconds, 2);
-      a3 = fadeIn(ppl+"eBigEnemy", a3, seconds, 2);
+      a3 = fadeIn(ppl+"eBigAlien", a3, seconds, 2);
     }
     if (counter >= 5) {
       a4 = fadeOut(ppl+"eMainBoss", a4, seconds, 2);
-      if (images[ppl+"king"]->pos_y < map->height/2-25) {
+      if (images[ppl+"king"]->pos_y > map->height/2-100) {
         images[ppl+"king"]->velocityY = -100;
-      } else  {
+      } else {
         images[ppl+"king"]->velocityY = 0;
         finished = true;
       }
@@ -166,7 +178,7 @@ void BossScene::update(double seconds) {
       raise = true;}, SDLK_n);
     if (raise) { raise = false; counter++; }
   }
-  if (finished && !a4) {
+  if (counter == 6) {
     engine->setState("boss");
   }
 }

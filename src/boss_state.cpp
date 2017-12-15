@@ -29,11 +29,12 @@ void BossState::setup() {
     images[ppl+"king"] = king;
   else
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, 898, 1460, &eventHandler, &audioHandler, this);
+      errorHandler, 16, 25, map->width/2-16, map->height/2-50,
+      &eventHandler, &audioHandler, this);
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
-    56, 56, 900, 1400, static_cast<Sprite*>(images[ppl+"king"]),
-    &eventHandler, &audioHandler, this);
+    56, 56, map->width/2, map->height/2, static_cast<Sprite*>
+    (images[ppl+"king"]), &eventHandler, &audioHandler, this);
 
   // Big Alien
   images[ppl+"eBigAlien"] = new BigAlien(engine->renderer, BIG_HEAD,
