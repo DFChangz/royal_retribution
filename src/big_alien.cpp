@@ -41,43 +41,68 @@ doubleRect BigAlien::getDoubleRect(){
 void BigAlien::update(double seconds){
   if (!fade) {
     dead = true;
+    beam->setCollidable(false);
+    SDL_SetTextureAlphaMod(getTexture(), 0);
     return;
   }
   if (frozen) {
     Sprite::update(seconds);
-    Sprite::animate(seconds, BIG_ENEMY_ANIM_POS, BIG_ENEMY_ANIM_POS
-      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+    if(phase == 0){
+      Sprite::animate(seconds, BIG_ENEMY_ANIM_POS, BIG_ENEMY_ANIM_POS
+        + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+    } else {
+      Sprite::animate(seconds, BIG_ENEMY_BEAM_POS, BIG_ENEMY_BEAM_POS
+        + BEAM_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+    }
     return;
   }
 
-  // if any/both hand(s) are dead
-  if (left && static_cast<Hand*>(leftHand)->isDead()) {
-    timePassed = 0.0;
-    left = false;
-  }
-  if (!left && static_cast<Hand*>(rightHand)->isDead()) {
-    timePassed = 0.0;
-    left = true;
-  }
-  if (static_cast<Hand*>(leftHand)->isDead()
-      && static_cast<Hand*>(rightHand)->isDead()) {
+  if(hp == 1){
+ 
+    
     dying = true;
     fade = fadeOut(fade, seconds, 1.0);
-    
     return;
+
   }
 
-  // determine which hand to attack with
-  if (left) {
-    attackWith(leftHand, seconds);
-  } else {
-    attackWith(rightHand, seconds);
+  if(phase == 0){
+    beam->setCollidable(false);
+    //beam->setPosition(pos_x + getDoubleRect().w/2 - 36, pos_y + getDoubleRect().h);
+    SDL_SetTextureAlphaMod(beam->getTexture(), 0);
+    // if any/both hand(s) are dead
+    if (left && static_cast<Hand*>(leftHand)->isDead()) {
+      timePassed = 0.0;
+      left = false;
+    }
+    if (!left && static_cast<Hand*>(rightHand)->isDead()) {
+      timePassed = 0.0;
+      left = true;
+    }
+    if (static_cast<Hand*>(leftHand)->isDead()
+        && static_cast<Hand*>(rightHand)->isDead()) {
+     // dying = true;
+     // fade = fadeOut(fade, seconds, 1.0);
+    
+     // return;
+      timePassed = 0.0;
+      changePhase(); 
+    }
+
+    // determine which hand to attack with
+    if (left) {
+      attackWith(leftHand, seconds);
+    } else {
+      attackWith(rightHand, seconds);
+    }
+    Sprite::animate(seconds, BIG_ENEMY_ANIM_POS, BIG_ENEMY_ANIM_POS
+      + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+  } else{
+    beamFiring(seconds);
   }
 
   Sprite::update(seconds);
 
-  Sprite::animate(seconds, BIG_ENEMY_ANIM_POS, BIG_ENEMY_ANIM_POS
-    + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
 }
 
 void BigAlien::attackWith(Hand* hand, double seconds) {
@@ -120,4 +145,24 @@ void BigAlien::render(Camera* camera, double interpol_alpha) {
   Sprite::render(camera, interpol_alpha);
 }
 
+void BigAlien::beamFiring(double seconds){
+  if(beam != nullptr){
+    speedMultiplier = .75;
+    Sprite::animate(seconds, BIG_ENEMY_BEAM_POS, BIG_ENEMY_BEAM_POS
+      + BEAM_FRAMES - 1, ENEMY_FPS*speedMultiplier);
+    timePassed += seconds;
+    //6 is the numper of frames before the beam appears
+    if (timePassed > (6/(ENEMY_FPS*speedMultiplier))){
+      beam->setPosition(pos_x + getDoubleRect().w/2 - 36, pos_y + getDoubleRect().h);
+      beam->setCollidable(true);
+      SDL_SetTextureAlphaMod(beam->getTexture(), 255);
+    }
+    if (timePassed > (BEAM_FRAMES/(ENEMY_FPS*speedMultiplier))){
+      beam->setCollidable(false);
+      SDL_SetTextureAlphaMod(beam->getTexture(), 0);
+      timePassed = 0.0;
+      hp=1;
+    }
+  }
+}
 BigAlien::~BigAlien(){}

@@ -215,11 +215,11 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
 
     if (static_cast<Sprite*>(image)->isHand()) {
       if (!static_cast<Hand*>(image)->onGround()) {
+        static_cast<Sprite*>(image)->setCollidable(false);
         audioHandler->play("collision", 0);
         invincibilitySeconds = 0;
         invincible = true;
         hearts-=2;
-        static_cast<Sprite*>(image)->setCollidable(false);
       }
     } else {
       audioHandler->play("collision", 0);
@@ -227,6 +227,13 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
       invincible = true;
       hearts--;
     }
+  }
+  if(static_cast<Sprite*>(image)->isLaser() && !invincible){
+        audioHandler->play("collision", 0);
+        invincibilitySeconds = 0;
+        invincible = true;
+        hearts-=2;
+
   } 
 }
 

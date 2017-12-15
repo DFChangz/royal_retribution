@@ -68,6 +68,7 @@
 #define BIG_BODY "assets/characters/alien_big_body.png"
 #define BIG_RF "assets/characters/alien_big_Rfist.png"
 #define BIG_LF "assets/characters/alien_big_Lfist.png"
+#define BIG_BEAM "assets/characters/beam.png"
 
 /* Title */
 #define BG_FILENAME "assets/space.png"

@@ -91,29 +91,48 @@ void Level_2_State::setup() {
   double coinPos1Y = 0.0;
   double coinPos2X = 0.0;
   double coinPos2Y = 0.0;
+  double coinPos3X = 0.0;
+  double coinPos3Y = 0.0;
+  double coinPos4X = 0.0;
+  double coinPos4Y = 0.0;
   Sprite *C1 = nullptr;
   Sprite *C2 = nullptr;
+  Sprite *C3 = nullptr;
+  Sprite *C4 = nullptr;
   for(auto tile : map->additions){
     if(tile.image->isChest()){
       if(coinPos1X == 0.0 && coinPos1Y == 0.0){
         coinPos1X = tile.image->pos_x;
         coinPos1Y = tile.image->pos_y;
         C1 = tile.image;
-      } else {
+      } else if(coinPos2X == 0.0 && coinPos2Y == 0.0) {
         coinPos2X = tile.image->pos_x;
         coinPos2Y = tile.image->pos_y;
         C2 = tile.image;
+      } else if(coinPos3X == 0.0 && coinPos3Y == 0.0) {
+        coinPos3X = tile.image->pos_x;
+        coinPos3Y = tile.image->pos_y;
+        C3 = tile.image;
+      } else {
+        coinPos4X = tile.image->pos_x;
+        coinPos4Y = tile.image->pos_y;
+        C4 = tile.image;
       }
     }
   }
-  // add coin 1
+  // add coins
   images[add+"coin"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPos1X, coinPos1Y, false, false, coinNum);
-  static_cast<Sprite*>(images[add+"coin"])->setPair(C2);
-  // add coin 2
+  static_cast<Sprite*>(images[add+"coin"])->setPair(C1);
   images[add+"coin2"] = new Pickup(engine->renderer, COIN, errorHandler,
     32, 32, coinPos2X, coinPos2Y, false, false, coinNum);
-  static_cast<Sprite*>(images[add+"coin2"])->setPair(C1);
+  static_cast<Sprite*>(images[add+"coin2"])->setPair(C2);
+  images[add+"coin3"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos3X, coinPos3Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin3"])->setPair(C3);
+  images[add+"coin4"] = new Pickup(engine->renderer, COIN, errorHandler,
+    32, 32, coinPos4X, coinPos4Y, false, false, coinNum);
+  static_cast<Sprite*>(images[add+"coin4"])->setPair(C4);
   // add food in some enemies
   setupFood();
   // instuctions
@@ -148,6 +167,8 @@ void Level_2_State::load() {
   //sets pickup texture to see thru when in chests
   SDL_SetTextureAlphaMod(images[add+"coin"]->getTexture(), 0);
   SDL_SetTextureAlphaMod(images[add+"coin2"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin3"]->getTexture(), 0);
+  SDL_SetTextureAlphaMod(images[add+"coin4"]->getTexture(), 0);
 }
 void Level_2_State::update(double seconds) {
   PlayingState::update(seconds);
@@ -162,6 +183,32 @@ void Level_2_State::update(double seconds) {
     character->pickUp(coin2);
 
     static_cast<Sprite*>(images[add+"coin2"])->pair = character;
+    engine->score += 1000;
+
+    activateInstructionText(chestNum);
+  }
+  auto coin3 = static_cast<Pickup*>(images[add+"coin3"]);
+  if(static_cast<Sprite*>(images[add+"coin3"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin3"])->pair
+    && !coin3->isPickedUp())
+  {
+
+    character->pickUp(coin3);
+
+    static_cast<Sprite*>(images[add+"coin3"])->pair = character;
+    engine->score += 1000;
+
+    activateInstructionText(chestNum);
+  }
+  auto coin4 = static_cast<Pickup*>(images[add+"coin4"]);
+  if(static_cast<Sprite*>(images[add+"coin4"])->pair->pair
+    == static_cast<Sprite*>(images[add+"coin4"])->pair
+    && !coin4->isPickedUp())
+  {
+
+    character->pickUp(coin4);
+
+    static_cast<Sprite*>(images[add+"coin4"])->pair = character;
     engine->score += 1000;
 
     activateInstructionText(chestNum);

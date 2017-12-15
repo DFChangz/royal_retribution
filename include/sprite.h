@@ -46,6 +46,8 @@ class Sprite : public Image {
     void setHole(bool hole_p){ hole = hole_p;}
     bool isBlade(){ return blade;}
     void setBlade(bool blade_p){ blade = blade_p;}
+    bool isLaser(){ return laser;}
+    void setLaser(bool laser_p){ laser = laser_p;}
     char pairing = -1;
     void setPair(Sprite *pair_p){ pair = pair_p;}
     Sprite* pair = nullptr;
@@ -71,6 +73,7 @@ class Sprite : public Image {
     bool chest = false;
     bool hole = false;
     bool blade = false;
+    bool laser = false;
     double blade_timer = 0.0;
     double higherVel = 0.0;
 

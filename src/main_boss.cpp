@@ -24,6 +24,9 @@ void MainBoss::update(double seconds){
 
     if(clone){invincible = true;}
 
+    fireballs[0]->frozen = frozen;
+    fireballs[1]->frozen = frozen;
+    fireballs[2]->frozen = frozen;
     if(frozen){
         velocityX = 0;
         velocityY = 0;
@@ -80,31 +83,7 @@ void MainBoss::update(double seconds){
                 wasAttacked = true;
             }
         }
-        /*if(target != nullptr){
-            if(fireballs[0] != nullptr && !fireballs[0]->wasThrown() && fireballs[0]->doneWaiting()){
-                targetX = target->getDoubleRect().x;
-                targetY = target->getDoubleRect().y;
-            }
-            if(fireballs[0]->doneWaiting() || !fireballs[2]->doneWaiting())
-                fireballs[0]->goTo(targetX, targetY);
-            if(fireballs[1] != nullptr && !fireballs[1]->wasThrown() && fireballs[1]->doneWaiting()){
-                targetX2 = target->getDoubleRect().x;
-                targetY2 = target->getDoubleRect().y;
-            }
-            if(fireballs[1]->doneWaiting() && !fireballs[0]->doneWaiting()){
-                fireballs[1]->goTo(targetX2, targetY2);
-            }
-            if(fireballs[2] != nullptr && !fireballs[2]->wasThrown() && fireballs[2]->doneWaiting()){
-                targetX3 = target->getDoubleRect().x;
-                targetY3 = target->getDoubleRect().y;
-            }
-            if(fireballs[2]->doneWaiting() && !fireballs[1]->doneWaiting()){
-                fireballs[2]->goTo(targetX3, targetY3);
-            }
-                Sprite::animate(seconds, MAIN_BOSS_THROWR, MAIN_BOSS_THROWR
-                  + 7, ENEMY_FPS*speedMultiplier);
-            
-        }*/
+
     }
     Boss_Enemy::update(seconds);
     Sprite::update(seconds);
