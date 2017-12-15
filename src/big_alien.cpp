@@ -41,7 +41,7 @@ doubleRect BigAlien::getDoubleRect(){
 void BigAlien::update(double seconds){
   if (!fade) {
     dead = true;
-    beam->setCollidable(false);
+    //beam->setCollidable(false);
     SDL_SetTextureAlphaMod(getTexture(), 0);
     return;
   }
@@ -67,7 +67,7 @@ void BigAlien::update(double seconds){
   }
 
   if(phase == 0){
-    beam->setCollidable(false);
+    //beam->setCollidable(false);
     //beam->setPosition(pos_x + getDoubleRect().w/2 - 36, pos_y + getDoubleRect().h);
     SDL_SetTextureAlphaMod(beam->getTexture(), 0);
     // if any/both hand(s) are dead
@@ -81,10 +81,10 @@ void BigAlien::update(double seconds){
     }
     if (static_cast<Hand*>(leftHand)->isDead()
         && static_cast<Hand*>(rightHand)->isDead()) {
-     // dying = true;
-     // fade = fadeOut(fade, seconds, 1.0);
+      dying = true;
+      fade = fadeOut(fade, seconds, 1.0);
     
-     // return;
+      return;
       timePassed = 0.0;
       changePhase(); 
     }
