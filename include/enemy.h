@@ -76,10 +76,10 @@ class Enemy : public Sprite {
 
     double newA = 0;
     double speed = 50;
+    void idleAnimation(double);
 
   private:
     void moveRandomly(double);
-    void idleAnimation(double);
 };
 
 #endif

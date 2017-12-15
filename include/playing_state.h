@@ -2,6 +2,10 @@
 #define PLAYING_STATE_H
 
 #include "state.h"
+#include "enemy.h"
+#include "mini_enemy.h"
+#include "fire_enemy.h"
+#include "projectile.h"
 
 //#define NUM_ENEMIES     10
 //#define ENEMY_FILENAME  "level_1_enemies.txt"

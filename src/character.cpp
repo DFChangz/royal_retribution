@@ -213,15 +213,13 @@ void Character::notifyCollision(Image* image, doubleRect* intersection,
   if ((image->isEnemy() && (!attacking || collisionDir != dir) && !invincible)
     || (static_cast<Sprite*>(image)->isBlade() && !invincible)) {
 
-    audioHandler->play("collision", 0);
-
     if (static_cast<Sprite*>(image)->isHand()) {
       if (!static_cast<Hand*>(image)->onGround()) {
+        static_cast<Sprite*>(image)->setCollidable(false);
         audioHandler->play("collision", 0);
         invincibilitySeconds = 0;
         invincible = true;
         hearts-=2;
-        //static_cast<Hand*>(image)->makeGoBack();
       }
     } else {
       audioHandler->play("collision", 0);

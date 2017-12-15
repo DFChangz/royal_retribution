@@ -17,12 +17,10 @@ class Hand : public Enemy {
     virtual void kill(); 
     virtual bool isHand() { return true; }
    
-    void makeGoBack();
     void goTo(int x, int y);
     bool isDead() { return (hp <= 0); }
     bool returned() { return (reachOrigX && reachOrigY); } 
     bool onGround() { return (reachGroundX && reachGroundY); }
-
 
   private:
     void goBack();

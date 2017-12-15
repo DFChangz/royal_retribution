@@ -4,7 +4,6 @@
 
 #include "boss_state.h"
 #include "big_alien.h"
-#include "projectile.h"
 #include "main_boss.h"
 #include "highscore_state.h"
 
@@ -13,8 +12,6 @@ BossState::BossState(Engine* engine, ErrorHandler* errorHandler)
 
   map = new Map(engine->renderer, errorHandler, FINAL_LEVEL, TILES_TXT,
     &collisionDetector, &camera);
-//  map->loadSecondTextures(TILES_ADD);
-//  map->loadSecondLayout(LEVEL_1_ADD);
 
   isScene = false;
 
@@ -40,7 +37,7 @@ void BossState::setup() {
 
   // Big Alien
   images[ppl+"eBigAlien"] = new BigAlien(engine->renderer, BIG_HEAD,
-    errorHandler, 160, 164, map->width/2 - 150, map->height/2 - 520, 8,
+    errorHandler, 160, 164, map->width/2 - 150, map->height/2 - 520, 3,
     static_cast<Sprite*>(images[ppl+"king"]));
   // body
   images[ppl+"BigBody"] = new Sprite(engine->renderer, BIG_BODY,
@@ -53,7 +50,7 @@ void BossState::setup() {
     errorHandler, 200, 200, map->width/2 - 300, map->height/2 - 340, 0, 0, 4);
   //Laser beam
   images[ppl+"zBigBeam"] = new Sprite(engine->renderer, BIG_BEAM,
-    errorHandler, 72, 340, map->width/2 - 100, map->height/2 - 305, true);
+    errorHandler, 72, 150, map->width/2 - 100, map->height - 260, true);
   static_cast<Sprite*>(images[ppl+"zBigBeam"])->setLaser(true);
   static_cast<BigAlien*>(images[ppl+"eBigAlien"])
     ->setBeam(static_cast<Sprite*>(images[ppl+"zBigBeam"])); 
@@ -96,21 +93,6 @@ void BossState::setup() {
   images[ppl+"fireball2"] = new Projectile(engine->renderer, TILES_IMG,
     errorHandler, 32, 32, map->width/2 - 16, map->height/2 + 70, 1000, 3, true,static_cast<Sprite*>(images[ppl + "eMainBoss"]));
   static_cast<MainBoss*>(images[ppl+"eMainBoss"])->fireballs[2] = static_cast<Projectile*>(images[ppl + "fireball2"]);
-  // Enemies
-  /*std::ifstream file(LEVEL_1_E);
-  int x = -1;
-  int y = -1;
-
-  while ((file >> y) && y != -1 && (file >> x) && x != -1) {
-    std::string s = ppl+"enemy_"+std::to_string(num_enemies);
-    images[s] = new Enemy(engine->renderer, ANI_FILENAME, errorHandler,
-      16, 25, (x-1) * TILE_DIM, (y-1) * TILE_DIM, 0, 150);
-    static_cast<Enemy*>(images[s])->followWhenClose(images[ppl + "king"],
-      FOLLOW_RADIUS);
-    num_enemies++;
-  }
-  file.close();*/
-
   // Score
   images[top+"score"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     WIDTH - 114, 2, 16, "SCORE = " + std::to_string(engine->score));
@@ -201,6 +183,10 @@ void BossState::update(double seconds) {
     SDL_SetTextureAlphaMod(images[ppl+"eMainBoss"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"eclone1"]->getTexture(), 255);
     SDL_SetTextureAlphaMod(images[ppl+"eclone2"]->getTexture(), 255);
+    delete images[ppl+"zBigBeam"];
+    images[ppl+"zBigBeam"] = new Sprite(engine->renderer, BIG_BEAM,
+    errorHandler, 1, 1, map->width/2 - 100, map->height - 260, true);
+    //images[ppl+"zBigBeam"] = nullptr;
   }
   if(static_cast<Boss_Enemy*>(images[ppl+"eMainBoss"])->getHp() == 6 && thePhase < 2){
     thePhase = static_cast<MainBoss*>(images[ppl+"eMainBoss"])->changePhase(); 

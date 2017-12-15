@@ -23,7 +23,11 @@ void MainBoss::update(double seconds){
     } else {collidable = true;}
 
     if(clone){invincible = true;}
-
+    if(fireballs[0] != nullptr && fireballs[1] != nullptr &&fireballs[2] != nullptr){
+        fireballs[0]->frozen = frozen;
+        fireballs[1]->frozen = frozen;
+        fireballs[2]->frozen = frozen;
+    }
     if(frozen){
         velocityX = 0;
         velocityY = 0;
