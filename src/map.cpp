@@ -406,12 +406,12 @@ void Map::update(double seconds) {
   }
 }
 
-void Map::render(Camera* camera, double interpol_alpha) {
+void Map::render(Camera* camera_, double interpol_alpha) {
   for (auto tile : tiles) {
-    tile.image->render(camera, interpol_alpha);
+    tile.image->render(camera_, interpol_alpha);
   }
   for (auto tile : additions) {
-    tile.image->render(camera, interpol_alpha);
+    tile.image->render(camera_, interpol_alpha);
   }
 }
 
