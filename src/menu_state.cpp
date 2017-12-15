@@ -16,7 +16,7 @@ void MenuState::setup() {
   images["1ship"] = new Sprite(engine->renderer, SHIP_FILENAME, errorHandler,
     0, 0, false);
   images["1Tit"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
-    50, 90, "R O Y A L   R E T R I B U T I O N", ROYAL_GOLD);
+    50, 90, "ROYAL RETRIBUTION", ROYAL_GOLD);
   images["1NG"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,
     50, 40, "New Game");
   images["1HS"] = new Text(engine->renderer, FONT_FILENAME, errorHandler, 50,

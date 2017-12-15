@@ -39,7 +39,7 @@ void HighscoreState::setup() {
     }
   } else {
     images["no_file"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
-      0, HEIGHT / 2 - 15, 30, "Y o u ' v e   n e v e r   w o n   t h e  g a m e !");
+      0, HEIGHT / 2 - 15, 30, "You've never won the game!");
   }
 
   images["skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,

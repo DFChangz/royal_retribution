@@ -47,7 +47,7 @@
 /* Fonts */
 #define FONT_ARCADE "assets/arcade.ttf"
 #define FONT_ROBOTO "assets/Roboto.ttf"
-#define FONT_FILENAME "assets/Capture_it.ttf"
+#define FONT_FILENAME "assets/digit.ttf"
 
 /* Audio */
 #define MAX_MUSIC_VOLUME 60
