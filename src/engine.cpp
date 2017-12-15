@@ -15,6 +15,7 @@
 #include "level_2_state.h"
 #include "level_3_state.h"
 #include "level_4_state.h"
+#include "boss_scene.h"
 #include "boss_state.h"
 #include "highscore_state.h"
 #include "instruction_state.h"
@@ -68,7 +69,6 @@ void Engine::setup() {
   if (renderer == nullptr) {
     error_handler.quit(__func__, SDL_GetError());
   }
-
 
   createStates();
   setState("title");
@@ -159,6 +159,7 @@ void Engine::createStates() {
   states["level_3"] = nullptr;
   states["level_4"] = nullptr;
   states["boss"] = nullptr;
+  states["boss_scene"] = nullptr;
   states["Highscore"] = nullptr;
   states["instruction"] = nullptr;
 }
@@ -204,6 +205,10 @@ void Engine::newGame() {
   if (states["boss"] != nullptr) {
     delete states["boss"];
     states["boss"] = nullptr;
+  }
+  if (states["boss_scene"] != nullptr) {
+    delete states["boss_scene"];
+    states["boss_scene"] = nullptr;
   }
   if (states["win"] != nullptr) {
     delete states["win"];
@@ -257,6 +262,11 @@ void Engine::newGame() {
   if (running) {
     states["level_4"] = new Level_4_State(this, &error_handler);
     loading_state->advance();
+  }
+  //boss_scene
+  if (running) {
+    states["boss_scene"] = new BossScene(this, &error_handler);
+    //loading_state->advance();
   }
   //boss
   if (running) {

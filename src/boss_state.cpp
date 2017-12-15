@@ -127,14 +127,6 @@ void BossState::setup() {
     HighscoreState::saveScore(engine->score);
     engine->setState("win"); 
   }, SDLK_2);
-
-  // go to floor 4 w/ '1'
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    images[ppl+"king"]->velocityX = 0;
-    images[ppl+"king"]->velocityY = 0;
-    Character::currFloor = 4;
-    engine->setState("level_4");
-   }, SDLK_1);
 }
 
 void BossState::load() {

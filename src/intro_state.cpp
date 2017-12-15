@@ -60,6 +60,10 @@ void IntroState::setup() {
     0, 0, 40, s4, ROYAL_GOLD);
   images[top+"skip"] = new Text(engine->renderer, FONT_FILENAME, errorHandler,
     0, 0, 25, skip);
+
+  // skip intro
+  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
+    engine->setState("instruction");}, SDLK_1);
 }
 
 /* loads images */
@@ -97,9 +101,6 @@ void IntroState::load() {
 /* updates the screen */
 void IntroState::update(double seconds) {
   PlayingState::update(seconds);
-  // skip intro
-  eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    engine->setState("instruction");}, SDLK_1);
 
   std::string s = top + "c" + std::to_string(counter);
   std::string prev = top + "c" + std::to_string(counter-1);

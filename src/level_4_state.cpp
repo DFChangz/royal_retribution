@@ -139,7 +139,7 @@ void Level_4_State::setup() {
 
   // go to boss stage/ w/ '2'
   eventHandler.addListener(SDL_KEYUP, [&](SDL_Event*) {
-    engine->setState("boss"); 
+    engine->setState("boss_scene"); 
   }, SDLK_2);
 
   // go to floor 3 w/ '1'
