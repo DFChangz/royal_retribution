@@ -37,7 +37,6 @@ void State::load() {
 
 void State::update(double seconds) {
   int counter = 0;
-  std::cout << "START\n\n";
   for (it = images.begin(); it != images.end(); it++) {
     SDL_Rect cameraRect = camera.getRect();
     if (it->second == nullptr){
@@ -52,9 +51,7 @@ void State::update(double seconds) {
         continue;
     }
 
-    std::cout << it->first << "\n";
     it->second->update(seconds);
-    std::cout << "aft\n";
 
     collisionDetector.updateBuckets(it->second, map);
     counter++;
@@ -65,8 +62,6 @@ void State::update(double seconds) {
   camera.updatePosition();
   audioHandler.setVolume(engine->volume);
   SDL_SetWindowBrightness(engine->window, brightness/100);
-//  std::cout<<SDL_GetError()<<"\n"; 
-  std::cout << "3\n\n";
 }
 
 void State::pauseUpdate(double seconds) {
