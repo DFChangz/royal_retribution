@@ -29,8 +29,9 @@ void BossState::setup() {
     images[ppl+"king"] = king;
   else
     images[ppl+"king"] = new Character(engine->renderer, ANI_FILENAME,
-      errorHandler, 16, 25, map->width/2-16, map->height/2-50,
+      errorHandler, 16, 25, map->width/2-16, map->height/2-100,
       &eventHandler, &audioHandler, this);
+    static_cast<Character*>(images[ppl+"king"])->dir = "up";
   // Sword
   images[ppl+"sword"] = new Sword(engine->renderer, SWORD, errorHandler,
     56, 56, map->width/2, map->height/2, static_cast<Sprite*>
@@ -158,8 +159,10 @@ void BossState::update(double seconds) {
     musicSwitch = 2;
   }
   if (!skipPan) {
+    static_cast<Character*>(images[ppl+"king"])->frozen = true;
     static_cast<Enemy*>(images[ppl+"eBigAlien"])->freeze();
   } else {
+    static_cast<Character*>(images[ppl+"king"])->frozen = false;
     static_cast<Enemy*>(images[ppl+"eBigAlien"])->thaw();
   }
 

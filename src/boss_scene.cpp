@@ -115,6 +115,8 @@ void BossScene::load() {
     } else if (it->first == top+"c1"
                || it->first == top+"c4") {
       it->second->pos_y -= 50;
+    } else if (it->first == top+"c5") {
+      it->second->pos_y -= 180;
     } else {
       it->second->pos_y -= 220;
     }

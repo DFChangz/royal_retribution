@@ -31,7 +31,7 @@ class BossScene : public PlayingState {
     std::string e2 = "hehehe... (next [n])";
     std::string e3 = "Well then, why don't we say hi to my little friend? (next [n])";
     std::string k2= "! (next [n])";
-    std::string e4 = "MWAHAHAHAHAHA!!! NOW DIE, HUMAN!!! (nextt [n])";
+    std::string e4 = "MWAHAHAHAHAHA!!! NOW DIE, HUMAN!!! (next [n])";
 };
 
 #endif
