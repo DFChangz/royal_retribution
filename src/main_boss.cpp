@@ -20,6 +20,8 @@ void MainBoss::update(double seconds){
         return;
     } else if(phase == 0){
         collidable = false;
+        Sprite::animate(seconds, MAIN_BOSS_IDLE, MAIN_BOSS_IDLE
+          + ENEMY_MOVING_FRAMES - 1, ENEMY_FPS*speedMultiplier);
     } else {collidable = true;}
 
     if(clone){invincible = true;}
